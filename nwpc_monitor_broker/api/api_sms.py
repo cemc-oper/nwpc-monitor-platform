@@ -1,7 +1,6 @@
 # coding=utf-8
 import datetime
 
-from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api import api_app, redis_client
 from flask import request, json, jsonify
 import requests
@@ -11,7 +10,7 @@ WARING_POST_URL = 'https://oapi.dingtalk.com/message/send?access_token={dingtalk
 
 
 @api_app.route('/hpc/sms/status', methods=['POST'])
-def get_sms_status():
+def receive_sms_status():
     """
     接收外部发送来的 SMS 服务器的状态，将其保存到本地缓存，并发送到外网服务器
     :return:

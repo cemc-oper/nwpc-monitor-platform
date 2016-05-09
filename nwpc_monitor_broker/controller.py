@@ -4,8 +4,8 @@ from nwpc_monitor_broker import app
 from flask import json, request, jsonify,render_template
 import redis
 
-REDIS_HOST = '10.28.32.175'
-redis_client = redis.Redis(host=REDIS_HOST)
+redis_host = app.config['BROKER_CONFIG']['redis']['host']
+redis_client = redis.Redis(host=redis_host)
 
 
 @app.route('/')

@@ -9,8 +9,10 @@ from nwpc_monitor_broker import app
 
 
 def runserver():
-    port = 5101
-    app.run(host='0.0.0.0', port=port)
+    app.run(
+        host=app.config['BROKER_CONFIG']['host']['ip'],
+        port=app.config['BROKER_CONFIG']['host']['port']
+    )
 
 if __name__ == '__main__':
     runserver()
