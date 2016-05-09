@@ -17,7 +17,7 @@ if 'NWPC_MONITOR_PLATFORM_CONF_DIR' in os.environ:
 elif 'NWPC_MONITOR_PLATFORM_BASE' in os.environ:
     CONFIG_FILE_DIR = os.environ['NWPC_MONITOR_PLATFORM_BASE'] + "/conf"
 else:
-    CONFIG_FILE_DIR = os.path.dirname(__file__) + "../conf"
+    CONFIG_FILE_DIR = os.path.dirname(__file__) + "/../conf"
 
 
 ###############

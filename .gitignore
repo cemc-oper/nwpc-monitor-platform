@@ -50,3 +50,6 @@ bower_components
 node_modules
 
 .vagrant
+
+celerybeat-schedule
+celerybeat.pid
