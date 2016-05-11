@@ -1,12 +1,13 @@
 # coding=utf-8
 import datetime
 
+from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api import api_app, redis_client
 from flask import request, json, jsonify
 import requests
 
 
-WARING_POST_URL = 'https://oapi.dingtalk.com/message/send?access_token={dingtalk_access_token}'
+WARING_POST_URL = app.config['BROKER_CONFIG']['app']['warn']['url']
 
 
 @api_app.route('/hpc/sms/status', methods=['POST'])
@@ -67,7 +68,7 @@ def receive_sms_status():
                         "agentid":"4078086",
                         "msgtype":"oa",
                         "oa": {
-                            "message_url": "http://nwpcmonitor.sinaapp.com",
+                            "message_url": app.config['BROKER_CONFIG']['cloud']['base']['url'],
                             "head": {
                                 "bgcolor": "ffff0000",
                                 "text": "业务系统报警"
@@ -105,7 +106,7 @@ def receive_sms_status():
     redis_client.set(key, json.dumps(message_data))
 
     # 发送给外网服务器
-    sae_url = "http://nwpcmonitor.sinaapp.com/api/v1/hpc/sms/status"
+    sae_url = app.config['BROKER_CONFIG']['cloud']['put']['url']
     sae_post_data = {
         'message': json.dumps(message)
     }
@@ -118,13 +119,15 @@ def receive_sms_status():
 @api_app.route('/dingtalk/access_token/get', methods=['GET'])
 def get_dingtalk_access_token():
     key = "dingtalk_access_token"
-    corp_id = 'ding9f1a223d867202cd'
-    corp_secret = 'N-16cm_wfvGcHuweaXoJTTKhBY9NDEFwISHw_UqDnm18WxwLSvMIQwaRDI7z4mXE'
+
+    corp_id = app.config['BROKER_CONFIG']['app']['token']['corp_id']
+    corp_secret = app.config['BROKER_CONFIG']['app']['token']['corp_secret']
 
     headers = {'content-type': 'application/json'}
-    url = 'https://oapi.dingtalk.com/gettoken?corpid={corp_id}&corpsecret={corp_secret}'.format(
+    url = app.config['BROKER_CONFIG']['app']['token']['url'].format(
         corp_id=corp_id, corp_secret=corp_secret
     )
+
     token_response = requests.get(url,verify=False, headers=headers)
     response_json = token_response.json()
     print response_json
@@ -141,4 +144,5 @@ def get_dingtalk_access_token():
             'status': 'error',
             'errcode': response_json['errcode']
         }
+    print result
     return jsonify(result)
