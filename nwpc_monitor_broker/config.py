@@ -1,3 +1,8 @@
+"""
+config.py
+
+use environment var
+"""
 import os
 import yaml
 
@@ -44,13 +49,15 @@ class Config(object):
 
 
 def load_config():
-    config_file_name = "nwpc_monitor_broker.config.yaml"
-    if 'NWPC_LOG_REPORTER_CONF_DIR' in os.environ:
-        config_file_directory = os.environ['NWPC_LOG_REPORTER_CONF_DIR']
-    elif 'NWPC_LOG_REPORTER_BASE' in os.environ:
-        config_file_directory = os.environ['NWPC_LOG_REPORTER_BASE'] + "/conf"
-    else:
-        config_file_directory = os.path.dirname(__file__) + "/conf"
+    config_file_name = "production.config.yaml"
+    if 'MODE' in os.environ:
+        mode = os.environ['MODE']
+        if mode == 'production':
+            config_file_name = "production.config.yaml"
+        elif mode == 'develop':
+            config_file_name = "develop.config.yaml"
+
+    config_file_directory = os.path.dirname(__file__) + "/conf"
 
     config_file_path = config_file_directory + "/" + config_file_name
 
