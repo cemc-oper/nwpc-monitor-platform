@@ -6,11 +6,11 @@ RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
 
 RUN yum install -y mysql-devel && pip install celery pyyaml fabric requests sqlalchemy mysql-python
 
-VOLUME ["/base"]
+VOLUME ["/src"]
 
-ENV WORK_DIR /base
+ENV WORK_DIR /src
 ENV APP nwpc_monitor_task_scheduler.celery_server
-ENV PYTHONPATH /base
+ENV PYTHONPATH /src
 
 WORKDIR $WORK_DIR
 
