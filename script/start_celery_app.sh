@@ -1,7 +1,7 @@
 #!/bin/bash
 
 base_dir=$(cd "`dirname "$0"`"/..; pwd)
-#export NWPC_MONITOR_PLATFORM_BASE=${base_dir}
+export NWPC_MONITOR_PLATFORM_BASE=${base_dir}
 
 export MODE=develop
 
