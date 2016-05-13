@@ -6,8 +6,7 @@ from fabric.api import run, cd, execute, env
 from celery import group
 import requests
 
-from nwpc_monitor_task_scheduler.celery_server.celery import app
-from nwpc_monitor_task_scheduler.celery_server.config import TaskConfig
+from nwpc_monitor_task_scheduler.celery_server.celery import app, task_config
 
 #*******************
 #   SMS Status
@@ -20,7 +19,7 @@ def get_sms_status_task(repo):
     sms_user = repo['sms_user']
     sms_name = repo['sms_name']
 
-    config_dict = TaskConfig.load_celery_config().config
+    config_dict = task_config.config
     hpc_user = config_dict['sms_status_task']['hpc']['user']
     hpc_password = config_dict['sms_status_task']['hpc']['password']
     hpc_host = config_dict['sms_status_task']['hpc']['host']
@@ -38,7 +37,7 @@ def get_sms_status_task(repo):
     env.hosts = env_hosts
     env.password = env_password
 
-    def read_sms_log(sms_user, sms_name, user):
+    def get_sms_status(sms_user, sms_name, user):
         with cd(project_dir):
             run("{program} {script} -u {user} -n {sms_name}".format(
                 program=project_program,
@@ -48,12 +47,12 @@ def get_sms_status_task(repo):
                 user=user
             ))
 
-    execute(read_sms_log, sms_user=sms_user, sms_name=sms_name, user=user)
+    execute(get_sms_status, sms_user=sms_user, sms_name=sms_name, user=user)
 
 
 @app.task()
 def get_group_sms_status_task():
-    config_dict = TaskConfig.load_celery_config().config
+    config_dict = task_config.config
 
     repos = config_dict['group_sms_status_task']
 
@@ -68,7 +67,7 @@ def get_group_sms_status_task():
 
 @app.task()
 def update_dingtalk_token_task():
-    config_dict = TaskConfig.load_celery_config().config
+    config_dict = task_config.config
     url = config_dict['update_dingtalk_token_task']['url']
     requests.get(url)
     return
