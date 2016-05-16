@@ -1,4 +1,5 @@
 # coding=utf-8
+import datetime
 
 from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api_v2 import api_v2_app, redis_client
@@ -49,6 +50,59 @@ def receive_sms_status():
                 if previous_server_status != 'abo':
                     # 发送推送警告
                     print 'Get aborted. Pushing warning message...'
+
+                    # 获取 access token
+                    access_token_key = "dingtalk_access_token"
+                    dingtalk_access_token = redis_client.get(access_token_key)
+                    if dingtalk_access_token is None:
+                        get_dingtalk_access_token()
+                        dingtalk_access_token = redis_client.get(access_token_key)
+
+                    sms_server_name=cached_bunch.name
+
+                    error_datetime = datetime.datetime.strptime(message_data['time'], "%Y-%m-%dT%H:%M:%S.%f")
+
+                    warning_post_url = WARING_POST_URL.format(
+                        dingtalk_access_token=dingtalk_access_token
+                    )
+                    warning_post_message = {
+                        "touser":"manager4941",
+                        "agentid":"4078086",
+                        "msgtype":"oa",
+                        "oa": {
+                            "message_url": app.config['BROKER_CONFIG']['cloud']['base']['url'],
+                            "head": {
+                                "bgcolor": "ffff0000",
+                                "text": "业务系统报警"
+                            },
+                            "body":{
+                                "title":"业务系统运行出错",
+                                "content":"{sms_server_name} 出错，请查看".format(sms_server_name=sms_server_name),
+                                "form":[
+                                    {
+                                        "key": "{sms_server_name} : ".format(sms_server_name=sms_server_name),
+                                        "value": "aborted"
+                                    },
+                                    {
+                                        "key": "日期 : ",
+                                        "value": "{error_date}".format(error_date=error_datetime.strftime("%Y-%m-%d"))
+                                    },
+                                    {
+                                        "key": "时间 : ",
+                                        "value": "{error_time}".format(error_time=error_datetime.strftime("%H:%M:%S"))
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                    warning_post_headers = {'content-type': 'application/json'}
+                    warning_post_data = json.dumps(warning_post_message)
+
+                    result = requests.post(warning_post_url,
+                                           data=warning_post_data,
+                                           verify=False,
+                                           headers=warning_post_headers)
+                    print result.json()
 
     # 保存到本地缓存
     print "Saving message to cache..."
