@@ -10,8 +10,9 @@ import requests
 
 WARING_POST_URL = app.config['BROKER_CONFIG']['app']['warn']['url']
 
+
 @api_v2_app.route('/hpc/sms/status', methods=['POST'])
-def receive_sms_status():
+def sms_status_message_handler():
     """
     接收外部发送来的 SMS 服务器的状态，将其保存到本地缓存，并发送到外网服务器
     :return:
@@ -30,28 +31,31 @@ def receive_sms_status():
 
     bunch_dict = message_data['status']
 
-    # 检测是否需要推送警告信息
     key = "hpc/sms/{sms_user}/{sms_name}/status".format(sms_user=sms_user, sms_name=sms_name)
     print key
-    # 获取服务器'/' 的状态
     if len(bunch_dict) >0:
+
         print 'building bunch from message...'
         bunch = Bunch.create_from_dict(bunch_dict)
         print 'building bunch from message...Done'
-        server_status = bunch.status # TODO：使用循环查找
+
+        server_status = bunch.status
+
         if server_status == 'abo':
             cached_message_string = redis_client.get(key)
             if cached_message_string is not None:
                 cached_message = json.loads(cached_message_string)
+
                 print 'building bunch from cache...'
                 cached_bunch = Bunch.create_from_dict(cached_message['status'])
                 print 'building bunch from cache...Done'
+
                 previous_server_status = cached_bunch.status
+
                 if previous_server_status != 'abo':
-                    # 发送推送警告
                     print 'Get aborted. Pushing warning message...'
 
-                    # 获取 access token
+                    # get access token
                     access_token_key = "dingtalk_access_token"
                     dingtalk_access_token = redis_client.get(access_token_key)
                     if dingtalk_access_token is None:
@@ -59,9 +63,7 @@ def receive_sms_status():
                         dingtalk_access_token = redis_client.get(access_token_key)
 
                     sms_server_name=cached_bunch.name
-
                     error_datetime = datetime.datetime.strptime(message_data['time'], "%Y-%m-%dT%H:%M:%S.%f")
-
                     warning_post_url = WARING_POST_URL.format(
                         dingtalk_access_token=dingtalk_access_token
                     )
@@ -104,7 +106,7 @@ def receive_sms_status():
                                            headers=warning_post_headers)
                     print result.json()
 
-    # 保存到本地缓存
+    # save to cache
     print "Saving message to cache..."
     cached_value = json.dumps(message_data)
     print "len of cached value: ", len(cached_value)
