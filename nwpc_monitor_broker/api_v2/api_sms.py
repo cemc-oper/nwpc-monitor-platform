@@ -11,11 +11,11 @@ import requests
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status
 
-def get_sms_server_status_from_cache(owner, sms_name, sms_user):
+def get_sms_server_status_from_cache(owner, repo, sms_name, sms_user):
 
     key = {
         'owner': owner,
-        'repo': sms_name,
+        'repo': repo,
         'sms_name': sms_name,
         'sms_user': sms_user
     }
@@ -24,16 +24,16 @@ def get_sms_server_status_from_cache(owner, sms_name, sms_user):
 
     return result
 
-def save_sms_server_status_to_cache(owner, sms_name, sms_user, message):
+def save_sms_server_status_to_cache(owner, repo, sms_name, sms_user, message):
     key = {
         'owner': owner,
-        'repo': sms_name,
+        'repo': repo,
         'sms_name': sms_name,
         'sms_user': sms_user
     }
     value = {
         'owner': owner,
-        'repo': sms_name,
+        'repo': repo,
         'sms_name': sms_name,
         'sms_user': sms_user,
         'update_time': datetime.datetime.now(),
@@ -60,6 +60,8 @@ def sms_status_message_handler():
         return jsonify(result)
 
     message_data = message['data']
+    owner = message_data['owner']
+    repo = message_data['repo']
     sms_name = message_data['sms_name']
     sms_user = message_data['sms_user']
 
@@ -76,7 +78,7 @@ def sms_status_message_handler():
         server_status = bunch.status
 
         if server_status == 'abo':
-            cached_sms_server_status = get_sms_server_status_from_cache(sms_user, sms_name, sms_user)
+            cached_sms_server_status = get_sms_server_status_from_cache(owner, repo, sms_name, sms_user)
             if cached_sms_server_status is not None:
 
                 print 'building bunch from cache message...'
@@ -141,7 +143,7 @@ def sms_status_message_handler():
                     print result.json()
 
     # save to cache
-    save_sms_server_status_to_cache(sms_user, sms_name, sms_user, message_data)
+    save_sms_server_status_to_cache(owner, repo, sms_name, sms_user, message_data)
 
     result = {
         'status': 'ok'
