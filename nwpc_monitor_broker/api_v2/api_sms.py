@@ -2,13 +2,46 @@
 import datetime
 
 from nwpc_monitor_broker import app
-from nwpc_monitor_broker.api_v2 import api_v2_app, redis_client
-from nwpc_monitor_broker.nwpc_log import Node, Bunch
+from nwpc_monitor_broker.api_v2 import api_v2_app, redis_client, mongodb_client
+from nwpc_monitor_broker.nwpc_log import Bunch
 from flask import request, json, jsonify
 import requests
 
 
-WARING_POST_URL = app.config['BROKER_CONFIG']['app']['warn']['url']
+nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
+sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status
+
+def get_sms_server_status_from_cache(owner, sms_name, sms_user):
+
+    key = {
+        'owner': owner,
+        'repo': sms_name,
+        'sms_name': sms_name,
+        'sms_user': sms_user
+    }
+
+    result = sms_server_status.find_one(key)
+
+    return result
+
+def save_sms_server_status_to_cache(owner, sms_name, sms_user, message):
+    key = {
+        'owner': owner,
+        'repo': sms_name,
+        'sms_name': sms_name,
+        'sms_user': sms_user
+    }
+    value = {
+        'owner': owner,
+        'repo': sms_name,
+        'sms_name': sms_name,
+        'sms_user': sms_user,
+        'update_time': datetime.datetime.now(),
+        'collected_time': message['time'],
+        'status': message['status']
+    }
+    sms_server_status.update(key, value, upsert=True)
+    return
 
 
 @api_v2_app.route('/hpc/sms/status', methods=['POST'])
@@ -17,6 +50,7 @@ def sms_status_message_handler():
     接收外部发送来的 SMS 服务器的状态，将其保存到本地缓存，并发送到外网服务器
     :return:
     """
+    start_time = datetime.datetime.now()
     message = json.loads(request.form['message'])
 
     if 'error' in message:
@@ -42,13 +76,12 @@ def sms_status_message_handler():
         server_status = bunch.status
 
         if server_status == 'abo':
-            cached_message_string = redis_client.get(key)
-            if cached_message_string is not None:
-                cached_message = json.loads(cached_message_string)
+            cached_sms_server_status = get_sms_server_status_from_cache(sms_user, sms_name, sms_user)
+            if cached_sms_server_status is not None:
 
-                print 'building bunch from cache...'
-                cached_bunch = Bunch.create_from_dict(cached_message['status'])
-                print 'building bunch from cache...Done'
+                print 'building bunch from cache message...'
+                cached_bunch = Bunch.create_from_dict(cached_sms_server_status['status'])
+                print 'building bunch from cache message...Done'
 
                 previous_server_status = cached_bunch.status
 
@@ -64,7 +97,8 @@ def sms_status_message_handler():
 
                     sms_server_name=cached_bunch.name
                     error_datetime = datetime.datetime.strptime(message_data['time'], "%Y-%m-%dT%H:%M:%S.%f")
-                    warning_post_url = WARING_POST_URL.format(
+
+                    warning_post_url = app.config['BROKER_CONFIG']['app']['warn']['url'].format(
                         dingtalk_access_token=dingtalk_access_token
                     )
                     warning_post_message = {
@@ -107,15 +141,14 @@ def sms_status_message_handler():
                     print result.json()
 
     # save to cache
-    print "Saving message to cache..."
-    cached_value = json.dumps(message_data)
-    print "len of cached value: ", len(cached_value)
-    redis_client.set(key, cached_value)
-    print "Saving message to cache...Done"
+    save_sms_server_status_to_cache(sms_user, sms_name, sms_user, message_data)
 
     result = {
         'status': 'ok'
     }
+    end_time = datetime.datetime.now()
+    print end_time - start_time
+
     return jsonify(result)
 
 
