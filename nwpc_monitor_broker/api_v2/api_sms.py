@@ -130,7 +130,7 @@ def sms_status_message_handler(message_data):
 
                     warning_post_message = {
                         "touser":"manager4941",
-                        "agentid":"25206966",
+                        "agentid": app.config['BROKER_CONFIG']['app']['warn']['agentid'],
                         "msgtype":"oa",
                         "oa": {
                             "message_url": app.config['BROKER_CONFIG']['cloud']['base']['url'],
