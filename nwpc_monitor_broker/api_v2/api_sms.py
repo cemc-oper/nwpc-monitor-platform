@@ -140,7 +140,7 @@ def sms_status_message_handler(message_data):
                             },
                             "body":{
                                 "title":"业务系统运行出错",
-                                "content":"{sms_server_name} 出错，请查看\n 出错列表：".format(sms_server_name=sms_server_name),
+                                "content":"{sms_server_name} 出错，请查看\n出错列表：".format(sms_server_name=sms_server_name),
                                 "form":[
                                     {
                                         "key": "日期 : ",
@@ -155,7 +155,7 @@ def sms_status_message_handler(message_data):
                         }
                     }
                     for a_suite in form_suite_error_list:
-                        warning_post_message['oa']['body']['form'].append({
+                        warning_post_message['oa']['body']['form'].insert(0, {
                             'key': a_suite['name'] + ' : ',
                             'value': a_suite['count']
                         })
