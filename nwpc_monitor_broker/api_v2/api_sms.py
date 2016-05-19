@@ -1,11 +1,14 @@
 # coding=utf-8
+from __future__ import print_function, absolute_import
 import datetime
+
+from flask import request, json, jsonify
+import requests
 
 from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api_v2 import api_v2_app, redis_client, mongodb_client
+
 from nwpc_monitor_broker.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
-from flask import request, json, jsonify
-import requests
 
 
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
@@ -68,12 +71,12 @@ def sms_status_message_handler():
     bunch_dict = message_data['status']
 
     key = "hpc/sms/{sms_user}/{sms_name}/status".format(sms_user=sms_user, sms_name=sms_name)
-    print key
+    print(key)
     if len(bunch_dict) >0:
 
-        print 'building bunch from message...'
+        print('building bunch from message...')
         bunch = Bunch.create_from_dict(bunch_dict)
-        print 'building bunch from message...Done'
+        print('building bunch from message...Done')
 
         # find error status node list
         error_visitor = ErrorStatusTaskVisitor()
@@ -86,14 +89,14 @@ def sms_status_message_handler():
             cached_sms_server_status = get_sms_server_status_from_cache(owner, repo, sms_name, sms_user)
             if cached_sms_server_status is not None:
 
-                print 'building bunch from cache message...'
+                print('building bunch from cache message...')
                 cached_bunch = Bunch.create_from_dict(cached_sms_server_status['status'])
-                print 'building bunch from cache message...Done'
+                print('building bunch from cache message...Done')
 
                 previous_server_status = cached_bunch.status
 
                 if previous_server_status != 'abo':
-                    print 'Get aborted. Pushing warning message...'
+                    print('Get aborted. Pushing warning message...')
 
                     # get access token
                     access_token_key = "dingtalk_access_token"
@@ -145,7 +148,20 @@ def sms_status_message_handler():
                                            data=warning_post_data,
                                            verify=False,
                                            headers=warning_post_headers)
-                    print result.json()
+                    print(result.json())
+
+        error_task_dict_list = []
+        print("Error task list:")
+        for a_task in error_task_list:
+            print(a_task.get_node_path())
+            error_task_dict_list.append(a_task.to_dict())
+
+        error_task_key = "{owner}/{repo}/{sms_name}/task/error".format(owner=owner, repo=repo, sms_name=sms_name)
+        error_task_value = {
+            'timestamp': datetime.datetime.now(),
+            'error_task_list': error_task_dict_list
+        }
+        redis_client.set(error_task_key, json.dumps(error_task_value))
 
     # save to cache
     save_sms_server_status_to_cache(owner, repo, sms_name, sms_user, message_data)
@@ -154,7 +170,7 @@ def sms_status_message_handler():
         'status': 'ok'
     }
     end_time = datetime.datetime.now()
-    print end_time - start_time
+    print(end_time - start_time)
 
     return jsonify(result)
 
@@ -173,7 +189,7 @@ def get_dingtalk_access_token():
 
     token_response = requests.get(url,verify=False, headers=headers)
     response_json = token_response.json()
-    print response_json
+    print(response_json)
     if response_json['errcode'] == 0:
         # 更新 token
         access_token = response_json['access_token']
@@ -187,5 +203,5 @@ def get_dingtalk_access_token():
             'status': 'error',
             'errcode': response_json['errcode']
         }
-    print result
+    print(result)
     return jsonify(result)
