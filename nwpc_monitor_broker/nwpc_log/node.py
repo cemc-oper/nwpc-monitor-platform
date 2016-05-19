@@ -59,6 +59,13 @@ class Node(object):
             node_path = "/"
         return node_path
 
+    def is_suite(self):
+        if self.parent:
+            parent = self.parent
+            if parent.parent is None:
+                return True
+        return False
+
     def is_leaf(self):
         if len(self.children) == 0:
             return True
