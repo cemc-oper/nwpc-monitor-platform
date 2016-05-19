@@ -3,7 +3,7 @@ import datetime
 
 from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api_v2 import api_v2_app, redis_client, mongodb_client
-from nwpc_monitor_broker.nwpc_log import Bunch
+from nwpc_monitor_broker.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 from flask import request, json, jsonify
 import requests
 
@@ -74,6 +74,11 @@ def sms_status_message_handler():
         print 'building bunch from message...'
         bunch = Bunch.create_from_dict(bunch_dict)
         print 'building bunch from message...Done'
+
+        # find error status node list
+        error_visitor = ErrorStatusTaskVisitor()
+        pre_order_travel(bunch, error_visitor)
+        error_task_list = error_visitor.error_task_list
 
         server_status = bunch.status
 
