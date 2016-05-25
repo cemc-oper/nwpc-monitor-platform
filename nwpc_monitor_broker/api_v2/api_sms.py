@@ -1,5 +1,4 @@
 # coding=utf-8
-from __future__ import print_function, absolute_import
 import datetime
 
 from flask import request, json, jsonify
@@ -58,12 +57,14 @@ def sms_status_message_handler(message_data):
     repo = message_data['repo']
     sms_name = message_data['sms_name']
     #sms_user = message_data['sms_user']
+    message_time = message_data['time']
 
     bunch_dict = message_data['status']
+    message_datetime = datetime.datetime.strptime(message_time, "%Y-%m-%dT%H:%M:%S.%f")
 
-    key = "{owner}/{repo}/{sms_name}/status".format(owner=owner, repo=repo, sms_name=sms_name)
+    sms_server_key = "{owner}/{repo}/{sms_name}".format(owner=owner, repo=repo, sms_name=sms_name)
     error_task_key = "{owner}/{repo}/{sms_name}/task/error".format(owner=owner, repo=repo, sms_name=sms_name)
-    print(key)
+    print(sms_server_key)
 
     if len(bunch_dict) >0:
         print('building bunch from message...')
@@ -113,7 +114,6 @@ def sms_status_message_handler(message_data):
                     dingtalk_access_token = get_access_token_from_cache()
 
                     sms_server_name=bunch.name
-                    error_datetime = datetime.datetime.strptime(message_data['time'], "%Y-%m-%dT%H:%M:%S.%f")
 
                     warning_post_url = app.config['BROKER_CONFIG']['app']['warn']['url'].format(
                         dingtalk_access_token=dingtalk_access_token
@@ -144,11 +144,11 @@ def sms_status_message_handler(message_data):
                                 "form":[
                                     {
                                         "key": "日期 : ",
-                                        "value": "{error_date}".format(error_date=error_datetime.strftime("%Y-%m-%d"))
+                                        "value": "{error_date}".format(error_date=message_datetime.strftime("%Y-%m-%d"))
                                     },
                                     {
                                         "key": "时间 : ",
-                                        "value": "{error_time}".format(error_time=error_datetime.strftime("%H:%M:%S"))
+                                        "value": "{error_time}".format(error_time=message_datetime.strftime("%H:%M:%S"))
                                     }
                                 ]
                             }

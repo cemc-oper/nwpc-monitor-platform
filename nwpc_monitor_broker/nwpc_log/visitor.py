@@ -19,10 +19,10 @@ class SimplePrintVisitor(NodeVisitor):
         self.level = 0
 
     def visit(self, node):
-        print "{place_holder}|-{node_name}".format(
+        print("{place_holder}|-{node_name}".format(
             place_holder=" "*self.level,
             node_name=node.name
-        )
+        ))
 
     def before_visit_child(self):
         self.level += 1

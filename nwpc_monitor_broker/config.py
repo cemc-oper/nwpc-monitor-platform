@@ -36,7 +36,7 @@ class Config(object):
 
                 pool_recycle = mysql_config['pool_recycle']
 
-                self.SQLALCHEMY_DATABASE_URI = "mysql+mysqldb://{user}:{password}@{host}:{port}/{database}?charset={charset}".format(
+                self.SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}?charset={charset}".format(
                     user=mysql_user,
                     password=mysql_password,
                     host=mysql_ip,
@@ -61,7 +61,7 @@ def load_config():
 
     config_file_path = config_file_directory + "/" + config_file_name
 
-    print "config file path:", config_file_path
+    print("config file path:", config_file_path)
 
     config_object = Config(config_file_path)
 

@@ -10,4 +10,4 @@ redis_client = redis.Redis(host=redis_host, port=redis_port)
 
 api_app = Blueprint('api_app', __name__, template_folder='template')
 
-import api_sms
+import nwpc_monitor_broker.api.api_sms

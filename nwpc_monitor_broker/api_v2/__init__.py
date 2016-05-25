@@ -14,4 +14,4 @@ mongodb_client = MongoClient(app.config['BROKER_CONFIG']['mongodb']['host']['ip'
 
 api_v2_app = Blueprint('api_v2_app', __name__, template_folder='template')
 
-import api_sms
+import nwpc_monitor_broker.api.api_sms

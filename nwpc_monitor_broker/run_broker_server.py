@@ -13,7 +13,7 @@ import argparse
 import os
 import sys
 
-if os.environ.has_key('NWPC_MONITOR_PLATFORM_BASE'):
+if 'NWPC_MONITOR_PLATFORM_BASE' in os.environ:
     sys.path.append(os.environ['NWPC_MONITOR_PLATFORM_BASE'])
 
 def runserver():
