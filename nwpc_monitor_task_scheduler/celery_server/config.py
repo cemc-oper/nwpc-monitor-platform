@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding=utf-8
-from __future__ import absolute_import
 import os
 import yaml
 from celery.schedules import crontab
@@ -29,7 +28,7 @@ class CeleryConfig(object):
                 mysql_port = backend_config['mysql']['port']
                 mysql_user = backend_config['mysql']['user']
                 mysql_password = backend_config['mysql']['password']
-                task_scheduler_celery_backend = 'db+mysql://{user}:{password}@{host}:{port}/celery_backend'.format(
+                task_scheduler_celery_backend = 'db+mysql+mysqlconnector://{user}:{password}@{host}:{port}/celery_backend'.format(
                     user=mysql_user, password=mysql_password,
                     host=mysql_host, port=mysql_port
                 )
@@ -63,7 +62,7 @@ class CeleryConfig(object):
         config_file_directory = os.path.dirname(__file__) + "/../conf"
 
         config_file_path = config_file_directory + "/" + config_file_name
-        print "config file path:", config_file_path
+        print("config file path:", config_file_path)
 
         config = CeleryConfig(config_file_path)
         return config

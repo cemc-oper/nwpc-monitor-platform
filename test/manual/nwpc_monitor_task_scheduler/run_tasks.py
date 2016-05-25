@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-from __future__ import absolute_import
+#!/usr/bin/env python3
 import os
 import sys
 
@@ -12,7 +11,7 @@ def main():
     result = tasks.get_group_sms_status_task.delay()
     #result = tasks.update_dingtalk_token_task.delay()
 
-    print result
+    print(result)
 
 if __name__ == "__main__":
     main()

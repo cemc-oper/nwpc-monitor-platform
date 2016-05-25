@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding=utf-8
-from __future__ import absolute_import
 from celery import Celery
 from nwpc_monitor_task_scheduler.celery_server.config import CeleryConfig, TaskConfig
 
