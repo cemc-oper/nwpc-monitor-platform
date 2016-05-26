@@ -1,11 +1,16 @@
 # coding=utf-8
 
 from flask import Flask
+from flask.ext.sqlalchemy import SQLAlchemy
 from .config import load_config
 
 app = Flask(__name__)
 
 app.config.from_object(load_config())
+
+
+from nwpc_monitor.model import *
+db = SQLAlchemy(app)
 
 from .api import api_app
 app.register_blueprint(api_app, url_prefix="/api/v1")

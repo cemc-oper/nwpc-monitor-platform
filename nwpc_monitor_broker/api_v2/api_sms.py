@@ -4,11 +4,12 @@ import datetime
 from flask import request, json, jsonify
 import requests
 
-from nwpc_monitor_broker import app
+from nwpc_monitor_broker import app, db
 from nwpc_monitor_broker.api_v2 import api_v2_app, redis_client, mongodb_client
 
 from nwpc_monitor_broker.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 
+from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch
 
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status
@@ -52,6 +53,22 @@ def get_access_token_from_cache():
     return dingtalk_access_token
 
 
+def get_warn_user_list(owner, repo):
+    query = db.session.query(Owner, Repo, DingtalkUser, DingtalkWarnWatch).filter(Repo.owner_id == Owner.owner_id)\
+        .filter(Repo.repo_name == repo)  \
+        .filter(Owner.owner_name == owner) \
+        .filter(DingtalkWarnWatch.repo_id == Repo.repo_id) \
+        .filter(DingtalkWarnWatch.dingtalk_user_id == DingtalkUser.dingtalk_user_id)
+
+    warn_to_user_list = []
+    for (owner_object, repo_object, dingtalk_user_object, dingtalk_warn_watch_object) in query.all():
+        userid = dingtalk_user_object.dingtalk_member_userid
+        print(userid)
+        warn_to_user_list.append(userid)
+
+    return warn_to_user_list
+
+
 def sms_status_message_handler(message_data):
     owner = message_data['owner']
     repo = message_data['repo']
@@ -61,6 +78,8 @@ def sms_status_message_handler(message_data):
 
     bunch_dict = message_data['status']
     message_datetime = datetime.datetime.strptime(message_time, "%Y-%m-%dT%H:%M:%S.%f")
+
+    warn_user_list = get_warn_user_list(owner, repo)
 
     sms_server_key = "{owner}/{repo}/{sms_name}".format(owner=owner, repo=repo, sms_name=sms_name)
     error_task_key = "{owner}/{repo}/{sms_name}/task/error".format(owner=owner, repo=repo, sms_name=sms_name)
@@ -129,7 +148,7 @@ def sms_status_message_handler(message_data):
                             })
 
                     warning_post_message = {
-                        "touser":"manager4941",
+                        "touser":"|".join(warn_user_list),
                         "agentid": app.config['BROKER_CONFIG']['app']['warn']['agentid'],
                         "msgtype":"oa",
                         "oa": {
