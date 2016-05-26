@@ -140,7 +140,7 @@ def sms_status_message_handler(message_data):
                             },
                             "body":{
                                 "title":"业务系统运行出错",
-                                "content":"{sms_server_name} 出错，请查看\n出错列表：".format(sms_server_name=sms_server_name),
+                                "content":"{sms_server_name} 出错，请查看\n出错 suite 列表：".format(sms_server_name=sms_server_name),
                                 "form":[
                                     {
                                         "key": "日期 : ",
