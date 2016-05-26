@@ -50,6 +50,7 @@ def get_access_token_from_cache():
     if dingtalk_access_token is None:
         get_dingtalk_access_token()
         dingtalk_access_token = redis_client.get(access_token_key)
+    dingtalk_access_token = dingtalk_access_token.decode()
     return dingtalk_access_token
 
 
@@ -127,6 +128,7 @@ def sms_status_message_handler(message_data):
                             new_error_task_found = True
                             break
 
+                #if True:
                 if new_error_task_found:
                     print('Get new error task. Pushing warning message...')
 
