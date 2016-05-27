@@ -13,7 +13,24 @@ from nwpc_monitor_broker.api_v2 import ding_talk
 
 from nwpc_monitor.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 
-
+"""
+message_data:
+    {
+        "name": "sms_status_message_data",
+        "type": "record",
+        "fields": [
+            {"name": "owner", "type": "string"},
+            {"name": "repo", "type": "string"},
+            {"name": "sms_name", "type": "string"},
+            {"name": "time", "type": "string"},
+            {
+                "name": "status",
+                "doc": "bunch status",
+                "type": { "type": "node" }
+            }
+        ]
+    }
+"""
 def sms_status_message_handler(message_data: dict) -> None:
     owner = message_data['owner']
     repo = message_data['repo']

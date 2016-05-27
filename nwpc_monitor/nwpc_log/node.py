@@ -21,7 +21,23 @@ class Node(object):
         self.name = ''
         self.status = 'unk'
 
-
+    """
+    node:
+        {
+            "name": "node",
+            "type": "record",
+            "fields": [
+                {"name": "name", "type": "string"},
+                {"name": "status", "type": "string"},
+                {"name": "path", "type": "string"},
+                {
+                    "name": "children",
+                    "type": "array",
+                    "items": {"type":"node"}
+                }
+            ]
+        }
+    """
     def to_dict(self):
         ret = dict()
         ret['name'] = self.name
