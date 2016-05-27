@@ -1,32 +1,17 @@
 # coding=utf-8
 
-from flask import request, jsonify
+from flask import request, jsonify, json
+import datetime
 import requests
 
-from nwpc_monitor_broker import app, db
+from nwpc_monitor_broker import app
 
 from nwpc_monitor_broker.api_v2 import api_v2_app
-from nwpc_monitor_broker.api_v2.cache import *
+from nwpc_monitor_broker.api_v2 import cache
+from nwpc_monitor_broker.api_v2 import data_store
 from nwpc_monitor_broker.api_v2 import ding_talk
 
 from nwpc_monitor.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
-from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch
-
-
-def get_warn_user_list(owner: str, repo: str) -> list:
-    query = db.session.query(Owner, Repo, DingtalkUser, DingtalkWarnWatch).filter(Repo.owner_id == Owner.owner_id)\
-        .filter(Repo.repo_name == repo)  \
-        .filter(Owner.owner_name == owner) \
-        .filter(DingtalkWarnWatch.repo_id == Repo.repo_id) \
-        .filter(DingtalkWarnWatch.dingtalk_user_id == DingtalkUser.dingtalk_user_id)
-
-    warn_to_user_list = []
-    for (owner_object, repo_object, dingtalk_user_object, dingtalk_warn_watch_object) in query.all():
-        userid = dingtalk_user_object.dingtalk_member_userid
-        print(userid)
-        warn_to_user_list.append(userid)
-
-    return warn_to_user_list
 
 
 def sms_status_message_handler(message_data: dict) -> None:
@@ -39,7 +24,7 @@ def sms_status_message_handler(message_data: dict) -> None:
     bunch_dict = message_data['status']
     message_datetime = datetime.datetime.strptime(message_time, "%Y-%m-%dT%H:%M:%S.%f")
 
-    warn_user_list = get_warn_user_list(owner, repo)
+    warn_user_list = data_store.get_warn_user_list(owner, repo)
 
     sms_server_key = "{owner}/{repo}/{sms_name}".format(owner=owner, repo=repo, sms_name=sms_name)
     print(sms_server_key)
@@ -66,7 +51,7 @@ def sms_status_message_handler(message_data: dict) -> None:
         server_status = bunch.status
 
         if server_status == 'abo':
-            cached_sms_server_status = get_sms_server_status_from_cache(owner, repo, sms_name)
+            cached_sms_server_status = cache.get_sms_server_status_from_cache(owner, repo, sms_name)
             if cached_sms_server_status is not None:
 
                 print('building bunch from cache message...')
@@ -78,7 +63,7 @@ def sms_status_message_handler(message_data: dict) -> None:
                 new_error_task_found = True
                 if previous_server_status == 'abo':
                     new_error_task_found = False
-                    cached_error_task_value = get_error_task_list_from_cache(owner, repo, sms_name)
+                    cached_error_task_value = cache.get_error_task_list_from_cache(owner, repo, sms_name)
                     cached_error_task_name_list = [a_task_item['path'] for a_task_item in
                                                    cached_error_task_value['error_task_list'] ]
                     for a_task in error_task_dict_list:
@@ -153,9 +138,9 @@ def sms_status_message_handler(message_data: dict) -> None:
             'timestamp': datetime.datetime.now(),
             'error_task_list': error_task_dict_list
         }
-        save_error_task_list_to_cache(owner, repo, sms_name, error_task_value)
+        cache.save_error_task_list_to_cache(owner, repo, sms_name, error_task_value)
 
-        save_sms_server_status_to_cache(owner, repo, sms_name, message_data)
+        cache.save_sms_server_status_to_cache(owner, repo, sms_name, message_data)
 
 
 @api_v2_app.route('/hpc/sms/status', methods=['POST'])
