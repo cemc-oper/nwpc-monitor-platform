@@ -1,5 +1,5 @@
 import datetime
-import json
+from flask import json
 
 from nwpc_monitor_broker.api_v2 import redis_client, mongodb_client
 
@@ -52,7 +52,7 @@ def save_dingtalk_access_token_to_cache(access_token: str) -> None:
 
 def get_error_task_list_from_cache(owner: str, repo: str, sms_name: str)-> dict:
     error_task_key = "{owner}/{repo}/{sms_name}/task/error".format(owner=owner, repo=repo, sms_name=sms_name)
-    cached_error_task_value = json.loads(redis_client.get(error_task_key))
+    cached_error_task_value = json.loads(redis_client.get(error_task_key).decode())
     return cached_error_task_value
 
 def save_error_task_list_to_cache(owner: str, repo: str, sms_name: str, error_task_value: dict)->None:
