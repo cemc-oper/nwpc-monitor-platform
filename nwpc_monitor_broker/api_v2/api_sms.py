@@ -1,56 +1,20 @@
 # coding=utf-8
-import datetime
 
-from flask import request, json, jsonify
+from flask import request, jsonify
 import requests
 
 from nwpc_monitor_broker import app, db
-from nwpc_monitor_broker.api_v2 import api_v2_app, redis_client, mongodb_client
-
-from nwpc_monitor_broker.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
-
+from nwpc_monitor_broker.api_v2 import api_v2_app
+from nwpc_monitor_broker.api_v2.cache import *
+from nwpc_monitor.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch
 
-nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
-sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status
 
-def get_sms_server_status_from_cache(owner, repo, sms_name):
-
-    key = {
-        'owner': owner,
-        'repo': repo,
-        'sms_name': sms_name
-    }
-
-    result = sms_server_status.find_one(key)
-
-    return result
-
-def save_sms_server_status_to_cache(owner, repo, sms_name, message):
-    key = {
-        'owner': owner,
-        'repo': repo,
-        'sms_name': sms_name
-    }
-    value = {
-        'owner': owner,
-        'repo': repo,
-        'sms_name': sms_name,
-        'update_time': datetime.datetime.now(),
-        'collected_time': message['time'],
-        'status': message['status']
-    }
-    sms_server_status.update(key, value, upsert=True)
-    return
-
-
-def get_access_token_from_cache():
-    access_token_key = "dingtalk_access_token"
-    dingtalk_access_token = redis_client.get(access_token_key)
+def get_dingtalk_token():
+    dingtalk_access_token = get_dingtalk_access_token_from_cache()
     if dingtalk_access_token is None:
         get_dingtalk_access_token()
-        dingtalk_access_token = redis_client.get(access_token_key)
-    dingtalk_access_token = dingtalk_access_token.decode()
+        dingtalk_access_token = get_dingtalk_access_token_from_cache()
     return dingtalk_access_token
 
 
@@ -120,7 +84,7 @@ def sms_status_message_handler(message_data):
                 new_error_task_found = True
                 if previous_server_status == 'abo':
                     new_error_task_found = False
-                    cached_error_task_value = json.loads(redis_client.get(error_task_key))
+                    cached_error_task_value = get_error_task_list_from_cache(owner, repo, sms_name)
                     cached_error_task_name_list = [a_task_item['path'] for a_task_item in
                                                    cached_error_task_value['error_task_list'] ]
                     for a_task in error_task_dict_list:
@@ -128,11 +92,12 @@ def sms_status_message_handler(message_data):
                             new_error_task_found = True
                             break
 
-                #if True:
-                if new_error_task_found:
+                if True:
+                #if new_error_task_found:
                     print('Get new error task. Pushing warning message...')
 
-                    dingtalk_access_token = get_access_token_from_cache()
+                    dingtalk_access_token = get_dingtalk_access_token_from_cache()
+
 
                     sms_server_name=bunch.name
 
@@ -194,7 +159,7 @@ def sms_status_message_handler(message_data):
             'timestamp': datetime.datetime.now(),
             'error_task_list': error_task_dict_list
         }
-        redis_client.set(error_task_key, json.dumps(error_task_value))
+        save_error_task_list_to_cache(owner, repo, sms_name, error_task_value)
 
         save_sms_server_status_to_cache(owner, repo, sms_name, message_data)
 
@@ -228,8 +193,6 @@ def receive_sms_status_message():
 
 @api_v2_app.route('/dingtalk/access_token/get', methods=['GET'])
 def get_dingtalk_access_token():
-    key = "dingtalk_access_token"
-
     corp_id = app.config['BROKER_CONFIG']['app']['token']['corp_id']
     corp_secret = app.config['BROKER_CONFIG']['app']['token']['corp_secret']
 
@@ -243,7 +206,7 @@ def get_dingtalk_access_token():
     print(response_json)
     if response_json['errcode'] == 0:
         access_token = response_json['access_token']
-        redis_client.set(key, access_token)
+        save_dingtalk_access_token_to_cache(access_token)
         result = {
             'status': 'ok',
             'access_token': access_token
