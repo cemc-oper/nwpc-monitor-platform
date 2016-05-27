@@ -13,7 +13,7 @@ from nwpc_monitor.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_trave
 from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch
 
 
-def get_warn_user_list(owner, repo):
+def get_warn_user_list(owner: str, repo: str) -> list:
     query = db.session.query(Owner, Repo, DingtalkUser, DingtalkWarnWatch).filter(Repo.owner_id == Owner.owner_id)\
         .filter(Repo.repo_name == repo)  \
         .filter(Owner.owner_name == owner) \
@@ -29,7 +29,7 @@ def get_warn_user_list(owner, repo):
     return warn_to_user_list
 
 
-def sms_status_message_handler(message_data):
+def sms_status_message_handler(message_data: dict) -> None:
     owner = message_data['owner']
     repo = message_data['repo']
     sms_name = message_data['sms_name']

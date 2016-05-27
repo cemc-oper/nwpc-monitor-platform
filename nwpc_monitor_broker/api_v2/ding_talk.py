@@ -3,12 +3,24 @@ import requests
 from .cache import save_dingtalk_access_token_to_cache, get_dingtalk_access_token_from_cache
 
 class Auth(object):
-    def __init__(self, config):
+    """
+    config:
+        {
+            "name": "TokenConfig",
+            "type": "record",
+            "fields": [
+                {"name": "corp_id", type: "string"},
+                {"name": "corp_secret", type: "string"},
+                {"name": "url", type: "string"},
+            ]
+        }
+    """
+    def __init__(self, config: dict):
         self.corp_id = config['corp_id']
         self.corp_secret = config['corp_secret']
         self.url = config['url']
 
-    def get_access_token_from_server(self):
+    def get_access_token_from_server(self) -> dict:
         headers = {'content-type': 'application/json'}
         url = self.url.format(
             corp_id=self.corp_id, corp_secret=self.corp_secret
@@ -32,13 +44,13 @@ class Auth(object):
             }
         return result
 
-    def get_access_token_from_cache(self):
+    def get_access_token_from_cache(self) -> str:
         return get_dingtalk_access_token_from_cache()
 
-    def save_access_token_to_cache(self, access_token):
+    def save_access_token_to_cache(self, access_token: str) -> None:
         return save_dingtalk_access_token_to_cache(access_token)
 
-    def get_access_token(self):
+    def get_access_token(self) -> str:
         dingtalk_access_token = get_dingtalk_access_token_from_cache()
         if dingtalk_access_token is None:
             self.get_access_token_from_server()
