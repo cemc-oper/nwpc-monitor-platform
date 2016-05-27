@@ -40,8 +40,6 @@ nosetests.xml
 *.wsgic*
 
 .settings
-.project
-.pydevproject
 .idea
 
 playground
