@@ -4,18 +4,13 @@ from flask import request, jsonify
 import requests
 
 from nwpc_monitor_broker import app, db
+
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2.cache import *
+from nwpc_monitor_broker.api_v2 import ding_talk
+
 from nwpc_monitor.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch
-
-
-def get_dingtalk_token():
-    dingtalk_access_token = get_dingtalk_access_token_from_cache()
-    if dingtalk_access_token is None:
-        get_dingtalk_access_token()
-        dingtalk_access_token = get_dingtalk_access_token_from_cache()
-    return dingtalk_access_token
 
 
 def get_warn_user_list(owner, repo):
@@ -47,7 +42,6 @@ def sms_status_message_handler(message_data):
     warn_user_list = get_warn_user_list(owner, repo)
 
     sms_server_key = "{owner}/{repo}/{sms_name}".format(owner=owner, repo=repo, sms_name=sms_name)
-    error_task_key = "{owner}/{repo}/{sms_name}/task/error".format(owner=owner, repo=repo, sms_name=sms_name)
     print(sms_server_key)
 
     if len(bunch_dict) >0:
@@ -96,8 +90,8 @@ def sms_status_message_handler(message_data):
                 #if new_error_task_found:
                     print('Get new error task. Pushing warning message...')
 
-                    dingtalk_access_token = get_dingtalk_access_token_from_cache()
-
+                    auth = ding_talk.Auth(app.config['BROKER_CONFIG']['app']['token'])
+                    dingtalk_access_token = auth.get_access_token()
 
                     sms_server_name=bunch.name
 
@@ -193,28 +187,7 @@ def receive_sms_status_message():
 
 @api_v2_app.route('/dingtalk/access_token/get', methods=['GET'])
 def get_dingtalk_access_token():
-    corp_id = app.config['BROKER_CONFIG']['app']['token']['corp_id']
-    corp_secret = app.config['BROKER_CONFIG']['app']['token']['corp_secret']
-
-    headers = {'content-type': 'application/json'}
-    url = app.config['BROKER_CONFIG']['app']['token']['url'].format(
-        corp_id=corp_id, corp_secret=corp_secret
-    )
-
-    token_response = requests.get(url,verify=False, headers=headers)
-    response_json = token_response.json()
-    print(response_json)
-    if response_json['errcode'] == 0:
-        access_token = response_json['access_token']
-        save_dingtalk_access_token_to_cache(access_token)
-        result = {
-            'status': 'ok',
-            'access_token': access_token
-        }
-    else:
-        result = {
-            'status': 'error',
-            'errcode': response_json['errcode']
-        }
+    auth = ding_talk.Auth(app.config['BROKER_CONFIG']['app']['token'])
+    result = auth.get_access_token_from_server()
     print(result)
     return jsonify(result)
