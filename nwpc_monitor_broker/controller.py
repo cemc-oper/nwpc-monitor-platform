@@ -1,12 +1,8 @@
 # coding=utf-8
-from nwpc_monitor_broker import app
+from nwpc_monitor_broker import app, db
+from nwpc_monitor.model import Owner
 
 from flask import json, request, jsonify,render_template
-
-# import redis
-# redis_host = app.config['BROKER_CONFIG']['redis']['host']['ip']
-# redis_port = app.config['BROKER_CONFIG']['redis']['host']['port']
-# redis_client = redis.Redis(host=redis_host, port=redis_port)
 
 
 @app.route('/')
@@ -15,7 +11,17 @@ def get_index_page():
 
 @app.route('/<owner>')
 def get_owner_page(owner):
-    return get_org_page(owner)
+
+    query = db.session.query(Owner).filter(Owner.owner_name == owner)
+    owner_object = query.first()
+
+    if owner_object.owner_type == "org":
+        return get_org_page(owner)
+    elif owner_object.owner_type == "user":
+        return get_user_page(owner)
+    else:
+        result = {'error':'wrong'}
+        return jsonify(result)
 
 
 def get_user_page(user):
