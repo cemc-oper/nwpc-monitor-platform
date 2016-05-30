@@ -13,9 +13,9 @@ from flask import json, request, jsonify,render_template
 def get_index_page():
     return render_template("index.html")
 
-@app.route('/:owner')
+@app.route('/<owner>')
 def get_owner_page(owner):
-    return get_user_page(owner)
+    return get_org_page(owner)
 
 
 def get_user_page(user):
