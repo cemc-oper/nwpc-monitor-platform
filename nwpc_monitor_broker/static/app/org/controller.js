@@ -2,10 +2,10 @@ import { combineReducers } from 'redux'
 import { createStore } from 'redux';
 
 /* action */
-const QUERY_ORG_REPOS = 'QUERY_ORG_REPOS';
+export const QUERY_ORG_REPOS = 'QUERY_ORG_REPOS';
 
 /* action*/
-function queryOrgRepos(owner){
+export function queryOrgRepos(owner){
     return {
         type: QUERY_ORG_REPOS,
         owner
