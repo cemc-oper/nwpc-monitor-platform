@@ -1,24 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export default class OrgMemberList extends Component{
     constructor(props) {
         super(props);
     }
     render() {
-        var rows = [];
-        this.props.member_list.forEach(function (element, index, array) {
-            rows.push(
-                <p key={element.name}>{element.name}</p>
-            )
-        });
+        //console.log('member_list', this.props.member_list);
         return (
             <div>
-                {rows}
+                {this.props.member_list.map((member, index) =>
+                    <p key={member.name}>{member.name}</p>
+                )}
             </div>
         );
     }
 }
 
-OrgMemberList.propType = { member_list: React.PropTypes.array };
-OrgMemberList.defaultProps = {member_list: []};
+OrgMemberList.propTypes = {
+    member_list: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired
+    }).isRequired).isRequired
+};
+
 

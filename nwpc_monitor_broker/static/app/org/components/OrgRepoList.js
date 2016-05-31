@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 /* component */
 export default class OrgRepoList extends Component {
@@ -6,19 +6,19 @@ export default class OrgRepoList extends Component {
         super(props);
     }
     render() {
-        var rows = [];
-        this.props.repo_list.forEach(function (element, index, array) {
-            rows.push(
-                <p key={element.name}>{element.name}</p>
-            )
-        });
+        //console.log('repo_list', this.props.repo_list);
         return (
             <div>
-                {rows}
+                {this.props.repo_list.map((repo, index) =>
+                    <p key={repo.name}>{repo.name}</p>
+                )}
             </div>
         );
     }
 }
 
-OrgRepoList.propType = { repo_list: React.PropTypes.array };
-OrgRepoList.defaultProps = { repo_list: [] };
+OrgRepoList.propTypes = {
+    repo_list: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired
+    }).isRequired).isRequired
+};

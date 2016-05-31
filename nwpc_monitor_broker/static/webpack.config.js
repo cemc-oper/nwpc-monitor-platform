@@ -5,8 +5,9 @@ module.exports = {
     entry: {
         welcome: './app/welcome/welcome.js',
         org: [
-            './app/org/org.js',
-            './app/org/controller.js',
+            './app/org/index.js',
+            './app/org/actions/index.js',
+            './app/org/reducers/index.js',
             './app/org/components/OrgRepoList.js',
             './app/org/components/OrgMemberList.js',
             './app/org/containers/OrgApp.js'
