@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux'
+import { createStore } from 'redux';
 
 /* action */
 const QUERY_ORG_REPOS = 'QUERY_ORG_REPOS';
 
 /* create action*/
-function queryOrgRepos(owner, repo){
+function queryOrgRepos(owner){
     return {
         type: QUERY_ORG_REPOS,
-        owner,
-        repo
+        owner
     }
 }
 
@@ -38,4 +38,15 @@ const orgApp = combineReducers({
     orgRepo
 });
 
+// export default orgApp;
+let store = createStore(orgApp);
 
+console.log(store.getState());
+
+let unsubscribe = store.subscribe(() =>
+    console.log(store.getState())
+);
+
+store.dispatch(queryOrgRepos('nwp_xp'));
+
+unsubscribe();
