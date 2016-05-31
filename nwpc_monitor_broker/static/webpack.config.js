@@ -4,7 +4,7 @@ module.exports = {
     devtool: "cheap-module-eval-source-map",
     entry: {
         welcome: './app/welcome/welcome.js',
-        org: ['./app/org/org.js', './app/org/components.js']
+        org: ['./app/org/org.js', './app/org/controller.js', './app/org/components.js']
     },
     output: {
         path: path.join(__dirname, 'dist'),

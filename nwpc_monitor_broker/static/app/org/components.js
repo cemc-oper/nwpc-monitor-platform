@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDom, {render} from 'react-dom';
+import React, { Component } from 'react';
 
 /* component */
-var OrgRepoList = React.createClass({
-    getInitialState: function() {
-        return {repo_list: []};
-    },
-    componentDidMount: function() {
+export class OrgRepoList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {repo_list: props.repo_list};
+    }
+    componentDidMount() {
         var component = this;
         component.setState({
             repo_list: [
@@ -14,8 +14,8 @@ var OrgRepoList = React.createClass({
             {name: 'nwpc_qu'},
             {name: 'eps_nwpc_qu'}
         ]});
-    },
-    render: function() {
+    }
+    render() {
         var rows = [];
         this.state.repo_list.forEach(function (element, index, array) {
             rows.push(
@@ -28,18 +28,20 @@ var OrgRepoList = React.createClass({
             </div>
         );
     }
-});
+}
 
-render(<OrgRepoList />, document.getElementById('org-repo-list-section'));
+OrgRepoList.propType = { repo_list: React.PropTypes.array };
+OrgRepoList.defaultProps = { repo_list: [] };
 
-var OrgMemberList = React.createClass({
-    getInitialState:function() {
-        return {
-            member_list: []
-        };
-    },
 
-    componentDidMount: function() {
+
+export class OrgMemberList extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {member_list: props.member_list};
+    }
+
+    componentDidMount() {
         var component = this;
         component.setState({
             member_list:[
@@ -49,9 +51,9 @@ var OrgMemberList = React.createClass({
                 {name: 'jiaxzh'}
             ]
         })
-    },
+    }
 
-    render: function() {
+    render() {
         var rows = [];
         this.state.member_list.forEach(function (element, index, array) {
             rows.push(
@@ -64,6 +66,8 @@ var OrgMemberList = React.createClass({
             </div>
         );
     }
-});
+}
 
-render(<OrgMemberList />, document.getElementById('org-member-list-section'));
+OrgMemberList.propType = { member_list: React.PropTypes.array };
+OrgMemberList.defaultProps = {member_list: []};
+
