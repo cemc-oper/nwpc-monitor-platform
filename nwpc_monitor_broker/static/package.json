@@ -10,6 +10,7 @@
   "license": "GPL",
   "dependencies": {
     "babel-core": "^6.9.1",
+    "babel-preset-react": "^6.5.0",
     "bootstrap": "^3.3.6",
     "d3": "^3.5.17",
     "jquery": "^2.2.4",

@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDom, {render} from 'react-dom';
+
 var ExploreOwnerApp = React.createClass({
     getInitialState: function() {
         return {owner: ''};
@@ -24,4 +27,4 @@ var ExploreOwnerApp = React.createClass({
     }
 });
 
-ReactDOM.render(<ExploreOwnerApp />, document.getElementById('explore-owner-section'));
+render(<ExploreOwnerApp />, document.getElementById('explore-owner-section'));
