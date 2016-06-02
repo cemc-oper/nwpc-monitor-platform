@@ -71,7 +71,7 @@ class DingTalkApp(object):
 
 
     def send_warning_message(self, owner:str, repo:str, sms_server_name:str, suite_error_map:dict, message_datetime:datetime):
-        warn_user_list = data_store.get_warn_user_list(owner, repo)
+        warn_user_list = data_store.get_ding_talk_warn_user_list(owner, repo)
 
         print('Get new error task. Pushing warning message...')
 

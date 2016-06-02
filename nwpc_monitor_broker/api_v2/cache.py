@@ -38,15 +38,24 @@ def save_sms_server_status_to_cache(owner: str, repo: str, sms_name: str, messag
     return
 
 # redis
-
-access_token_key = "dingtalk_access_token"
+dingtalk_access_token_key = "dingtalk_access_token"
 def get_dingtalk_access_token_from_cache() -> str:
-    dingtalk_access_token = redis_client.get(access_token_key)
+    dingtalk_access_token = redis_client.get(dingtalk_access_token_key)
     dingtalk_access_token = dingtalk_access_token.decode()
     return dingtalk_access_token
 
 def save_dingtalk_access_token_to_cache(access_token: str) -> None:
-    redis_client.set(access_token_key, access_token)
+    redis_client.set(dingtalk_access_token_key, access_token)
+    return
+
+weixin_access_token_key = "weixin_access_token"
+def get_weixin_access_token_from_cache() -> str:
+    weixin_access_token = redis_client.get(weixin_access_token_key)
+    weixin_access_token = weixin_access_token.decode()
+    return weixin_access_token
+
+def save_weixin_access_token_to_cache(access_token: str) -> None:
+    redis_client.set(weixin_access_token_key, access_token)
     return
 
 

@@ -9,7 +9,7 @@ from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
 from nwpc_monitor_broker.api_v2 import data_store
-from nwpc_monitor_broker.api_v2 import ding_talk
+from nwpc_monitor_broker.api_v2 import ding_talk, weixin
 
 from nwpc_monitor.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 
@@ -41,7 +41,7 @@ def sms_status_message_handler(message_data: dict) -> None:
     bunch_dict = message_data['status']
     message_datetime = datetime.datetime.strptime(message_time, "%Y-%m-%dT%H:%M:%S.%f")
 
-    warn_user_list = data_store.get_warn_user_list(owner, repo)
+    warn_user_list = data_store.get_ding_talk_warn_user_list(owner, repo)
 
     sms_server_key = "{owner}/{repo}/{sms_name}".format(owner=owner, repo=repo, sms_name=sms_name)
     print(sms_server_key)
@@ -109,7 +109,17 @@ def sms_status_message_handler(message_data: dict) -> None:
                         sms_server_name=bunch.name,
                         suite_error_map=suite_error_map,
                         message_datetime=message_datetime
+                    )
 
+                    weixin_app = weixin.WeixinApp(
+                        weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
+                        cloud_config=app.config['BROKER_CONFIG']['cloud']
+                    )
+                    weixin_app.send_warning_message(owner=owner,
+                        repo=repo,
+                        sms_server_name=bunch.name,
+                        suite_error_map=suite_error_map,
+                        message_datetime=message_datetime
                     )
 
         error_task_value = {
@@ -151,6 +161,13 @@ def receive_sms_status_message():
 @api_v2_app.route('/dingtalk/access_token/get', methods=['GET'])
 def get_dingtalk_access_token():
     auth = ding_talk.Auth(app.config['BROKER_CONFIG']['ding_talk_app']['token'])
+    result = auth.get_access_token_from_server()
+    print(result)
+    return jsonify(result)
+
+@api_v2_app.route('/weixin/access_token/get', methods=['GET'])
+def get_weixin_access_token():
+    auth = weixin.Auth(app.config['BROKER_CONFIG']['weixin_app']['token'])
     result = auth.get_access_token_from_server()
     print(result)
     return jsonify(result)

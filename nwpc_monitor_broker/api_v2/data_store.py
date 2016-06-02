@@ -2,7 +2,7 @@ from nwpc_monitor_broker import app, db
 from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch
 
 
-def get_warn_user_list(owner: str, repo: str) -> list:
+def get_ding_talk_warn_user_list(owner: str, repo: str) -> list:
     query = db.session.query(Owner, Repo, DingtalkUser, DingtalkWarnWatch).filter(Repo.owner_id == Owner.owner_id)\
         .filter(Repo.repo_name == repo)  \
         .filter(Owner.owner_name == owner) \
