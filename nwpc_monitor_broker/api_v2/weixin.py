@@ -104,7 +104,7 @@ class WeixinApp(object):
         for a_suite in form_suite_error_list:
             warning_post_message['text']['content'] += "\n" + a_suite['name'] + ' : ' + str(a_suite['count'])
 
-        warning_post_message['text']['content'] += "\n" + self.cloud_config['base']['url']
+        warning_post_message['text']['content'] += '\n<a href=\"' + self.cloud_config['base']['url']+'">查看详情</a>'
 
         warning_post_headers = {
             'content-type': 'application/json'
