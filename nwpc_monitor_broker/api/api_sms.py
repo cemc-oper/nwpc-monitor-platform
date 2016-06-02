@@ -7,7 +7,7 @@ from flask import request, json, jsonify
 import requests
 
 
-WARING_POST_URL = app.config['BROKER_CONFIG']['app']['warn']['url']
+WARING_POST_URL = app.config['BROKER_CONFIG']['ding_talk_app']['warn']['url']
 
 
 @api_app.route('/hpc/sms/status', methods=['POST'])
@@ -120,11 +120,11 @@ def receive_sms_status():
 def get_dingtalk_access_token():
     key = "dingtalk_access_token"
 
-    corp_id = app.config['BROKER_CONFIG']['app']['token']['corp_id']
-    corp_secret = app.config['BROKER_CONFIG']['app']['token']['corp_secret']
+    corp_id = app.config['BROKER_CONFIG']['ding_talk_app']['token']['corp_id']
+    corp_secret = app.config['BROKER_CONFIG']['ding_talk_app']['token']['corp_secret']
 
     headers = {'content-type': 'application/json'}
-    url = app.config['BROKER_CONFIG']['app']['token']['url'].format(
+    url = app.config['BROKER_CONFIG']['ding_talk_app']['token']['url'].format(
         corp_id=corp_id, corp_secret=corp_secret
     )
 

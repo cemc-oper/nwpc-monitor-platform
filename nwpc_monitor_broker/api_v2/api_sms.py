@@ -90,66 +90,27 @@ def sms_status_message_handler(message_data: dict) -> None:
 
                 if True:
                 #if new_error_task_found:
-                    print('Get new error task. Pushing warning message...')
-
-                    auth = ding_talk.Auth(app.config['BROKER_CONFIG']['app']['token'])
-                    dingtalk_access_token = auth.get_access_token()
-
-                    sms_server_name=bunch.name
-
-                    warning_post_url = app.config['BROKER_CONFIG']['app']['warn']['url'].format(
-                        dingtalk_access_token=dingtalk_access_token
+                    ding_talk_app = ding_talk.DingTalkApp(
+                        ding_talk_config=app.config['BROKER_CONFIG']['ding_talk_app'],
+                        cloud_config=app.config['BROKER_CONFIG']['cloud']
                     )
 
-                    form_suite_error_list = []
-                    for a_suite_name in suite_error_map:
-                        a_suite_item = suite_error_map[a_suite_name]
-                        if len(a_suite_item['error_task_list']) > 0:
-                            form_suite_error_list.append({
-                                'name': a_suite_item['name'],
-                                'count': len(a_suite_item['error_task_list'])
-                            })
-
-                    warning_post_message = {
-                        "touser":"|".join(warn_user_list),
-                        "agentid": app.config['BROKER_CONFIG']['app']['warn']['agentid'],
-                        "msgtype":"oa",
-                        "oa": {
-                            "message_url": app.config['BROKER_CONFIG']['cloud']['base']['url'],
-                            "head": {
-                                "bgcolor": "ffff0000",
-                                "text": "业务系统报警"
-                            },
-                            "body":{
-                                "title":"业务系统运行出错",
-                                "content":"{sms_server_name} 出错，请查看\n出错 suite 列表：".format(sms_server_name=sms_server_name),
-                                "form":[
-                                    {
-                                        "key": "日期 : ",
-                                        "value": "{error_date}".format(error_date=message_datetime.strftime("%Y-%m-%d"))
-                                    },
-                                    {
-                                        "key": "时间 : ",
-                                        "value": "{error_time}".format(error_time=message_datetime.strftime("%H:%M:%S"))
-                                    }
-                                ]
-                            }
-                        }
+                    warning_body = {
+                        'owner': owner,
+                        'repo': repo,
+                        'sms_server_name': sms_name, # bunch.name
+                        'message_datetime': message_datetime,
+                        'suite_error_map': suite_error_map
                     }
-                    for a_suite in form_suite_error_list:
-                        warning_post_message['oa']['body']['form'].insert(0, {
-                            'key': a_suite['name'] + ' : ',
-                            'value': a_suite['count']
-                        })
 
-                    warning_post_headers = {'content-type': 'application/json'}
-                    warning_post_data = json.dumps(warning_post_message)
+                    ding_talk_app.send_warning_message(
+                        owner=owner,
+                        repo=repo,
+                        sms_server_name=bunch.name,
+                        suite_error_map=suite_error_map,
+                        message_datetime=message_datetime
 
-                    result = requests.post(warning_post_url,
-                                           data=warning_post_data,
-                                           verify=False,
-                                           headers=warning_post_headers)
-                    print(result.json())
+                    )
 
         error_task_value = {
             'timestamp': datetime.datetime.now(),
@@ -189,7 +150,7 @@ def receive_sms_status_message():
 
 @api_v2_app.route('/dingtalk/access_token/get', methods=['GET'])
 def get_dingtalk_access_token():
-    auth = ding_talk.Auth(app.config['BROKER_CONFIG']['app']['token'])
+    auth = ding_talk.Auth(app.config['BROKER_CONFIG']['ding_talk_app']['token'])
     result = auth.get_access_token_from_server()
     print(result)
     return jsonify(result)
