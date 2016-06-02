@@ -57,3 +57,10 @@ def pre_order_travel(root_node, visitor):
         visitor.before_visit_child()
         pre_order_travel(child_node, visitor)
         visitor.after_visit_child()
+
+def pre_order_travel_dict(root_dict, visitor):
+    visitor.visit(root_dict)
+    for child_node in root_dict['children']:
+        visitor.before_visit_child()
+        pre_order_travel_dict(child_node, visitor)
+        visitor.after_visit_child()
