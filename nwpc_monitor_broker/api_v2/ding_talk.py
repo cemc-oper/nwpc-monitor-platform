@@ -7,19 +7,20 @@ from .cache import save_dingtalk_access_token_to_cache, get_dingtalk_access_toke
 from nwpc_monitor_broker.api_v2 import data_store
 
 class Auth(object):
-    """
-    config:
-        {
-            "name": "TokenConfig",
-            "type": "record",
-            "fields": [
-                {"name": "corp_id", type: "string"},
-                {"name": "corp_secret", type: "string"},
-                {"name": "url", type: "string"},
-            ]
-        }
-    """
     def __init__(self, config: dict):
+        """
+        :param config:
+            {
+                "name": "TokenConfig",
+                "type": "record",
+                "fields": [
+                    {"name": "corp_id", type: "string"},
+                    {"name": "corp_secret", type: "string"},
+                    {"name": "url", type: "string"},
+                ]
+            }
+        :return:
+        """
         self.corp_id = config['corp_id']
         self.corp_secret = config['corp_secret']
         self.url = config['url']
@@ -71,6 +72,22 @@ class DingTalkApp(object):
 
 
     def send_warning_message(self, warning_data):
+        """
+        :param warning_data:
+            {
+                "name": "WarningData",
+                "namespace": "WeixinApp",
+                "type": "record",
+                "fields": [
+                    {"name": "owner", type: "string"},
+                    {"name": "repo", type: "string"},
+                    {"name": "sms_server_name", type: "string"},
+                    {"name": "message_datetime", type: "datetime"},
+                    {"name": "suite_error_map", type: "array"},
+                ]
+            }
+        :return:
+        """
         warn_user_list = data_store.get_ding_talk_warn_user_list(warning_data['owner'], warning_data['repo'])
 
         print('Get new error task. Pushing warning message...')
