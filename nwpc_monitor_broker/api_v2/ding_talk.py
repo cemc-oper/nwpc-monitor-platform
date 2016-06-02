@@ -70,8 +70,8 @@ class DingTalkApp(object):
         self.auth = Auth(self.ding_talk_config['token'])
 
 
-    def send_warning_message(self, owner:str, repo:str, sms_server_name:str, suite_error_map:dict, message_datetime:datetime):
-        warn_user_list = data_store.get_ding_talk_warn_user_list(owner, repo)
+    def send_warning_message(self, warning_data):
+        warn_user_list = data_store.get_ding_talk_warn_user_list(warning_data['owner'], warning_data['repo'])
 
         print('Get new error task. Pushing warning message...')
 
@@ -83,8 +83,8 @@ class DingTalkApp(object):
         )
 
         form_suite_error_list = []
-        for a_suite_name in suite_error_map:
-            a_suite_item = suite_error_map[a_suite_name]
+        for a_suite_name in warning_data['suite_error_map']:
+            a_suite_item = warning_data['suite_error_map'][a_suite_name]
             if len(a_suite_item['error_task_list']) > 0:
                 form_suite_error_list.append({
                     'name': a_suite_item['name'],
@@ -103,15 +103,15 @@ class DingTalkApp(object):
                 },
                 "body":{
                     "title":"业务系统运行出错",
-                    "content":"{sms_server_name} 出错，请查看\n出错 suite 列表：".format(sms_server_name=sms_server_name),
+                    "content":"{sms_server_name} 出错，请查看\n出错 suite 列表：".format(sms_server_name=warning_data['sms_server_name']),
                     "form":[
                         {
                             "key": "日期 : ",
-                            "value": "{error_date}".format(error_date=message_datetime.strftime("%Y-%m-%d"))
+                            "value": "{error_date}".format(error_date=warning_data['message_datetime'].strftime("%Y-%m-%d"))
                         },
                         {
                             "key": "时间 : ",
-                            "value": "{error_time}".format(error_time=message_datetime.strftime("%H:%M:%S"))
+                            "value": "{error_time}".format(error_time=warning_data['message_datetime'].strftime("%H:%M:%S"))
                         }
                     ]
                 }

@@ -71,7 +71,7 @@ class WeixinApp(object):
         self.auth = Auth(self.weixin_config['token'])
 
 
-    def send_warning_message(self, owner:str, repo:str, sms_server_name:str, suite_error_map:dict, message_datetime:datetime):
+    def send_warning_message(self, warning_data:dict):
         print('Get new error task. Pushing warning message to weixin...')
 
         auth = Auth(self.weixin_config['token'])
@@ -82,8 +82,8 @@ class WeixinApp(object):
         )
 
         form_suite_error_list = []
-        for a_suite_name in suite_error_map:
-            a_suite_item = suite_error_map[a_suite_name]
+        for a_suite_name in warning_data['suite_error_map']:
+            a_suite_item = warning_data['suite_error_map'][a_suite_name]
             if len(a_suite_item['error_task_list']) > 0:
                 form_suite_error_list.append({
                     'name': a_suite_item['name'],
@@ -96,9 +96,9 @@ class WeixinApp(object):
             "msgtype":"text",
             "text": {
                 "content":"业务系统运行出错\n" +
-                    "{sms_server_name}，请查看\n出错 suite 列表：\n".format(sms_server_name=sms_server_name) +
-                    "日期 : {error_date}\n".format(error_date=message_datetime.strftime("%Y-%m-%d")) +
-                    "时间 : {error_time}".format(error_time=message_datetime.strftime("%H:%M:%S"))
+                    "{sms_server_name}，请查看\n出错 suite 列表：\n".format(sms_server_name=warning_data['sms_server_name']) +
+                    "日期 : {error_date}\n".format(error_date=warning_data['message_datetime'].strftime("%Y-%m-%d")) +
+                    "时间 : {error_time}".format(error_time=warning_data['message_datetime'].strftime("%H:%M:%S"))
             }
         }
         for a_suite in form_suite_error_list:

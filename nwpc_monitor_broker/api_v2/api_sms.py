@@ -95,7 +95,7 @@ def sms_status_message_handler(message_data: dict) -> None:
                         cloud_config=app.config['BROKER_CONFIG']['cloud']
                     )
 
-                    warning_body = {
+                    warning_data = {
                         'owner': owner,
                         'repo': repo,
                         'sms_server_name': sms_name, # bunch.name
@@ -103,24 +103,13 @@ def sms_status_message_handler(message_data: dict) -> None:
                         'suite_error_map': suite_error_map
                     }
 
-                    ding_talk_app.send_warning_message(
-                        owner=owner,
-                        repo=repo,
-                        sms_server_name=bunch.name,
-                        suite_error_map=suite_error_map,
-                        message_datetime=message_datetime
-                    )
+                    ding_talk_app.send_warning_message(warning_data)
 
                     weixin_app = weixin.WeixinApp(
                         weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
                         cloud_config=app.config['BROKER_CONFIG']['cloud']
                     )
-                    weixin_app.send_warning_message(owner=owner,
-                        repo=repo,
-                        sms_server_name=bunch.name,
-                        suite_error_map=suite_error_map,
-                        message_datetime=message_datetime
-                    )
+                    weixin_app.send_warning_message(warning_data)
 
         error_task_value = {
             'timestamp': datetime.datetime.now(),
