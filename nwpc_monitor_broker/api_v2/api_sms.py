@@ -88,8 +88,8 @@ def sms_status_message_handler(message_data: dict) -> None:
                             new_error_task_found = True
                             break
 
-                if True:
-                #if new_error_task_found:
+                #if True:
+                if new_error_task_found:
                     ding_talk_app = ding_talk.DingTalkApp(
                         ding_talk_config=app.config['BROKER_CONFIG']['ding_talk_app'],
                         cloud_config=app.config['BROKER_CONFIG']['cloud']
@@ -111,6 +111,7 @@ def sms_status_message_handler(message_data: dict) -> None:
                     )
                     weixin_app.send_warning_message(warning_data)
 
+        # 保存 error_task_list 到缓存
         error_task_value = {
             'timestamp': datetime.datetime.now(),
             'error_task_list': error_task_dict_list
@@ -118,6 +119,19 @@ def sms_status_message_handler(message_data: dict) -> None:
         cache.save_error_task_list_to_cache(owner, repo, sms_name, error_task_value)
 
         cache.save_sms_server_status_to_cache(owner, repo, sms_name, message_data)
+
+        # 发送给外网服务器
+        website_url = app.config['BROKER_CONFIG']['cloud']['put']['url'].format(
+            owner=owner,
+            repo=repo,
+            sms_name=sms_name
+        )
+        website_post_data = {
+            'message': json.dumps(message_data)
+        }
+        response = requests.post(website_url, data=website_post_data)
+        print(response)
+        return
 
 
 @api_v2_app.route('/hpc/sms/status', methods=['POST'])
