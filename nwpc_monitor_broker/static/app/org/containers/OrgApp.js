@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import {fetchOrgRepos, queryOrgMembers} from '../actions/index'
+import {fetchOrgRepos, queryOrgMembers} from '../actions'
 
 import OrgRepoList from '../components/OrgRepoList'
 import OrgMemberList from '../components/OrgMemberList'

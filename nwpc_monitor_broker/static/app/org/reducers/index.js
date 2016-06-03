@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { QUERY_ORG_MEMBERS, REQUEST_ORG_REPOS, RECEIVE_ORG_REPOS_SUCCESS, fetchOrgRepos } from '../actions/index'
+import { QUERY_ORG_MEMBERS, REQUEST_ORG_REPOS, RECEIVE_ORG_REPOS_SUCCESS, fetchOrgRepos } from '../actions'
 
 /* reducer */
 

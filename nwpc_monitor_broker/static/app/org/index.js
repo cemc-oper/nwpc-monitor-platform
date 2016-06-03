@@ -6,8 +6,8 @@ import { render } from 'react-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 
-import orgApp from './reducers/index'
-import { fetchOrgRepos } from './actions/index'
+import orgApp from './reducers'
+import { fetchOrgRepos } from './actions'
 import OrgApp from './containers/OrgApp'
 
 let store = createStore(orgApp,
