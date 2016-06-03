@@ -8,14 +8,15 @@ import OrgMemberList from '../components/OrgMemberList'
 
 class OrgApp extends Component{
     componentDidMount(){
-        const { dispatch } = this.props;
+        const { dispatch, params } = this.props;
+        let owner = params.owner;
+        console.log('OrgApp:', owner);
         dispatch(fetchOrgRepos('nwp_xp'));
         dispatch(queryOrgMembers('nwp_xp'))
     }
 
     render() {
         const { repo_list, member_list } = this.props;
-        console.log(this.props);
         return (
             <div>
                 <div className="col-md-8">

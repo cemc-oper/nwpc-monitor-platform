@@ -1,10 +1,12 @@
 import thunkMiddleware from 'redux-thunk'
 
-import React from 'react'
+import React, {Component} from 'react'
 import { render } from 'react-dom'
 
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+
+import { Router, Route, browserHistory } from 'react-router'
 
 import orgApp from './reducers'
 import { fetchOrgRepos } from './actions'
@@ -16,11 +18,22 @@ let store = createStore(orgApp,
     )
 );
 
+
+class Root extends Component {
+    render () {
+        return (
+            <Router history={this.props.history}>
+                <Route path="/:owner" component={OrgApp} />
+            </Router>
+        )
+    }
+}
+
 let rootElement = document.getElementById('org-repo-app');
 
 render(
     <Provider store={store}>
-        <OrgApp />
+        <Root history={browserHistory}/>
     </Provider>,
     rootElement
 );

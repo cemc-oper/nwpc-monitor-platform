@@ -21,5 +21,15 @@ def get_org_repos(org):
         ]
     })
 
+@api_v2_app.route('/orgs/<org>/members')
+def get_org_members(org):
+    return jsonify({
+        'repos': [
+            {'id': 1, 'name': 'cuiyj'},
+            {'id': 2, 'name': 'wangyt'},
+            {'id': 3, 'name': 'wangyzh'},
+            {'id': 4, 'name': 'wangdp'},
+        ]
+    })
 
 
