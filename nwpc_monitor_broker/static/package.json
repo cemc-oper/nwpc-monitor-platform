@@ -1,7 +1,7 @@
 {
   "name": "nwpc_monitor_broker",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "A broker for nwpc monitor platform.",
   "main": "index.js",
   "scripts": {
     "build": "webpack --colors"
@@ -20,6 +20,7 @@
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.4.1",
+    "react-router-redux": "^4.0.4",
     "redux": "^3.5.2",
     "redux-devtools": "^3.3.1",
     "redux-thunk": "^2.1.0",

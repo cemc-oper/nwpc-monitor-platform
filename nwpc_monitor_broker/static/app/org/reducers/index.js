@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux'
+import { routerReducer as routing } from 'react-router-redux'
+
 import { REQUEST_ORG_REPOS, RECEIVE_ORG_REPOS_SUCCESS,
     REQUEST_ORG_MEMBERS, RECEIVE_ORG_MEMBERS_SUCCESS
 } from '../actions'
+
+
 
 /* reducer */
 
@@ -114,7 +118,8 @@ function orgMembers(state = {
 
 const orgApp = combineReducers({
     orgRepos,
-    orgMembers
+    orgMembers,
+    routing
 });
 
 export default orgApp;
