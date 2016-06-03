@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux'
-import { QUERY_ORG_MEMBERS, REQUEST_ORG_REPOS, RECEIVE_ORG_REPOS_SUCCESS, fetchOrgRepos } from '../actions'
+import { REQUEST_ORG_REPOS, RECEIVE_ORG_REPOS_SUCCESS,
+    REQUEST_ORG_MEMBERS, RECEIVE_ORG_MEMBERS_SUCCESS
+} from '../actions'
 
 /* reducer */
 
@@ -39,13 +41,12 @@ function orgRepos(state = {
     switch(action.type){
         case REQUEST_ORG_REPOS:
             console.log(action.owner);
-            var new_state = Object.assign({}, state, {
+            return Object.assign({}, state, {
                 status: {
                     is_fetching: true,
                     last_updated: state.status.last_updated
                 }
             });
-            return new_state;
         case RECEIVE_ORG_REPOS_SUCCESS:
             return Object.assign({}, state, {
                 repos: action.response.data.repos,
@@ -59,16 +60,52 @@ function orgRepos(state = {
     }
 }
 
-function orgMembers(state = [], action){
+
+/**
+ *
+ * @param state
+ *      state of orgRepos:
+ *      {
+ *          status: {
+ *              is_fetching: boolean,
+ *              last_updated: number // Date()
+ *          }
+ *          owner: string
+ *          members: array of member object
+ *              [
+ *                  { id: number, name: string },
+ *                  ...
+ *              ]
+ *
+ *      }
+ * @param action
+ * @returns {*}
+ */
+function orgMembers(state = {
+    status:{
+        is_fetching: false,
+        last_updated: null
+    },
+    owner: 'nwp_xp',
+    members: []
+}, action){
     switch(action.type){
-        case QUERY_ORG_MEMBERS:
+        case REQUEST_ORG_MEMBERS:
             console.log(action.owner);
-            return [
-                {name: 'cuiyj'},
-                {name: 'wangyt'},
-                {name: 'wangdp'},
-                {name: 'jiaxzh'}
-            ];
+            return Object.assign({}, state, {
+                status: {
+                    is_fetching: true,
+                    last_updated: state.status.last_updated
+                }
+            });
+        case RECEIVE_ORG_MEMBERS_SUCCESS:
+            return Object.assign({}, state, {
+                members: action.response.data.members,
+                status: {
+                    is_fetching: false,
+                    last_updated: action.receive_time
+                }
+            });
         default:
             return state;
     }
