@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import {queryOrgRepos, queryOrgMembers} from '../actions/index'
+import {fetchOrgRepos, queryOrgMembers} from '../actions/index'
 
 import OrgRepoList from '../components/OrgRepoList'
 import OrgMemberList from '../components/OrgMemberList'
@@ -9,13 +9,13 @@ import OrgMemberList from '../components/OrgMemberList'
 class OrgApp extends Component{
     componentDidMount(){
         const { dispatch } = this.props;
-        dispatch(queryOrgRepos('nwp_xp'));
+        dispatch(fetchOrgRepos('nwp_xp'));
         dispatch(queryOrgMembers('nwp_xp'))
     }
 
     render() {
         const { repo_list, member_list } = this.props;
-        //console.log(this.props);
+        console.log(this.props);
         return (
             <div>
                 <div className="col-md-8">
@@ -39,7 +39,7 @@ OrgApp.propTypes = {
 
 function mapStateToProps(state){
     return {
-        repo_list: state.orgRepos,
+        repo_list: state.orgRepos.repos,
         member_list: state.orgMembers
     }
 }

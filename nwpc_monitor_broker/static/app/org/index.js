@@ -1,12 +1,20 @@
+import thunkMiddleware from 'redux-thunk'
+
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore } from 'redux'
+
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 
 import orgApp from './reducers/index'
+import { fetchOrgRepos } from './actions/index'
 import OrgApp from './containers/OrgApp'
 
-let store = createStore(orgApp);
+let store = createStore(orgApp,
+    applyMiddleware(
+        thunkMiddleware
+    )
+);
 
 let rootElement = document.getElementById('org-repo-app');
 
