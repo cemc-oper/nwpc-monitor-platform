@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>NWPC 业务运行监控</title>
+    <link type="text/css" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css" rel="stylesheet" />
+</head>
+<body>
+<h1>{{ owner }}</h1>
+{% for a_repo in owner_repo_status %}
+<div class="weui_cells">
+    <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>{{ a_repo['repo'] }}</p>
+        </div>
+        <div class="weui_cell_ft">
+            {% if a_repo['status'] %}
+                {{ a_repo['status'] }}
+            {% else %}
+                未知
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+</body>
+</html>

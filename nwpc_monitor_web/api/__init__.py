@@ -1,13 +1,9 @@
 # coding=utf-8
 from flask import Blueprint, request, json, jsonify
-from nwpc_monitor_web import app
-from nwpc_monitor.nwpc_log.visitor import NodeVisitor, pre_order_travel_dict
+from nwpc_monitor_web import app, redis_client
+from nwpc_monitor.nwpc_log.visitor import SubTreeNodeVisitor, pre_order_travel_dict
 
 import redis
-
-redis_host = app.config['NWPC_MONITOR_WEB_CONFIG']['redis']['host']['ip']
-redis_port = app.config['NWPC_MONITOR_WEB_CONFIG']['redis']['host']['port']
-redis_client = redis.Redis(host=redis_host, port=redis_port)
 
 api_app = Blueprint('api_app', __name__, template_folder='template')
 
@@ -48,23 +44,6 @@ def post_sms_status(owner, repo):
         'status': 'ok'
     }
     return jsonify(result)
-
-class SubTreeNodeVisitor(NodeVisitor):
-    def __init__(self, max_depth):
-        NodeVisitor.__init__(self)
-        self.level = 0
-        self.max_depth = max_depth
-
-    def visit(self, node):
-        if self.level == self.max_depth:
-            del node['children']
-            node['children'] = list()
-
-    def before_visit_child(self):
-        self.level += 1
-
-    def after_visit_child(self):
-        self.level -= 1
 
 
 @api_app.route('/repos/<owner>/<repo>/sms/status', methods=['GET'])

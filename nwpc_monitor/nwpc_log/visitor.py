@@ -50,6 +50,23 @@ class ErrorStatusTaskVisitor(NodeVisitor):
     def after_visit_child(self):
         self.level -= 1
 
+class SubTreeNodeVisitor(NodeVisitor):
+    def __init__(self, max_depth):
+        NodeVisitor.__init__(self)
+        self.level = 0
+        self.max_depth = max_depth
+
+    def visit(self, node):
+        if self.level == self.max_depth:
+            del node['children']
+            node['children'] = list()
+
+    def before_visit_child(self):
+        self.level += 1
+
+    def after_visit_child(self):
+        self.level -= 1
+
 
 def pre_order_travel(root_node, visitor):
     visitor.visit(root_node)

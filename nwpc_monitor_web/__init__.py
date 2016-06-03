@@ -1,5 +1,6 @@
 # coding=utf-8
 
+import redis
 from flask import Flask
 from flask.json import JSONEncoder
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -26,6 +27,10 @@ app.json_encoder = NwpcMonitorWebApiJSONEncoder
 
 #from nwpc_monitor.model import *
 # db = SQLAlchemy(app)
+
+redis_host = app.config['NWPC_MONITOR_WEB_CONFIG']['redis']['host']['ip']
+redis_port = app.config['NWPC_MONITOR_WEB_CONFIG']['redis']['host']['port']
+redis_client = redis.Redis(host=redis_host, port=redis_port)
 
 from .api import api_app
 app.register_blueprint(api_app, url_prefix="/api/v1")
