@@ -11,8 +11,8 @@ redis_client = redis.Redis(host=redis_host, port=redis_port)
 
 api_app = Blueprint('api_app', __name__, template_folder='template')
 
-@api_app.route('/repos/<owner>/<repo>/sms/<sms_name>/status', methods=['POST'])
-def post_sms_status(owner, repo, sms_name):
+@api_app.route('/repos/<owner>/<repo>/sms/status', methods=['POST'])
+def post_sms_status(owner, repo):
     r = request
     """
     message:
@@ -39,8 +39,10 @@ def post_sms_status(owner, repo, sms_name):
         }
         return jsonify(result)
 
+    message['type'] = 'sms'
+
     # 保存到本地缓存
-    key = "{owner}/{repo}/sms/{sms_name}/status".format(owner=owner, repo=repo, sms_name=sms_name)
+    key = "{owner}/{repo}/status".format(owner=owner, repo=repo)
     redis_client.set(key, json.dumps(message))
     result = {
         'status': 'ok'
@@ -65,8 +67,8 @@ class SubTreeNodeVisitor(NodeVisitor):
         self.level -= 1
 
 
-@api_app.route('/repos/<owner>/<repo>/sms/<sms_name>/status', methods=['GET'])
-def get_sms_status(owner, repo, sms_name):
+@api_app.route('/repos/<owner>/<repo>/sms/status', methods=['GET'])
+def get_sms_status(owner, repo):
     r = request
     args = request.args
 
@@ -75,7 +77,7 @@ def get_sms_status(owner, repo, sms_name):
         depth = int(args['depth'])
 
     # 保存到本地缓存
-    key = "{owner}/{repo}/sms/{sms_name}/status".format(owner=owner, repo=repo, sms_name=sms_name)
+    key = "{owner}/{repo}/status".format(owner=owner, repo=repo)
     message_string = redis_client.get(key)
     message = json.loads(message_string)
 
@@ -89,6 +91,7 @@ def get_sms_status(owner, repo, sms_name):
             {"name": "repo", "type": "string"},
             {"name": "sms_name", "type": "string"},
             {"name": "time", "type": "string"},
+            {"name": "type", "type": "enum", "symbols": ["sms"]},
             {
                 "name": "status",
                 "doc": "bunch status dict",

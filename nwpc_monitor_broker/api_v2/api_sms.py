@@ -34,7 +34,7 @@ message_data:
 def sms_status_message_handler(message_data: dict) -> None:
     owner = message_data['owner']
     repo = message_data['repo']
-    sms_name = message_data['sms_name']
+    sms_name = message_data['sms_name'] # sms_name 应该与 repo 一致
     #sms_user = message_data['sms_user']
     message_time = message_data['time']
 
@@ -43,7 +43,7 @@ def sms_status_message_handler(message_data: dict) -> None:
 
     warn_user_list = data_store.get_ding_talk_warn_user_list(owner, repo)
 
-    sms_server_key = "{owner}/{repo}/{sms_name}".format(owner=owner, repo=repo, sms_name=sms_name)
+    sms_server_key = "{owner}/{repo}/status".format(owner=owner, repo=repo)
     print(sms_server_key)
 
     if len(bunch_dict) >0:
@@ -123,8 +123,7 @@ def sms_status_message_handler(message_data: dict) -> None:
         # 发送给外网服务器
         website_url = app.config['BROKER_CONFIG']['cloud']['put']['url'].format(
             owner=owner,
-            repo=repo,
-            sms_name=sms_name
+            repo=repo
         )
         website_post_data = {
             'message': json.dumps(message_data)
