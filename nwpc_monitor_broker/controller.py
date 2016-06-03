@@ -2,7 +2,7 @@
 from nwpc_monitor_broker import app, db
 from nwpc_monitor.model import Owner
 
-from flask import json, request, jsonify,render_template
+from flask import json, request, jsonify,render_template, abort
 
 
 @app.route('/')
@@ -14,6 +14,9 @@ def get_owner_page(owner):
 
     query = db.session.query(Owner).filter(Owner.owner_name == owner)
     owner_object = query.first()
+
+    if owner_object is None:
+        return abort(404)
 
     if owner_object.owner_type == "org":
         return get_org_page(owner)
