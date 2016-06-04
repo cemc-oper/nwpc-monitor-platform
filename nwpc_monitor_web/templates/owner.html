@@ -44,9 +44,13 @@
 </head>
 <body>
 <h1>{{ owner }}</h1>
+<div class="weui_cells weui_cells_access">
 {% for a_repo in owner_repo_status %}
-<div class="weui_cells">
-    <div class="weui_cell">
+
+    <a class="weui_cell" href="javascript:;">
+        <div class="weui_cell_hd">
+            <img src="" alt="icon" style="width:20px;margin-right:5px;display:block">
+        </div>
         <div class="weui_cell_bd weui_cell_primary">
             <p>{{ a_repo['repo'] }}</p>
         </div>
@@ -66,8 +70,9 @@
                 未知
             {% endif %}
         </div>
-    </div>
-</div>
+    </a>
+
 {% endfor %}
+</div>
 </body>
 </html>
