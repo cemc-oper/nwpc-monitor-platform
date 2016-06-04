@@ -1,4 +1,5 @@
 # coding=utf-8
+import datetime
 from nwpc_monitor_web import app, redis_client
 from nwpc_monitor.nwpc_log.visitor import pre_order_travel_dict, SubTreeNodeVisitor
 
@@ -54,14 +55,19 @@ def get_owner_page(owner):
         a_repo_name = a_repo['name']
         cache_value = get_owner_repo_status(owner, a_repo_name)
         repo_status = None
+        last_updated_time = None
         if cache_value is not None:
             bunch_dict = cache_value['status']
 
             repo_status = bunch_dict['status']
+            time_string = cache_value['time']
+            data_collect_datetime = datetime.datetime.strptime(time_string, "%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_time = data_collect_datetime.strftime('%Y-%m-%d %H:%M:%S')
         owner_repo_status.append({
             'owner': owner,
             'repo': a_repo_name,
-            'status': repo_status
+            'status': repo_status,
+            'last_updated_time': last_updated_time
         })
 
     return render_template("owner.html", owner=owner, owner_repo_status=owner_repo_status)
