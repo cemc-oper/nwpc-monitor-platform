@@ -9,11 +9,11 @@
     <script type="text/javascript" src="/static/app/index.js"></script>
 </head>
 <body>
-<h1 class="page_title">{{ owner }}</h1>
+<h1 class="page_title"><a href="/{{ owner }}">{{ owner }}</a></h1>
 <div class="weui_cells weui_cells_access">
 {% for a_repo in owner_repo_status %}
 
-    <a class="weui_cell" href="javascript:;">
+    <a class="weui_cell" href="/{{ owner }}/{{ a_repo['repo'] }}">
         <div class="weui_cell_hd">
             {% if a_repo['status'] %}
                 <script type="text/javascript">
