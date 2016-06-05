@@ -2,10 +2,48 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>NWPC 业务运行监控</title>
+    <link type="text/css" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css" rel="stylesheet" />
+    <link type="text/css" href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" />
+    <script type="text/javascript" src="{{ url_for('static', filename='app/index.js') }}"></script>
 </head>
 <body>
-Hello!
-<div id="root"></div>
+<h1 class="page_title">{{ owner }}/{{ repo }}</h1>
+<div class="weui_cells weui_cells_access">
+{% for a_child in node_status['children'] %}
+
+    <a class="weui_cell" href="javascript:;">
+        <div class="weui_cell_hd">
+            {% if a_child['status'] %}
+                <script type="text/javascript">
+                    var repo_status="{{ a_child['status'] }}";
+                </script>
+            {% else %}
+                <script type="text/javascript">
+                    var repo_status="unk";
+                </script>
+            {% endif %}
+            <script type="text/javascript">
+                document.write('<img src="'+ get_status_background_image(repo_status) +'" alt="icon" style="width:40px;margin-right:5px;display:block">');
+            </script>
+        </div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>{{ a_child['name'] }}</p>
+        </div>
+        <div class="weui_cell_ft">
+            {% if node_status['last_updated_time'] %}
+                <script type="text/javascript">
+                    var repo_time = new Date("{{ a_child['last_updated_time'] }}");
+                    write_delay_time(repo_time, cur_time)
+                </script>
+            {% else %}
+                未知
+            {% endif %}
+        </div>
+    </a>
+
+{% endfor %}
+</div>
 </body>
 </html>

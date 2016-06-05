@@ -7,7 +7,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime, time, timedelta, date
 from .config import load_config
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 app.config.from_object(load_config())
 
@@ -24,6 +24,19 @@ class NwpcMonitorWebApiJSONEncoder(JSONEncoder):
         return JSONEncoder.default(self, obj)
 
 app.json_encoder = NwpcMonitorWebApiJSONEncoder
+
+
+from werkzeug.routing import BaseConverter, ValidationError
+
+class NoStaticConverter(BaseConverter):
+    def to_python(self, value):
+        if value == 'static':
+            raise ValidationError()
+        return value
+    def to_url(self, value):
+        return str(value)
+
+app.url_map.converters['no_static'] = NoStaticConverter
 
 #from nwpc_monitor.model import *
 # db = SQLAlchemy(app)
