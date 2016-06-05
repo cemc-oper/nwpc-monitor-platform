@@ -2,10 +2,48 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>NWPC 业务运行监控</title>
+    <link type="text/css" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css" rel="stylesheet" />
+    <link type="text/css" href="/static/css/main.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/app/index.js"></script>
 </head>
 <body>
-Hello!
-<div id="root"></div>
+<h1 class="page_title">NWPC 业务运行监控</h1>
+<div class="weui_grids">
+    <a href="/nwp_xp" class="weui_grid">
+        <!--<div class="weui_grid_icon">-->
+            <!--<img src="./images/icon_nav_button.png" alt="">-->
+        <!--</div>-->
+        <p class="weui_grid_label">
+            nwp_xp
+        </p>
+    </a>
+    <a href="/nwp_pos" class="weui_grid">
+        <p class="weui_grid_label">
+            nwp_pos
+        </p>
+    </a>
+    <a href="/nwp_vfy" class="weui_grid">
+        <p class="weui_grid_label">
+            nwp_vfy
+        </p>
+    </a>
+</div>
+
+<div class="weui_cells_title">访问</div>
+<div class="weui_cells weui_cells_form">
+    <div class="weui_cell">
+        <div class="weui_cell_hd">
+            <label class="weui_label">owner</label>
+        </div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" type="tel" placeholder="请输入用户名">
+        </div>
+    </div>
+</div>
+<div class="button_sp_area">
+    <a href="javascript:;" class="weui_btn weui_btn_plain_primary">访问</a>
+</div>
 </body>
 </html>
