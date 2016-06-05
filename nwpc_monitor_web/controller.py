@@ -74,6 +74,7 @@ def get_owner_page(owner):
     return render_template("owner.html", owner=owner, owner_repo_status=owner_repo_status)
 
 @app.route('/<no_static:owner>/<repo>')
+@app.route('/<no_static:owner>/<repo>/')
 def get_owner_repo_page(owner, repo):
     path = '/'
     last_updated_time = None
@@ -174,6 +175,7 @@ def get_sms_page_by_path(owner, repo, sms_path):
                 return root
             tokens = a_path.split("/")
             cur_node = root
+            parent_node = None
             for a_token in tokens:
                 t_node = None
                 for a_child_node in cur_node['children']:
@@ -182,11 +184,21 @@ def get_sms_page_by_path(owner, repo, sms_path):
                         break
                 if t_node is None:
                     return None
+                parent_node = cur_node
                 cur_node = t_node
-            return cur_node
-        node = find_node(bunch_dict, sms_path)
+            return (cur_node, parent_node)
+        node,p_node = find_node(bunch_dict, sms_path)
         if node is not None:
-            children_status = []
+            children_status=[]
+            if p_node:
+                children_status.append(
+                    {
+                        'name': '..',
+                        'path': p_node['path'],
+                        'status': p_node['status'],
+                        'has_children': True
+                    }
+                )
             path = node['path']
             for a_child in node['children']:
                 if len(a_child['children']) > 0:
@@ -199,7 +211,6 @@ def get_sms_page_by_path(owner, repo, sms_path):
                     'status': a_child['status'],
                     'has_children': has_children
                 })
-
 
     node_status = {
         'owner': owner,

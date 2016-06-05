@@ -9,11 +9,24 @@
     <script type="text/javascript" src="{{ url_for('static', filename='app/index.js') }}"></script>
 </head>
 <body>
-<h1 class="page_title">{{ owner }}/{{ repo }}</h1>
+<h1 class="page_title">
+    <a href="/{{ owner }}">{{ owner }}</a>
+    /
+    <a href="/{{ owner }}/{{ repo }}">{{ repo }}</a>
+</h1>
+<p>更新时间：{% if node_status['last_updated_time'] %}
+                <script type="text/javascript">
+                    var repo_time = new Date("{{ node_status['last_updated_time'] }}");
+                    write_delay_time(repo_time, cur_time)
+                </script>
+            {% else %}
+                未知
+            {% endif %}
+</p>
 <p>当前路径：{{ node_status['path'] }}</p>
 <div class="weui_cells weui_cells_access">
 {% for a_child in node_status['children'] %}
-    <a class="weui_cell" href="javascript:;">
+    <a class="weui_cell" href="/{{ owner }}/{{ repo }}{{ a_child['path'] }}">
         <div class="weui_cell_hd">
             {% if a_child['status'] %}
                 <script type="text/javascript">
