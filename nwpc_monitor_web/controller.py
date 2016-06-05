@@ -40,10 +40,6 @@ def get_owner_repo_status(owner, repo):
     return json.loads(message_string)
 
 
-@app.route('/static/<path:path>')
-def send_static(path):
-    return send_from_directory('static', path)
-
 @app.route('/')
 def get_index_page():
     return render_template("index.html")
