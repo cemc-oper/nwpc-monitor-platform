@@ -6,6 +6,7 @@
     <title>NWPC 业务运行监控</title>
     <link type="text/css" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css" rel="stylesheet" />
     <link type="text/css" href="/static/css/main.css" rel="stylesheet" />
+    <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/app/index.js"></script>
 </head>
 <body>
@@ -16,17 +17,17 @@
             <!--<img src="./images/icon_nav_button.png" alt="">-->
         <!--</div>-->
         <p class="weui_grid_label">
-            nwp_xp
+            运行科
         </p>
     </a>
     <a href="/nwp_pos" class="weui_grid">
         <p class="weui_grid_label">
-            nwp_pos
+            产品科
         </p>
     </a>
     <a href="/nwp_vfy" class="weui_grid">
         <p class="weui_grid_label">
-            nwp_vfy
+            检验科
         </p>
     </a>
 </div>
@@ -38,12 +39,20 @@
             <label class="weui_label">owner</label>
         </div>
         <div class="weui_cell_bd weui_cell_primary">
-            <input class="weui_input" type="tel" placeholder="请输入用户名">
+            <input id="owner_name_input" class="weui_input" type="tel" placeholder="请输入用户名">
         </div>
     </div>
 </div>
 <div class="button_sp_area">
-    <a href="javascript:;" class="weui_btn weui_btn_plain_primary">访问</a>
+    <a id="go_to_page_link" href="javascript:;" class="weui_btn weui_btn_plain_primary">访问</a>
 </div>
 </body>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#go_to_page_link').click(function(){
+        var owner_name = $('#owner_name_input').val();
+        location.href = '/'+owner_name;
+    });
+})
+</script>
 </html>
