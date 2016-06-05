@@ -3,7 +3,6 @@ var path = require('path');
 module.exports = {
     devtool: "cheap-module-eval-source-map",
     entry: {
-
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -17,13 +16,13 @@ module.exports = {
                 loaders: [ 'babel' ],
                 exclude: /node_modules/,
                 include: __dirname
+            },
+            {
+                test: /\.css$/,
+                loader: "style!css"
             }
         ]
     },
     externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-        'redux': 'Redux',
-        'react-redux': 'ReactRedux'
     }
 };
