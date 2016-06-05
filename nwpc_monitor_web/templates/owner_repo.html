@@ -10,9 +10,9 @@
 </head>
 <body>
 <h1 class="page_title">{{ owner }}/{{ repo }}</h1>
+<p>当前路径：{{ node_status['path'] }}</p>
 <div class="weui_cells weui_cells_access">
 {% for a_child in node_status['children'] %}
-
     <a class="weui_cell" href="javascript:;">
         <div class="weui_cell_hd">
             {% if a_child['status'] %}

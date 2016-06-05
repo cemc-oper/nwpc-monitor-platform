@@ -75,7 +75,7 @@ def get_owner_page(owner):
 
 @app.route('/<no_static:owner>/<repo>')
 def get_owner_repo_page(owner, repo):
-    path = '<repo>'.format(repo=repo)
+    path = '/'
     last_updated_time = None
     children_status = []
 
@@ -110,6 +110,8 @@ def get_owner_repo_page(owner, repo):
         pre_order_travel_dict(bunch_dict, visitor)
         # cache_value['status'] = bunch_dict
 
+        path = bunch_dict['path']
+
         children_status = []
         for a_suite in bunch_dict['children']:
             if len(a_suite['children']) > 0:
@@ -136,7 +138,75 @@ def get_owner_repo_page(owner, repo):
 
 @app.route('/<no_static:owner>/<repo>/<path:sms_path>', methods=['GET'])
 def get_sms_page_by_path(owner, repo, sms_path):
-    result = {
-        'status': 'ok',
+    path = '/'
+    last_updated_time = None
+    children_status = []
+    node_status = {
+        'owner': owner,
+        'repo': repo,
+        'path': path,
+        'last_updated_time': last_updated_time,
+        'children': children_status
     }
-    return jsonify(result)
+
+    if owner not in owner_list:
+        return render_template("owner_repo.html", owner=owner, repo=repo, node_status=node_status)
+
+    found_repo = False
+    for a_repo in owner_list[owner]['repos']:
+        if repo == a_repo['name']:
+            found_repo = True
+            break
+    if not found_repo:
+        return render_template("owner_repo.html", owner=owner, repo=repo, node_status=node_status)
+
+    cache_value = get_owner_repo_status(owner, repo)
+    node_status = None
+    if cache_value is not None:
+        time_string = cache_value['time']
+        data_collect_datetime = datetime.datetime.strptime(time_string, "%Y-%m-%dT%H:%M:%S.%f")
+        last_updated_time = data_collect_datetime.strftime('%Y-%m-%d %H:%M:%S')
+
+        bunch_dict = cache_value['status']
+
+        def find_node(root, a_path):
+            if a_path == '':
+                return root
+            tokens = a_path.split("/")
+            cur_node = root
+            for a_token in tokens:
+                t_node = None
+                for a_child_node in cur_node['children']:
+                    if a_child_node['name'] == a_token:
+                        t_node = a_child_node
+                        break
+                if t_node is None:
+                    return None
+                cur_node = t_node
+            return cur_node
+        node = find_node(bunch_dict, sms_path)
+        if node is not None:
+            children_status = []
+            path = node['path']
+            for a_child in node['children']:
+                if len(a_child['children']) > 0:
+                    has_children = True
+                else:
+                    has_children = False
+                children_status.append({
+                    'name': a_child['name'],
+                    'path': a_child['path'],
+                    'status': a_child['status'],
+                    'has_children': has_children
+                })
+
+
+    node_status = {
+        'owner': owner,
+        'repo': repo,
+        'path': path,
+        'last_updated_time': last_updated_time,
+        'children': children_status
+    }
+
+    return render_template("owner_repo.html", owner=owner, repo=repo, node_status=node_status)
