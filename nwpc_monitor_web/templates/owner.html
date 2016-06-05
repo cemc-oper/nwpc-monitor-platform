@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>NWPC 业务运行监控</title>
     <link type="text/css" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css" rel="stylesheet" />
+    <link type="text/css" href="/static/css/main.css" rel="stylesheet" />
     <script type="text/javascript">
         function get_status_background_image(status) {
             switch (status) {
@@ -66,7 +67,7 @@
     </script>
 </head>
 <body>
-<h1>{{ owner }}</h1>
+<h1 class="page_title">{{ owner }}</h1>
 <div class="weui_cells weui_cells_access">
 {% for a_repo in owner_repo_status %}
 
