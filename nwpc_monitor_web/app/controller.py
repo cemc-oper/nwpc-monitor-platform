@@ -34,6 +34,7 @@ owner_list = {
 
 def get_owner_repo_status(owner, repo):
     key = "{owner}/{repo}/status".format(owner=owner, repo=repo)
+    print(key)
     message_string = redis_client.get(key)
     if message_string is None:
         return None
