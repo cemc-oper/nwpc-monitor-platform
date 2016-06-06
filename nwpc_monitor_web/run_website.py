@@ -38,7 +38,7 @@ DESCRIPTION
     elif 'MODE' not in os.environ:
         os.environ['MODE'] = mode
 
-    from nwpc_monitor_web import app
+    from nwpc_monitor_web.app import app
 
     app.run(
         host=app.config['NWPC_MONITOR_WEB_CONFIG']['host']['ip'],

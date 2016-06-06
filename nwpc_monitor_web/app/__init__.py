@@ -7,7 +7,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime, time, timedelta, date
 from .config import load_config
 
-app = Flask(__name__, static_url_path='../static')
+app = Flask(__name__, static_url_path='/static', static_folder='../static')
 
 app.config.from_object(load_config())
 
@@ -48,4 +48,4 @@ redis_client = redis.Redis(host=redis_host, port=redis_port)
 from .api import api_app
 app.register_blueprint(api_app, url_prefix="/api/v1")
 
-import nwpc_monitor_web.controller
+import nwpc_monitor_web.app.controller

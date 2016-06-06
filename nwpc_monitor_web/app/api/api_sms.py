@@ -1,7 +1,7 @@
 from flask import request, json, jsonify
 
 from nwpc_monitor.nwpc_log.visitor import SubTreeNodeVisitor, pre_order_travel_dict
-from nwpc_monitor_web.app import api_app
+from nwpc_monitor_web.app.api import api_app
 from nwpc_monitor_web.app import redis_client
 
 
