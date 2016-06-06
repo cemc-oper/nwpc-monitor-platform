@@ -38,6 +38,8 @@ def get_owner_repo_status(owner, repo):
     message_string = redis_client.get(key)
     if message_string is None:
         return None
+    else:
+        message_string = message_string.decode()
     return json.loads(message_string)
 
 
