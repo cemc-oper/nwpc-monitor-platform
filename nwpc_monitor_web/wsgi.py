@@ -1,4 +1,4 @@
-from nwpc_monitor_web import app
+from nwpc_monitor_web.app import app
 
 def create_app():
     return app

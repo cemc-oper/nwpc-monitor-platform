@@ -1,6 +1,6 @@
 # coding=utf-8
 import datetime
-from nwpc_monitor_web import app, redis_client
+from nwpc_monitor_web.app import app, redis_client
 from nwpc_monitor.nwpc_log.visitor import pre_order_travel_dict, SubTreeNodeVisitor
 
 from flask import json, request, jsonify,render_template, send_from_directory

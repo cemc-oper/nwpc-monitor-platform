@@ -4,7 +4,7 @@ MAINTAINER Perilla Roc <***REMOVED***roc@gmail.com>
 
 RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
 
-RUN pip install pyyaml redis requests
+RUN pip3 install pyyaml redis requests
 
 VOLUME ["/src"]
 
@@ -15,4 +15,4 @@ WORKDIR $WORK_DIR
 EXPOSE 5201
 
 USER user
-CMD python ${WORK_DIR}/nwpc_monitor_broker/run_broker_server.py
+CMD python3 ${WORK_DIR}/nwpc_monitor_broker/run_broker_server.py

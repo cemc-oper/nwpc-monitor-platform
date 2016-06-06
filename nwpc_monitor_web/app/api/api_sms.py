@@ -1,9 +1,9 @@
 from flask import request, json, jsonify
-from nwpc_monitor_web import redis_client
-from nwpc_monitor_web.api import api_app
-from nwpc_monitor.nwpc_log.visitor import SubTreeNodeVisitor, pre_order_travel_dict
 
-import redis
+from nwpc_monitor.nwpc_log.visitor import SubTreeNodeVisitor, pre_order_travel_dict
+from nwpc_monitor_web.app import api_app
+from nwpc_monitor_web.app import redis_client
+
 
 @api_app.route('/repos/<owner>/<repo>/sms/status', methods=['POST'])
 def post_sms_status(owner, repo):

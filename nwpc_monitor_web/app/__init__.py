@@ -7,7 +7,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime, time, timedelta, date
 from .config import load_config
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__, static_url_path='../static')
 
 app.config.from_object(load_config())
 

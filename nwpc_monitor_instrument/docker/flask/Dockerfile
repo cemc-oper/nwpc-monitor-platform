@@ -1,8 +1,8 @@
-FROM ***REMOVED***roc/python
+FROM ***REMOVED***roc/python:3
 
 MAINTAINER Perilla Roc <***REMOVED***roc@gmail.com>
 
-RUN pip install flask
+RUN pip3 install flask
 
 VOLUME ["/src"]
 

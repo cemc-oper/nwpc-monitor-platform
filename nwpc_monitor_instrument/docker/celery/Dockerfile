@@ -1,10 +1,19 @@
-FROM ***REMOVED***roc/python
+FROM ***REMOVED***roc/python:3
 
 MAINTAINER Perilla Roc <***REMOVED***roc@gmail.com>
 
 RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
 
-RUN yum install -y mysql-devel && pip install celery pyyaml fabric requests sqlalchemy mysql-python
+RUN yum install -y mysql-devel &&
+
+RUN wget http://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.0.4.zip#md5=3df394d89300db95163f17c843ef49df \
+    && sudo yum install -y unzip \
+    && unzip mysql-connector-python-2.0.4.zip \
+    && cd mysql-connector-python-2.0.4 \
+    && python3 setup.py build \
+    && sudo /usr/local/bin/python3 setup.py install
+
+RUN pip3 install celery pyyaml fabric requests sqlalchemy
 
 VOLUME ["/src"]
 
