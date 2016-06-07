@@ -14,6 +14,8 @@ from nwpc_monitor_task_scheduler.celery_server.celery import app, task_config
 @app.task()
 def get_sms_status_task(repo):
 
+    owner_name=repo['owner']
+    repo_name=repo['repo']
     sms_user = repo['sms_user']
     sms_name = repo['sms_name']
 
@@ -37,9 +39,11 @@ def get_sms_status_task(repo):
 
     def get_sms_status(sms_user, sms_name, user):
         with cd(project_dir):
-            run("{program} {script} -u {user} -n {sms_name}".format(
+            run("{program} {script} -o {owner} -r {repo} -u {user} -n {sms_name}".format(
                 program=project_program,
                 script=project_script,
+                owner=owner_name,
+                repo=repo_name,
                 sms_user=sms_user,
                 sms_name=sms_name,
                 user=user
