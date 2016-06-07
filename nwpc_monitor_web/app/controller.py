@@ -34,7 +34,6 @@ owner_list = {
 
 def get_owner_repo_status(owner, repo):
     key = "{owner}/{repo}/status".format(owner=owner, repo=repo)
-    print(key)
     message_string = redis_client.get(key)
     if message_string is None:
         return None
@@ -104,7 +103,6 @@ def get_owner_repo_page(owner, repo):
 
     cache_value = get_owner_repo_status(owner, repo)
     node_status = None
-    print('cache_value',cache_value)
     if cache_value is not None:
         time_string = cache_value['time']
         data_collect_datetime = datetime.datetime.strptime(time_string, "%Y-%m-%dT%H:%M:%S.%f")

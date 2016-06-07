@@ -43,7 +43,7 @@ app.url_map.converters['no_static'] = NoStaticConverter
 
 redis_host = app.config['NWPC_MONITOR_WEB_CONFIG']['redis']['host']['ip']
 redis_port = app.config['NWPC_MONITOR_WEB_CONFIG']['redis']['host']['port']
-redis_client = redis.Redis(host=redis_host, port=redis_port)
+redis_client = redis.StrictRedis(host=redis_host, port=redis_port)
 
 from .api import api_app
 app.register_blueprint(api_app, url_prefix="/api/v1")
