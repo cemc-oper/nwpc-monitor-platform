@@ -74,6 +74,13 @@ def update_dingtalk_token_task():
     requests.get(url)
     return
 
+@app.task()
+def update_weixin_token_task():
+    config_dict = task_config.config
+    url = config_dict['update_weixin_token_task']['url']
+    requests.get(url)
+    return
+
 
 if __name__ == "__main__":
     # from sms_log_agent_monitor.tasks import *

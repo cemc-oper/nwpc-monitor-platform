@@ -46,6 +46,10 @@ class CeleryConfig(object):
                 'update_dingtalk_access_token': {
                     'task': 'nwpc_monitor_task_scheduler.celery_server.tasks.update_dingtalk_token_task',
                     'schedule': crontab(minute='*/30')
+                },
+                'update_weixin_access_token': {
+                    'task': 'nwpc_monitor_task_scheduler.celery_server.tasks.update_weixin_token_task',
+                    'schedule': crontab(minute='*/30')
                 }
             }
 
