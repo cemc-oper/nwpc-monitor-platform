@@ -1,8 +1,8 @@
-nwpc_monitor_web/static/css/* linguist-vendored=false
-nwpc_monitor_web/static/js/* linguist-vendored=false
-nwpc_monitor_web/static/fonts/* linguist-vendored=false
-nwpc_monitor_web/static/js/* linguist-vendored=false
 nwpc_monitor_broker/static/css/* linguist-vendored=false
 nwpc_monitor_broker/static/js/* linguist-vendored=false
 nwpc_monitor_broker/static/fonts/* linguist-vendored=false
 nwpc_monitor_broker/static/js/* linguist-vendored=false
+nwpc_monitor_web/static/css/* linguist-vendored=false
+nwpc_monitor_web/static/js/* linguist-vendored=false
+nwpc_monitor_web/static/fonts/* linguist-vendored=false
+nwpc_monitor_web/static/js/* linguist-vendored=false
