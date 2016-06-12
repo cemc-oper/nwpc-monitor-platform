@@ -59,12 +59,12 @@ def save_weixin_access_token_to_cache(access_token: str) -> None:
     return
 
 
-def get_error_task_list_from_cache(owner: str, repo: str, sms_name: str)-> dict:
-    error_task_key = "{owner}/{repo}/{sms_name}/task/error".format(owner=owner, repo=repo, sms_name=sms_name)
+def get_error_task_list_from_cache(owner: str, repo: str)-> dict:
+    error_task_key = "{owner}/{repo}/sms/task/error".format(owner=owner, repo=repo)
     cached_error_task_value = json.loads(redis_client.get(error_task_key).decode())
     return cached_error_task_value
 
-def save_error_task_list_to_cache(owner: str, repo: str, sms_name: str, error_task_value: dict)->None:
-    error_task_key = "{owner}/{repo}/{sms_name}/task/error".format(owner=owner, repo=repo, sms_name=sms_name)
+def save_error_task_list_to_cache(owner: str, repo: str, error_task_value: dict)->None:
+    error_task_key = "{owner}/{repo}/sms/task/error".format(owner=owner, repo=repo)
     redis_client.set(error_task_key, json.dumps(error_task_value))
     return

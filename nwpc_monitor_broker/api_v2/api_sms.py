@@ -13,6 +13,31 @@ from nwpc_monitor_broker.api_v2 import ding_talk, weixin
 
 from nwpc_monitor.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 
+
+
+def is_new_abort_task_found(owner:str, repo:str, previous_server_status:str, error_task_dict_list:list):
+    new_error_task_found = True
+
+    if previous_server_status == 'abo':
+        new_error_task_found = False
+        cached_error_task_value = cache.get_error_task_list_from_cache(owner, repo)
+        cached_error_task_name_list = [a_task_item['path'] for a_task_item in
+                                       cached_error_task_value['error_task_list'] ]
+        for a_task in error_task_dict_list:
+            if a_task['path'] not in cached_error_task_name_list:
+                new_error_task_found = True
+                break
+
+    return new_error_task_found
+
+
+def is_new_abort_root_found(owner:str, repo:str, previous_server_status:str, current_server_status:str='abo'):
+    if previous_server_status != 'abo' and current_server_status == 'abo':
+        return True
+    else:
+        return False
+
+
 """
 message_data:
     {
@@ -77,24 +102,8 @@ def sms_status_message_handler(message_data: dict) -> None:
 
                 previous_server_status = cached_bunch.status
 
-                new_error_task_found = True
-                if previous_server_status == 'abo':
-                    new_error_task_found = False
-                    cached_error_task_value = cache.get_error_task_list_from_cache(owner, repo, sms_name)
-                    cached_error_task_name_list = [a_task_item['path'] for a_task_item in
-                                                   cached_error_task_value['error_task_list'] ]
-                    for a_task in error_task_dict_list:
-                        if a_task['path'] not in cached_error_task_name_list:
-                            new_error_task_found = True
-                            break
-
                 #if True:
-                if new_error_task_found:
-                    ding_talk_app = ding_talk.DingTalkApp(
-                        ding_talk_config=app.config['BROKER_CONFIG']['ding_talk_app'],
-                        cloud_config=app.config['BROKER_CONFIG']['cloud']
-                    )
-
+                if is_new_abort_task_found(owner, repo, previous_server_status, error_task_dict_list):
                     warning_data = {
                         'owner': owner,
                         'repo': repo,
@@ -102,6 +111,11 @@ def sms_status_message_handler(message_data: dict) -> None:
                         'message_datetime': message_datetime,
                         'suite_error_map': suite_error_map
                     }
+
+                    ding_talk_app = ding_talk.DingTalkApp(
+                        ding_talk_config=app.config['BROKER_CONFIG']['ding_talk_app'],
+                        cloud_config=app.config['BROKER_CONFIG']['cloud']
+                    )
 
                     ding_talk_app.send_warning_message(warning_data)
 
@@ -116,7 +130,7 @@ def sms_status_message_handler(message_data: dict) -> None:
             'timestamp': datetime.datetime.now(),
             'error_task_list': error_task_dict_list
         }
-        cache.save_error_task_list_to_cache(owner, repo, sms_name, error_task_value)
+        cache.save_error_task_list_to_cache(owner, repo, error_task_value)
 
         cache.save_sms_server_status_to_cache(owner, repo, sms_name, message_data)
 
