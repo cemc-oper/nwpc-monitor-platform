@@ -16,6 +16,18 @@ from nwpc_monitor.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_trave
 
 
 def is_new_abort_task_found(owner:str, repo:str, previous_server_status:str, error_task_dict_list:list):
+    """
+    是否发现新的出错任务
+
+    问题：
+        如果大量作业出错，可能会导致发送大量警报
+    :param owner:
+    :param repo:
+    :param previous_server_status:
+    :param error_task_dict_list:
+    :return:
+    """
+
     new_error_task_found = True
 
     if previous_server_status == 'abo':
@@ -32,6 +44,17 @@ def is_new_abort_task_found(owner:str, repo:str, previous_server_status:str, err
 
 
 def is_new_abort_root_found(owner:str, repo:str, previous_server_status:str, current_server_status:str='abo'):
+    """
+    是否刚发现根节点为出错状态
+
+    问题：
+        当有其它 suite 已经出错时，如果有新的 suite 出错，不会发送警报
+    :param owner:
+    :param repo:
+    :param previous_server_status:
+    :param current_server_status:
+    """
+
     if previous_server_status != 'abo' and current_server_status == 'abo':
         return True
     else:
