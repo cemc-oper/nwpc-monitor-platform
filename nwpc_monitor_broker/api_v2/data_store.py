@@ -16,3 +16,18 @@ def get_ding_talk_warn_user_list(owner: str, repo: str) -> list:
         warn_to_user_list.append(userid)
 
     return warn_to_user_list
+
+
+def get_new_64bit_ticket():
+    batch_id = None
+    engine = db.engine
+    connection = engine.connect()
+    trans = connection.begin()
+    try:
+        connection.execute("REPLACE INTO tickets_64 (stub) VALUES ('a');")
+        (batch_id,) = connection.execute('SELECT LAST_INSERT_ID() AS id').fetchone()
+        trans.commit()
+    except:
+        trans.rollback()
+        raise
+    return batch_id
