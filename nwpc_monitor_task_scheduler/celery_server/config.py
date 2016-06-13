@@ -41,7 +41,7 @@ class CeleryConfig(object):
             self.CELERYBEAT_SCHEDULE = {
                 'collect_sms_suite_status': {
                     'task': 'nwpc_monitor_task_scheduler.celery_server.tasks.get_group_sms_status_task',
-                    'schedule': crontab(minute='*/1')
+                    'schedule': crontab(minute='*/2')
                 },
                 'update_dingtalk_access_token': {
                     'task': 'nwpc_monitor_task_scheduler.celery_server.tasks.update_dingtalk_token_task',
