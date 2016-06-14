@@ -13,6 +13,7 @@ class CeleryConfig(object):
             self.celery_server_config=celery_server_config
             broker_config = celery_server_config['broker']
             backend_config = celery_server_config['backend']
+            beat_config = celery_server_config['beat_schedule']
 
             if 'rabbitmq' in broker_config:
                 rabbitmq_host = broker_config['rabbitmq']['host']
@@ -38,20 +39,23 @@ class CeleryConfig(object):
             self.CELERY_INCLUDE = ['nwpc_monitor_task_scheduler.celery_server.tasks']
 
             # celery beat
-            self.CELERYBEAT_SCHEDULE = {
-                'collect_sms_suite_status': {
-                    'task': 'nwpc_monitor_task_scheduler.celery_server.tasks.get_group_sms_status_task',
-                    'schedule': crontab(minute='*/2')
-                },
-                'update_dingtalk_access_token': {
-                    'task': 'nwpc_monitor_task_scheduler.celery_server.tasks.update_dingtalk_token_task',
-                    'schedule': crontab(minute='*/30')
-                },
-                'update_weixin_access_token': {
-                    'task': 'nwpc_monitor_task_scheduler.celery_server.tasks.update_weixin_token_task',
-                    'schedule': crontab(minute='*/30')
-                }
-            }
+            beat_schedule = {}
+            for a_beat_item in beat_config:
+                item_schedule = a_beat_item['schedule']
+                if item_schedule['type'] == 'crontab':
+                    schedule_param = item_schedule['param']
+                    crontab_param_dict = {}
+                    for a_param in schedule_param:
+                        crontab_param_dict[a_param] = schedule_param[a_param]
+                    beat_schedule[a_beat_item['name']] = {
+                        'task': a_beat_item['task'],
+                        'schedule': crontab(**crontab_param_dict)
+                    }
+                else:
+                    print('we do not support this type: {schedule_type}'.format(schedule_type=item_schedule['type']))
+
+            self.CELERYBEAT_SCHEDULE = beat_schedule
+
 
     @staticmethod
     def load_celery_config():
