@@ -53,7 +53,7 @@ function orgRepos(state = {
             });
         case RECEIVE_ORG_REPOS_SUCCESS:
             return Object.assign({}, state, {
-                repos: action.response.data.repos,
+                repos: action.response.data.data.repos,
                 status: {
                     is_fetching: false,
                     last_updated: action.receive_time
@@ -104,7 +104,7 @@ function orgMembers(state = {
             });
         case RECEIVE_ORG_MEMBERS_SUCCESS:
             return Object.assign({}, state, {
-                members: action.response.data.members,
+                members: action.response.data.data.members,
                 status: {
                     is_fetching: false,
                     last_updated: action.receive_time
