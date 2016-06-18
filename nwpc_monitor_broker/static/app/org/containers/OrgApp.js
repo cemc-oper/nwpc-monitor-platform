@@ -16,16 +16,17 @@ class OrgApp extends Component{
     }
 
     render() {
-        const { repo_list, member_list } = this.props;
+        const { repo_list, member_list, params } = this.props;
+        let owner = params.owner;
         return (
             <div>
                 <div className="col-md-8">
                     <h2>项目</h2>
-                    <OrgRepoList repo_list={repo_list} />
+                    <OrgRepoList repo_list={repo_list} owner={owner} />
                 </div>
                 <div className="col-md-4">
                     <h2>人员</h2>
-                    <OrgMemberList member_list={member_list} />
+                    <OrgMemberList member_list={member_list} owner={owner} />
                 </div>
             </div>
         );

@@ -9,7 +9,9 @@ export default class OrgMemberList extends Component{
         return (
             <ui className="list-group">
                 {this.props.member_list.map((member, index) =>
-                    <li className="list-group-item" key={member.id}>{member.name}</li>
+                    <li className="list-group-item" key={member.id}>
+                        <a href={ '/' + member.name }>{member.name}</a>
+                    </li>
                 )}
             </ui>
         );
@@ -19,7 +21,9 @@ export default class OrgMemberList extends Component{
 OrgMemberList.propTypes = {
     member_list: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired
-    }).isRequired).isRequired
+    }).isRequired).isRequired,
+
+    owner: PropTypes.string.isRequired
 };
 
 

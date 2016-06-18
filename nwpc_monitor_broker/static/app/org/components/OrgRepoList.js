@@ -7,12 +7,13 @@ export default class OrgRepoList extends Component {
     }
     render() {
         //console.log('repo_list', this.props.repo_list);
+        let owner = this.props.owner;
         return (
             <div>
                 {this.props.repo_list.map((repo, index) =>
                     <div className="panel panel-default" key={repo.id}>
                         <div className="panel-body">
-                            <a>{repo.name}</a>
+                            <a href={ '/' + owner +'/'+ repo.name }>{repo.name}</a>
                             <p>repo description</p>
                         </div>
                     </div>
@@ -25,5 +26,7 @@ export default class OrgRepoList extends Component {
 OrgRepoList.propTypes = {
     repo_list: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired
-    }).isRequired).isRequired
+    }).isRequired).isRequired,
+
+    owner: PropTypes.string.isRequired
 };
