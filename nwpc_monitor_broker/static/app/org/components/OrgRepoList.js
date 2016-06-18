@@ -14,7 +14,8 @@ export default class OrgRepoList extends Component {
                     <div className="panel panel-default" key={repo.id}>
                         <div className="panel-body">
                             <a href={ '/' + owner +'/'+ repo.name }>{repo.name}</a>
-                            <p>repo description</p>
+                            <p>{ repo.description }</p>
+                            <p>最后更新时间：{ repo.update_time }</p>
                         </div>
                     </div>
                 )}

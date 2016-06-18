@@ -25,9 +25,12 @@ def get_org_repos(org):
 
     repos = []
     for an_repo in query_repo_result['data']['repos']:
+        sms_server_status = cache.get_sms_server_status_from_cache(org, an_repo.repo_name, an_repo.repo_name)
         repos.append({
             'id': an_repo.repo_id,
-            'name': an_repo.repo_name
+            'name': an_repo.repo_name,
+            'description': an_repo.repo_description,
+            'update_time': sms_server_status['update_time']
         })
 
     result = {
