@@ -10,7 +10,12 @@ export default class OrgRepoList extends Component {
         return (
             <div>
                 {this.props.repo_list.map((repo, index) =>
-                    <p key={repo.name}>{repo.name}</p>
+                    <div className="panel panel-default" key={repo.id}>
+                        <div className="panel-body">
+                            <a>{repo.name}</a>
+                            <p>repo description</p>
+                        </div>
+                    </div>
                 )}
             </div>
         );

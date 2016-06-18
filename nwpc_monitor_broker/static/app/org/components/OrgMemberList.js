@@ -7,11 +7,11 @@ export default class OrgMemberList extends Component{
     render() {
         //console.log('member_list', this.props.member_list);
         return (
-            <div>
+            <ui className="list-group">
                 {this.props.member_list.map((member, index) =>
-                    <p key={member.name}>{member.name}</p>
+                    <li className="list-group-item" key={member.id}>{member.name}</li>
                 )}
-            </div>
+            </ui>
         );
     }
 }
