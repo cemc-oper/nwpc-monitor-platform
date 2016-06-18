@@ -10,7 +10,7 @@ module.exports = {
             './app/org/reducers/index.js',
             './app/org/components/OrgRepoList.js',
             './app/org/components/OrgMemberList.js',
-            './app/org/containers/OrgApp.js'
+            './app/org/containers/OrgReposApp.js'
         ]
     },
     output: {

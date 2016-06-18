@@ -7,11 +7,11 @@ import thunkMiddleware from 'redux-thunk'
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
-import orgApp from './reducers'
+import orgAppReducer from './reducers'
 
 import Root from './containers/Root'
 
-let store = createStore(orgApp,
+let store = createStore(orgAppReducer,
     applyMiddleware(
         thunkMiddleware
     )

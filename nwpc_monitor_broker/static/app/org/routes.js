@@ -1,8 +1,8 @@
 import React from 'react'
 import { Route } from 'react-router'
 
-import OrgApp from './containers/OrgApp'
+import OrgReposApp from './containers/OrgReposApp'
 
 export default (
-    <Route path="/:owner" component={OrgApp} />
+    <Route path="/:owner" component={OrgReposApp} />
 )

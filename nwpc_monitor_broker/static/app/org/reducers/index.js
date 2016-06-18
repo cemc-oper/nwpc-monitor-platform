@@ -116,10 +116,10 @@ function orgMembers(state = {
 }
 
 
-const orgApp = combineReducers({
+const orgAppReducer = combineReducers({
     orgRepos,
     orgMembers,
     routing
 });
 
-export default orgApp;
+export default orgAppReducer;

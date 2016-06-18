@@ -6,11 +6,11 @@ import {fetchOrgRepos, fetchOrgMembers} from '../actions'
 import OrgRepoList from '../components/OrgRepoList'
 import OrgMemberList from '../components/OrgMemberList'
 
-class OrgApp extends Component{
+class OrgReposApp extends Component{
     componentDidMount(){
         const { dispatch, params } = this.props;
         let owner = params.owner;
-        console.log('OrgApp:', owner);
+        console.log('OrgReposApp:', owner);
         dispatch(fetchOrgRepos(owner));
         dispatch(fetchOrgMembers(owner))
     }
@@ -33,7 +33,7 @@ class OrgApp extends Component{
     }
 }
 
-OrgApp.propTypes = {
+OrgReposApp.propTypes = {
     repo_list: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired
     }).isRequired).isRequired,
@@ -49,4 +49,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(OrgApp)
+export default connect(mapStateToProps)(OrgReposApp)
