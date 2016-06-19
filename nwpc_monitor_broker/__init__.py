@@ -24,6 +24,19 @@ class NwpcMonitorBrokerApiJSONEncoder(JSONEncoder):
 
 app.json_encoder = NwpcMonitorBrokerApiJSONEncoder
 
+from werkzeug.routing import BaseConverter, ValidationError
+
+class NoStaticConverter(BaseConverter):
+    def to_python(self, value):
+        if value == 'static':
+            raise ValidationError()
+        return value
+    def to_url(self, value):
+        return str(value)
+
+app.url_map.converters['no_static'] = NoStaticConverter
+
+
 #from nwpc_monitor.model import *
 db = SQLAlchemy(app)
 
