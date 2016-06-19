@@ -2,32 +2,33 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import PageHeader from '../../base/components/page_header'
+import RepoAppTitle from '../components/repo_app_title'
+import RepoAppNaviBar from '../components/repo_app_navi_bar'
+import RepoAppStatusTab from '../components/repo_app_status_tab'
 
 class RepoApp extends Component{
     componentDidMount(){
+
     }
 
     render() {
+        const { params } = this.props;
+        let owner = params.owner;
+        let repo = params.repo;
+
         let url = {
             index_page: '/'
         };
 
         return (
             <div>
-            <PageHeader url={ url }/>
-                <section className="row">
-                    <h1><span className="glyphicon glyphicon-book" aria-hidden="true" /> owner/repo </h1>
-                </section>
+                <PageHeader url={ url }/>
 
-                <section className="row">
-                    <ul className="nav nav-tabs">
-                        <li role="presentation" className="active"><a href="#">项目</a></li>
-                        <li role="presentation"><a href="#">设置</a></li>
-                    </ul>
-                </section>
+                <RepoAppTitle owner={owner} repo={repo} />
 
-                <section className="row">
-                </section>
+                <RepoAppNaviBar owner={owner} repo={repo} />
+
+                <RepoAppStatusTab owner={owner} repo={repo} />
             </div>
         );
     }
