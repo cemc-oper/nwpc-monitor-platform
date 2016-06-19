@@ -9,7 +9,6 @@ export default class PageHeader extends Component{
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
                     <div className="navbar-header">
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#monitor-broker-navbar-collapse" aria-expanded="false">
                             <span className="sr-only">Toggle navigation</span>
@@ -20,7 +19,6 @@ export default class PageHeader extends Component{
                         <a className="navbar-brand" href={ index_page_url }>NWPC业务监控平台</a>
                     </div>
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
                     <div className="collapse navbar-collapse" id="monitor-broker-navbar-collapse">
                         <form className="navbar-form navbar-left" role="search">
                             <div className="form-group">
@@ -44,8 +42,8 @@ export default class PageHeader extends Component{
                                 </ul>
                             </li>
                         </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
+                    </div>
+                </div>
             </nav>
         );
     }
