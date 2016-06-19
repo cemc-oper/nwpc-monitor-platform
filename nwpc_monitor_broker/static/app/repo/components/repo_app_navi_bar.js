@@ -12,9 +12,8 @@ export default class RepoAppNaviBar extends Component{
 
         let { router } = this.context;
 
-
-        let settings_is_active = router.isActive(  '/' + owner + '/' + repo + '/settings', this.props.params );
-        let warning_is_active = router.isActive(  '/' + owner + '/' + repo + '/warning', this.props.params );
+        let settings_is_active = router.isActive({ pathname:'/' + owner + '/' + repo + '/settings'} );
+        let warning_is_active = router.isActive({ pathname:'/' + owner + '/' + repo + '/warning'} );
 
         let sub_page_active_flag = false;
         if (settings_is_active || warning_is_active) {
@@ -30,13 +29,13 @@ export default class RepoAppNaviBar extends Component{
             <section className="row" className="app-navi-bar">
                 <ul className="nav nav-tabs">
                     <li  role="presentation"  className={ status_is_active?'active':'' } >
-                        <Link to={ '/' + owner + '/' + repo + '/'} >状态</Link>
+                        <Link to={{ pathname:'/' + owner + '/' + repo + '/' }} >状态</Link>
                     </li>
                     <li  role="presentation"  className={ warning_is_active?'active':'' } >
-                        <Link to={ '/' + owner + '/' + repo + '/warning'} >报警</Link>
+                        <Link to={{ pathname:'/' + owner + '/' + repo + '/warning' }} >报警</Link>
                     </li>
                     <li  role="presentation" className={ settings_is_active?'active':'' } >
-                        <Link to={ '/' + owner + '/' + repo + '/settings' } >设置</Link>
+                        <Link to={{ pathname:'/' + owner + '/' + repo + '/settings' }} >设置</Link>
                     </li>
                 </ul>
             </section>
