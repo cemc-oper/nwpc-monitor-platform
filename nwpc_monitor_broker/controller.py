@@ -36,5 +36,10 @@ def get_org_page(org):
 
 
 @app.route('/<owner>/<repo>')
+@app.route('/<owner>/<repo>/')
 def get_repo_page(owner, repo):
     return render_template('repo.html', owner=owner, repo=repo)
+
+@app.route('/<no_static:owner>/<repo>/<path:path>')
+def get_repo_path_page(owner, repo, path):
+    return render_template('repo.html', owner=owner, repo=repo, path=path)
