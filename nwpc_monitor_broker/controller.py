@@ -33,3 +33,8 @@ def get_user_page(user):
 
 def get_org_page(org):
     return render_template("organization.html", org=org)
+
+
+@app.route('/<owner>/<repo>')
+def get_repo_page(owner, repo):
+    return render_template('repo.html', owner=owner, repo=repo)
