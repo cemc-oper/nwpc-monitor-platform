@@ -9,7 +9,21 @@ export default class WeixinWarningApp extends Component{
         let owner = this.props.params.owner;
         let repo = this.props.params.repo;
         return (
-            <div>Weixin</div>
+            <div>
+                <h3>微信</h3>
+                <div>
+                    <h4>概览</h4>
+                </div>
+                <div>
+                    <h4>人员列表</h4>
+                </div>
+                <div>
+                    <h4>推送设置</h4>
+                </div>
+                <div>
+                    <h4>报警策略设置</h4>
+                </div>
+            </div>
         );
     }
 }

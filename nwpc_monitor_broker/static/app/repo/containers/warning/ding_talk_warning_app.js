@@ -9,7 +9,21 @@ export default class DingTalkWarningApp extends Component{
         let owner = this.props.params.owner;
         let repo = this.props.params.repo;
         return (
-            <div>Ding Talk</div>
+            <div>
+                <h3>钉钉</h3>
+                <div>
+                    <h4>概览</h4>
+                </div>
+                <div>
+                    <h4>人员列表</h4>
+                </div>
+                <div>
+                    <h4>推送设置</h4>
+                </div>
+                <div>
+                    <h4>报警策略设置</h4>
+                </div>
+            </div>
         );
     }
 }
