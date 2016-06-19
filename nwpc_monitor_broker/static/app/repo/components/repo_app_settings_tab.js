@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class RepoAppStatusTab extends Component{
+export default class RepoAppSettingsTab extends Component{
     constructor(props) {
         super(props);
     }
@@ -9,13 +9,13 @@ export default class RepoAppStatusTab extends Component{
         let repo = this.props.repo;
         return (
             <section className="row">
-                Status Tab
+                Settings Tab
             </section>
         );
     }
 }
 
-RepoAppStatusTab.propTypes = {
+RepoAppSettingsTab.propTypes = {
     owner: PropTypes.string.isRequired,
     repo: PropTypes.string.isRequired
 };

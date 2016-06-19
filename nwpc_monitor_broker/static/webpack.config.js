@@ -5,12 +5,7 @@ module.exports = {
     entry: {
         welcome: './app/welcome/welcome.js',
         org: [
-            './app/org/index.js',
-            './app/org/actions/index.js',
-            './app/org/reducers/index.js',
-            './app/org/components/OrgRepoList.js',
-            './app/org/components/OrgMemberList.js',
-            './app/org/containers/OrgReposApp.js'
+            './app/org/index.js'
         ],
         repo: [
             './app/repo/index.js'

@@ -28,7 +28,7 @@ class RepoApp extends Component{
 
                 <RepoAppNaviBar owner={owner} repo={repo} />
 
-                <RepoAppStatusTab owner={owner} repo={repo} />
+                {this.props.children}
             </div>
         );
     }
