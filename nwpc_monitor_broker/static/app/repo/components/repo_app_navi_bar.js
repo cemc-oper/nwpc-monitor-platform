@@ -12,9 +12,12 @@ export default class RepoAppNaviBar extends Component{
 
         let { router } = this.context;
 
-        let sub_page_active_flag = false;
+
         let settings_is_active = router.isActive(  '/' + owner + '/' + repo + '/settings', this.props.params );
-        if (settings_is_active) {
+        let warning_is_active = router.isActive(  '/' + owner + '/' + repo + '/warning', this.props.params );
+
+        let sub_page_active_flag = false;
+        if (settings_is_active || warning_is_active) {
             sub_page_active_flag = true;
         }
 
@@ -24,10 +27,13 @@ export default class RepoAppNaviBar extends Component{
         }
 
         return (
-            <section className="row">
+            <section className="row" className="app-navi-bar">
                 <ul className="nav nav-tabs">
                     <li  role="presentation"  className={ status_is_active?'active':'' } >
                         <Link to={ '/' + owner + '/' + repo + '/'} >状态</Link>
+                    </li>
+                    <li  role="presentation"  className={ warning_is_active?'active':'' } >
+                        <Link to={ '/' + owner + '/' + repo + '/warning'} >报警</Link>
                     </li>
                     <li  role="presentation" className={ settings_is_active?'active':'' } >
                         <Link to={ '/' + owner + '/' + repo + '/settings' } >设置</Link>
