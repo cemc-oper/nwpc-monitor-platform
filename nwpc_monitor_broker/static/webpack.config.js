@@ -11,6 +11,9 @@ module.exports = {
             './app/org/components/OrgRepoList.js',
             './app/org/components/OrgMemberList.js',
             './app/org/containers/OrgReposApp.js'
+        ],
+        repo: [
+            './app/repo/index.js'
         ]
     },
     output: {
