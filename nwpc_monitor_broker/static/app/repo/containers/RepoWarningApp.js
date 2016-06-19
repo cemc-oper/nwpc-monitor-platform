@@ -29,13 +29,23 @@ class RepoWarningApp extends Component{
         return (
             <section className="row">
                 <div className="col-md-2">
-                    <div className="list-group">
-                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning' }} className={ ding_talk_is_active?'list-group-item active':'list-group-item'}  >
-                            <span className="glyphicon glyphicon-fire" /> 钉钉
+                    <h3 className="row">
+                        钉钉
+                    </h3>
+                    <div className="row list-group">
+                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk' }} className={ ding_talk_is_active?'list-group-item active':'list-group-item'}  >
+                            <span className="glyphicon glyphicon-fire" /> 概览
                         </Link>
+                        <a className="list-group-item">人员设置</a>
+                    </div>
+                    <h3 className="row">
+                        微信
+                    </h3>
+                    <div className="row list-group">
                         <Link to={{ pathname:'/'+owner+'/'+repo+'/warning/weixin' }} className={ weixin_is_active?'list-group-item active':'list-group-item' }>
-                            <span className="glyphicon glyphicon-fire" /> 微信
+                            <span className="glyphicon glyphicon-fire" /> 概览
                         </Link>
+                        <a className="list-group-item">人员设置</a>
                     </div>
                 </div>
                 <div className="col-md-10">
