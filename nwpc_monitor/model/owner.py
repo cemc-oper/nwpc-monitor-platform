@@ -16,7 +16,7 @@ class Owner(Model):
     def query_owner_by_owner_name(session, owner_name:str):
         query = session.query(Owner).filter(Owner.owner_name == owner_name)
         query_result = query.all()
-        if len(query_result) >=1:
+        if len(query_result) >1:
             result = {
                 'error': 'we have more than one owner with a single name, please contact admin.',
                 'message': '',
@@ -33,7 +33,7 @@ class Owner(Model):
                 }
             }
             return result
-        owner = query_result.first()
+        owner = query_result[0]
         result = {
             'data': {
                 'owner': owner

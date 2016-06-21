@@ -10,7 +10,7 @@ from nwpc_monitor_broker.api_v2 import data_store
 
 from nwpc_monitor.model import Repo, Owner, OrgUser, DingtalkUser, DingtalkWarnWatch
 
-from sqlalchemy import and_
+from sqlalchemy import and_, func
 
 
 @api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watch/users')
@@ -188,6 +188,142 @@ def get_repo_warning_watch_suggested_user(owner:str, repo:str):
                 'type': 'dingtalk',
                 'suggested_user_list': suggested_user_list
             }
+        }
+    }
+
+    return jsonify(result)
+
+
+@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watcher/<user>', methods=['POST'])
+def create_dingtalk_watcher(owner, repo, user):
+    query_user_result = Owner.query_owner_by_owner_name(db.session, user)
+    if 'error' in query_user_result:
+        result = {
+            'error': "get owner error",
+            'data': {
+                'message': query_user_result['error']
+            }
+        }
+        return result
+    elif query_user_result['data']['owner'] is None:
+        result = {
+            'error': "owner doesn't exist.",
+            'data': {
+            }
+        }
+        return result
+
+    user_object = query_user_result['data']['owner']
+
+    repo_query = db.session.query(Owner, Repo). \
+        filter(Owner.owner_name == owner). \
+        filter(Owner.owner_id == Repo.owner_id). \
+        filter(Repo.repo_name == repo)
+
+    repo_query_result = repo_query.all()
+
+    if len(repo_query_result) == 0:
+        result = {
+            'error': 'no repo: {owner}/{repo}'.format(owner=owner, repo=repo)
+        }
+        return jsonify(result)
+    elif len(repo_query_result) > 1:
+        result = {
+            'error': 'more than 1 {owner}/{repo}'.format(owner=owner, repo=repo)
+        }
+        return jsonify(result)
+
+    owner_object, repo_object = repo_query_result[0]
+
+    # query watcher
+
+    watcher_query = db.session.query(func.count('*'), DingtalkUser.dingtalk_user_id).\
+        filter(DingtalkWarnWatch.repo_id == repo_object.repo_id).\
+        filter(DingtalkWarnWatch.dingtalk_user_id == DingtalkUser.dingtalk_user_id).\
+        filter(DingtalkUser.user_id == user_object.owner_id)
+
+    watcher_count, dt_user_id = watcher_query.first()
+
+    # already watched
+    if watcher_count > 0:
+        result = {
+            'data': {
+                'status': 'ok',
+                'message': 'already watched'
+            }
+        }
+        return jsonify(result)
+
+    # insert watcher
+    new_watcher = DingtalkWarnWatch()
+    new_watcher.repo_id = repo_object.repo_id
+    new_watcher.dingtalk_user_id = dt_user_id
+
+    db.session.add(new_watcher)
+    db.session.commit()
+
+    return jsonify({
+        'data': {
+            'status': 'ok'
+        }
+    })
+
+
+@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watcher/<user>', methods=['DELETE'])
+def delete_dingtalk_watcher(owner, repo, user):
+    user_query = db.session.query(DingtalkUser).\
+        filter(Owner.owner_name == user).\
+        filter(DingtalkUser.user_id == Owner.owner_id)
+
+    dingtalk_user_result = user_query.all()
+
+    if len(dingtalk_user_result) == 0:
+        result = {
+            'error':'user doesn\'t exist or user doesn\'t has a dingtalk id'
+        }
+        return jsonify(result)
+
+    elif len(dingtalk_user_result) > 1:
+        result = {
+            'error': 'multi user or multi dingtalk id'
+        }
+        return jsonify(result)
+
+    dingtalk_user_object = user_query[0]
+
+    repo_query = db.session.query(Owner, Repo). \
+        filter(Owner.owner_name == owner). \
+        filter(Owner.owner_id == Repo.owner_id). \
+        filter(Repo.repo_name == repo)
+
+    repo_query_result = repo_query.all()
+
+    if len(repo_query_result) == 0:
+        result = {
+            'error': 'no repo: {owner}/{repo}'.format(owner=owner, repo=repo)
+        }
+        return jsonify(result)
+    elif len(repo_query_result) > 1:
+        result = {
+            'error': 'more than 1 {owner}/{repo}'.format(owner=owner, repo=repo)
+        }
+        return jsonify(result)
+
+    owner_object, repo_object = repo_query_result[0]
+
+    watcher_query = db.session.query(DingtalkWarnWatch).\
+        filter(DingtalkWarnWatch.repo_id == repo_object.repo_id).\
+        filter(DingtalkWarnWatch.dingtalk_user_id == dingtalk_user_object.dingtalk_user_id)
+
+    watcher_list = watcher_query.all()
+
+    for a_watcher in watcher_list:
+        db.session.delete(a_watcher)
+    db.session.commit()
+
+    result = {
+        'data': {
+            'status': 'ok'
         }
     }
 

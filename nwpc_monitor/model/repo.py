@@ -43,7 +43,6 @@ class Repo(Model):
                 }
             return result
 
-
         result = {
             'data': {
                 'repos': query_result
