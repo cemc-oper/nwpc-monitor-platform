@@ -32,6 +32,7 @@ export default class DingTalkWarningApp extends Component{
                 <h3>钉钉</h3>
                 <div>
                     <h4>概览</h4>
+                    <p>建设中</p>
                 </div>
                 <WatchingUserList owner={ owner }
                                   repo={ repo }
@@ -43,6 +44,7 @@ export default class DingTalkWarningApp extends Component{
                                   suggested_user_list={ suggested_user_list } />
                 <div>
                     <h4>报警策略设置</h4>
+                    <p>建设中</p>
                 </div>
             </div>
         );
