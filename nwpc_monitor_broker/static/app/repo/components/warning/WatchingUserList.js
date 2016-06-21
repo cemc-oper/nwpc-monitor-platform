@@ -6,6 +6,9 @@ export default class WatchingUserList extends Component{
     }
     render() {
         let watching_user_list = this.props.watching_user_list;
+
+
+
         return (
             <div>
                 <h4>推送列表</h4>
@@ -13,6 +16,7 @@ export default class WatchingUserList extends Component{
                     {watching_user_list.map((an_user, index) =>
                         <li className="list-group-item" key={an_user.owner_name}>
                             <a href={ '/' + an_user.owner_name }>{an_user.owner_name}</a>
+                            <button className="btn btn-danger btn-xs active pull-right">取消</button>
                         </li>
                     )}
                 </ui>

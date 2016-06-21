@@ -13,6 +13,11 @@ export default class WatcherSettingPanel extends Component{
                     {suggested_user_list.map((an_user, index) =>
                         <li className="list-group-item" key={an_user.owner_name}>
                             <a href={ '/' + an_user.owner_name }>{an_user.owner_name}</a>
+                            {
+                                an_user.is_watching?
+                                    (<button className="btn btn-danger btn-xs active pull-right">取消</button>) :
+                                    (<button className="btn btn-primary btn-xs pull-right">关注</button>)
+                            }
                         </li>
                     )}
                 </ui>
