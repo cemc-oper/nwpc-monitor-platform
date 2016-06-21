@@ -1,8 +1,6 @@
 # coding=utf-8
 
 from flask import request, jsonify
-import datetime
-import requests
 
 from nwpc_monitor_broker import app, db
 
@@ -16,7 +14,38 @@ from sqlalchemy import and_
 
 
 @api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watch/users')
-def get_repo_warning_dingtalk_watch_users(owner, repo):
+def get_repo_warning_dingtalk_watch_users(owner:str, repo:str):
+    """
+    返回关注该项目的用户
+    :param owner:
+    :param repo:
+    :return:
+
+        正常情况
+        {
+            'data': {
+                'owner': owner,
+                'repo': repo,
+                'warning': {
+                    'type': 'dingtalk',
+                    'watching_user_list': [
+                        {
+                            'owner_name': owner_object.owner_name,
+                            'warn_watch': {
+                                'start_date_time': ding_talk_warn_watch_object.start_date_time,
+                                'end_date_time': ding_talk_warn_watch_object.end_date_time
+                            }
+                        },
+                        ...
+                    ]
+                }
+        }
+
+        出错
+        {
+            'error': error message
+        }
+    """
     repo_query = db.session.query(Repo).filter(Owner.owner_name == owner).filter(Owner.owner_id == Repo.owner_id). \
         filter(Repo.repo_name == repo)
 
@@ -58,7 +87,7 @@ def get_repo_warning_dingtalk_watch_users(owner, repo):
             'repo': repo,
             'warning': {
                 'type': 'dingtalk',
-                'watch_users': user_list
+                'watching_user_list': user_list
             }
         }
     }
@@ -67,7 +96,37 @@ def get_repo_warning_dingtalk_watch_users(owner, repo):
 
 
 @api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/user/suggested')
-def get_repo_warning_watch_suggested_user(owner, repo):
+def get_repo_warning_watch_suggested_user(owner:str, repo:str):
+    """
+    返回该项目的推荐关注用户列表
+    :param owner:
+    :param repo:
+    :return:
+
+        正常情况
+        {
+            'data': {
+                'owner': owner,
+                'repo': repo,
+                'warning': {
+                    'type': 'dingtalk',
+                    'suggested_user_list': [
+                        {
+                            'owner_name': owner_name,
+                            'is_watching': true or false
+
+                        },
+                        ...
+                    ]
+                }
+            }
+        }
+
+        出错
+        {
+            'error': error message
+        }
+    """
     repo_query = db.session.query(Owner, Repo). \
         filter(Owner.owner_name == owner). \
         filter(Owner.owner_id == Repo.owner_id). \
@@ -118,7 +177,7 @@ def get_repo_warning_watch_suggested_user(owner, repo):
     for (an_user_name, a_dingtalk_user) in suggested_user_query_result:
         suggested_user_list.append({
             "owner_name": an_user_name,
-            "is_watched": a_dingtalk_user and True or False
+            "is_watching": a_dingtalk_user and True or False
         })
 
     result = {
