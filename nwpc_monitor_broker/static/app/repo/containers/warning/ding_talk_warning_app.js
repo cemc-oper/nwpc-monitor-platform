@@ -26,7 +26,6 @@ export default class DingTalkWarningApp extends Component{
         let owner = this.props.params.owner;
         let repo = this.props.params.repo;
         const { watching_user_list, suggested_user_list } = this.props;
-        console.log(suggested_user_list);
         return (
             <div>
                 <h3>钉钉</h3>
