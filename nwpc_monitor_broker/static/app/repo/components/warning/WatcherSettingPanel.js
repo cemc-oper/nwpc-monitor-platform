@@ -5,14 +5,12 @@ export default class WatcherSettingPanel extends Component{
         super(props);
     }
 
-    handleUnWatchClick(owner, repo, owner_name, event) {
-        const { dispatch } = this.props;
-        console.log('handleUnWatchClick', owner, repo, owner_name)
+    handleUnWatchClick(owner, repo, user, event) {
+        this.props.unwatch_click_handler(owner, repo, user)
     }
 
-    handleWatchClick(owner, repo, owner_name, event) {
-        const { dispatch } = this.props;
-        console.log('handleWatchClick', owner, repo, owner_name)
+    handleWatchClick(owner, repo, user, event) {
+        this.props.watch_click_handler(owner, repo, user)
     }
 
     render() {
@@ -28,11 +26,11 @@ export default class WatcherSettingPanel extends Component{
                             {
                                 an_user.is_watching?
                                     (<button className="btn btn-danger btn-xs active pull-right"
-                                        onClick={this.handleUnWatchClick.bind(this, owner, repo, an_user.owner_name)}>
+                                             onClick={this.handleUnWatchClick.bind(this, owner, repo, an_user.owner_name)}>
                                         取消
                                     </button>) :
                                     (<button className="btn btn-primary btn-xs pull-right"
-                                        onClick={this.handleWatchClick.bind(this, owner, repo, an_user.owner_name)}>
+                                             onClick={this.handleWatchClick.bind(this, owner, repo, an_user.owner_name)}>
                                         关注
                                     </button>)
                             }
@@ -55,5 +53,7 @@ WatcherSettingPanel.propTypes = {
         is_watching: PropTypes.bool.isRequired
     })).isRequired,
     owner: PropTypes.string.isRequired,
-    repo: PropTypes.string.isRequired
+    repo: PropTypes.string.isRequired,
+    watch_click_handler: PropTypes.func.isRequired,
+    unwatch_click_handler: PropTypes.func.isRequired
 };

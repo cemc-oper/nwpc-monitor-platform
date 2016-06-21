@@ -5,9 +5,8 @@ export default class WatchingUserList extends Component{
         super(props);
     }
 
-    handleUnWatchClick(owner, repo, owner_name, event) {
-        const { dispatch } = this.props;
-        console.log('handleUnWatchClick', owner, repo, owner_name)
+    handleUnWatchClick(owner, repo, user, event) {
+        this.props.unwatch_click_handler(owner, repo, user)
     }
 
     render() {
@@ -43,5 +42,6 @@ WatchingUserList.propTypes = {
         }).isRequired
     })).isRequired,
     owner: PropTypes.string.isRequired,
-    repo: PropTypes.string.isRequired
+    repo: PropTypes.string.isRequired,
+    unwatch_click_handler: PropTypes.func.isRequired
 };
