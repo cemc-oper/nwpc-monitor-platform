@@ -45,7 +45,7 @@ export default class DingTalkWarningApp extends Component{
 function mapStateToProps(state){
     return {
         type: 'dingtalk',
-        watching_user_list: state.repo.warning.ding_talk.watching_user_list
+        watching_user_list: state.repo.warning.ding_talk.watching_user.watching_user_list
     }
 }
 

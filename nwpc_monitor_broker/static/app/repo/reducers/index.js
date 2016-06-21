@@ -8,25 +8,34 @@ import {
 } from '../actions'
 
 
-function repo(state={
-    warning: {
-        ding_talk:{
-            owner: null,
-            repo: repo,
-            watching_user_list: []
-        }
-    }
+function ding_talk_watching_user_reducer(state={
+    owner: null,
+    repo: null,
+    watching_user_list: []
 }, action){
-    switch(action.type){
+    switch (action.type) {
         case RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS:
             return Object.assign({}, state, {
-                warning: {
-                    ding_talk: {
-                        owner: action.response.data.data.owner,
-                        repo: action.response.data.data.repo,
-                        watching_user_list: action.response.data.data.warning.watching_user_list
-                    }
-                }
+                owner: action.response.data.data.owner,
+                repo: action.response.data.data.repo,
+                watching_user_list: action.response.data.data.warning.watching_user_list
+            });
+        default:
+            return state;
+    }
+}
+
+function ding_talk_reducer(state = {
+    watching_user: {
+        owner: null,
+        repo: null,
+        watching_user_list: []
+    }
+}, action) {
+    switch (action.type) {
+        case RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS:
+            return Object.assign({}, state, {
+                watching_user: ding_talk_watching_user_reducer(state.watching_user, action)
             });
         default:
             return state;
@@ -34,9 +43,48 @@ function repo(state={
 }
 
 
+function warning_reducer(state={
+    ding_talk:{
+        watching_user: {
+            owner: null,
+            repo: null,
+            watching_user_list: []
+        }
+    }
+}, action) {
+    switch (action.type) {
+        case RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS:
+            return Object.assign({}, state, {
+                ding_talk: ding_talk_reducer(state.ding_talk, action)
+            });
+        default:
+            return state;
+    }
+}
+
+function repo_reducer(state={
+    warning: {
+        ding_talk:{
+            watching_user: {
+                owner: null,
+                repo: null,
+                watching_user_list: []
+            }
+        }
+    }
+}, action){
+    switch(action.type){
+        case RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS:
+            return Object.assign({}, state, {
+                warning: warning_reducer(state.warning, action)
+            });
+        default:
+            return state;
+    }
+}
 
 const repoAppReducer = combineReducers({
-    repo,
+    repo:repo_reducer,
     routing
 });
 
