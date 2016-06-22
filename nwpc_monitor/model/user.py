@@ -4,6 +4,7 @@ from .model import Model
 from .org import Org
 from .org_user import OrgUser
 
+
 class User(Model):
     __tablename__ = "user"
 
@@ -16,9 +17,10 @@ class User(Model):
 
     @staticmethod
     def query_repo_members_by_org_name(session, org_name):
-        query = session.query(User).filter(Org.org_name == org_name)\
-            .filter(Org.owner_id == OrgUser.org_id)\
-            .filter(OrgUser.user_id == User.owner_id)
+        query = session.query(User).filter(Org.org_name == org_name).\
+            filter(Org.owner_id == OrgUser.org_id).\
+            filter(OrgUser.user_id == User.owner_id).\
+            order_by(User.user_name)
 
         query_result = query.all()
 

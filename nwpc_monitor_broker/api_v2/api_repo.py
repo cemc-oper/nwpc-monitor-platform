@@ -67,7 +67,8 @@ def get_repo_warning_dingtalk_watch_users(owner: str, repo: str):
     watch_user_query = db.session.query(Owner, DingtalkUser, DingtalkWarnWatch). \
         filter(DingtalkWarnWatch.repo_id == repo_object.repo_id). \
         filter(DingtalkWarnWatch.dingtalk_user_id == DingtalkUser.dingtalk_user_id). \
-        filter(DingtalkUser.user_id == Owner.owner_id)
+        filter(DingtalkUser.user_id == Owner.owner_id). \
+        order_by(Owner.owner_name)
     watch_user_query_result = watch_user_query.all()
 
     user_list = []
@@ -171,7 +172,7 @@ def get_repo_warning_watch_suggested_user(owner: str, repo: str):
                     DingtalkWarnWatch.dingtalk_user_id == suggested_user_dingtalk_user_id_query.c.dingtalk_user_id,
                     DingtalkWarnWatch.repo_id == repo_object.repo_id
                   )
-        )
+        ).order_by(suggested_user_dingtalk_user_id_query.c.owner_name)
 
     suggested_user_query_result = suggested_user_query.all()
     for (an_user_name, a_dingtalk_user) in suggested_user_query_result:

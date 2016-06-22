@@ -41,6 +41,7 @@ def get_org_repos(org):
 
     return jsonify(result)
 
+
 @api_v2_app.route('/orgs/<org>/members')
 def get_org_members(org):
     query_member_result = User.query_repo_members_by_org_name(db.session, org)
