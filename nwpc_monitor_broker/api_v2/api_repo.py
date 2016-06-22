@@ -13,8 +13,8 @@ from nwpc_monitor.model import Repo, Owner, OrgUser, DingtalkUser, DingtalkWarnW
 from sqlalchemy import and_, func
 
 
-@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watch/users')
-def get_repo_warning_dingtalk_watch_users(owner:str, repo:str):
+@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watch/watchers')
+def get_repo_warning_dingtalk_watch_users(owner: str, repo: str):
     """
     返回关注该项目的用户
     :param owner:
@@ -95,8 +95,8 @@ def get_repo_warning_dingtalk_watch_users(owner:str, repo:str):
     return jsonify(result)
 
 
-@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/user/suggested')
-def get_repo_warning_watch_suggested_user(owner:str, repo:str):
+@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watch/watchers/suggested')
+def get_repo_warning_watch_suggested_user(owner: str, repo: str):
     """
     返回该项目的推荐关注用户列表
     :param owner:
@@ -194,7 +194,7 @@ def get_repo_warning_watch_suggested_user(owner:str, repo:str):
     return jsonify(result)
 
 
-@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watcher/<user>', methods=['POST'])
+@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watch/watcher/<user>', methods=['POST'])
 def create_dingtalk_watcher(owner, repo, user):
     query_user_result = Owner.query_owner_by_owner_name(db.session, user)
     if 'error' in query_user_result:
@@ -269,7 +269,7 @@ def create_dingtalk_watcher(owner, repo, user):
     })
 
 
-@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watcher/<user>', methods=['DELETE'])
+@api_v2_app.route('/repos/<owner>/<repo>/warning/dingtalk/watch/watcher/<user>', methods=['DELETE'])
 def delete_dingtalk_watcher(owner, repo, user):
     user_query = db.session.query(DingtalkUser).\
         filter(Owner.owner_name == user).\

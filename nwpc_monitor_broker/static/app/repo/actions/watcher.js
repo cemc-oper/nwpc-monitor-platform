@@ -14,7 +14,7 @@ export function requestDingTalkWarningWatcherUser(owner, repo, user){
 export function fetchDingTalkWarningWatcherUser(owner, repo, user) {
     return function (dispatch) {
         dispatch(requestDingTalkWarningWatcherUser(owner, repo, user));
-        return fetch('/api/v2/repos/' + owner + '/' + repo + '/warning/dingtalk/watcher/' + user, {
+        return fetch('/api/v2/repos/' + owner + '/' + repo + '/warning/dingtalk/watch/watcher/' + user, {
             method: 'POST'
         })
             .then(response => response.json())
@@ -70,7 +70,7 @@ export function requestDeleteDingTalkWarningWatcherUser(owner, repo, user){
 export function fetchDeleteDingTalkWarningWatcherUser(owner, repo, user) {
     return function (dispatch) {
         dispatch(requestDeleteDingTalkWarningWatcherUser(owner, repo, user));
-        return fetch('/api/v2/repos/' + owner + '/' + repo + '/warning/dingtalk/watcher/' + user, {
+        return fetch('/api/v2/repos/' + owner + '/' + repo + '/warning/dingtalk/watch/watcher/' + user, {
             method: 'DELETE'
         })
             .then(response => response.json())

@@ -13,7 +13,7 @@ export function requestDingTalkWarningWatchUsers(owner, repo){
 export function fetchDingTalkWarningWatchUsers(owner, repo) {
     return function (dispatch) {
         dispatch(requestDingTalkWarningWatchUsers(owner, repo));
-        return fetch('/api/v2/repos/' + owner + '/' + repo + '/warning/dingtalk/watch/users')
+        return fetch('/api/v2/repos/' + owner + '/' + repo + '/warning/dingtalk/watch/watchers')
             .then(response => response.json())
             .then(data => dispatch(receiveDingTalkWarningWatchUsersSuccess({
                     data: data
@@ -64,7 +64,7 @@ export function requestDingTalkWarningSuggestedUsers(owner, repo){
 export function fetchDingTalkWarningSuggestedUsers(owner, repo) {
     return function (dispatch) {
         dispatch(requestDingTalkWarningSuggestedUsers(owner, repo));
-        return fetch('/api/v2/repos/' + owner + '/' + repo + '/warning/dingtalk/user/suggested')
+        return fetch('/api/v2/repos/' + owner + '/' + repo + '/warning/dingtalk/watch/watchers/suggested')
             .then(response => response.json())
             .then(data => dispatch(receiveDingTalkWarningSuggestedUsersSuccess({
                     data: data
