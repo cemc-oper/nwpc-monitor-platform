@@ -90,7 +90,7 @@ export default class DingTalkWarningApp extends Component{
                 />
                 <div>
                     <h4 id="warn_ding_talk_warn_policy_panel">报警策略设置</h4>
-                    <p>每当有新的任务出错就会发送报警信息</p>
+                    <p>有新的任务出错就会发送报警信息</p>
                 </div>
             </div>
         );
