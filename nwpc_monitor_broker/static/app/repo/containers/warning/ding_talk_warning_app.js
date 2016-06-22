@@ -59,25 +59,38 @@ export default class DingTalkWarningApp extends Component{
             <div>
                 <h3>钉钉</h3>
                 <div>
-                    <h4>概览</h4>
-                    <p>建设中</p>
+                    <h4 id="warn_ding_talk_overview">概览</h4>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <p>欢迎扫码加入我们的钉钉团队</p>
+                            <img src="/static/image/ding_talk_invite.png" />
+                        </div>
+                        <div className="col-md-6">
+                            <p>或者通过点击下面的链接加入团队</p>
+                            <a href="https://t.dingtalk.com/invite/index?code=76b2940f32">
+                                https://t.dingtalk.com/invite/index?code=76b2940f32
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <WatchingUserList owner={ owner }
-                                  repo={ repo }
-                                  type="dingtalk"
-                                  watching_user_list={ watching_user_list }
-                                  unwatch_click_handler={ this.handleUnWatchClick }
+                <WatchingUserList
+                    owner={ owner }
+                    repo={ repo }
+                    type="dingtalk"
+                    watching_user_list={ watching_user_list }
+                    unwatch_click_handler={ this.handleUnWatchClick }
                 />
-                <WatcherSettingPanel owner={ owner }
-                                     repo={ repo }
-                                     type="dingtalk"
-                                     suggested_user_list={ suggested_user_list }
-                                     watch_click_handler={ this.handleWatchClick }
-                                     unwatch_click_handler={ this.handleUnWatchClick }
+                <WatcherSettingPanel
+                    owner={ owner }
+                    repo={ repo }
+                    type="dingtalk"
+                    suggested_user_list={ suggested_user_list }
+                    watch_click_handler={ this.handleWatchClick }
+                    unwatch_click_handler={ this.handleUnWatchClick }
                 />
                 <div>
-                    <h4>报警策略设置</h4>
-                    <p>建设中</p>
+                    <h4 id="warn_ding_talk_warn_policy_panel">报警策略设置</h4>
+                    <p>每当有新的任务出错就会发送报警信息</p>
                 </div>
             </div>
         );

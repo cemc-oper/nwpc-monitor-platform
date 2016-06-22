@@ -33,15 +33,18 @@ class RepoWarningApp extends Component{
                         钉钉
                     </h3>
                     <div className="row list-group">
-                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk' }} className={ ding_talk_is_active?'list-group-item active':'list-group-item'}  >
+                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk' }}
+                              className={ ding_talk_is_active?'list-group-item active':'list-group-item'}  >
                             <span className="glyphicon glyphicon-fire" /> 概览
                         </Link>
-                        <a className="list-group-item">
+                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk' }}
+                              className="list-group-item">
                             <span className="glyphicon glyphicon-user" /> 人员设置
-                        </a>
-                        <a className="list-group-item">
+                        </Link>
+                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk' }}
+                              className="list-group-item">
                             <span className="glyphicon glyphicon-plane" /> 推送策略
-                        </a>
+                        </Link>
                     </div>
                     <h3 className="row">
                         微信
@@ -50,12 +53,14 @@ class RepoWarningApp extends Component{
                         <Link to={{ pathname:'/'+owner+'/'+repo+'/warning/weixin' }} className={ weixin_is_active?'list-group-item active':'list-group-item' }>
                             <span className="glyphicon glyphicon-fire" /> 概览
                         </Link>
-                        <a className="list-group-item">
+                        <Link to={{ pathname:'/'+owner+'/'+repo+'/warning/weixin' }}
+                              className="list-group-item">
                             <span className="glyphicon glyphicon-user" /> 人员设置
-                        </a>
-                        <a className="list-group-item">
+                        </Link>
+                        <Link to={{ pathname:'/'+owner+'/'+repo+'/warning/weixin' }}
+                              className="list-group-item">
                             <span className="glyphicon glyphicon-plane" /> 推送策略
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="col-md-10">
