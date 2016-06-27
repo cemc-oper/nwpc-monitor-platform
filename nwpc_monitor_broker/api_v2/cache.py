@@ -42,8 +42,14 @@ def save_sms_server_status_to_cache(owner: str, repo: str, sms_name: str, messag
     }
     sms_server_status.update(key, value, upsert=True)
 
-    # new nwpc_takler object system
+    return
 
+
+def save_sms_server_status_to_nwpc_takler_object_system(
+        owner: str, repo: str, sms_name: str,
+        message: dict,
+        error_task_dict_list: list
+) -> int:
     status_blob = Blob()
     status_blob.id = get_new_64bit_ticket()
     status_blob.owner = owner
@@ -59,6 +65,26 @@ def save_sms_server_status_to_cache(owner: str, repo: str, sms_name: str, messag
         }
     }
     status_blob.set_data(status_blob_data)
+    blobs_collection = nwpc_monitor_platform_mongodb.blobs
+    blobs_collection.insert_one(status_blob.to_dict())
+
+    aborted_tasks_blob = Blob()
+    aborted_tasks_blob.id = get_new_64bit_ticket()
+    aborted_tasks_blob.owner = owner
+    aborted_tasks_blob.repo = repo
+    aborted_tasks_blob_data = {
+        'type': 'aborted_tasks',
+        'name': 'sms_server_aborted_tasks',
+        'content': {
+            'status_blob_id': status_blob.id,
+            'sms_name': sms_name,
+            'update_time': datetime.datetime.now(),
+            'collected_time': message['time'],
+            'tasks': error_task_dict_list
+        }
+    }
+    aborted_tasks_blob.set_data(aborted_tasks_blob_data)
+    blobs_collection.insert_one(aborted_tasks_blob.to_dict())
 
     tree_object = Tree()
     tree_object.id = get_new_64bit_ticket()
@@ -70,10 +96,17 @@ def save_sms_server_status_to_cache(owner: str, repo: str, sms_name: str, messag
                 'type': 'status',
                 'name': 'sms_server_status',
                 'blob_id': status_blob.id
+            },
+            {
+                'type': 'aborted_tasks',
+                'name': 'sms_server_aborted_tasks',
+                'blob_id': aborted_tasks_blob.id
             }
         ]
     }
     tree_object.set_data(tree_object_data)
+    trees_collection = nwpc_monitor_platform_mongodb.trees
+    trees_collection.insert_one(tree_object.to_dict())
 
     commit_object = Commit()
     commit_object.id = get_new_64bit_ticket()
@@ -86,6 +119,11 @@ def save_sms_server_status_to_cache(owner: str, repo: str, sms_name: str, messag
         'committed_time': datetime.datetime.now()
     }
     commit_object.set_data(commit_object_data)
+    commits_collection = nwpc_monitor_platform_mongodb.commits
+    commits_collection.insert_one(commit_object.to_dict())
+
+    # NOTE:
+    #   如果只保存出错时的任务，Ref就失去意义
 
     # # find ref in mongodb
     # ref_collection = nwpc_monitor_platform_mongodb.refs
@@ -114,8 +152,8 @@ def save_sms_server_status_to_cache(owner: str, repo: str, sms_name: str, messag
     #     ref_found_result['timestamp'] = datetime.datetime.now()
     #     # save
     #     ref_collection.update(ref_key, ref_found_result, upsert=True)
+    return commit_object.id
 
-    return
 
 # redis
 dingtalk_access_token_key = "dingtalk_access_token"

@@ -7,7 +7,7 @@ tree object
     repo: repo,
     timestamp: timestamp,
     data: {
-        node: array of blob
+        nodes: array of blob
             [
                 {
                     type: type, [ status, aborted_tasks ],
@@ -49,7 +49,7 @@ class Tree(Base):
         # check data
         if type(data) != dict:
             return False
-        if 'node' not in data:
+        if 'nodes' not in data:
             return False
 
         # add data
