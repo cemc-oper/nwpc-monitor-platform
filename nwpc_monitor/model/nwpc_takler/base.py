@@ -5,9 +5,10 @@ Base class of all objects using in nwpc_takler
     id: id,
     owner: owner,
     repo: repo,
-    timestamp: timestamp
+    timestamp: datetime
 }
 """
+import datetime
 
 
 class Base(object):
@@ -15,7 +16,7 @@ class Base(object):
         self.id = None
         self.owner = None
         self.repo = None
-        self.timestamp = None
+        self.timestamp = datetime.datetime.now()
         self.data = None
 
     def is_valid(self):

@@ -7,7 +7,8 @@ ref object
     repo: repo,
     timestamp: timestamp,
     data: {
-        key: key
+        key: key,
+        type: type, [ commit, tree, blob ]
         id: id
     }
 }
@@ -29,6 +30,8 @@ class Ref(Base):
         if type(data) != dict:
             return False
         if 'key' not in data:
+            return False
+        if 'type' not in data:
             return False
         if 'id' not in data:
             return False
