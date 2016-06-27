@@ -39,7 +39,7 @@ def get_sms_status_task(repo):
 
     def get_sms_status(sms_user, sms_name, user):
         with cd(project_dir):
-            run("{program} {script} collect -o {owner} -r {repo} -u {user} -n {sms_name}".format(
+            run("{program} {script} -o {owner} -r {repo} -u {user} -n {sms_name}".format(
                 program=project_program,
                 script=project_script,
                 owner=owner_name,
