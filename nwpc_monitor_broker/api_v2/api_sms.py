@@ -14,8 +14,7 @@ from nwpc_monitor_broker.api_v2 import ding_talk, weixin
 from nwpc_monitor.nwpc_log import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 
 
-
-def is_new_abort_task_found(owner:str, repo:str, previous_server_status:str, error_task_dict_list:list):
+def is_new_abort_task_found(owner: str, repo: str, previous_server_status: str, error_task_dict_list:list):
     """
     是否发现新的出错任务
 
@@ -43,7 +42,7 @@ def is_new_abort_task_found(owner:str, repo:str, previous_server_status:str, err
     return new_error_task_found
 
 
-def is_new_abort_root_found(owner:str, repo:str, previous_server_status:str, current_server_status:str='abo'):
+def is_new_abort_root_found(owner: str, repo: str, previous_server_status: str, current_server_status: str='abo'):
     """
     是否刚发现根节点为出错状态
 
@@ -61,8 +60,9 @@ def is_new_abort_root_found(owner:str, repo:str, previous_server_status:str, cur
         return False
 
 
-"""
-message_data:
+def sms_status_message_handler(message_data: dict) -> None:
+    """
+    message_data:
     {
         "name": "sms_status_message_data",
         "type": "record",
@@ -78,12 +78,11 @@ message_data:
             }
         ]
     }
-"""
-def sms_status_message_handler(message_data: dict) -> None:
+    """
     owner = message_data['owner']
     repo = message_data['repo']
-    sms_name = message_data['sms_name'] # sms_name 应该与 repo 一致
-    #sms_user = message_data['sms_user']
+    sms_name = message_data['sms_name']   # sms_name 应该与 repo 一致
+    # sms_user = message_data['sms_user']
     message_time = message_data['time']
 
     bunch_dict = message_data['status']
@@ -125,7 +124,7 @@ def sms_status_message_handler(message_data: dict) -> None:
 
                 previous_server_status = cached_bunch.status
 
-                #if True:
+                # if True:
                 if is_new_abort_task_found(owner, repo, previous_server_status, error_task_dict_list):
                     warning_data = {
                         'owner': owner,
@@ -203,6 +202,7 @@ def get_dingtalk_access_token():
     result = auth.get_access_token_from_server()
     print(result)
     return jsonify(result)
+
 
 @api_v2_app.route('/weixin/access_token/get', methods=['GET'])
 def get_weixin_access_token():
