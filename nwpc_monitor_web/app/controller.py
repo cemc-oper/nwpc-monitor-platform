@@ -32,6 +32,7 @@ owner_list = {
     }
 }
 
+
 def get_owner_repo_status(owner, repo):
     key = "{owner}/{repo}/status".format(owner=owner, repo=repo)
     message_string = redis_client.get(key)
@@ -75,8 +76,10 @@ def get_owner_page(owner):
 
     return render_template("owner.html", owner=owner, owner_repo_status=owner_repo_status)
 
+
 @app.route('/<no_static:owner>/<repo>')
 @app.route('/<no_static:owner>/<repo>/')
+@app.route('/<no_static:owner>/<repo>/status/head/')
 def get_owner_repo_page(owner, repo):
     path = '/'
     last_updated_time = None
@@ -139,8 +142,8 @@ def get_owner_repo_page(owner, repo):
     return render_template("owner_repo.html", owner=owner, repo=repo, node_status=node_status)
 
 
-@app.route('/<no_static:owner>/<repo>/<path:sms_path>', methods=['GET'])
-def get_sms_page_by_path(owner, repo, sms_path):
+@app.route('/<no_static:owner>/<repo>/status/head/<path:sms_path>', methods=['GET'])
+def get_sms_status_page_by_path(owner, repo, sms_path):
     path = '/'
     last_updated_time = None
     children_status = []
