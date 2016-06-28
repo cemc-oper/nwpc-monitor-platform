@@ -93,6 +93,9 @@ def sms_status_message_handler(message_data: dict) -> None:
     sms_server_key = "{owner}/{repo}/status".format(owner=owner, repo=repo)
     print(sms_server_key)
 
+    takler_object_system_store_flag = False
+    takler_object_system_dict = None
+
     if len(bunch_dict) > 0:
         print('building bunch from message...')
 
@@ -130,12 +133,14 @@ def sms_status_message_handler(message_data: dict) -> None:
 
                 previous_server_status = cached_bunch.status
 
-                # if True:
-                if is_new_abort_task_found(owner, repo, previous_server_status, error_task_dict_list):
-                    commit_id = cache.save_sms_server_status_to_nwpc_takler_object_system(
+                if True:
+                # if is_new_abort_task_found(owner, repo, previous_server_status, error_task_dict_list):
+                    takler_object_system_dict = data_store.save_sms_server_status_to_nwpc_takler_object_system(
                         owner, repo, sms_name,
                         message_data, error_task_dict_list
                     )
+
+                    takler_object_system_store_flag = True
 
                     warning_data = {
                         'owner': owner,
@@ -172,9 +177,34 @@ def sms_status_message_handler(message_data: dict) -> None:
             owner=owner,
             repo=repo
         )
-        website_post_data = {
-            'message': json.dumps(message_data)
-        }
+        if takler_object_system_store_flag:
+            post_message = {
+                'app': 'nwpc_monitor_broker',
+                'event': 'post_sms_status',
+                'timestamp': datetime.datetime.now(),
+                'data': {
+                    'type': 'takler_object',
+                    'blobs': takler_object_system_dict['blobs'],
+                    'trees': takler_object_system_dict['trees'],
+                    'commits': takler_object_system_dict['commits']
+                }
+            }
+
+            website_post_data = {
+                'message': json.dumps(post_message)
+            }
+        else:
+            message_data['type'] = 'status'
+            post_message = {
+                'app': 'nwpc_monitor_broker',
+                'event': 'post_sms_status',
+                'timestamp': datetime.datetime.now(),
+                'data': message_data
+            }
+            website_post_data = {
+                'message': json.dumps(post_message)
+            }
+
         response = requests.post(website_url, data=website_post_data)
         print(response)
         return

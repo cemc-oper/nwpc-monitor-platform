@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import redis
+from pymongo import MongoClient
 from flask import Flask
 from flask.json import JSONEncoder
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -44,6 +45,10 @@ app.url_map.converters['no_static'] = NoStaticConverter
 redis_host = app.config['NWPC_MONITOR_WEB_CONFIG']['redis']['host']['ip']
 redis_port = app.config['NWPC_MONITOR_WEB_CONFIG']['redis']['host']['port']
 redis_client = redis.StrictRedis(host=redis_host, port=redis_port)
+
+
+mongodb_client = MongoClient(app.config['NWPC_MONITOR_WEB_CONFIG']['mongodb']['host']['ip'],
+                             app.config['NWPC_MONITOR_WEB_CONFIG']['mongodb']['host']['port'])
 
 from .api import api_app
 app.register_blueprint(api_app, url_prefix="/api/v1")
