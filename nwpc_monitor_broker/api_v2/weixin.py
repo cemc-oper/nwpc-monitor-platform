@@ -6,8 +6,8 @@ from flask import json
 from .cache import save_weixin_access_token_to_cache, get_weixin_access_token_from_cache
 from nwpc_monitor_broker.api_v2 import data_store
 
-class Auth(object):
 
+class Auth(object):
     def __init__(self, config: dict):
         """
         :param config:
@@ -86,6 +86,7 @@ class WeixinApp(object):
                     {"name": "sms_server_name", type: "string"},
                     {"name": "message_datetime", type: "datetime"},
                     {"name": "suite_error_map", type: "array"},
+                    {"name": "aborted_tasks_blob_id", type: "int"},
                 ]
             }
         :return:
@@ -98,6 +99,15 @@ class WeixinApp(object):
         warning_post_url = self.weixin_config['warn']['url'].format(
             weixin_access_token=weixin_access_token
         )
+
+        if warning_data['aborted_tasks_blob_id']:
+            message_url = (self.cloud_config['base']['url'] + '/{owner}/{repo}/aborted_tasks/{id}').format(
+                owner=warning_data['owner'],
+                repo=warning_data['repo'],
+                id=warning_data['aborted_tasks_blob_id']
+            )
+        else:
+            message_url = self.cloud_config['base']['url']
 
         form_suite_error_list = []
         for a_suite_name in warning_data['suite_error_map']:
@@ -122,7 +132,7 @@ class WeixinApp(object):
         for a_suite in form_suite_error_list:
             warning_post_message['text']['content'] += "\n" + a_suite['name'] + ' : ' + str(a_suite['count'])
 
-        warning_post_message['text']['content'] += '\n<a href=\"' + self.cloud_config['base']['url']+'">查看详情</a>'
+        warning_post_message['text']['content'] += '\n<a href=\"' + message_url + '">查看详情</a>'
 
         warning_post_headers = {
             'content-type': 'application/json'
