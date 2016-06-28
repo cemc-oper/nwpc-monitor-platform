@@ -142,12 +142,18 @@ def sms_status_message_handler(message_data: dict) -> None:
 
                     takler_object_system_store_flag = True
 
+                    aborted_tasks_blob_id = None
+                    for a_blob in takler_object_system_dict['blobs']:
+                        if a_blob['data']['type'] == 'aborted_tasks':
+                            aborted_tasks_blob_id = a_blob['id']
+
                     warning_data = {
                         'owner': owner,
                         'repo': repo,
                         'sms_server_name': sms_name,  # bunch.name
                         'message_datetime': message_datetime,
-                        'suite_error_map': suite_error_map
+                        'suite_error_map': suite_error_map,
+                        'aborted_tasks_blob_id': aborted_tasks_blob_id
                     }
 
                     ding_talk_app = ding_talk.DingTalkApp(

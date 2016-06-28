@@ -6,6 +6,7 @@ from flask import json
 from .cache import save_dingtalk_access_token_to_cache, get_dingtalk_access_token_from_cache
 from nwpc_monitor_broker.api_v2 import data_store
 
+
 class Auth(object):
     def __init__(self, config: dict):
         """
@@ -70,7 +71,6 @@ class DingTalkApp(object):
 
         self.auth = Auth(self.ding_talk_config['token'])
 
-
     def send_warning_message(self, warning_data):
         """
         :param warning_data:
@@ -84,6 +84,7 @@ class DingTalkApp(object):
                     {"name": "sms_server_name", type: "string"},
                     {"name": "message_datetime", type: "datetime"},
                     {"name": "suite_error_map", type: "array"},
+                    {"name": "aborted_tasks_blob_id", type: "int"},
                 ]
             }
         :return:
@@ -94,6 +95,15 @@ class DingTalkApp(object):
 
         auth = Auth(self.ding_talk_config['token'])
         dingtalk_access_token = auth.get_access_token()
+
+        if warning_data['aborted_tasks_blob_id']:
+            message_url = (self.cloud_config['base']['url'] + '/{owner}/{repo}/aborted_tasks/{id}').format(
+                owner=warning_data['owner'],
+                repo=warning_data['repo'],
+                id=warning_data['aborted_tasks_blob_id']
+            )
+        else:
+            message_url = self.cloud_config['base']['url']
 
         warning_post_url = self.ding_talk_config['warn']['url'].format(
             dingtalk_access_token=dingtalk_access_token
@@ -113,7 +123,7 @@ class DingTalkApp(object):
             "agentid": self.ding_talk_config['warn']['agentid'],
             "msgtype":"oa",
             "oa": {
-                "message_url": self.cloud_config['base']['url'],
+                "message_url": message_url,
                 "head": {
                     "bgcolor": "ffff0000",
                     "text": "业务系统报警"
