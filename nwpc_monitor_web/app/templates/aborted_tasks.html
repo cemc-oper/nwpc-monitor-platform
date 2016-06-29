@@ -17,16 +17,26 @@
 <p>更新时间：{% if aborted_tasks_content['update_time'] %}
                 <script type="text/javascript">
                     var repo_time = new Date("{{ aborted_tasks_content['update_time'] }}");
-                    write_delay_time(repo_time, cur_time)
+                    document.write(repo_time.toLocaleString());
                 </script>
             {% else %}
                 未知
             {% endif %}
 </p>
-<p>出错任务：</p>
+
+{% if aborted_tasks_content['update_time'] %}
+<p>更新时间：
+    <script type="text/javascript">
+        var repo_time = new Date("{{ aborted_tasks_content['update_time'] }}");
+        write_delay_time(repo_time, cur_time);
+    </script>
+</p>
+{% endif %}
+
+<div class="weui_cells_title">出错任务</div>
 <div class="weui_cells weui_cells_access">
 {% for a_task in aborted_tasks_content['tasks'] %}
-    <a class="weui_cell" href="#">
+    <div class="weui_cell">
         <div class="weui_cell_hd">
             {% if a_task['status'] %}
                 <script type="text/javascript">
@@ -44,8 +54,19 @@
         <div class="weui_cell_bd weui_cell_primary">
             <p>{{ a_task['path'] }}</p>
         </div>
-    </a>
+    </div>
 {% endfor %}
 </div>
+<div class="weui_cells_title">链接</div>
+<div class="weui_cells weui_cells_access">
+    <a class="weui_cell" href="/{{ owner }}/{{ repo }}">
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>最新状态</p>
+        </div>
+        <div class="weui_cell_ft">
+        </div>
+    </a>
+</div>
+
 </body>
 </html>
