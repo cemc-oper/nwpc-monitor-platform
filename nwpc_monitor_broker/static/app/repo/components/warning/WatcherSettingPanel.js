@@ -22,7 +22,10 @@ export default class WatcherSettingPanel extends Component{
                 <ui className="list-group">
                     {suggested_user_list.map((an_user, index) =>
                         <li className="list-group-item" key={an_user.owner_name}>
-                            <a href={ '/' + an_user.owner_name }>{an_user.owner_name}</a>
+                            <label>
+                                <input type="checkbox" /> <a href={ '/' + an_user.owner_name }>{an_user.owner_name}</a>
+                            </label>
+
                             {
                                 an_user.is_watching?
                                     (<button className="btn btn-danger btn-xs active pull-right"
@@ -36,7 +39,27 @@ export default class WatcherSettingPanel extends Component{
                             }
                         </li>
                     )}
+                    <li className="list-group-item">
+                        <button type="button" className="btn btn-default btn-xs">全选</button>
+                        <button type="button" className="btn btn-default btn-xs">取消全选</button>
+                        <button className="btn btn-default btn-xs pull-right" >
+                                取消
+                        </button>
+                        <button className="btn btn-default btn-xs pull-right" >
+                                关注
+                        </button>
+                    </li>
+
                 </ui>
+                <div className="row">
+                    <div className="col-md-6">
+
+                    </div>
+                    <div className="col-md-6">
+
+
+                    </div>
+                </div>
                 <div>
                     <h5>其他用户</h5>
                     <p>建设中</p>

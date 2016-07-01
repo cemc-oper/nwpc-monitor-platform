@@ -19,33 +19,23 @@ export default class WatchingUserList extends Component{
                 <ui className="list-group">
                     {watching_user_list.map((an_user, index) =>
                         <li className="list-group-item" key={an_user.owner_name}>
-
                             <label>
                                 <input type="checkbox" /> <a href={ '/' + an_user.owner_name }>{an_user.owner_name}</a>
                             </label>
-
                             <button className="btn btn-danger btn-xs active pull-right"
                                     onClick={this.handleUnWatchClick.bind(this, owner, repo, an_user.owner_name)} >
                                 取消
                             </button>
-
                         </li>
                     )}
-                </ui>
-                <div className="row">
-                    <div className="col-md-6">
-                        <button type="button" className="btn btn-default">全选</button>
-                        <button type="button" className="btn btn-default">全不选</button>
-                    </div>
-                    <div className="col-md-6">
-                        <button className="btn btn-primary pull-right" >
+                    <li className="list-group-item">
+                        <button type="button" className="btn btn-default btn-xs">全选</button>
+                        <button type="button" className="btn btn-default btn-xs">取消全选</button>
+                        <button className="btn btn-default btn-xs pull-right" >
                                 取消
                         </button>
-                        <button className="btn btn-danger pull-right" >
-                                关注
-                        </button>
-                    </div>
-                </div>
+                    </li>
+                </ui>
             </div>
         );
     }
