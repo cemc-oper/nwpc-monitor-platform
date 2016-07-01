@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import WatchingUserList from '../../components/warning/WatchingUserList'
+import WatchingPanel from '../../components/warning/WatchingPanel'
 import WatcherSettingPanel from '../../components/warning/WatcherSettingPanel'
 
 import {
@@ -73,7 +73,7 @@ export default class DingTalkWarningApp extends Component{
                         </div>
                     </div>
                 </div>
-                <WatchingUserList
+                <WatchingPanel
                     owner={ owner }
                     repo={ repo }
                     type="dingtalk"

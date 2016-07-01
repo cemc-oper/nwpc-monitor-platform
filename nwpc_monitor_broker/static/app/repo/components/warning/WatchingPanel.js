@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class WatchingUserList extends Component{
+export default class WatchingPanel extends Component{
     constructor(props) {
         super(props);
     }
@@ -41,7 +41,7 @@ export default class WatchingUserList extends Component{
     }
 }
 
-WatchingUserList.propTypes = {
+WatchingPanel.propTypes = {
     type: PropTypes.string.isRequired,
     watching_user_list: PropTypes.arrayOf(PropTypes.shape({
         owner_name: PropTypes.string.isRequired,
