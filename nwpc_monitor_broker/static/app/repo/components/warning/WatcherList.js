@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 export default class WatcherList extends Component{
     constructor(props) {
         super(props);
+        this.checked_users = [];
     }
 
     handleUnWatchClick(owner, repo, user, event) {
@@ -23,8 +24,20 @@ export default class WatcherList extends Component{
 
     }
 
-    handleCheckboxChange(user, event) {
-        console.log(event.target);
+    handleCheckboxClick(user, event) {
+        let flag = event.target.checked;
+        if(flag){
+            this.checked_users.push(user);
+        }
+        else{
+            let user_index = this.checked_users.indexOf(user);
+            if (user_index!=-1)
+            {
+                this.checked_users.splice(user_index, 1);
+            }
+        }
+
+        console.log(this.checked_users);
     }
 
     render() {
@@ -38,7 +51,7 @@ export default class WatcherList extends Component{
                         <li className="list-group-item" key={an_user.owner_name}>
                             <label>
                                 <input type="checkbox" value={an_user.owner_name}
-                                       onchange={this.handleCheckboxChange.bind(this, an_user.owner_name)} />
+                                       onClick={this.handleCheckboxClick.bind(this, an_user.owner_name)} />
                                 &nbsp;
                                 <a href={ '/' + an_user.owner_name }>{an_user.owner_name}</a>
                             </label>
