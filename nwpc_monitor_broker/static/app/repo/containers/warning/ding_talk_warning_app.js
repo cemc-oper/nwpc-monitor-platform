@@ -35,18 +35,24 @@ export default class DingTalkWarningApp extends Component{
         dispatch(fetchDingTalkWarningSuggestedUsers(owner, repo));
     }
 
-    handleWatchClick(owner, repo, user) {
+    handleWatchClick(owner, repo, users) {
         const { dispatch } = this.props;
-        dispatch(fetchDingTalkWarningWatcherUser(owner, repo, user));
-        console.log('handleWatchClick', owner, repo, user);
+        users.forEach(function(item, index, array){
+            let user = item;
+            dispatch(fetchDingTalkWarningWatcherUser(owner, repo, user));
+            console.log('handleWatchClick', owner, repo, user);
+        });
 
         this.updateWatcher(owner, repo);
     }
 
-    handleUnWatchClick(owner, repo, user) {
+    handleUnWatchClick(owner, repo, users) {
         const { dispatch } = this.props;
-        dispatch(fetchDeleteDingTalkWarningWatcherUser(owner, repo, user));
-        console.log('handleUnWatchClick', owner, repo, user);
+        users.forEach(function(item, index, array){
+            let user = item;
+            dispatch(fetchDeleteDingTalkWarningWatcherUser(owner, repo, user));
+            console.log('handleUnWatchClick', owner, repo, user);
+        });
 
         this.updateWatcher(owner, repo);
     }
