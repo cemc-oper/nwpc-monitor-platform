@@ -5,11 +5,13 @@ export default class WatcherList extends Component{
         super(props);
     }
 
-    handleUnWatchClick(owner, repo, users, event) {
+    handleUnWatchClick(owner, repo, user, event) {
+        let users = [user];
         this.props.unwatch_click_handler(owner, repo, users)
     }
 
-    handleWatchClick(owner, repo, users, event) {
+    handleWatchClick(owner, repo, user, event) {
+        let users = [user];
         this.props.watch_click_handler(owner, repo, users)
     }
 
@@ -24,7 +26,6 @@ export default class WatcherList extends Component{
     handleCheckboxChange(user, event) {
         console.log(event.target);
     }
-
 
     render() {
         const {owner, repo} = this.props;
@@ -55,8 +56,12 @@ export default class WatcherList extends Component{
                         </li>
                     )}
                     <li className="list-group-item">
-                        <button type="button" className="btn btn-default btn-xs">全选</button>
-                        <button type="button" className="btn btn-default btn-xs">取消全选</button>
+                        <button type="button" className="btn btn-default btn-xs">
+                            全选
+                        </button>
+                        <button type="button" className="btn btn-default btn-xs">
+                            取消全选
+                        </button>
                         <button className="btn btn-default btn-xs pull-right" onClick={this.handleAllUnCheckClick.bind(this)}>
                                 取消
                         </button>
@@ -72,6 +77,7 @@ export default class WatcherList extends Component{
 
 WatcherList.propTypes = {
     type: PropTypes.string.isRequired,
+
     watcher_list: PropTypes.arrayOf(PropTypes.shape({
         owner_name: PropTypes.string.isRequired,
         is_watching:PropTypes.bool.isRequired,
@@ -80,8 +86,19 @@ WatcherList.propTypes = {
             end_date_time: PropTypes.string
         })
     })).isRequired,
+
     owner: PropTypes.string.isRequired,
     repo: PropTypes.string.isRequired,
+
+    /**
+     * 取消某个项目的关注时调用的函数
+     *  unwatch_click_handler(owner, repo, users)
+     */
     unwatch_click_handler: PropTypes.func.isRequired,
+
+    /**
+     * 关注某个项目时调用的函数
+     *  unwatch_click_handler(owner, repo, users)
+     */
     watch_click_handler: PropTypes.func.isRequired
 };

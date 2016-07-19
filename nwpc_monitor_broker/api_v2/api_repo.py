@@ -34,7 +34,8 @@ def get_repo_warning_dingtalk_watch_users(owner: str, repo: str):
                             'warn_watch': {
                                 'start_date_time': ding_talk_warn_watch_object.start_date_time,
                                 'end_date_time': ding_talk_warn_watch_object.end_date_time
-                            }
+                            },
+                            'is_watching': True
                         },
                         ...
                     ]
@@ -78,7 +79,8 @@ def get_repo_warning_dingtalk_watch_users(owner: str, repo: str):
             'warn_watch': {
                 'start_date_time': ding_talk_warn_watch_object.start_date_time,
                 'end_date_time': ding_talk_warn_watch_object.end_date_time
-            }
+            },
+            'is_watching': True
         }
         user_list.append(an_user)
 

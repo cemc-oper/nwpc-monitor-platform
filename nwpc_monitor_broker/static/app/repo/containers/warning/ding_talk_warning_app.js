@@ -78,6 +78,7 @@ export default class DingTalkWarningApp extends Component{
                     repo={ repo }
                     type="dingtalk"
                     watching_user_list={ watching_user_list }
+                    watch_click_handler={ this.handleWatchClick }
                     unwatch_click_handler={ this.handleUnWatchClick }
                 />
                 <WatcherSettingPanel

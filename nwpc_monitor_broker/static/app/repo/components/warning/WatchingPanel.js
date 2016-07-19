@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import WatcherList from './WatcherList'
+
 export default class WatchingPanel extends Component{
     constructor(props) {
         super(props);
@@ -16,26 +18,14 @@ export default class WatchingPanel extends Component{
         return (
             <div>
                 <h4>推送列表</h4>
-                <ui className="list-group">
-                    {watching_user_list.map((an_user, index) =>
-                        <li className="list-group-item" key={an_user.owner_name}>
-                            <label>
-                                <input type="checkbox" /> <a href={ '/' + an_user.owner_name }>{an_user.owner_name}</a>
-                            </label>
-                            <button className="btn btn-danger btn-xs active pull-right"
-                                    onClick={this.handleUnWatchClick.bind(this, owner, repo, an_user.owner_name)} >
-                                取消
-                            </button>
-                        </li>
-                    )}
-                    <li className="list-group-item">
-                        <button type="button" className="btn btn-default btn-xs">全选</button>
-                        <button type="button" className="btn btn-default btn-xs">取消全选</button>
-                        <button className="btn btn-default btn-xs pull-right" >
-                                取消
-                        </button>
-                    </li>
-                </ui>
+                <WatcherList
+                    type={this.props.type}
+                    watcher_list = {watching_user_list}
+                    owner={owner}
+                    repo={repo}
+                    unwatch_click_handler={this.props.unwatch_click_handler}
+                    watch_click_handler={this.props.watch_click_handler}
+                />
             </div>
         );
     }
@@ -45,12 +35,14 @@ WatchingPanel.propTypes = {
     type: PropTypes.string.isRequired,
     watching_user_list: PropTypes.arrayOf(PropTypes.shape({
         owner_name: PropTypes.string.isRequired,
+        is_watching:PropTypes.bool.isRequired,
         warn_watch: PropTypes.shape({
             start_date_time: PropTypes.string,
             end_date_time: PropTypes.string
-        }).isRequired
+        })
     })).isRequired,
     owner: PropTypes.string.isRequired,
     repo: PropTypes.string.isRequired,
-    unwatch_click_handler: PropTypes.func.isRequired
+    unwatch_click_handler: PropTypes.func.isRequired,
+    watch_click_handler: PropTypes.func.isRequired
 };
