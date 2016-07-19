@@ -180,7 +180,11 @@ def get_repo_warning_watch_suggested_user(owner: str, repo: str):
     for (an_user_name, a_dingtalk_user) in suggested_user_query_result:
         suggested_user_list.append({
             "owner_name": an_user_name,
-            "is_watching": a_dingtalk_user and True or False
+            "is_watching": a_dingtalk_user and True or False,
+            # "warn_watch":{
+            #     "start_date_time": None,
+            #     "end_date_time": None
+            # }
         })
 
     result = {
