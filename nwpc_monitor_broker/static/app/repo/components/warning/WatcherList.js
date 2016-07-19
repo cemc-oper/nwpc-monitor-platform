@@ -3,7 +3,9 @@ import React, { Component, PropTypes } from 'react';
 export default class WatcherList extends Component{
     constructor(props) {
         super(props);
-        this.checked_users = [];
+        this.state = {
+            checked_users: []
+        };
     }
 
     handleUnWatchClick(owner, repo, user, event) {
@@ -17,27 +19,36 @@ export default class WatcherList extends Component{
     }
 
     handleAllCheckClick() {
-
+        const { watcher_list } = this.props;
+        let user_list = [];
+        watcher_list.forEach( function(item, index, array) {
+            user_list.push(item.owner_name);
+        });
+        this.setState({ checked_users: user_list});
     }
 
     handleAllUnCheckClick() {
-
+        this.setState( { checked_users: [] });
     }
 
     handleCheckboxClick(user, event) {
         let flag = event.target.checked;
-        if(flag){
-            this.checked_users.push(user);
-        }
-        else{
-            let user_index = this.checked_users.indexOf(user);
-            if (user_index!=-1)
-            {
-                this.checked_users.splice(user_index, 1);
+        if(flag) {
+            let user_index = this.state.checked_users.indexOf(user);
+            if (user_index == -1) {
+                let new_checked_users = this.state.checked_users;
+                new_checked_users.push(user);
+                this.setState({checked_users: new_checked_users});
             }
         }
-
-        console.log(this.checked_users);
+        else{
+            let user_index = this.state.checked_users.indexOf(user);
+            if (user_index!=-1) {
+                let new_checked_users = this.state.checked_users;
+                new_checked_users.splice(user_index, 1);
+                this.setState( { checked_users: new_checked_users});
+            }
+        }
     }
 
     render() {
@@ -51,7 +62,9 @@ export default class WatcherList extends Component{
                         <li className="list-group-item" key={an_user.owner_name}>
                             <label>
                                 <input type="checkbox" value={an_user.owner_name}
-                                       onClick={this.handleCheckboxClick.bind(this, an_user.owner_name)} />
+                                       onClick={this.handleCheckboxClick.bind(this, an_user.owner_name)}
+                                    checked={ this.state.checked_users.indexOf(an_user.owner_name) != -1 }
+                                />
                                 &nbsp;
                                 <a href={ '/' + an_user.owner_name }>{an_user.owner_name}</a>
                             </label>
@@ -69,16 +82,16 @@ export default class WatcherList extends Component{
                         </li>
                     )}
                     <li className="list-group-item">
-                        <button type="button" className="btn btn-default btn-xs">
+                        <button type="button" className="btn btn-default btn-xs" onClick={this.handleAllCheckClick.bind(this)}>
                             全选
                         </button>
-                        <button type="button" className="btn btn-default btn-xs">
+                        <button type="button" className="btn btn-default btn-xs" onClick={this.handleAllUnCheckClick.bind(this)}>
                             取消全选
                         </button>
-                        <button className="btn btn-default btn-xs pull-right" onClick={this.handleAllUnCheckClick.bind(this)}>
+                        <button className="btn btn-default btn-xs pull-right" >
                                 取消
                         </button>
-                        <button className="btn btn-default btn-xs pull-right" onClick={this.handleAllCheckClick.bind(this)}>
+                        <button className="btn btn-default btn-xs pull-right" >
                                 关注
                         </button>
                     </li>
