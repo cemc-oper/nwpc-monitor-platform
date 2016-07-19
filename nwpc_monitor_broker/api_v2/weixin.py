@@ -119,7 +119,7 @@ class WeixinApp(object):
                 })
 
         warning_post_message = {
-            "touser":"wangdp",
+            "touser":"@all",
             "agentid": self.weixin_config['warn']['agentid'],
             "msgtype":"text",
             "text": {
