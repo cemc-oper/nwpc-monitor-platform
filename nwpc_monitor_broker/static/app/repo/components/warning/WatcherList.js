@@ -51,6 +51,16 @@ export default class WatcherList extends Component{
         }
     }
 
+    handleCheckedWatchClick(event){
+        const { owner, repo } = this.props;
+        this.props.watch_click_handler(owner, repo, this.state.checked_users);
+    }
+
+    handleCheckedUnWatchClick(event){
+        const { owner, repo } = this.props;
+        this.props.unwatch_click_handler(owner, repo, this.state.checked_users);
+    }
+
     render() {
         const {owner, repo} = this.props;
         let watcher_list = this.props.watcher_list;
@@ -88,10 +98,10 @@ export default class WatcherList extends Component{
                         <button type="button" className="btn btn-default btn-xs" onClick={this.handleAllUnCheckClick.bind(this)}>
                             取消全选
                         </button>
-                        <button className="btn btn-default btn-xs pull-right" >
+                        <button className="btn btn-default btn-xs pull-right" onClick={this.handleCheckedUnWatchClick.bind(this)}>
                                 取消
                         </button>
-                        <button className="btn btn-default btn-xs pull-right" >
+                        <button className="btn btn-default btn-xs pull-right" onClick={this.handleCheckedWatchClick.bind(this)}>
                                 关注
                         </button>
                     </li>
