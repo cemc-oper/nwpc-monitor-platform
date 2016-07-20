@@ -81,6 +81,7 @@ export default class DingTalkWarningApp extends Component{
                     </div>
                 </div>
                 <WatchingPanel
+                    id="warn_ding_talk_warn_watching_panel"
                     owner={ owner }
                     repo={ repo }
                     type="dingtalk"
@@ -89,6 +90,7 @@ export default class DingTalkWarningApp extends Component{
                     unwatch_click_handler={ this.handleUnWatchClick }
                 />
                 <WatcherSettingPanel
+                    id="warn_ding_talk_warn_setting_panel"
                     owner={ owner }
                     repo={ repo }
                     type="dingtalk"
@@ -97,6 +99,7 @@ export default class DingTalkWarningApp extends Component{
                     unwatch_click_handler={ this.handleUnWatchClick }
                 />
                 <WarnPolicyPanel
+                    id="warn_ding_talk_warn_policy_panel"
                     owner={owner}
                     repo={repo}
                     type="dingtalk"

@@ -8,10 +8,10 @@ export default class WatcherSettingPanel extends Component{
     }
 
     render() {
-        const { owner, repo, suggested_user_list } = this.props;
+        const { id, owner, repo, suggested_user_list } = this.props;
         return (
             <div>
-                <h4>人员设置</h4>
+                <h4 id={id}>人员设置</h4>
                 <p>{owner}小组成员</p>
 
                 <WatcherList
@@ -41,6 +41,7 @@ export default class WatcherSettingPanel extends Component{
 }
 
 WatcherSettingPanel.propTypes = {
+    id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     suggested_user_list: PropTypes.arrayOf(PropTypes.shape({
         owner_name: PropTypes.string.isRequired,

@@ -33,15 +33,15 @@ class RepoWarningApp extends Component{
                         钉钉
                     </h3>
                     <div className="row list-group">
-                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk' }}
+                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk', hash:'#warn_ding_talk_overview' }}
                               className={ ding_talk_is_active?'list-group-item active':'list-group-item'}  >
                             <span className="glyphicon glyphicon-fire" /> 概览
                         </Link>
-                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk' }}
+                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk', hash:'#warn_ding_talk_warn_watching_panel' }}
                               className="list-group-item">
                             <span className="glyphicon glyphicon-user" /> 人员设置
                         </Link>
-                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk' }}
+                        <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk', hash:'#warn_ding_talk_warn_policy_panel' }}
                               className="list-group-item">
                             <span className="glyphicon glyphicon-plane" /> 推送策略
                         </Link>

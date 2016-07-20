@@ -6,10 +6,10 @@ export default class WarnPolicyPanel extends Component{
     }
 
     render() {
-        const { owner, repo } = this.props;
+        const { id, owner, repo} = this.props;
         return (
             <div>
-                <h4 id="warn_ding_talk_warn_policy_panel">报警策略设置</h4>
+                <h4 id={id}>报警策略设置</h4>
                 <p>有新的任务出错就会发送报警信息</p>
             </div>
         );
@@ -17,6 +17,7 @@ export default class WarnPolicyPanel extends Component{
 }
 
 WarnPolicyPanel.propTypes = {
+    id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     owner: PropTypes.string.isRequired,
     repo: PropTypes.string.isRequired
