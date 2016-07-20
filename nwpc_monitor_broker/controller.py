@@ -9,8 +9,10 @@ from flask import json, request, jsonify,render_template, abort
 def get_index_page():
     return render_template("index.html")
 
+
 @app.route('/<owner>')
-def get_owner_page(owner):
+@app.route('/orgs/<owner>/<path:path>')
+def get_owner_page(owner, path=None):
 
     query = db.session.query(Owner).filter(Owner.owner_name == owner)
     owner_object = query.first()
@@ -21,13 +23,13 @@ def get_owner_page(owner):
     if owner_object.owner_type == "org":
         return get_org_page(owner)
     elif owner_object.owner_type == "user":
-        return get_user_page(owner)
+        return get_user_page(owner, path=path)
     else:
         result = {'error':'wrong'}
         return jsonify(result)
 
 
-def get_user_page(user):
+def get_user_page(user, path=None):
     return render_template("user.html", user=user)
 
 
@@ -39,6 +41,7 @@ def get_org_page(org):
 @app.route('/<owner>/<repo>/')
 def get_repo_page(owner, repo):
     return render_template('repo.html', owner=owner, repo=repo)
+
 
 @app.route('/<no_static:owner>/<repo>/<path:path>')
 def get_repo_path_page(owner, repo, path):

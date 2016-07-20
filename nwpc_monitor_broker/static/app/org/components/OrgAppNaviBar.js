@@ -37,7 +37,7 @@ export default class OrgAppNaviBar extends Component{
                     <li  role="presentation"  className={ warning_is_active?'active':'' } >
                         <Link to={{ pathname:'/orgs/' + owner + '/warning' }} >报警</Link>
                     </li>
-                    <li  role="presentation"  className={ warning_is_active?'active':'' } >
+                    <li  role="presentation"  className={ settings_is_active?'active':'' } >
                         <Link to={{ pathname:'/orgs/' + owner + '/settings' }} >设置</Link>
                     </li>
                 </ul>
