@@ -31,7 +31,7 @@ export default class WatcherList extends Component{
         this.setState( { checked_users: [] });
     }
 
-    handleCheckboxClick(user, event) {
+    handleCheckboxChange(user, event) {
         let flag = event.target.checked;
         if(flag) {
             let user_index = this.state.checked_users.indexOf(user);
@@ -72,7 +72,7 @@ export default class WatcherList extends Component{
                         <li className="list-group-item" key={an_user.owner_name}>
                             <label>
                                 <input type="checkbox" value={an_user.owner_name}
-                                       onClick={this.handleCheckboxClick.bind(this, an_user.owner_name)}
+                                       onChange={this.handleCheckboxChange.bind(this, an_user.owner_name)}
                                     checked={ this.state.checked_users.indexOf(an_user.owner_name) != -1 }
                                 />
                                 &nbsp;
