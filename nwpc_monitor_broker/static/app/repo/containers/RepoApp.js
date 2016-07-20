@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PageHeader from '../../base/components/page_header'
 import RepoAppTitle from '../components/repo_app_title'
 import RepoAppNaviBar from '../components/repo_app_navi_bar'
-import RepoAppStatusTab from '../components/repo_app_status_tab'
 
 class RepoApp extends Component{
     componentDidMount(){
