@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import WatchingPanel from '../../components/warning/WatchingPanel'
 import WatcherSettingPanel from '../../components/warning/WatcherSettingPanel'
+import WarnPolicyPanel from '../../components/warning/WarnPolicyPanel'
 
 import {
     fetchDingTalkWarningWatchUsers,
@@ -95,10 +96,11 @@ export default class DingTalkWarningApp extends Component{
                     watch_click_handler={ this.handleWatchClick }
                     unwatch_click_handler={ this.handleUnWatchClick }
                 />
-                <div>
-                    <h4 id="warn_ding_talk_warn_policy_panel">报警策略设置</h4>
-                    <p>有新的任务出错就会发送报警信息</p>
-                </div>
+                <WarnPolicyPanel
+                    owner={owner}
+                    repo={repo}
+                    type="dingtalk"
+                />
             </div>
         );
     }
