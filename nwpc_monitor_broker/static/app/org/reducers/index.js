@@ -196,7 +196,7 @@ function warning_reducer(state={
         case RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS:
         case RECEIVE_DING_TALK_WARNING_SUGGESTED_USERS_SUCCESS:
             return Object.assign({}, state, {
-                warning: ding_talk_reducer(state.ding_talk, action)
+                ding_talk: ding_talk_reducer(state.ding_talk, action)
             });
         default:
             return state;
