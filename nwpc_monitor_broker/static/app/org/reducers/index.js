@@ -115,10 +115,98 @@ function orgMembers(state = {
     }
 }
 
+// warning reducer
+import {
+    REQUEST_DING_TALK_WARNING_WATCH_USERS,
+    RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS,
+    RECEIVE_DING_TALK_WARNING_WATCH_USERS_FAILURE,
+    REQUEST_DING_TALK_WARNING_SUGGESTED_USERS,
+    RECEIVE_DING_TALK_WARNING_SUGGESTED_USERS_SUCCESS,
+    RECEIVE_DING_TALK_WARNING_SUGGESTED_USERS_FAILURE,
+} from '../actions/warn'
+
+function ding_talk_watching_user_reducer(state={
+    owner: null,
+    watching_user_list: []
+}, action){
+    switch (action.type) {
+        case RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS:
+            return Object.assign({}, state, {
+                owner: action.response.data.data.owner,
+                watching_user_list: action.response.data.data.warning.watching_user_list
+            });
+        default:
+            return state;
+    }
+}
+
+function ding_talk_suggested_user_reducer(state={
+    owner: null,
+    suggested_user_list: []
+}, action){
+    switch (action.type) {
+        case RECEIVE_DING_TALK_WARNING_SUGGESTED_USERS_SUCCESS:
+            return Object.assign({}, state, {
+                owner: action.response.data.data.owner,
+                suggested_user_list: action.response.data.data.warning.suggested_user_list
+            });
+        default:
+            return state;
+    }
+}
+
+function ding_talk_reducer(state = {
+    watching_user: {
+        owner: null,
+        watching_user_list: []
+    },
+    suggested_user: {
+        owner: null,
+        suggested_user_list: []
+    }
+}, action) {
+    switch (action.type) {
+        case RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS:
+            return Object.assign({}, state, {
+                watching_user: ding_talk_watching_user_reducer(state.watching_user, action)
+            });
+        case RECEIVE_DING_TALK_WARNING_SUGGESTED_USERS_SUCCESS:
+            return Object.assign({}, state, {
+                suggested_user: ding_talk_suggested_user_reducer(state.suggested_user, action)
+            });
+        default:
+            return state;
+    }
+}
+
+
+function warning_reducer(state={
+    ding_talk:{
+        watching_user: {
+            owner: null,
+            watching_user_list: []
+        },
+        suggested_user: {
+            owner: null,
+            suggested_user_list: []
+        }
+    }
+}, action){
+    switch(action.type){
+        case RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS:
+        case RECEIVE_DING_TALK_WARNING_SUGGESTED_USERS_SUCCESS:
+            return Object.assign({}, state, {
+                warning: ding_talk_reducer(state.ding_talk, action)
+            });
+        default:
+            return state;
+    }
+}
 
 const orgAppReducer = combineReducers({
     orgRepos,
     orgMembers,
+    warning: warning_reducer,
     routing
 });
 

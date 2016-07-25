@@ -1,19 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import WatchingPanel from '../../components/warning/WatchingPanel'
-import WatcherSettingPanel from '../../components/warning/WatcherSettingPanel'
-import WarnPolicyPanel from '../../components/warning/WarnPolicyPanel'
+import WatchingPanel from '../../../repo/components/warning/WatchingPanel'
+import WatcherSettingPanel from '../../../repo/components/warning/WatcherSettingPanel'
+import WarnPolicyPanel from '../../../repo/components/warning/WarnPolicyPanel'
 
 import {
     fetchDingTalkWarningWatchUsers,
-    fetchDingTalkWarningSuggestedUsers
-} from '../../actions'
-
-import {
+    fetchDingTalkWarningSuggestedUsers,
     fetchDingTalkWarningWatcherUser,
     fetchDeleteDingTalkWarningWatcherUser
-} from '../../actions/watcher'
+} from '../../actions/warn'
+
 
 export default class DingTalkWarningApp extends Component{
     constructor(props) {
@@ -26,41 +24,41 @@ export default class DingTalkWarningApp extends Component{
     componentDidMount(){
         const { params } = this.props;
         let owner = params.owner;
-        let repo = params.repo;
-        this.updateWatcher(owner, repo)
+        let repo = '@all';
+        this.updateWatcher(owner)
     }
 
-    updateWatcher(owner, repo){
+    updateWatcher(owner){
         const { dispatch, params } = this.props;
-        dispatch(fetchDingTalkWarningWatchUsers(owner,repo));
-        dispatch(fetchDingTalkWarningSuggestedUsers(owner, repo));
+        dispatch(fetchDingTalkWarningWatchUsers(owner));
+        dispatch(fetchDingTalkWarningSuggestedUsers(owner));
     }
 
-    handleWatchClick(owner, repo, users) {
+    handleWatchClick(owner, users) {
         const { dispatch } = this.props;
         users.forEach(function(item, index, array){
             let user = item;
-            dispatch(fetchDingTalkWarningWatcherUser(owner, repo, user));
-            console.log('handleWatchClick', owner, repo, user);
+            dispatch(fetchDingTalkWarningWatcherUser(owner, user));
+            console.log('handleWatchClick', owner, user);
         });
 
-        this.updateWatcher(owner, repo);
+        this.updateWatcher(owner);
     }
 
-    handleUnWatchClick(owner, repo, users) {
+    handleUnWatchClick(owner, users) {
         const { dispatch } = this.props;
         users.forEach(function(item, index, array){
             let user = item;
-            dispatch(fetchDeleteDingTalkWarningWatcherUser(owner, repo, user));
-            console.log('handleUnWatchClick', owner, repo, user);
+            dispatch(fetchDeleteDingTalkWarningWatcherUser(owner, user));
+            console.log('handleUnWatchClick', owner, user);
         });
 
-        this.updateWatcher(owner, repo);
+        this.updateWatcher(owner);
     }
 
     render() {
         let owner = this.props.params.owner;
-        let repo = this.props.params.repo;
+        let repo = "@all";
         const { watching_user_list, suggested_user_list } = this.props;
         return (
             <div>
@@ -116,8 +114,8 @@ DingTalkWarningApp.propTypes = {
 function mapStateToProps(state){
     return {
         type: 'dingtalk',
-        watching_user_list: state.repo.warning.ding_talk.watching_user.watching_user_list,
-        suggested_user_list: state.repo.warning.ding_talk.suggested_user.suggested_user_list
+        watching_user_list: state.warning.ding_talk.watching_user.watching_user_list,
+        suggested_user_list: state.warning.ding_talk.suggested_user.suggested_user_list
     }
 }
 
