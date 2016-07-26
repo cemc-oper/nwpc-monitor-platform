@@ -127,12 +127,14 @@ import {
 
 function ding_talk_watching_user_reducer(state={
     owner: null,
+    repo_count: 0,
     watching_user_list: []
 }, action){
     switch (action.type) {
         case RECEIVE_DING_TALK_WARNING_WATCH_USERS_SUCCESS:
             return Object.assign({}, state, {
                 owner: action.response.data.data.owner,
+                repo_count: action.response.data.data.repo_count,
                 watching_user_list: action.response.data.data.warning.watching_user_list
             });
         default:
@@ -158,6 +160,7 @@ function ding_talk_suggested_user_reducer(state={
 function ding_talk_reducer(state = {
     watching_user: {
         owner: null,
+        repo_count: 0,
         watching_user_list: []
     },
     suggested_user: {
@@ -184,6 +187,7 @@ function warning_reducer(state={
     ding_talk:{
         watching_user: {
             owner: null,
+            repo_count: 0,
             watching_user_list: []
         },
         suggested_user: {

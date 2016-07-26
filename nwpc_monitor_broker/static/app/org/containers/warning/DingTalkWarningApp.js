@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import WatchingPanel from '../../../repo/components/warning/WatchingPanel'
-import WatcherSettingPanel from '../../../repo/components/warning/WatcherSettingPanel'
-import WarnPolicyPanel from '../../../repo/components/warning/WarnPolicyPanel'
+import WatchingPanel from '../../components/warning/WatchingPanel'
+import WatcherSettingPanel from '../../components/warning/WatcherSettingPanel'
+import WarnPolicyPanel from '../../components/warning/WarnPolicyPanel'
 
 import {
     fetchDingTalkWarningWatchUsers,
@@ -24,7 +24,6 @@ export default class DingTalkWarningApp extends Component{
     componentDidMount(){
         const { params } = this.props;
         let owner = params.owner;
-        let repo = '@all';
         this.updateWatcher(owner)
     }
 
@@ -58,8 +57,7 @@ export default class DingTalkWarningApp extends Component{
 
     render() {
         let owner = this.props.params.owner;
-        let repo = "@all";
-        const { watching_user_list, suggested_user_list } = this.props;
+        const { watching_user_list, suggested_user_list, repo_count } = this.props;
         return (
             <div>
                 <h3>钉钉</h3>
@@ -81,7 +79,7 @@ export default class DingTalkWarningApp extends Component{
                 <WatchingPanel
                     id="warn_ding_talk_warn_watching_panel"
                     owner={ owner }
-                    repo={ repo }
+                    repo_count={ repo_count }
                     type="dingtalk"
                     watching_user_list={ watching_user_list }
                     watch_click_handler={ this.handleWatchClick }
@@ -90,7 +88,7 @@ export default class DingTalkWarningApp extends Component{
                 <WatcherSettingPanel
                     id="warn_ding_talk_warn_setting_panel"
                     owner={ owner }
-                    repo={ repo }
+                    repo_count={ repo_count }
                     type="dingtalk"
                     suggested_user_list={ suggested_user_list }
                     watch_click_handler={ this.handleWatchClick }
@@ -99,7 +97,6 @@ export default class DingTalkWarningApp extends Component{
                 <WarnPolicyPanel
                     id="warn_ding_talk_warn_policy_panel"
                     owner={owner}
-                    repo={repo}
                     type="dingtalk"
                 />
             </div>
@@ -115,6 +112,7 @@ function mapStateToProps(state){
     return {
         type: 'dingtalk',
         watching_user_list: state.warning.ding_talk.watching_user.watching_user_list,
+        repo_count: state.warning.ding_talk.watching_user.repo_count,
         suggested_user_list: state.warning.ding_talk.suggested_user.suggested_user_list
     }
 }

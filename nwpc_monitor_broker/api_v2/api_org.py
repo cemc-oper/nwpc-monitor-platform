@@ -231,6 +231,7 @@ def get_org_warning_dingtalk_watch_users(owner: str):
     result = {
         'data': {
             'owner': owner,
+            'repo_count': repo_count,
             'warning': {
                 'type': 'dingtalk',
                 'watching_user_list': user_list
