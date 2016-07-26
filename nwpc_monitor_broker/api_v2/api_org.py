@@ -89,6 +89,7 @@ def get_org_warning_watch_suggested_user(owner: str):
                         {
                             'owner_name': owner_name,
                             'is_watching': true or false,
+                            'watching_repo_count': repo count
                         },
                         ...
                     ]
@@ -134,15 +135,31 @@ def get_org_warning_watch_suggested_user(owner: str):
         }
         return jsonify(result)
 
-    suggested_user_query_result = suggested_user_dingtalk_user_id_query.all()
-    for (an_user_name, a_dingtalk_user) in suggested_user_query_result:
+    member_to_dingtalk_user_id_query = db.session.query(Owner.owner_name, DingtalkUser.dingtalk_user_id). \
+        filter(Owner.owner_id == OrgUser.user_id). \
+        filter(OrgUser.org_id == owner_object.owner_id). \
+        filter(DingtalkUser.user_id == Owner.owner_id). \
+        subquery()
+
+    dingtalk_warn_watch_query = db.session.query(DingtalkWarnWatch.id, DingtalkWarnWatch.dingtalk_user_id). \
+        filter(DingtalkWarnWatch.repo_id == Repo.repo_id). \
+        filter(Repo.owner_id == owner_object.owner_id). \
+        subquery()
+
+    suggested_user_query = db.session.query(member_to_dingtalk_user_id_query.c.owner_name, func.count(dingtalk_warn_watch_query.c.id)). \
+        outerjoin(
+            dingtalk_warn_watch_query,
+            member_to_dingtalk_user_id_query.c.dingtalk_user_id == dingtalk_warn_watch_query.c.dingtalk_user_id,
+        ). \
+        order_by(member_to_dingtalk_user_id_query.c.owner_name).\
+        group_by(member_to_dingtalk_user_id_query.c.owner_name)
+
+    suggested_user_query_result = suggested_user_query.all()
+    for (an_user_name, repo_count) in suggested_user_query_result:
         suggested_user_list.append({
             "owner_name": an_user_name,
             "is_watching": False,
-            # "warn_watch":{
-            #     "start_date_time": None,
-            #     "end_date_time": None
-            # }
+            "watching_repo_count": repo_count
         })
 
     result = {
