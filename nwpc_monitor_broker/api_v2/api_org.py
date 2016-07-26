@@ -70,7 +70,7 @@ def get_org_members(org):
     return jsonify(result)
 
 
-# warn
+# 报警
 
 @api_v2_app.route('/orgs/<owner>/warning/dingtalk/watch/watchers/suggested')
 def get_org_warning_watch_suggested_user(owner: str):
@@ -151,6 +151,89 @@ def get_org_warning_watch_suggested_user(owner: str):
             'warning': {
                 'type': 'dingtalk',
                 'suggested_user_list': suggested_user_list
+            }
+        }
+    }
+
+    return jsonify(result)
+
+
+@api_v2_app.route('/orgs/<owner>/warning/dingtalk/watch/watchers')
+def get_org_warning_dingtalk_watch_users(owner: str):
+    """
+    返回关注某组织下的项目的用户
+    :param owner:
+    :return:
+
+        正常情况
+        {
+            'data': {
+                'owner': owner,
+                'warning': {
+                    'type': 'dingtalk',
+                    'watching_user_list': [
+                        {
+                            'owner_name': owner_object.owner_name,
+                            # 'warn_watch': {
+                            #     'start_date_time': ding_talk_warn_watch_object.start_date_time,
+                            #     'end_date_time': ding_talk_warn_watch_object.end_date_time
+                            # },
+                            'is_watching': True
+                        },
+                        ...
+                    ]
+                }
+        }
+
+        出错
+        {
+            'error': error message
+        }
+    """
+    repo_query = db.session.query(Owner, Repo). \
+        filter(Owner.owner_name == owner). \
+        filter(Owner.owner_id == Repo.owner_id)
+
+    repo_query_result = repo_query.all()
+
+    repo_count = len(repo_query_result)
+
+    if repo_count == 0:
+        result = {
+            'error': 'no repo for {owner}'.format(owner=owner)
+        }
+        return jsonify(result)
+
+    repo_object_list = []
+    (owner_object, repo_object) = repo_query_result[0]
+    for (an_owner_object, a_repo_object) in repo_query_result:
+        repo_object_list.append(a_repo_object)
+
+    watch_user_query = db.session.query(User.user_name, func.count(DingtalkWarnWatch.id)). \
+        filter(Owner.owner_id == owner_object.owner_id). \
+        filter(Repo.owner_id == Owner.owner_id). \
+        filter(DingtalkWarnWatch.repo_id == Repo.repo_id). \
+        filter(User.owner_id == DingtalkUser.user_id). \
+        filter(DingtalkUser.dingtalk_user_id == DingtalkWarnWatch.dingtalk_user_id). \
+        group_by(User.user_name)
+
+    watch_user_query_result = watch_user_query.all()
+
+    user_list = []
+    for (user_name, watch_repo_count) in watch_user_query_result:
+        an_user = {
+            'owner_name': user_name,
+            'watching_repo_count': watch_repo_count,
+            'is_watching': True
+        }
+        user_list.append(an_user)
+
+    result = {
+        'data': {
+            'owner': owner,
+            'warning': {
+                'type': 'dingtalk',
+                'watching_user_list': user_list
             }
         }
     }

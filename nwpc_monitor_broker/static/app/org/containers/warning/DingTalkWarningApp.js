@@ -30,7 +30,7 @@ export default class DingTalkWarningApp extends Component{
 
     updateWatcher(owner){
         const { dispatch, params } = this.props;
-        //dispatch(fetchDingTalkWarningWatchUsers(owner));
+        dispatch(fetchDingTalkWarningWatchUsers(owner));
         dispatch(fetchDingTalkWarningSuggestedUsers(owner));
     }
 
