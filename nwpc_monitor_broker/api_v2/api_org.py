@@ -402,6 +402,7 @@ def delete_org_dingtalk_watcher(owner, user):
     }
 
     """
+
     # check owner
     query_user_result = Owner.query_owner_by_owner_name(db.session, owner)
     if 'error' in query_user_result:
