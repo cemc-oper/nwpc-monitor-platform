@@ -274,7 +274,7 @@ def get_org_warning_dingtalk_watch_users(owner: str):
 
 
 @api_v2_app.route('/orgs/<owner>/warning/dingtalk/watch/watcher/<user>', methods=['POST'])
-def create_dingtalk_watcher_for_org(owner, user):
+def create_org_dingtalk_watcher(owner, user):
     """
     user关注owner/repo项目
 
@@ -374,6 +374,106 @@ def create_dingtalk_watcher_for_org(owner, user):
             new_watcher.repo_id = a_repo_id
             new_watcher.dingtalk_user_id = ding_talk_user_object.dingtalk_user_id
             db.session.add(new_watcher)
+
+    db.session.commit()
+
+    return jsonify({
+        'data': {
+            'status': 'ok'
+        }
+    })
+
+
+@api_v2_app.route('/orgs/<owner>/warning/dingtalk/watch/watcher/<user>', methods=['DELETE'])
+def delete_org_dingtalk_watcher(owner, user):
+    """
+    取消user对owner所有项目的关注
+
+    DELETE /orgs/<owner>/warning/dingtalk/watch/watcher/<user>
+
+    Input: none
+
+    Response:
+
+    {
+        'data': {
+            'status': 'ok'
+        }
+    }
+
+    """
+    # check owner
+    query_user_result = Owner.query_owner_by_owner_name(db.session, owner)
+    if 'error' in query_user_result:
+        result = {
+            'error': "get owner error",
+            'data': {
+                'message': query_user_result['error']
+            }
+        }
+        return jsonify(result)
+    elif query_user_result['data']['owner'] is None:
+        result = {
+            'error': "owner doesn't exist.",
+            'data': {
+            }
+        }
+        return jsonify(result)
+
+    owner_object = query_user_result['data']['owner']
+
+    # check user
+    user_sub_query = db.session.query(Owner). \
+        filter(Owner.owner_name == user). \
+        subquery()
+
+    user_query = db.session.query(user_sub_query.c.owner_id, DingtalkUser). \
+        outerjoin(DingtalkUser, DingtalkUser.user_id == user_sub_query.c.owner_id)
+
+    user_query_result = user_query.all()
+
+    if len(user_query_result) >1:
+        result = {
+            'error': "get user error",
+            'data': {
+                'message': 'we have more than one owner with a single name, please contact admin.'
+            }
+        }
+        return jsonify(result)
+
+    if user_query_result is None:
+        result = {
+            'error': "owner doesn't exist.",
+            'data': {
+            }
+        }
+        return jsonify(result)
+
+    user_id, ding_talk_user_object = user_query_result[0]
+
+    if ding_talk_user_object is None:
+        result = {
+            'error': "owner's dingtalk user doesn't exist.",
+            'data': {
+            }
+        }
+        return jsonify(result)
+
+    # query repos owned by owner
+    repo_query = db.session.query(Repo). \
+        filter(Owner.owner_name == owner). \
+        filter(Owner.owner_id == Repo.owner_id). \
+        subquery()
+
+    # query watcher
+    watcher_query = db.session.query(repo_query.c.repo_id, DingtalkWarnWatch). \
+        filter(DingtalkWarnWatch.dingtalk_user_id == ding_talk_user_object.dingtalk_user_id). \
+        filter(repo_query.c.repo_id == DingtalkWarnWatch.repo_id)
+
+    dt_warn_watch_result = watcher_query.all()
+
+    for (a_repo_id, a_dingtalk_warn_watch_object) in dt_warn_watch_result:
+        db.session.delete(a_dingtalk_warn_watch_object)
 
     db.session.commit()
 
