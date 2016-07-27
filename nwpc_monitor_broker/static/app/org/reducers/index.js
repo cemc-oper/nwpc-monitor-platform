@@ -150,6 +150,7 @@ function ding_talk_suggested_user_reducer(state={
         case RECEIVE_DING_TALK_WARNING_SUGGESTED_USERS_SUCCESS:
             return Object.assign({}, state, {
                 owner: action.response.data.data.owner,
+                repo_count: action.response.data.data.repo_count,
                 suggested_user_list: action.response.data.data.warning.suggested_user_list
             });
         default:
