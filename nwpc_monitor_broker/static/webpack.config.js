@@ -9,7 +9,8 @@ module.exports = {
         ],
         repo: [
             './app/repo/index.js'
-        ]
+        ],
+        user: './app/user/index.js'
     },
     output: {
         path: path.join(__dirname, 'dist'),

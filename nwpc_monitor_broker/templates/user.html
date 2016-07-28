@@ -18,7 +18,7 @@
     <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
 
     <!-- Custom styles for this template -->
-    <link href="/static/app/css/index.css" rel="stylesheet">
+    <link href="/static/app/css/main.css" rel="stylesheet">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -29,16 +29,14 @@
 
     <script src="/static/js/react.js"></script>
     <script src="/static/js/react-dom.js"></script>
+    <script src="/static/js/redux.js"></script>
     <script src="/static/js/react-redux.js"></script>
-    <script src="/static/js/browser.js"></script>
 
 </head>
 
 <body>
 
-<h1>User</h1>
-
-<p> {{user}} </p>
+<div class="container" id="user-app"></div>
 
 
 <!-- Bootstrap core JavaScript
@@ -50,7 +48,7 @@
 <!--&lt;!&ndash; IE10 viewport hack for Surface/desktop Windows 8 bug &ndash;&gt;-->
 <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
 
-<script type="text/babel" src="/static/app/welcome/welcome.js"></script>
+<script type="text/javascript" src="/static/dist/user.entry.js"></script>
 
 </body>
 </html>
