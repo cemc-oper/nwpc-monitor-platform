@@ -50,6 +50,11 @@ def get_index_page():
     return render_template("index.html")
 
 
+@app.route('/robots.txt')
+def get_robots_txt_file():
+    return render_template("robots.txt")
+
+
 @app.route('/<no_static:owner>')
 def get_owner_page(owner):
     repo_list = []
