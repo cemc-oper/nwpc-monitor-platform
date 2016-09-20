@@ -1,8 +1,8 @@
 """create tables
 
-Revision ID: 07dd3884295a
+Revision ID: 9cc5f9104d2e
 Revises: 
-Create Date: 2016-09-20 12:31:58.949134
+Create Date: 2016-09-20 15:50:47.772775
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '07dd3884295a'
+revision = '9cc5f9104d2e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -73,7 +73,7 @@ def upgrade():
     op.create_table('dingtalk_warn_watch',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('repo_id', sa.Integer(), nullable=False),
-    sa.Column('dingtalk_user_id', sa.Text(), nullable=False),
+    sa.Column('dingtalk_user_id', sa.Integer(), nullable=False),
     sa.Column('start_date_time', sa.DateTime(), nullable=True),
     sa.Column('end_date_time', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['dingtalk_user_id'], ['dingtalk_user.dingtalk_user_id'], ),

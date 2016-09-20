@@ -5,7 +5,7 @@ from .model import Model
 class Owner(Model):
     __tablename__ = "owner"
 
-    owner_id = Column(Integer(), primary_key=True, autoincrement=True)
+    owner_id = Column(Integer, primary_key=True, autoincrement=True)
     owner_name = Column(String(45), nullable=False)
     owner_type = Column(String(10), nullable=False) # [user, org]
 

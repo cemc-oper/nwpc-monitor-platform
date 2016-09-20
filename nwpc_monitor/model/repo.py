@@ -6,8 +6,8 @@ from .owner import Owner
 class Repo(Model):
     __tablename__ = "repo"
 
-    repo_id = Column(Integer(), primary_key=True)
-    owner_id = Column(Integer())
+    repo_id = Column(Integer, primary_key=True)
+    owner_id = Column(Integer)
     repo_name = Column(String(45))
     repo_type = Column(String(10)) # [sms]
     repo_description = Column(Text())
