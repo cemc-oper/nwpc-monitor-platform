@@ -1,3 +1,4 @@
+from .model import Model
 from .owner import Owner
 from .user import User
 from .org import Org
