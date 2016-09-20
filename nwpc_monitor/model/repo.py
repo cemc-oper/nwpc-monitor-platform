@@ -1,5 +1,5 @@
 # coding=utf-8
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, Index
 from .model import Model
 from .owner import Owner
 
@@ -11,6 +11,8 @@ class Repo(Model):
     repo_name = Column(String(45))
     repo_type = Column(String(10)) # [sms]
     repo_description = Column(Text())
+
+    index_owner_repo = Index("index_owner_repo", owner_id, repo_name, unique=True)
 
     def __init__(self):
         Model.__init__(self)

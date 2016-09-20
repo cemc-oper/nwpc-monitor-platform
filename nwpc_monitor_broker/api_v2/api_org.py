@@ -10,7 +10,7 @@ from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
 from nwpc_monitor_broker.api_v2 import data_store
 
-from nwpc_monitor.model import Repo, Owner, User, OrgUser, DingtalkUser, DingtalkWarnWatch
+from nwpc_monitor.model import Repo, Owner, User, OrgUser, DingtalkUser, DingtalkWarnWatch, Util
 
 from sqlalchemy import and_, func
 
@@ -46,7 +46,7 @@ def get_org_repos(org):
 
 @api_v2_app.route('/orgs/<org>/members')
 def get_org_members(org):
-    query_member_result = User.query_repo_members_by_org_name(db.session, org)
+    query_member_result = Util.query_repo_members_by_org_name(db.session, org)
     if 'error' in query_member_result:
         result = {
             'app': 'nwpc_monitor_broker',

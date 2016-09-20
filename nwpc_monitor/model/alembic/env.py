@@ -15,7 +15,11 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../../../")
+from nwpc_monitor.model import Model
+target_metadata = Model.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

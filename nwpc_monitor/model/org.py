@@ -1,13 +1,16 @@
 # coding=utf-8
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, Index, ForeignKey
 from .model import Model
+from .owner import Owner
 
 class Org(Model):
     __tablename__ = "org"
 
-    owner_id = Column(Integer(), primary_key=True)
-    org_name = Column(String(45))
+    owner_id = Column(Integer(), ForeignKey(Owner.owner_id), primary_key=True)
+    org_name = Column(String(45), nullable=False)
     org_description = Column(Text())
+
+    index_org_name = Index('index_org_name', org_name, unique=True)
 
     def __init__(self):
         Model.__init__(self)
