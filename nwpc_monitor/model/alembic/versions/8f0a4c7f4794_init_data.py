@@ -22,7 +22,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../../../../")
 from install.nwpc_monitor.model import init_data
-
+from nwpc_monitor.model import Owner, User, Org, OrgUser, Repo, DingtalkUser, DingtalkWarnWatch
 
 
 def upgrade():
@@ -45,3 +45,13 @@ def downgrade():
     init_data.remove_users(session)
     init_data.remove_orgs(session)
     init_data.remove_owners(session)
+
+    # op.execute("TRUNCATE TABLE " + DingtalkWarnWatch.__tablename__)
+    # op.execute("TRUNCATE TABLE " + DingtalkUser.__tablename__)
+    # op.execute("TRUNCATE TABLE " + Repo.__tablename__)
+    # op.execute("TRUNCATE TABLE " + OrgUser.__tablename__)
+    # op.execute("TRUNCATE TABLE " + Org.__tablename__)
+    # op.execute("TRUNCATE TABLE " + User.__tablename__)
+    # op.execute("TRUNCATE TABLE " + Owner.__tablename__)
+
+
