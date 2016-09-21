@@ -28,12 +28,20 @@ from install.nwpc_monitor.model import init_data
 def upgrade():
     bind = op.get_bind()
     session = Session(bind=bind)
-
     init_data.initial_owners(session)
+    init_data.initial_orgs(session)
+    init_data.initial_users(session)
+    init_data.initial_org_user(session)
+    init_data.init_repos(session)
+    init_data.init_dingtalk_users(session)
 
 
 def downgrade():
     bind = op.get_bind()
     session = Session(bind=bind)
-
+    init_data.remove_dingtalk_users(session)
+    init_data.remove_repos(session)
+    init_data.remove_org_user(session)
+    init_data.remove_users(session)
+    init_data.remove_orgs(session)
     init_data.remove_owners(session)
