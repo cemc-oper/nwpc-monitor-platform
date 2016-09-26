@@ -99,7 +99,7 @@ def post_sms_status(owner, repo):
             'tid': google_analytics_config['track_id'],
             'cid': google_analytics_config['client_id'],
             'dh': google_analytics_config['document_host'],
-            'dp': url_for('post_sms_status', owner=owner, repo=repo)
+            'dp': url_for('api_app.post_sms_status', owner=owner, repo=repo)
         }
         requests.post(google_analytics_config['url'], data=post_data)
 
@@ -158,7 +158,7 @@ def get_sms_status(owner, repo):
             'tid': google_analytics_config['track_id'],
             'cid': google_analytics_config['client_id'],
             'dh': google_analytics_config['document_host'],
-            'dp': url_for('get_sms_status', owner=owner, repo=repo)
+            'dp': url_for('api_app.get_sms_status', owner=owner, repo=repo)
         }
         requests.post(google_analytics_config['url'], data=post_data)
 
