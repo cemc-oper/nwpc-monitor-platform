@@ -1,4 +1,6 @@
 # coding=utf-8
+
+
 class NodeVisitor(object):
     def __init__(self):
         pass
@@ -30,6 +32,7 @@ class SimplePrintVisitor(NodeVisitor):
     def after_visit_child(self):
         self.level -= 1
 
+
 class ErrorStatusTaskVisitor(NodeVisitor):
     def __init__(self):
         NodeVisitor.__init__(self)
@@ -49,6 +52,7 @@ class ErrorStatusTaskVisitor(NodeVisitor):
 
     def after_visit_child(self):
         self.level -= 1
+
 
 class SubTreeNodeVisitor(NodeVisitor):
     def __init__(self, max_depth):
@@ -74,6 +78,7 @@ def pre_order_travel(root_node, visitor):
         visitor.before_visit_child()
         pre_order_travel(child_node, visitor)
         visitor.after_visit_child()
+
 
 def pre_order_travel_dict(root_dict, visitor):
     visitor.visit(root_dict)
