@@ -59,7 +59,6 @@ class Bunch(Node):
         return cur_node
 
     def add_node_status(self, node_status_object):
-
         node_path = node_status_object['path']
         node_status = node_status_object['status']
         node_name = node_status_object['name']
@@ -90,7 +89,6 @@ class Bunch(Node):
                 cur_node.add_child(t_node)
             cur_node = t_node
         return cur_node
-
 
     def find_node(self, node_path):
         if node_path == '/':
