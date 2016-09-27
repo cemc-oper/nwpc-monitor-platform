@@ -1,7 +1,7 @@
 from flask import request, json, jsonify, url_for
 import requests
 
-from nwpc_monitor.nwpc_log.visitor import SubTreeNodeVisitor, pre_order_travel_dict
+from nwpc_work_flow_model.sms.visitor import SubTreeNodeVisitor, pre_order_travel_dict
 from nwpc_monitor_web.app.api import api_app
 from nwpc_monitor_web.app import app, redis_client, mongodb_client
 
