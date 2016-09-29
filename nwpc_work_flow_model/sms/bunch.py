@@ -25,6 +25,7 @@ class Bunch(Node):
         bunch = Bunch()
         bunch.parent = parent
         bunch.name = node_dict['name']
+        bunch.status = node_dict['status']
         for a_child_item in node_dict['children']:
             a_child_node = Node.create_from_dict(a_child_item, parent=bunch)
             bunch.children.append(a_child_node)
