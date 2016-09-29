@@ -14,8 +14,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest:6200, host:6200
   config.vm.network :forwarded_port, guest:6201, host:6201
   # local develop port
-  config.vm.network :forwarded_port, guest:6210, host:6210
-  config.vm.network :forwarded_port, guest:6211, host:6211
+  config.vm.network :forwarded_port, guest:6220, host:6220
+  config.vm.network :forwarded_port, guest:6221, host:6221
 
   config.ssh.private_key_path = "C:/Users/wangdp/.ssh/id_rsa"
   config.ssh.password = "vagrant"

@@ -56,6 +56,8 @@ def load_config():
             config_file_name = "production.config.yaml"
         elif mode == 'develop':
             config_file_name = "develop.config.yaml"
+        else:
+            config_file_name = mode + ".config.yaml"
 
     config_file_directory = os.path.dirname(__file__) + "/conf"
 
