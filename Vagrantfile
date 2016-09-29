@@ -7,10 +7,15 @@ Vagrant.configure("2") do |config|
   config.vm.define vm_name = "nwpc-monitor-platform"
   config.vm.hostname = vm_name
 
-  config.vm.network :forwarded_port, guest: 80, host: 6080
-  config.vm.network :forwarded_port, guest:22, host: 2300
-  config.vm.network :forwarded_port, guest:6200, host: 6200
-  config.vm.network :forwarded_port, guest:6201, host: 6201
+  config.vm.network :forwarded_port, guest:80, host:6280
+  # ssh port
+  config.vm.network :forwarded_port, guest:22, host:2300
+  # develop port
+  config.vm.network :forwarded_port, guest:6200, host:6200
+  config.vm.network :forwarded_port, guest:6201, host:6201
+  # local develop port
+  config.vm.network :forwarded_port, guest:6210, host:6210
+  config.vm.network :forwarded_port, guest:6211, host:6211
 
   config.ssh.private_key_path = "C:/Users/wangdp/.ssh/id_rsa"
   config.ssh.password = "vagrant"
