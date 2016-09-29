@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>NWPC 业务运行监控</title>
-    <link type="text/css" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css" rel="stylesheet" />
+    <link type="text/css" href="//res.wx.qq.com/open/libs/weui/1.0.1/weui.min.css" rel="stylesheet" />
     <link type="text/css" href="/static/css/main.css" rel="stylesheet" />
     <script type="text/javascript" src="/static/app/index.js"></script>
 </head>
 <body>
 <h1 class="page_title"><a href="/{{ owner }}">{{ owner }}</a></h1>
-<div class="weui_cells weui_cells_access">
+<div class="weui-cells weui-cells_access">
 {% for a_repo in owner_repo_status %}
 
-    <a class="weui_cell" href="/{{ owner }}/{{ a_repo['repo'] }}">
-        <div class="weui_cell_hd">
+    <a class="weui-cell" href="/{{ owner }}/{{ a_repo['repo'] }}">
+        <div class="weui-cell__hd">
             {% if a_repo['status'] %}
                 <script type="text/javascript">
                     var repo_status="{{ a_repo['status'] }}";
@@ -28,10 +28,10 @@
                 document.write('<img src="'+ get_status_background_image(repo_status) +'" alt="icon" style="width:40px;margin-right:5px;display:block">');
             </script>
         </div>
-        <div class="weui_cell_bd weui_cell_primary">
+        <div class="weui-cell__bd weui-cell_primary">
             <p>{{ a_repo['repo'] }}</p>
         </div>
-        <div class="weui_cell_ft">
+        <div class="weui-cell__ft">
             {% if a_repo['last_updated_time'] %}
                 <script type="text/javascript">
                     var repo_time = new Date("{{ a_repo['last_updated_time'] }}");

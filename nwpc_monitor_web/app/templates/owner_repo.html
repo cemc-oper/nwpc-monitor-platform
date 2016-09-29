@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>NWPC 业务运行监控</title>
-    <link type="text/css" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css" rel="stylesheet" />
+    <link type="text/css" href="//res.wx.qq.com/open/libs/weui/1.0.1/weui.min.css" rel="stylesheet" />
     <link type="text/css" href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" />
     <script type="text/javascript" src="{{ url_for('static', filename='app/index.js') }}"></script>
 </head>
@@ -24,10 +24,11 @@
             {% endif %}
 </p>
 <p>当前路径：{{ node_status['path'] }}</p>
-<div class="weui_cells weui_cells_access">
+<div class="weui-cells weui-cells_access">
 {% for a_child in node_status['children'] %}
-    <a class="weui_cell" href="/{{ owner }}/{{ repo }}/status/head{{ a_child['path'] }}">
-        <div class="weui_cell_hd">
+    <a class="weui-cell" href="/{{ owner }}/{{ repo }}/status/head{{ a_child['path'] }}">
+
+        <div class="weui-cell__hd">
             {% if a_child['status'] %}
                 <script type="text/javascript">
                     var repo_status="{{ a_child['status'] }}";
@@ -41,10 +42,12 @@
                 document.write('<img src="'+ get_status_background_image(repo_status) +'" alt="icon" style="width:40px;margin-right:5px;display:block">');
             </script>
         </div>
-        <div class="weui_cell_bd weui_cell_primary">
+
+        <div class="weui-cell__bd">
             <p>{{ a_child['name'] }}</p>
         </div>
-        <div class="weui_cell_ft">
+
+        <div class="weui-cell__ft">
             {% if node_status['last_updated_time'] %}
                 <script type="text/javascript">
                     var repo_time = new Date("{{ a_child['last_updated_time'] }}");

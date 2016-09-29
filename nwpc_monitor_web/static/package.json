@@ -9,9 +9,9 @@
   "author": "***REMOVED***roc",
   "license": "GPL-3.0",
   "dependencies": {
-    "css-loader": "^0.23.1",
+    "css-loader": "^0.25.0",
     "isomorphic-fetch": "^2.2.1",
-    "jquery": "^2.2.4",
+    "jquery": "^3.1.1",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
@@ -22,7 +22,7 @@
     "redux-thunk": "^2.1.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
-    "weui": "^0.4.2"
+    "weui": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.9.1",

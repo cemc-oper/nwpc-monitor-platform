@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>NWPC 业务运行监控</title>
-    <link type="text/css" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css" rel="stylesheet" />
+    <link type="text/css" href="//res.wx.qq.com/open/libs/weui/1.0.1/weui.min.css" rel="stylesheet" />
     <link type="text/css" href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" />
     <script type="text/javascript" src="{{ url_for('static', filename='app/index.js') }}"></script>
 </head>
@@ -33,11 +33,11 @@
 </p>
 {% endif %}
 
-<div class="weui_cells_title">出错任务</div>
-<div class="weui_cells weui_cells_access">
+<div class="weui-cells__title">出错任务</div>
+<div class="weui-cells weui-cells_access">
 {% for a_task in aborted_tasks_content['tasks'] %}
-    <div class="weui_cell">
-        <div class="weui_cell_hd">
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
             {% if a_task['status'] %}
                 <script type="text/javascript">
                     var task_status="{{ a_task['status'] }}";
@@ -51,19 +51,19 @@
                 document.write('<img src="'+ get_status_background_image(task_status) +'" alt="icon" style="width:40px;margin-right:5px;display:block">');
             </script>
         </div>
-        <div class="weui_cell_bd weui_cell_primary">
+        <div class="weui-cell__bd weui-cell_primary">
             <p>{{ a_task['path'] }}</p>
         </div>
     </div>
 {% endfor %}
 </div>
-<div class="weui_cells_title">链接</div>
-<div class="weui_cells weui_cells_access">
-    <a class="weui_cell" href="/{{ owner }}/{{ repo }}">
-        <div class="weui_cell_bd weui_cell_primary">
+<div class="weui-cells__title">链接</div>
+<div class="weui-cells weui-cells_access">
+    <a class="weui-cell" href="/{{ owner }}/{{ repo }}">
+        <div class="weui-cell__bd weui-cell_primary">
             <p>最新状态</p>
         </div>
-        <div class="weui_cell_ft">
+        <div class="weui-cell__ft">
         </div>
     </a>
 </div>
