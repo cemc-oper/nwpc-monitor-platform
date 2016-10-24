@@ -33,11 +33,11 @@
 </p>
 {% endif %}
 
-<div class="weui-cells__title">出错任务</div>
-<div class="weui-cells weui-cells_access">
-{% for a_task in aborted_tasks_content['tasks'] %}
-    <div class="weui-cell">
-        <div class="weui-cell__hd">
+<article class="weui-article">
+<section>
+    <h1>出错任务</h1>
+    {% for a_task in aborted_tasks_content['tasks'] %}
+        <p>
             {% if a_task['status'] %}
                 <script type="text/javascript">
                     var task_status="{{ a_task['status'] }}";
@@ -48,15 +48,14 @@
                 </script>
             {% endif %}
             <script type="text/javascript">
-                document.write('<img src="'+ get_status_background_image(task_status) +'" alt="icon" style="width:40px;margin-right:5px;display:block">');
+                document.write('<img src="'+ get_status_background_image(task_status) +'" alt="icon" style="width:40px;margin-right:5px;">');
             </script>
-        </div>
-        <div class="weui-cell__bd weui-cell_primary">
-            <p>{{ a_task['path'] }}</p>
-        </div>
-    </div>
-{% endfor %}
-</div>
+            {{ a_task['path'] }}
+        </p>
+    {% endfor %}
+</section>
+</article>
+
 <div class="weui-cells__title">链接</div>
 <div class="weui-cells weui-cells_access">
     <a class="weui-cell" href="/{{ owner }}/{{ repo }}">
