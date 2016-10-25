@@ -17,3 +17,4 @@ api_v2_app = Blueprint('api_v2_app', __name__, template_folder='template')
 import nwpc_monitor_broker.api_v2.api_sms
 import nwpc_monitor_broker.api_v2.api_org
 import nwpc_monitor_broker.api_v2.api_repo
+import nwpc_monitor_broker.api_v2.api_hpc

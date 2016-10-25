@@ -7,18 +7,16 @@ from nwpc_monitor_broker.api_v2 import redis_client, mongodb_client
 
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status
+hpc_disk_usage_status = nwpc_monitor_platform_mongodb.hpc_disk_usage_status
 
 
 def get_sms_server_status_from_cache(owner: str, repo: str, sms_name: str) -> dict:
-
     key = {
         'owner': owner,
         'repo': repo,
         'sms_name': sms_name
     }
-
     result = sms_server_status.find_one(key)
-
     return result
 
 
@@ -41,7 +39,24 @@ def save_sms_server_status_to_cache(owner: str, repo: str, sms_name: str, messag
     return
 
 
+def get_hpc_disk_usage_status_from_cache(user: str) -> dict:
+    key = {
+        'user': user
+    }
+    result = hpc_disk_usage_status.find_one(key, {"_id": 0})
+    return result
 
+
+def save_hpc_disk_usage_status_from_cache(user: str, message: dict) -> None:
+    key = {
+        'user': user
+    }
+    value = {
+        'user': user,
+        'update_time': datetime.datetime.now(),
+        'message': message
+    }
+    hpc_disk_usage_status.update(key, value, upsert=True)
 
 
 # redis
