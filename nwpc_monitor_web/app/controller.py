@@ -47,7 +47,8 @@ def get_owner_repo_status(owner, repo):
 
 @app.route('/')
 def get_index_page():
-    return render_template("index.html")
+    #return render_template("index.html")
+    return render_template("app/welcome_app_index.html")
 
 
 @app.route('/robots.txt')
