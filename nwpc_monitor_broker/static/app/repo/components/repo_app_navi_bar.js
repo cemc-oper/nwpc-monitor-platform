@@ -26,7 +26,7 @@ export default class RepoAppNaviBar extends Component{
         }
 
         return (
-            <section className="row" className="app-navi-bar">
+            <section className="row app-navi-bar">
                 <ul className="nav nav-tabs">
                     <li  role="presentation"  className={ status_is_active?'active':'' } >
                         <Link to={{ pathname:'/' + owner + '/' + repo + '/' }} >状态</Link>

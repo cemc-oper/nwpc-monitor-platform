@@ -26,7 +26,7 @@ export default class OrgAppNaviBar extends Component{
         }
 
         return (
-            <section className="row" className="app-navi-bar">
+            <section className="row app-navi-bar">
                 <ul className="nav nav-tabs">
                     <li  role="presentation"  className={ repo_is_active?'active':'' } >
                         <Link to={{ pathname:'/' + owner }} >项目</Link>
