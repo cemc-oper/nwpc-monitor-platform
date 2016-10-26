@@ -47,7 +47,7 @@ def get_hpc_disk_usage_status_from_cache(user: str) -> dict:
     return result
 
 
-def save_hpc_disk_usage_status_from_cache(user: str, message: dict) -> None:
+def save_hpc_disk_usage_status_from_cache(user: str, message: dict) -> tuple:
     key = {
         'user': user
     }
@@ -57,6 +57,7 @@ def save_hpc_disk_usage_status_from_cache(user: str, message: dict) -> None:
         'message': message
     }
     hpc_disk_usage_status.update(key, value, upsert=True)
+    return key, value
 
 
 # redis

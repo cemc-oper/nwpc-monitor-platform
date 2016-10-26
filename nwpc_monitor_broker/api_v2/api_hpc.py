@@ -8,8 +8,8 @@ from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
 
 
-@api_v2_app.route('/hpc/disk-usage', methods=['POST'])
-def receive_disk_usage_message():
+@api_v2_app.route('/hpc/users/<user>/disk-usage', methods=['POST'])
+def receive_disk_usage_message(user):
     start_time = datetime.datetime.now()
     message = json.loads(request.form['message'])
 
@@ -20,12 +20,18 @@ def receive_disk_usage_message():
         return jsonify(result)
 
     message_data = message['data']
-    request_data = message_data['request']
-    response_data = message_data['response']
 
-    user = response_data['user']
+    key, value = cache.save_hpc_disk_usage_status_from_cache(user, message)
 
-    cache.save_hpc_disk_usage_status_from_cache(user, message)
+    print("post disk usage to cloud: user=", user)
+    post_data = {
+        'message': json.dumps(value)
+    }
+    post_url = app.config['BROKER_CONFIG']['hpc']['disk_usage']['cloud']['put']['url'].format(
+        user=user
+    )
+    response = requests.post(post_url, data=post_data)
+    print("post disk usage to cloud done: response=", response)
 
     result = {
         'status': 'ok'
@@ -36,7 +42,7 @@ def receive_disk_usage_message():
     return jsonify(result)
 
 
-@api_v2_app.route('/hpc/disk-usage/<user>', methods=['GET'])
+@api_v2_app.route('/hpc/users/<user>/disk-usage', methods=['GET'])
 def get_disk_usage_message(user: str):
     start_time = datetime.datetime.now()
 
