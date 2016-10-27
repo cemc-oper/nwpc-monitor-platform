@@ -1,9 +1,11 @@
+import datetime
 from flask import request, json, jsonify, url_for
 import requests
 
 from nwpc_work_flow_model.sms.visitor import SubTreeNodeVisitor, pre_order_travel_dict
 from nwpc_monitor_web.app.api import api_app
 from nwpc_monitor_web.app import app, redis_client, mongodb_client
+from nwpc_monitor_web.app.common.operation_system import owner_list, get_owner_repo_status
 
 # mongodb
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
@@ -162,9 +164,39 @@ def get_sms_status(owner, repo):
         }
         requests.post(google_analytics_config['url'], data=post_data)
 
-
     result = {
         'status': 'ok',
         'data': message
     }
     return jsonify(result)
+
+
+@api_app.route('/operation-systems/owners/<owner>/repos', methods=['GET'])
+def get_owner_repos(owner: str):
+    # get repo list
+    repo_list = []
+    if owner in owner_list:
+        repo_list = owner_list[owner]['repos']
+
+    # get status for each repo in repo list
+    owner_repo_status = []
+    for a_repo in repo_list:
+        a_repo_name = a_repo['name']
+        cache_value = get_owner_repo_status(owner, a_repo_name)
+        repo_status = None
+        last_updated_time = None
+        if cache_value is not None:
+            bunch_dict = cache_value['status']
+
+            repo_status = bunch_dict['status']
+            time_string = cache_value['time']
+            data_collect_datetime = datetime.datetime.strptime(time_string, "%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_time = data_collect_datetime.strftime('%Y-%m-%d %H:%M:%S')
+        owner_repo_status.append({
+            'owner': owner,
+            'repo': a_repo_name,
+            'status': repo_status,
+            'last_updated_time': last_updated_time
+        })
+
+    return jsonify(owner_repo_status)

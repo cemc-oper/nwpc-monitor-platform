@@ -4,6 +4,7 @@ module.exports = {
     devtool: "cheap-module-eval-source-map",
     entry: {
         welcome: './app/welcome/index.js',
+        'operation-system': './app/operation-system/index.js',
     },
     output: {
         path: path.join(__dirname, 'dist'),
