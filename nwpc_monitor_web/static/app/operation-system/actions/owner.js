@@ -44,3 +44,55 @@ export function receiveOperationSystemOwnerReposSuccess(response) {
         receive_time: Date.now()
     }
 }
+
+
+
+
+export const REQUEST_OPERATION_SYSTEM_REPO_STATUS = 'REQUEST_OPERATION_SYSTEM_REPO_STATUS';
+
+export function requestOperationSystemRepoStatus(owner, repo, path){
+    return {
+        type: REQUEST_OPERATION_SYSTEM_REPO_STATUS,
+        owner,
+        repo,
+        path
+    }
+}
+
+export function fetchOperationSystemRepoStatus(owner, repo, path) {
+    return function (dispatch) {
+        dispatch(requestOperationSystemRepoStatus(owner, repo, path));
+        return fetch('/api/v1/operation-systems/repos/' + owner + '/' + repo + '/status/head' + path)
+            .then(response => response.json())
+            .then(data => dispatch(receiveOperationSystemRepoStatusSuccess({
+                    data: data
+            })))
+    };
+}
+
+
+export const REQUEST_OPERATION_SYSTEM_REPO_STATUS_FAILURE = 'REQUEST_OPERATION_SYSTEM_REPO_STATUS_FAILURE';
+export function receiveOperationSystemRepoStatusFailure(error){
+    return {
+        type: REQUEST_OPERATION_SYSTEM_REPO_STATUS_FAILURE,
+        error
+    }
+}
+
+
+export const REQUEST_OPERATION_SYSTEM_REPO_STATUS_SUCCESS = 'REQUEST_OPERATION_SYSTEM_REPO_STATUS_SUCCESS';
+/**
+ *
+ * @param response
+ *      {
+ *          data:[]
+ *      }
+ * @returns {{type: string, response: *, receive_time: number}}
+ */
+export function receiveOperationSystemRepoStatusSuccess(response) {
+    return {
+        type: REQUEST_OPERATION_SYSTEM_REPO_STATUS_SUCCESS,
+        response,
+        receive_time: Date.now()
+    }
+}

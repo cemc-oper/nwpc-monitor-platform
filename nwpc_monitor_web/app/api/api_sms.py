@@ -200,3 +200,100 @@ def get_owner_repos(owner: str):
         })
 
     return jsonify(owner_repo_status)
+
+
+@api_app.route('/operation-systems/repos/<owner>/<repo>/status/head/', methods=['GET'])
+@api_app.route('/operation-systems/repos/<owner>/<repo>/status/head/<path:sms_path>', methods=['GET'])
+def get_repo_status(owner: str, repo: str, sms_path: str='/'):
+    path = '/'
+    last_updated_time = None
+    children_status = []
+
+    node_status = {
+        'owner': owner,
+        'repo': repo,
+        'path': path,
+        'last_updated_time': last_updated_time,
+        'children': children_status
+    }
+
+    result = {
+        'app': 'nwpc_monitor_web',
+        'type': 'repo',
+        'data': {
+            'node_status': node_status
+        }
+    }
+
+    if owner not in owner_list:
+        return jsonify(result)
+
+    found_repo = False
+    for a_repo in owner_list[owner]['repos']:
+        if repo == a_repo['name']:
+            found_repo = True
+            break
+    if not found_repo:
+        return jsonify(result)
+
+    cache_value = get_owner_repo_status(owner, repo)
+    node_status = None
+    if cache_value is not None:
+        time_string = cache_value['time']
+        data_collect_datetime = datetime.datetime.strptime(time_string, "%Y-%m-%dT%H:%M:%S.%f")
+        last_updated_time = data_collect_datetime.strftime('%Y-%m-%d %H:%M:%S')
+
+        bunch_dict = cache_value['status']
+
+        def find_node(root, a_path):
+            if a_path == '' or a_path == '/':
+                return root, None
+            tokens = a_path.split("/")
+            cur_node = root
+            parent_node = None
+            for a_token in tokens:
+                t_node = None
+                for a_child_node in cur_node['children']:
+                    if a_child_node['name'] == a_token:
+                        t_node = a_child_node
+                        break
+                if t_node is None:
+                    return None
+                parent_node = cur_node
+                cur_node = t_node
+            return cur_node, parent_node
+        node, p_node = find_node(bunch_dict, sms_path)
+        if node is not None:
+            children_status = []
+            if p_node:
+                children_status.append(
+                    {
+                        'name': '..',
+                        'path': p_node['path'],
+                        'status': p_node['status'],
+                        'has_children': True
+                    }
+                )
+            path = node['path']
+            for a_child in node['children']:
+                if len(a_child['children']) > 0:
+                    has_children = True
+                else:
+                    has_children = False
+                children_status.append({
+                    'name': a_child['name'],
+                    'path': a_child['path'],
+                    'status': a_child['status'],
+                    'has_children': has_children
+                })
+
+    result['data']['node_status'] = {
+        'owner': owner,
+        'repo': repo,
+        'path': path,
+        'last_updated_time': last_updated_time,
+        'children': children_status
+    }
+
+    return jsonify(result)
+

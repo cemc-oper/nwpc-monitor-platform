@@ -30,12 +30,6 @@ export class OwnerApp extends Component{
                 repo_last_update_time = Util.getDelayTime(last_updated_time, cur_time)
             }
 
-            const image_style = {
-                width: '40px',
-                marginRight: '5px',
-                display: 'block',
-            };
-
             return (
                 <a className="weui-cell" key={i} href={ "/" + owner + "/" + a_repo['repo'] }>
                     <div className="weui-cell__hd">

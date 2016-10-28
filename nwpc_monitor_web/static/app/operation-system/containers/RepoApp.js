@@ -12,8 +12,12 @@ class RepoApp extends Component{
 
         return (
             <div>
-                <h1>Repo App</h1>
-                <p>{owner}/{repo}</p>
+                <h1 className="page_title">
+                    <a href={ "/" + owner }>{ owner }</a>
+                    /
+                    <a href={ "/" + owner + "/" + repo }>{ repo }</a>
+                </h1>
+                { this.props.children }
             </div>
         );
     }
