@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { fetchOperationSystemOwnerRepos } from '../actions/owner';
 
 import { Util } from '../../base/util/util'
+import { NodeStatusImage } from '../../base/components/NodeStatusImage'
 
-class OwnerApp extends Component{
+export class OwnerApp extends Component{
 
     componentDidMount(){
         const { dispatch, params } = this.props;
@@ -18,14 +19,14 @@ class OwnerApp extends Component{
         let owner = params.owner;
         let cur_time = new Date();
 
-        let repos = repos_status.map(function(element,i){
+        let repos = repos_status.map(function(a_repo, i){
             let repo_status = "unk";
-            if(element['status']!=null)
-                repo_status = element['status'];
+            if(a_repo['status']!=null)
+                repo_status = a_repo['status'];
 
             let repo_last_update_time = '未知';
-            if(element['last_updated_time']!=null) {
-                let last_updated_time = new Date(element['last_updated_time']);
+            if(a_repo['last_updated_time']!=null) {
+                let last_updated_time = new Date(a_repo['last_updated_time']);
                 repo_last_update_time = Util.getDelayTime(last_updated_time, cur_time)
             }
 
@@ -36,13 +37,12 @@ class OwnerApp extends Component{
             };
 
             return (
-                <a className="weui-cell" key={i} href={ "/" + owner + "/" + repo_status['repo'] }>
+                <a className="weui-cell" key={i} href={ "/" + owner + "/" + a_repo['repo'] }>
                     <div className="weui-cell__hd">
-                        <img src={Util.getStatusBackgroundImage(repo_status)}
-                             alt="icon" style={image_style} />
+                        <NodeStatusImage node_status={repo_status} />
                     </div>
                     <div className="weui-cell__bd weui-cell_primary">
-                        <p>{ element['repo'] }</p>
+                        <p>{ a_repo['repo'] }</p>
                     </div>
                     <div className="weui-cell__ft">
                         { repo_last_update_time}
