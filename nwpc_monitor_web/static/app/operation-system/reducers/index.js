@@ -15,7 +15,11 @@ function owner_reducer(state={
 }, action){
     switch(action.type){
         case REQUEST_OPERATION_SYSTEM_OWNER_REPOS_SUCCESS:
-            return Object.assign({}, state, {
+            // return Object.assign({}, state, {
+            //     repos_status: action.response.data
+            // });
+            return new Object({
+                status: state.status,
                 repos_status: action.response.data
             });
         default:
@@ -32,7 +36,11 @@ function repo_reducer(state={
 }, action){
     switch(action.type){
         case REQUEST_OPERATION_SYSTEM_REPO_STATUS_SUCCESS:
-            return Object.assign({}, state, {
+            // return Object.assign({}, state, {
+            //     node_status: action.response.data.data.node_status
+            // });
+            return  new Object({
+                status: state.status,
                 node_status: action.response.data.data.node_status
             });
         default:
@@ -59,11 +67,19 @@ function operation_system_reducer(state={
 }, action){
     switch(action.type){
         case REQUEST_OPERATION_SYSTEM_OWNER_REPOS_SUCCESS:
-            return Object.assign({}, state, {
-                owner: owner_reducer(state.owner, action)
+            // return Object.assign({}, state, {
+            //     owner: owner_reducer(state.owner, action)
+            // });
+            return  new Object({
+                owner: owner_reducer(state.owner, action),
+                repo: state.repo
             });
         case REQUEST_OPERATION_SYSTEM_REPO_STATUS_SUCCESS:
-            return Object.assign({}, state, {
+            // return Object.assign({}, state, {
+            //     repo: repo_reducer(state.repo, action)
+            // });
+            return  new Object({
+                owner: state.owner,
                 repo: repo_reducer(state.repo, action)
             });
         default:

@@ -10,11 +10,16 @@ export function requestOperationSystemOwnerRepos(owner){
 export function fetchOperationSystemOwnerRepos(owner) {
     return function (dispatch) {
         dispatch(requestOperationSystemOwnerRepos(owner));
-        return fetch('/api/v1/operation-systems/owners/' + owner + '/repos')
-            .then(response => response.json())
-            .then(data => dispatch(receiveOperationSystemOwnerReposSuccess({
-                    data: data
-            })))
+        // return fetch('/api/v1/operation-systems/owners/' + owner + '/repos')
+        //     .then(response => response.json())
+        //     .then(data => dispatch(receiveOperationSystemOwnerReposSuccess({
+        //             data: data
+        //     })))
+        return $.getJSON('/api/v1/operation-systems/owners/' + owner + '/repos', {} ,function(data){
+            dispatch(receiveOperationSystemOwnerReposSuccess({
+                data: data
+            }));
+        });
     };
 }
 
@@ -62,11 +67,17 @@ export function requestOperationSystemRepoStatus(owner, repo, path){
 export function fetchOperationSystemRepoStatus(owner, repo, path) {
     return function (dispatch) {
         dispatch(requestOperationSystemRepoStatus(owner, repo, path));
-        return fetch('/api/v1/operation-systems/repos/' + owner + '/' + repo + '/status/head' + path)
-            .then(response => response.json())
-            .then(data => dispatch(receiveOperationSystemRepoStatusSuccess({
-                    data: data
-            })))
+        // return fetch('/api/v1/operation-systems/repos/' + owner + '/' + repo + '/status/head' + path)
+        //     .then(response => response.json())
+        //     .then(data => dispatch(receiveOperationSystemRepoStatusSuccess({
+        //             data: data
+        //     })));
+
+        return $.getJSON('/api/v1/operation-systems/repos/' + owner + '/' + repo + '/status/head' + path, {} ,function(data){
+            dispatch(receiveOperationSystemRepoStatusSuccess({
+                data: data
+            }));
+        });
     };
 }
 
