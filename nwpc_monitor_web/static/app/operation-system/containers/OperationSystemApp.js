@@ -22,6 +22,7 @@ class OperationSystemApp extends Component{
 
     render() {
         const { params } = this.props;
+        let tab_bar_item_name = "operation-system";
 
         return (
             <div className="container">
@@ -30,7 +31,7 @@ class OperationSystemApp extends Component{
                         {this.props.children}
                     </div>
 
-                    <MonitorWebAppTab/>
+                    <MonitorWebAppTab active_item={ tab_bar_item_name }/>
                 </div>
             </div>
         );

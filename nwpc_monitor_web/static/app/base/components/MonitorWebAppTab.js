@@ -6,24 +6,26 @@ export default class MonitorWebAppTab extends Component{
     }
 
     render() {
+        const { active_item, tab_items } = this.props;
+        let links = [];
+
+        tab_items.map(function(tab_item, index){
+            let class_name = "weui-tabbar__item";
+            if(tab_item.name == active_item) {
+                class_name += " weui-bar__item_on";
+            }
+            links.push(
+                <a href={ tab_item.link } className={ class_name } key={ index }>
+                    <img src="/static/image/icon_tabbar.png" alt="" className="weui-tabbar__icon" />
+                    <p className="weui-tabbar__label">{ tab_item.label }</p>
+                </a>
+            )
+
+        });
+
         return (
             <div className="weui-tabbar">
-                <a href="/" className="weui-tabbar__item weui-bar__item_on">
-                    <img src="/static/image/icon_tabbar.png" alt="" className="weui-tabbar__icon" />
-                    <p className="weui-tabbar__label">系统</p>
-                </a>
-                <a href="/hpc/disk-usage" className="weui-tabbar__item">
-                    <img src="/static/image/icon_tabbar.png" alt="" className="weui-tabbar__icon" />
-                    <p className="weui-tabbar__label">空间</p>
-                </a>
-                <a href="/hpc/loadleveler" className="weui-tabbar__item">
-                    <img src="/static/image/icon_tabbar.png" alt="" className="weui-tabbar__icon" />
-                    <p className="weui-tabbar__label">队列</p>
-                </a>
-                <a href="/about" className="weui-tabbar__item">
-                    <img src="/static/image/icon_tabbar.png" alt="" className="weui-tabbar__icon" />
-                    <p className="weui-tabbar__label">关于</p>
-                </a>
+                { links }
             </div>
         );
     }
@@ -31,6 +33,38 @@ export default class MonitorWebAppTab extends Component{
 
 
 MonitorWebAppTab.propTypes = {
+    active_item: React.PropTypes.string.isRequired,
+    tab_items: React.PropTypes.arrayOf(React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired,
+        link: React.PropTypes.string.isRequired,
+        label: React.PropTypes.string.isRequired
+    }))
+};
+
+MonitorWebAppTab.defaultProps = {
+    active_item: 'operation-system',
+    tab_items: [
+        {
+            'name':'operation-system',
+            'link': '/',
+            'label': '系统'
+        },
+        {
+            'name':'disk-usage',
+            'link': '/',
+            'label': '空间'
+        },
+        {
+            'name':'loadleveler',
+            'link': '/',
+            'label': '队列'
+        },
+        {
+            'name':'about',
+            'link': '/',
+            'label': '关于'
+        },
+    ]
 };
 
 
