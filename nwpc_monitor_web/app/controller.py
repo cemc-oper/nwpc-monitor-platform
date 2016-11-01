@@ -207,41 +207,42 @@ def get_sms_status_page_by_path(owner, repo, sms_path):
 
 @app.route('/<no_static:owner>/<repo>/aborted_tasks/<int:id>', methods=['GET'])
 def get_sms_aborted_tasks_page(id, owner, repo):
-    aborted_tasks_content = {
-        'update_time': None,
-        'collected_time': None,
-        'status_blob_id': None,
-        'tasks': []
-    }
-
-    if owner not in owner_list:
-        return render_template("aborted_tasks.html", owner=owner, repo=repo, aborted_tasks_content=aborted_tasks_content)
-
-    found_repo = False
-    for a_repo in owner_list[owner]['repos']:
-        if repo == a_repo['name']:
-            found_repo = True
-            break
-    if not found_repo:
-        return render_template("aborted_tasks.html", owner=owner, repo=repo, aborted_tasks_content=aborted_tasks_content)
-
-    blobs_collection = nwpc_monitor_platform_mongodb.blobs
-    query_key = {
-        'owner': owner,
-        'repo': repo,
-        'id': id
-    }
-    query_result = blobs_collection.find_one(query_key)
-    if not query_result:
-        return render_template("aborted_tasks.html", owner=owner, repo=repo, aborted_tasks_content=aborted_tasks_content)
-
-    blob_content = query_result['data']['content']
-
-    aborted_tasks_content = {
-        'update_time': blob_content['update_time'],
-        'collected_time': blob_content['collected_time'],
-        'status_blob_id': blob_content['status_blob_id'],
-        'tasks': blob_content['tasks']
-    }
-
-    return render_template("aborted_tasks.html", owner=owner, repo=repo, aborted_tasks_content=aborted_tasks_content)
+    return render_template("app/operation_system_app_index.html")
+    # aborted_tasks_content = {
+    #     'update_time': None,
+    #     'collected_time': None,
+    #     'status_blob_id': None,
+    #     'tasks': []
+    # }
+    #
+    # if owner not in owner_list:
+    #     return render_template("aborted_tasks.html", owner=owner, repo=repo, aborted_tasks_content=aborted_tasks_content)
+    #
+    # found_repo = False
+    # for a_repo in owner_list[owner]['repos']:
+    #     if repo == a_repo['name']:
+    #         found_repo = True
+    #         break
+    # if not found_repo:
+    #     return render_template("aborted_tasks.html", owner=owner, repo=repo, aborted_tasks_content=aborted_tasks_content)
+    #
+    # blobs_collection = nwpc_monitor_platform_mongodb.blobs
+    # query_key = {
+    #     'owner': owner,
+    #     'repo': repo,
+    #     'id': id
+    # }
+    # query_result = blobs_collection.find_one(query_key)
+    # if not query_result:
+    #     return render_template("aborted_tasks.html", owner=owner, repo=repo, aborted_tasks_content=aborted_tasks_content)
+    #
+    # blob_content = query_result['data']['content']
+    #
+    # aborted_tasks_content = {
+    #     'update_time': blob_content['update_time'],
+    #     'collected_time': blob_content['collected_time'],
+    #     'status_blob_id': blob_content['status_blob_id'],
+    #     'tasks': blob_content['tasks']
+    # }
+    #
+    # return render_template("aborted_tasks.html", owner=owner, repo=repo, aborted_tasks_content=aborted_tasks_content)

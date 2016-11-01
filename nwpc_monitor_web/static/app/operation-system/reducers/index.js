@@ -6,6 +6,10 @@ import {
     REQUEST_OPERATION_SYSTEM_REPO_STATUS_SUCCESS
 } from '../actions/owner'
 
+import {
+    REQUEST_OPERATION_SYSTEM_REPO_ABORTED_TASKS_SUCCESS,
+} from '../actions/repo'
+
 function owner_reducer(state={
     status: {
         is_fetching: false,
@@ -32,7 +36,8 @@ function repo_reducer(state={
         is_fetching: false,
         last_updated: null
     },
-    node_status: null
+    node_status: null,
+    aborted_tasks: null
 }, action){
     switch(action.type){
         case REQUEST_OPERATION_SYSTEM_REPO_STATUS_SUCCESS:
@@ -41,7 +46,14 @@ function repo_reducer(state={
             // });
             return  new Object({
                 status: state.status,
-                node_status: action.response.data.data.node_status
+                node_status: action.response.data.data.node_status,
+                aborted_tasks: status.aborted_tasks
+            });
+        case REQUEST_OPERATION_SYSTEM_REPO_ABORTED_TASKS_SUCCESS:
+            return  new Object({
+                status: state.status,
+                node_status: status.node_status,
+                aborted_tasks: action.response.data
             });
         default:
             return state;
@@ -62,7 +74,8 @@ function operation_system_reducer(state={
             is_fetching: false,
             last_updated: null
         },
-        node_status: null
+        node_status: null,
+        aborted_tasks: null
     }
 }, action){
     switch(action.type){
@@ -75,6 +88,7 @@ function operation_system_reducer(state={
                 repo: state.repo
             });
         case REQUEST_OPERATION_SYSTEM_REPO_STATUS_SUCCESS:
+        case REQUEST_OPERATION_SYSTEM_REPO_ABORTED_TASKS_SUCCESS:
             // return Object.assign({}, state, {
             //     repo: repo_reducer(state.repo, action)
             // });

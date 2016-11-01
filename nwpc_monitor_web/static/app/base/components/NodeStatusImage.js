@@ -30,13 +30,7 @@ export class NodeStatusImage extends Component{
     }
 
     render() {
-        const { node_status } = this.props;
-        const image_style = {
-            width: '40px',
-            marginRight: '5px',
-            display: 'block',
-        };
-
+        const { node_status, image_style } = this.props;
         return (
             <img src={NodeStatusImage.getStatusBackgroundImage(node_status)} alt="icon" style={image_style} />
         );
@@ -45,5 +39,15 @@ export class NodeStatusImage extends Component{
 
 
 NodeStatusImage.propTypes = {
-    node_status: PropTypes.string
+    node_status: PropTypes.string,
+    image_style: PropTypes.object
+};
+
+NodeStatusImage.defaultProps ={
+    node_status: 'unk',
+    image_style: {
+        width: '40px',
+        marginRight: '5px',
+        display: 'block',
+    }
 };

@@ -5,6 +5,7 @@ import OperationSystemApp from './containers/OperationSystemApp'
 import OwnerApp from './containers/OwnerApp'
 import RepoApp from './containers/RepoApp'
 import RepoStatusApp from './containers/RepoStatusApp'
+import RepoAbortedTasksApp from './containers/RepoAbortedTasksApp'
 
 export default (
     <Route path="/" component={OperationSystemApp}>
@@ -12,7 +13,7 @@ export default (
         <Route path=":owner/:repo" component={RepoApp}>
             <IndexRoute component={RepoStatusApp} />
             <Route path="status/head/*" component={RepoStatusApp} />
+            <Route path="aborted_tasks/:aborted_task_id" component={RepoAbortedTasksApp} />
         </Route>
-
     </Route>
 )
