@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import MonitorWebAppTab from '../../base/components/MonitorWebAppTab'
 
-class OperationSystemApp extends Component{
+class HpcApp extends Component{
     constructor(props) {
         super(props);
     }
 
     render() {
         const { params } = this.props;
-        let tab_bar_item_name = "operation-system";
+        let tab_bar_item_name = "hpc/disk-usage";
 
         return (
             <div className="container">
@@ -31,4 +31,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(OperationSystemApp)
+export default connect(mapStateToProps)(HpcApp)

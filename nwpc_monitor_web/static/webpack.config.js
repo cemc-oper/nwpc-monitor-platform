@@ -4,7 +4,8 @@ module.exports = {
     devtool: "source-map",
     entry: {
         welcome: './app/welcome/index.js',
-        'operation-system': './app/operation-system/index.js'
+        'operation-system': './app/operation-system/index.js',
+        'hpc-disk-usage': './app/hpc/index.js'
     },
     output: {
         path: path.join(__dirname, 'dist'),
