@@ -4,7 +4,7 @@ module.exports = {
     devtool: "source-map",
     entry: {
         welcome: './app/welcome/index.js',
-        'operation-system': ['babel-polyfill', './app/operation-system/index.js']
+        'operation-system': './app/operation-system/index.js'
     },
     output: {
         path: path.join(__dirname, 'dist'),
