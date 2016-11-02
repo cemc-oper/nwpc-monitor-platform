@@ -25,7 +25,6 @@ class HpcDiskUsageApp extends Component{
 
     render() {
         const { params, disk_usage } = this.props;
-        console.log(disk_usage);
 
         let disk_usage_list = [];
         disk_usage.users.map(function(a_disk_usage, index){

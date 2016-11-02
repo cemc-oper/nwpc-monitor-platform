@@ -70,6 +70,7 @@ function hpc_reducer(state={
     }
 }, action) {
     switch (action.type) {
+        case REQUEST_ADD_HPC_USER_DISK_USAGE:
         case ADD_HPC_USER_DISK_USAGE_SUCCESS:
         case CLEAR_HPC_DISK_USAGE_USERS:
             return new Object({

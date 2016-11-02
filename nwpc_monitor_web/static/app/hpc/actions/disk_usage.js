@@ -12,9 +12,11 @@ export function fetchAddHpcUserDiskUsage(user) {
         dispatch(requestAddHpcUserDiskUsage(user));
         
         return $.getJSON('/api/v1/hpc/users/' + user + '/disk-usage', {} ,function(data){
-            dispatch(receiveAddHpcUserDiskUsageSuccess({
-                data: data
-            }));
+            dispatch(
+                receiveAddHpcUserDiskUsageSuccess({
+                    data: data
+                })
+            );
         });
     };
 }

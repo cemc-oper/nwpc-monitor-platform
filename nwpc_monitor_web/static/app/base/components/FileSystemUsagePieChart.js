@@ -31,7 +31,6 @@ export default class FileSystemUsagePieChart extends Component {
 
     renderChartDom(){
         const { data } = this.props;
-        console.log(data);
         let { label, usage, total } = data;
         let echarts_instance = this.getEchartsInstance();
 
