@@ -45,8 +45,6 @@ class HpcDiskUsageApp extends Component{
                     file_systems.slice(i, i+chunk_size)
                 )
             }
-            console.log(file_systems_group);
-
 
             let file_systems_group_node = [];
             file_systems_group.map(function(a_group, group_index){
@@ -76,7 +74,7 @@ class HpcDiskUsageApp extends Component{
             disk_usage_list.push(
                 <div key={index}>
                     <h2>{ a_disk_usage.user }</h2>
-                    <p>更新时间：{ a_disk_usage.time } UTC</p>
+                    <p>更新时间：{ Util.getDelayTime(new Date(Date.parse(a_disk_usage.time + " UTC")), new Date())} </p>
                     <div className="disk-usage-box">
                         { file_systems_group_node }
                     </div>

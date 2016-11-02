@@ -29,8 +29,26 @@ export default class FileSystemUsagePieChart extends Component {
         return echarts.getInstanceByDom(this.refs.chart_dom);
     }
 
+    getUsedColor(value){
+        const { config } = this.props;
+        if(config.warning.inRange(value)){
+            return config.warning.used_color;
+        } else {
+            return config.normal.used_color;
+        }
+    }
+
+    getFreeColor(value){
+        const { config } = this.props;
+        if(config.warning.inRange(value)){
+            return config.warning.free_color;
+        } else {
+            return config.normal.free_color;
+        }
+    }
+
     renderChartDom(){
-        const { data } = this.props;
+        const { data, config } = this.props;
         let { label, usage, total } = data;
         let echarts_instance = this.getEchartsInstance();
 
@@ -62,7 +80,7 @@ export default class FileSystemUsagePieChart extends Component {
                             name:'使用',
                             itemStyle: {
                                 normal: {
-                                    color: "rgb(47, 234, 73)"
+                                    color: this.getUsedColor(usage)
                                 }
                             }
                         },
@@ -71,7 +89,7 @@ export default class FileSystemUsagePieChart extends Component {
                             name: '空闲',
                             itemStyle: {
                                 normal: {
-                                    color: "rgb(210, 251, 214)"
+                                    color: this.getFreeColor(usage)
                                 }
                             }
 
@@ -102,9 +120,29 @@ FileSystemUsagePieChart.propTypes = {
         label: PropTypes.string,
         usage: PropTypes.number,
         total: PropTypes.number
-    })
+    }),
+    config: PropTypes.object
 };
 
 FileSystemUsagePieChart.defaultProps = {
-
+    config: {
+        normal: {
+            used_color: 'rgb(49,163,84)',
+            free_color: 'rgb(247,252,185)',
+            inRange: function(value){
+                let min = 0;
+                let max = 0.9;
+                return value>=min && value<max
+            }
+        },
+        warning: {
+            used_color: 'rgb(240,59,32)',
+            free_color: 'rgb(255,237,160)',
+            inRange: function(value){
+                let min = 0.9;
+                let max = 1.0;
+                return value>=min && value<=max
+            }
+        }
+    },
 };
