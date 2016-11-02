@@ -26,39 +26,60 @@ class HpcDiskUsageApp extends Component{
     render() {
         const { params, disk_usage } = this.props;
 
+        let label_style = {
+            alignItems: 'center',
+            display: 'flex'
+        };
+
         let disk_usage_list = [];
         disk_usage.users.map(function(a_disk_usage, index){
             let file_systems = a_disk_usage.file_systems;
-            let file_systems_node = [];
-            file_systems.map(function(a_file_system, file_index){
-                file_systems_node.push(
-                    <div className="weui-flex" key={file_index}>
-                        <div className="weui-flex__item">
-                            <FileSystemUsagePieChart data={
-                                {
-                                    label: a_file_system.file_system,
-                                    usage: a_file_system.block_limits.current,
-                                    total: a_file_system.block_limits.quota
-                                }
-                            }/>
-                        </div>
-                        <div className="weui-flex__item">
-                            <p>文件系统：{a_file_system.file_system}</p>
-                            {/*<p>已用空间：{a_file_system.block_limits.Scurrent}</p>*/}
-                            {/*<p>分配限额：{a_file_system.block_limits.quota}</p>*/}
-                            {/*<p>最大限制：{a_file_system.block_limits.limit}</p>*/}
-                        </div>
 
+            let file_systems_group = [];
 
-                    </div>
+            let chunk_size = 3;
+
+            for(let i=0, j=file_systems.length; i < j; i+=chunk_size)
+            {
+                file_systems_group.push(
+                    file_systems.slice(i, i+chunk_size)
                 )
+            }
+            console.log(file_systems_group);
+
+
+            let file_systems_group_node = [];
+            file_systems_group.map(function(a_group, group_index){
+                let file_systems_node = [];
+                a_group.map(function(a_file_system, file_index){
+                    file_systems_node.push(
+                        <span className="disk-usage-cell" key={file_index}>
+                            <FileSystemUsagePieChart data={
+                            {
+                                label: a_file_system.file_system,
+                                usage: a_file_system.block_limits.current,
+                                total: a_file_system.block_limits.quota
+                            }
+                            }/>
+                        </span>
+                    )
+                });
+                file_systems_group_node.push(
+                    <div className="disk-usage-row" key={group_index}>
+                        { file_systems_node }
+                    </div>
+                );
             });
+
+
 
             disk_usage_list.push(
                 <div key={index}>
                     <h2>{ a_disk_usage.user }</h2>
                     <p>更新时间：{ a_disk_usage.time } UTC</p>
-                    { file_systems_node }
+                    <div className="disk-usage-box">
+                        { file_systems_group_node }
+                    </div>
                 </div>
             )
         });

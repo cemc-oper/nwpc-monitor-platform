@@ -51,7 +51,7 @@ MonitorWebAppTab.defaultProps = {
         },
         {
             'name':'hpc/disk-usage',
-            'link': '/',
+            'link': '/hpc/nwp_xp/disk-usage',
             'label': '空间'
         },
         {

@@ -35,6 +35,15 @@ export default class FileSystemUsagePieChart extends Component {
         let echarts_instance = this.getEchartsInstance();
 
         echarts_instance.setOption({
+            title:{
+                text: label,
+                top: 'center',
+                left: 'center',
+                textStyle: {
+                    fontWeight: 'normal',
+                    fontSize: 15
+                }
+            },
             series: [
                 {
                     'name': '使用情况',
@@ -77,7 +86,7 @@ export default class FileSystemUsagePieChart extends Component {
     render() {
         const { data } = this.props;
         let chart_style = {
-            height: 100
+            height: 150
         };
 
         return (

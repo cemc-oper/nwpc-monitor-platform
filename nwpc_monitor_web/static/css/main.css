@@ -18,3 +18,22 @@
     bottom: 0;
     left: 0;
 }
+
+/* disk-usage 布局 */
+
+.disk-usage-box {
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
+
+.disk-usage-row {
+    flex-basis: 100%;
+    display: flex;
+    display: -webkit-flex;
+}
+
+.disk-usage-cell {
+    flex: 0 0 33.3333%;
+}
+
