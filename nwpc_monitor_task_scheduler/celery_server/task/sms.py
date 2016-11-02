@@ -2,20 +2,20 @@
 # coding=utf-8
 from fabric.api import run, cd, execute, env
 from celery import group
-import requests
 
 from nwpc_monitor_task_scheduler.celery_server.celery import app, task_config
 
-#*******************
-#   SMS Status
-#*******************
+
+"""
+SMS Status
+"""
 
 
 @app.task()
 def get_sms_status_task(repo):
 
-    owner_name=repo['owner']
-    repo_name=repo['repo']
+    owner_name = repo['owner']
+    repo_name = repo['repo']
     sms_user = repo['sms_user']
     sms_name = repo['sms_name']
 
@@ -62,26 +62,3 @@ def get_group_sms_status_task():
     g = group(get_sms_status_task.s(a_repo) for a_repo in repos)
     result = g.delay()
     return
-
-#*******************
-#   Dingtalk
-#*******************
-
-@app.task()
-def update_dingtalk_token_task():
-    config_dict = task_config.config
-    url = config_dict['update_dingtalk_token_task']['url']
-    requests.get(url)
-    return
-
-@app.task()
-def update_weixin_token_task():
-    config_dict = task_config.config
-    url = config_dict['update_weixin_token_task']['url']
-    requests.get(url)
-    return
-
-
-if __name__ == "__main__":
-    # from sms_log_agent_monitor.tasks import *
-    r = update_dingtalk_token_task.delay()

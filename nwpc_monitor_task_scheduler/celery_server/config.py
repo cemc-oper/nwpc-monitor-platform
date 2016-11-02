@@ -29,14 +29,17 @@ class CeleryConfig(object):
                 mysql_port = backend_config['mysql']['port']
                 mysql_user = backend_config['mysql']['user']
                 mysql_password = backend_config['mysql']['password']
-                task_scheduler_celery_backend = 'db+mysql+mysqlconnector://{user}:{password}@{host}:{port}/celery_backend'.format(
-                    user=mysql_user, password=mysql_password,
-                    host=mysql_host, port=mysql_port
-                )
+                task_scheduler_celery_backend = \
+                    'db+mysql+mysqlconnector://{user}:{password}@{host}:{port}/celery_backend'.format(
+                        user=mysql_user, password=mysql_password,
+                        host=mysql_host, port=mysql_port
+                    )
                 self.CELERY_RESULT_BACKEND = '{task_scheduler_celery_backend}'.format(
                     task_scheduler_celery_backend=task_scheduler_celery_backend)
 
-            self.CELERY_INCLUDE = ['nwpc_monitor_task_scheduler.celery_server.tasks']
+            self.CELERY_INCLUDE = [
+                'nwpc_monitor_task_scheduler.celery_server.task'
+            ]
 
             # celery beat
             beat_schedule = {}
@@ -56,7 +59,6 @@ class CeleryConfig(object):
 
             self.CELERYBEAT_SCHEDULE = beat_schedule
 
-
     @staticmethod
     def load_celery_config():
         config_file_name = "celery_server.production.config.yaml"
@@ -74,6 +76,7 @@ class CeleryConfig(object):
 
         config = CeleryConfig(config_file_path)
         return config
+
 
 class TaskConfig(object):
     def __init__(self, config_file_path):
@@ -94,7 +97,7 @@ class TaskConfig(object):
         config_file_directory = os.path.dirname(__file__) + "/../conf"
 
         config_file_path = config_file_directory + "/" + config_file_name
-        #print "task config file path:", config_file_path
+        # print "task config file path:", config_file_path
 
         config = TaskConfig(config_file_path)
         return config
