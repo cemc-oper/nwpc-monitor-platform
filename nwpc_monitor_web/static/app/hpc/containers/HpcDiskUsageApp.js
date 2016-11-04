@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment'
 
 import {
     fetchAddHpcUserDiskUsage,
@@ -69,12 +70,10 @@ class HpcDiskUsageApp extends Component{
                 );
             });
 
-
-
             disk_usage_list.push(
                 <div key={index}>
                     <h2>{ a_disk_usage.user }</h2>
-                    <p>更新时间：{ Util.getDelayTime(new Date(Date.parse(a_disk_usage.time + " UTC")), new Date())} </p>
+                    <p>更新时间：{ Util.getDelayTime(Util.parseUTCTimeString(a_disk_usage.time), Util.getNow())} </p>
                     <div className="disk-usage-box">
                         { file_systems_group_node }
                     </div>

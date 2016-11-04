@@ -27,7 +27,10 @@ export class OwnerApp extends Component{
             let repo_last_update_time = '未知';
             if(a_repo['last_updated_time']!=null) {
                 let last_updated_time = new Date(a_repo['last_updated_time']);
-                repo_last_update_time = Util.getDelayTime(last_updated_time, cur_time)
+                repo_last_update_time = Util.getDelayTime(
+                    Util.parseDate(last_updated_time),
+                    Util.parseDate(cur_time)
+                );
             }
 
             return (

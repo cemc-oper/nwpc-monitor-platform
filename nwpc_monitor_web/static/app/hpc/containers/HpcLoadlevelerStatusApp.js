@@ -62,7 +62,7 @@ class HpcLoadlevelerStatusApp extends Component{
         return (
             <div>
                 <h1 className="page_title">HPC队列</h1>
-                <p>更新时间：{ Util.getDelayTime(new Date(Date.parse(collect_time + " UTC")), new Date())} </p>
+                <p>更新时间：{ Util.getDelayTime(Util.parseUTCTimeString(collect_time), Util.getNow())} </p>
                 <div className="weui-cells">
                     { jobs_node }
                 </div>

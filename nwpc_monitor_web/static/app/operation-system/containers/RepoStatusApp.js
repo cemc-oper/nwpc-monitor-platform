@@ -39,7 +39,7 @@ class RepoStatusApp extends Component{
         let cur_time = new Date();
         if(node_status['last_updated_time']!=null) {
             let last_updated_time = new Date(node_status['last_updated_time']);
-            repo_last_update_time = Util.getDelayTime(last_updated_time, cur_time);
+            repo_last_update_time = Util.getDelayTime(Util.parseDate(last_updated_time), Util.parseDate(cur_time));
         }
 
         let children_node = node_status['children'].map(function(a_child, i){
