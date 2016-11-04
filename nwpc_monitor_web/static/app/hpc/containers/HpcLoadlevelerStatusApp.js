@@ -35,13 +35,6 @@ class HpcLoadlevelerStatusApp extends Component{
         return text;
     }
 
-    static getPropTextById(job, id){
-        let text = null;
-        let prop = HpcLoadlevelerStatusApp.findPropById(job,id);
-        if(prop) text = prop.text;
-        return text;
-    }
-
     render() {
         const { params, loadleveler_status } = this.props;
         console.log(loadleveler_status);

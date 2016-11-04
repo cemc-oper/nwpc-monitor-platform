@@ -1,13 +1,18 @@
 import React from 'react'
 import { Route, IndexRedirect, IndexRoute } from 'react-router'
 
-import HpcApp from './containers/HpcApp'
+import HpcDiskApp from './containers/HpcDiskApp'
 import HpcDiskUsageApp from './containers/HpcDiskUsageApp'
+import HpcLoadlevelerApp from './containers/HpcLoadlevelerApp'
 import HpcLoadlevelerStatusApp from './containers/HpcLoadlevelerStatusApp'
 
 export default (
-    <Route path="/hpc" component={HpcApp}>
-        <Route path=":user/disk/usage" component={HpcDiskUsageApp} />
-        <Route path=":user/loadleveler/status" component={HpcLoadlevelerStatusApp} />
+    <Route path="/hpc" >
+        <Route path=":user/disk" component={HpcDiskApp}>
+            <Route path="usage" component={HpcDiskUsageApp} />
+        </Route>
+        <Route path=":user/loadleveler" component={ HpcLoadlevelerApp } >
+            <Route path="status" component={HpcLoadlevelerStatusApp} />
+        </Route>
     </Route>
 )

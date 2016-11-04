@@ -1,15 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import MonitorWebAppTab from '../../base/components/MonitorWebAppTab'
 
-class HpcApp extends Component{
-    constructor(props) {
-        super(props);
-    }
-
+class HpcContainer extends Component{
     render() {
-        const { params } = this.props;
-        let tab_bar_item_name = "hpc/disk/usage";
+        const { active_tab } = this.props;
 
         return (
             <div className="container">
@@ -17,18 +11,17 @@ class HpcApp extends Component{
                     <div className="weui-tab__panel">
                         {this.props.children}
                     </div>
-
-                    <MonitorWebAppTab active_item={ tab_bar_item_name }/>
+                    <MonitorWebAppTab active_item={ active_tab }/>
                 </div>
             </div>
         );
     }
 }
 
+HpcContainer.propTypes = {
+    active_tab: PropTypes.string
+};
 
-function mapStateToProps(state){
-    return {
-    }
-}
-
-export default connect(mapStateToProps)(HpcApp)
+HpcContainer.defaultProps = {
+    active_tab: 'operation-system'
+};
