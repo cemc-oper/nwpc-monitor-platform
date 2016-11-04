@@ -13,3 +13,8 @@ nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 @app.route('/hpc/nwp_xp/disk/usage', methods=['GET'])
 def get_hpc_disk_usage():
     return render_template('app/hpc_app_index.html')
+
+
+@app.route('/hpc/nwp_xp/loadleveler/status', methods=['GET'])
+def get_hpc_loadleveler_status():
+    return render_template('app/hpc_app_index.html')

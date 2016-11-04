@@ -9,7 +9,7 @@ class HpcApp extends Component{
 
     render() {
         const { params } = this.props;
-        let tab_bar_item_name = "hpc/disk-usage";
+        let tab_bar_item_name = "hpc/disk/usage";
 
         return (
             <div className="container">

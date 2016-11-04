@@ -50,13 +50,13 @@ MonitorWebAppTab.defaultProps = {
             'label': '系统'
         },
         {
-            'name':'hpc/disk-usage',
+            'name':'hpc/disk/usage',
             'link': '/hpc/nwp_xp/disk/usage',
             'label': '空间'
         },
         {
-            'name':'hpc/nwp_xp/loadleveler/status',
-            'link': '/',
+            'name':'hpc/loadleveler/status',
+            'link': '/hpc/nwp_xp/loadleveler/status',
             'label': '队列'
         },
         {

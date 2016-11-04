@@ -6,7 +6,10 @@ import {
     ADD_HPC_USER_DISK_USAGE_SUCCESS,
     CLEAR_HPC_DISK_USAGE_USERS
 } from '../actions/disk_usage'
-
+import {
+    REQUEST_HPC_USER_LOADLEVELER_STATUS,
+    RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS
+} from '../actions/loadleveler_status'
 
 function disk_usage_reducer(state={
     status: {
@@ -60,6 +63,48 @@ function disk_usage_reducer(state={
     }
 }
 
+function loadleveler_status_reducer(state={
+    loadleveler_status: {
+        status: {
+            is_fetching: false,
+            last_updated: null
+        },
+        user: null,
+        collect_time: null,
+        jobs: []
+    }
+}, action) {
+    switch(action.type){
+        case REQUEST_HPC_USER_LOADLEVELER_STATUS:
+            return new Object({
+                status: {
+                    is_fetching: true,
+                    last_updated: state.status.last_updated
+                },
+                user: state.user,
+                collect_time: state.collect_time,
+                jobs: state.jobs
+            });
+        case RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS:
+            let data = action.response.data;
+            let message = data['message'];
+            let collect_time = message['time'];
+            let user = data['user'];
+            let jobs = message['data']['response']['items'];
+            return new Object({
+                status: {
+                    is_fetching: false,
+                    last_updated: Date.now()
+                },
+                user: user,
+                collect_time: collect_time,
+                jobs: jobs
+            });
+        default:
+            return state;
+    }
+}
+
 function hpc_reducer(state={
     disk_usage: {
         status: {
@@ -67,6 +112,15 @@ function hpc_reducer(state={
             last_updated: null
         },
         users: []
+    },
+    loadleveler_status: {
+        status: {
+            is_fetching: false,
+            last_updated: null
+        },
+        user: null,
+        collect_time: null,
+        jobs: []
     }
 }, action) {
     switch (action.type) {
@@ -74,7 +128,14 @@ function hpc_reducer(state={
         case ADD_HPC_USER_DISK_USAGE_SUCCESS:
         case CLEAR_HPC_DISK_USAGE_USERS:
             return new Object({
-                disk_usage: disk_usage_reducer(state.disk_usage, action)
+                disk_usage: disk_usage_reducer(state.disk_usage, action),
+                loadleveler_status: state.loadleveler_status
+            });
+        case REQUEST_HPC_USER_LOADLEVELER_STATUS:
+        case RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS:
+            return new Object({
+                disk_usage: state.disk_usage, action,
+                loadleveler_status: loadleveler_status_reducer(state.loadleveler_status, action)
             });
         default:
             return state;
