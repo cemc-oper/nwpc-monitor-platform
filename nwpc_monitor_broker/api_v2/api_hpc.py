@@ -8,7 +8,7 @@ from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
 
 
-@api_v2_app.route('/hpc/users/<user>/disk-usage', methods=['POST'])
+@api_v2_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])
 def receive_disk_usage_message(user):
     start_time = datetime.datetime.now()
     message = json.loads(request.form['message'])
@@ -42,7 +42,7 @@ def receive_disk_usage_message(user):
     return jsonify(result)
 
 
-@api_v2_app.route('/hpc/users/<user>/disk-usage', methods=['GET'])
+@api_v2_app.route('/hpc/users/<user>/disk/usage', methods=['GET'])
 def get_disk_usage_message(user: str):
     start_time = datetime.datetime.now()
 

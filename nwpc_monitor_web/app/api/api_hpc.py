@@ -5,7 +5,7 @@ from nwpc_monitor_web.app.api import api_app, data_store
 from nwpc_monitor_web.app import app
 
 
-@api_app.route('/hpc/users/<user>/disk-usage', methods=['POST'])
+@api_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])
 def receive_disk_usage(user):
 
     message = json.loads(request.form['message'])
@@ -25,7 +25,7 @@ def receive_disk_usage(user):
     return jsonify(result)
 
 
-@api_app.route('/hpc/users/<user>/disk-usage', methods=['GET'])
+@api_app.route('/hpc/users/<user>/disk/usage', methods=['GET'])
 def request_disk_usage(user):
     result = data_store.get_disk_usage_from_mongodb(user)
     return jsonify(result)

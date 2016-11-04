@@ -51,17 +51,17 @@ MonitorWebAppTab.defaultProps = {
         },
         {
             'name':'hpc/disk-usage',
-            'link': '/hpc/nwp_xp/disk-usage',
+            'link': '/hpc/nwp_xp/disk/usage',
             'label': '空间'
         },
         {
-            'name':'hpc/loadleveler',
+            'name':'hpc/nwp_xp/loadleveler/status',
             'link': '/',
             'label': '队列'
         },
         {
             'name':'about',
-            'link': '/',
+            'link': '/about',
             'label': '关于'
         },
     ]

@@ -10,6 +10,6 @@ from flask import json, request, jsonify, render_template, send_from_directory
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 
 
-@app.route('/hpc/nwp_xp/disk-usage', methods=['GET'])
+@app.route('/hpc/nwp_xp/disk/usage', methods=['GET'])
 def get_hpc_disk_usage():
     return render_template('app/hpc_app_index.html')

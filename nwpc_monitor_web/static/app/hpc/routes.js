@@ -6,6 +6,6 @@ import HpcDiskUsageApp from './containers/HpcDiskUsageApp'
 
 export default (
     <Route path="/hpc" component={HpcApp}>
-        <Route path=":user/disk-usage" component={HpcDiskUsageApp} />
+        <Route path=":user/disk/usage" component={HpcDiskUsageApp} />
     </Route>
 )

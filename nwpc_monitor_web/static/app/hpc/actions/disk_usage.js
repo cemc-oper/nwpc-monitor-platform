@@ -11,7 +11,7 @@ export function fetchAddHpcUserDiskUsage(user) {
     return function (dispatch) {
         dispatch(requestAddHpcUserDiskUsage(user));
         
-        return $.getJSON('/api/v1/hpc/users/' + user + '/disk-usage', {} ,function(data){
+        return $.getJSON('/api/v1/hpc/users/' + user + '/disk/usage', {} ,function(data){
             dispatch(
                 receiveAddHpcUserDiskUsageSuccess({
                     data: data
