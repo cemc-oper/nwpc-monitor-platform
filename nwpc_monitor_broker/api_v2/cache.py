@@ -8,8 +8,10 @@ from nwpc_monitor_broker.api_v2 import redis_client, mongodb_client
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status
 hpc_disk_usage_status = nwpc_monitor_platform_mongodb.hpc_disk_usage_status
+hpc_loadleveler_status = nwpc_monitor_platform_mongodb.hpc_loadleveler_status
 
 
+# sms
 def get_sms_server_status_from_cache(owner: str, repo: str, sms_name: str) -> dict:
     key = {
         'owner': owner,
@@ -38,6 +40,9 @@ def save_sms_server_status_to_cache(owner: str, repo: str, sms_name: str, messag
 
     return
 
+# hpc
+# disk usage
+
 
 def get_hpc_disk_usage_status_from_cache(user: str) -> dict:
     key = {
@@ -47,7 +52,7 @@ def get_hpc_disk_usage_status_from_cache(user: str) -> dict:
     return result
 
 
-def save_hpc_disk_usage_status_from_cache(user: str, message: dict) -> tuple:
+def save_hpc_disk_usage_status_to_cache(user: str, message: dict) -> tuple:
     key = {
         'user': user
     }
@@ -58,6 +63,29 @@ def save_hpc_disk_usage_status_from_cache(user: str, message: dict) -> tuple:
     }
     hpc_disk_usage_status.update(key, value, upsert=True)
     return key, value
+
+# loadleveler status
+
+
+def save_hpc_loadleveler_status_to_cache(user: str, message: dict) -> tuple:
+    key = {
+        'user': user
+    }
+    value = {
+        'user': user,
+        'update_time': datetime.datetime.now(),
+        'message': message
+    }
+    hpc_loadleveler_status.update(key, value, upsert=True)
+    return key, value
+
+
+def get_hpc_loadleveler_status_from_cache(user: str) -> dict:
+    key = {
+        'user': user
+    }
+    value = hpc_loadleveler_status.find_one(key, {"_id": 0})
+    return value
 
 
 # redis

@@ -21,7 +21,7 @@ def receive_disk_usage_message(user):
 
     message_data = message['data']
 
-    key, value = cache.save_hpc_disk_usage_status_from_cache(user, message)
+    key, value = cache.save_hpc_disk_usage_status_to_cache(user, message)
 
     print("post disk usage to cloud: user=", user)
     post_data = {
@@ -48,6 +48,40 @@ def get_disk_usage_message(user: str):
 
     result = cache.get_hpc_disk_usage_status_from_cache(user)
 
+    end_time = datetime.datetime.now()
+    print(end_time - start_time)
+
+    return jsonify(result)
+
+
+@api_v2_app.route('/hpc/users/<user>/loadleveler/status', methods=['POST'])
+def receive_loadleveler_status(user):
+    start_time = datetime.datetime.now()
+    message = json.loads(request.form['message'])
+
+    if 'error' in message:
+        result = {
+            'status': 'ok'
+        }
+        return jsonify(result)
+
+    message_data = message['data']
+
+    key, value = cache.save_hpc_loadleveler_status_to_cache(user, message)
+
+    print("post loadleveler status to cloud: user=", user)
+    post_data = {
+        'message': json.dumps(value)
+    }
+    post_url = app.config['BROKER_CONFIG']['hpc']['loadleveler_status']['cloud']['put']['url'].format(
+        user=user
+    )
+    response = requests.post(post_url, data=post_data)
+    print("post loadleveler status to cloud done:  response=", response)
+
+    result = {
+        'status': 'ok'
+    }
     end_time = datetime.datetime.now()
     print(end_time - start_time)
 
