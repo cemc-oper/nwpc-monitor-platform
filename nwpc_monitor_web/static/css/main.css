@@ -46,7 +46,7 @@
 }
 
 .loadleveler-status-cell-status{
-    flex-basis: 10%
+    flex-basis: 10%;
 }
 
 .loadleveler-status-cell-owner{
@@ -60,6 +60,14 @@
 .loadleveler-status-cell-queue-date{
     flex-basis: 30%;
     text-align: end;
+}
+
+.loadleveler-status-header-button{
+    border: 1px solid gray;
+    display: flex;
+    display: -webkit-flex;
+    /*margin-left:3px;*/
+    /*margin-right:3px;*/
 }
 
 
