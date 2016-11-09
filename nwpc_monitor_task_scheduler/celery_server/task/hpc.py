@@ -48,7 +48,7 @@ def get_group_hpc_disk_usage_task():
 
 
 @app.task()
-def get_hpc_disk_usage(param):
+def get_hpc_loadleveler_usage(param):
     user = param['user']
     password = param['password']
     host = param['host']
@@ -83,7 +83,7 @@ def get_group_hpc_loadleveler_status_task():
     group_tasks = config_dict['hpc']['loadleveler_status']['task_group']
 
     # celery task group
-    g = group(get_hpc_disk_usage.s(param) for param in group_tasks)
+    g = group(get_hpc_loadleveler_usage.s(param) for param in group_tasks)
     result = g.delay()
     return
 
