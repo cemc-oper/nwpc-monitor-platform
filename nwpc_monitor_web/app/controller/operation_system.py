@@ -11,6 +11,7 @@ nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 
 
 @app.route('/')
+@app.route('/about')
 def get_index_page():
     #return render_template("index.html")
     return render_template("app/welcome_app_index.html")
