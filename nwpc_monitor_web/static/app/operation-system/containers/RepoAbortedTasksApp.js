@@ -49,9 +49,13 @@ class RepoAbortedTasksApp extends Component{
             };
 
             return (
-                <p key={i} >
-                    <NodeStatusImage node_status={ a_task_status } image_style={ image_style } />
-                    { a_task['path'] }
+                <p className="aborted-task-row" key={i} >
+                    <span className="aborted-task-cell-status">
+                        <NodeStatusImage node_status={ a_task_status } image_style={ image_style } />
+                    </span>
+                    <span className="aborted-task-cell-path">
+                        { a_task['path'] }
+                    </span>
                 </p>
             )
         });

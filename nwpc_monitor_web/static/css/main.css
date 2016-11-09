@@ -19,6 +19,27 @@
     left: 0;
 }
 
+/* aborted task */
+.aborted-task-row{
+    display:flex;
+    display: -webkit-flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.aborted-task-cell-status{
+    flex-basis: 40px;
+    min-width: 40px;
+}
+.aborted-task-cell-path{
+    margin-left: 5px;
+    margin-right: 5px;
+    flex:1;
+}
+
+.aborted-task-cell-path-text{
+    /*flex:1;*/
+}
+
 /* disk-usage 布局 */
 
 .disk-usage-box {
