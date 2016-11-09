@@ -37,3 +37,29 @@
     flex: 0 0 33.3333%;
 }
 
+/* loadleveler status */
+.loadleveler-status-row{
+    flex-basis: 100%;
+    display:flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
+
+.loadleveler-status-cell-status{
+    flex-basis: 10%
+}
+
+.loadleveler-status-cell-owner{
+    flex-basis: 30%;
+}
+
+.loadleveler-status-cell-class{
+    flex-basis: 30%;
+}
+
+.loadleveler-status-cell-queue-date{
+    flex-basis: 30%;
+    text-align: end;
+}
+
+

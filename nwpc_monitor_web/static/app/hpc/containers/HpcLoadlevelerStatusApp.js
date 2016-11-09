@@ -46,14 +46,20 @@ class HpcLoadlevelerStatusApp extends Component{
             let owner = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.owner");
             let queue_date = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.queue_date");
             let status = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.status");
+            // if(status.length==1){
+            //     status += " ";
+            // }
             let ll_class = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.class");
+            let job_script = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.job_script");
             return (
                 <div className="weui-cell" key={index}>
                     <div className="weui-cell__bd">
-                        <p>{queue_date} {owner} {ll_class} </p>
-                    </div>
-                    <div className="weui-cell__ft">
-                        {status}
+                        <p className="loadleveler-status-row">
+                            <span className="loadleveler-status-cell-status">{status}</span>
+                            <span className="loadleveler-status-cell-owner">{owner}</span>
+                            <span className="loadleveler-status-cell-class">{ll_class}</span>
+                            <span className="loadleveler-status-cell-queue-date">{queue_date}</span>
+                        </p>
                     </div>
                 </div>
             );
@@ -64,6 +70,16 @@ class HpcLoadlevelerStatusApp extends Component{
                 <h1 className="page_title">HPC队列</h1>
                 <p>更新时间：{ Util.getDelayTime(Util.parseUTCTimeString(collect_time), Util.getNow())} </p>
                 <div className="weui-cells">
+                    <div className="weui-cell">
+                        <div className="weui-cell__bd">
+                            <p className="loadleveler-status-row">
+                                <span className="loadleveler-status-cell-status">ST</span>
+                                <span className="loadleveler-status-cell-owner">Owner</span>
+                                <span className="loadleveler-status-cell-class">Class</span>
+                                <span className="loadleveler-status-cell-queue-date">Queue Date</span>
+                            </p>
+                        </div>
+                    </div>
                     { jobs_node }
                 </div>
                 <LoadingToast shown={ loadleveler_status.status.is_fetching } />
