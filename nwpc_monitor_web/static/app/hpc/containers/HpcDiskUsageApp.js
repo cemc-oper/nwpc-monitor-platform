@@ -18,10 +18,11 @@ class HpcDiskUsageApp extends Component{
         let user = params.user;
 
         // dispatch(clearHpcDiskUsageUsers());
-        dispatch(fetchAddHpcUserDiskUsage("nwp"));
-        dispatch(fetchAddHpcUserDiskUsage("nwp_qu"));
-        dispatch(fetchAddHpcUserDiskUsage("nwp_pd"));
+        dispatch(fetchAddHpcUserDiskUsage("nwp_sp"));
         dispatch(fetchAddHpcUserDiskUsage("nwp_xp"));
+        dispatch(fetchAddHpcUserDiskUsage("nwp_pd"));
+        dispatch(fetchAddHpcUserDiskUsage("nwp_qu"));
+        dispatch(fetchAddHpcUserDiskUsage("nwp"));
     }
 
     render() {

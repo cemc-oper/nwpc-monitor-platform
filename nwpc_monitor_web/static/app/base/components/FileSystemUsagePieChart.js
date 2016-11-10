@@ -80,7 +80,7 @@ export default class FileSystemUsagePieChart extends Component {
                             name:'使用',
                             itemStyle: {
                                 normal: {
-                                    color: this.getUsedColor(usage)
+                                    color: this.getUsedColor(usage/total)
                                 }
                             }
                         },
@@ -89,7 +89,7 @@ export default class FileSystemUsagePieChart extends Component {
                             name: '空闲',
                             itemStyle: {
                                 normal: {
-                                    color: this.getFreeColor(usage)
+                                    color: this.getFreeColor(usage/total)
                                 }
                             }
 
