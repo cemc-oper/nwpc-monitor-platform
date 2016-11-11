@@ -8,7 +8,7 @@ import {
 } from '../actions/disk_usage';
 
 import LoadingToast from '../../base/components/LoadingToast'
-import FileSystemUsagePieChart from '../../base/components/FileSystemUsagePieChart'
+import FileSystemUsagePieChart, {FileSystemUsagePieChartLegend} from '../../base/components/FileSystemUsagePieChart'
 
 import { Util } from '../../base/util/util'
 
@@ -85,6 +85,7 @@ class HpcDiskUsageApp extends Component{
         return (
             <div>
                 <h1 className="page_title">HPC磁盘空间</h1>
+                <FileSystemUsagePieChartLegend/>
                 { disk_usage_list }
                 <LoadingToast shown={ disk_usage.status.is_fetching } />
             </div>

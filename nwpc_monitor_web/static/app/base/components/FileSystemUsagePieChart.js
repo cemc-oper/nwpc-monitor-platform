@@ -137,7 +137,7 @@ FileSystemUsagePieChart.defaultProps = {
         },
         warning: {
             used_color: 'rgb(240,59,32)',
-            free_color: 'rgb(255,237,160)',
+            free_color: 'rgb(247,252,185)',
             inRange: function(value){
                 let min = 0.9;
                 let max = 1.0;
@@ -145,4 +145,125 @@ FileSystemUsagePieChart.defaultProps = {
             }
         }
     },
+};
+
+export class FileSystemUsagePieChartLegend extends Component {
+    constructor(props){
+        super(props);
+    }
+
+    componentDidMount(){
+        let echarts_instance = echarts.init(this.refs.chart_dom);
+        this.renderChartDom();
+
+        elementResizeEvent(this.refs.chart_dom, function() {
+            echarts_instance.resize();
+        });
+    }
+
+    componentDidUpdate(){
+        this.renderChartDom();
+    };
+
+    componentWillUnmount(){
+        echarts.dispose(this.refs.chart_dom);
+    }
+
+    getEchartsInstance(){
+        return echarts.getInstanceByDom(this.refs.chart_dom);
+    }
+
+    renderChartDom(){
+        let { config } = this.props;
+        let { legend } = config;
+        let echarts_instance = this.getEchartsInstance();
+
+        let series = legend.map(function(item, index){
+            return {
+                name: item.name,
+                type: 'bar',
+                stack: '总量',
+                itemStyle: {
+                    normal: {
+                        color: item.color
+                    }
+                },
+                data: [item.value]
+            }
+        });
+
+        echarts_instance.setOption({
+            grid:{
+                show:false
+            },
+            xAxis:  {
+                type: 'value',
+                splitLine:{
+                    show:false
+                },
+                splitNumber: 10,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            yAxis: {
+                type: 'category',
+                data: [''],
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    show: false
+                },
+            },
+            series: series
+        });
+        return echarts_instance;
+    }
+
+    render(){
+        const { data } = this.props;
+        let chart_style = {
+            height: 100
+        };
+
+        return (
+            <div>
+                <div>图例：使用百分比</div>
+                <div ref="chart_dom" style={ chart_style }>
+
+                </div>
+            </div>
+
+        )
+    }
+}
+
+FileSystemUsagePieChartLegend.propTypes = {
+    config:PropTypes.shape({
+        legend: PropTypes.arrayOf(
+            PropTypes.shape({
+                name :PropTypes.string,
+                color: PropTypes.string,
+                value: PropTypes.number
+            })
+        )
+    })
+};
+
+FileSystemUsagePieChartLegend.defaultProps = {
+    config: {
+        legend: [
+            {
+                name: '正常',
+                color: 'rgb(49,163,84)',
+                value: 90
+            },
+            {
+                name: '警告',
+                color: 'rgb(240,59,32)',
+                value: 10
+            }
+        ]
+    }
 };
