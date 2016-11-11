@@ -73,7 +73,7 @@ class RepoAbortedTasksApp extends Component{
 
                 <div className="weui-cells__title">链接</div>
                 <div className="weui-cells weui-cells_access">
-                    <a className="weui-cell" href="/{{ owner }}/{{ repo }}">
+                    <a className="weui-cell" href={ "/" +  owner  + "/" +  repo }>
                         <div className="weui-cell__bd weui-cell_primary">
                             <p>最新状态</p>
                         </div>
