@@ -34,8 +34,8 @@ class RepoAbortedTasksApp extends Component{
         let repo_last_update_time = '未知';
         let cur_time = new Date();
         if(aborted_tasks['update_time']!=null) {
-            let last_updated_time = new Date(aborted_tasks['update_time']);
-            repo_last_update_time = Util.getDelayTime(Util.parseDate(last_updated_time), Util.parseDate(cur_time));
+            repo_last_update_time = Util.getDelayTime(
+                Util.parseUTCTimeString(aborted_tasks['update_time']), Util.parseDate(cur_time));
         }
 
         let task_nodes = aborted_tasks['tasks'].map(function(a_task, i){

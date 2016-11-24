@@ -31,8 +31,7 @@ var externals= {
     'redux-thunk': 'ReduxThunk'
 };
 
-if( process.env.NODE_ENV === 'production' ) {
-
+if( process.env.NODE_ENV == 'production' ) {
     module.exports = {
         entry: entry,
         output: {
@@ -52,6 +51,7 @@ if( process.env.NODE_ENV === 'production' ) {
         ]
     };
 }else{
+    console.log('use develop build');
     module.exports = {
         devtool: "source-map",
         entry: entry,
