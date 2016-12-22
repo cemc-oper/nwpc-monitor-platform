@@ -5,7 +5,6 @@ from flask import Flask
 from .app_config import load_config
 from .common.json_encoder import NwpcMonitorWebApiJSONEncoder
 from .common.converter import NoStaticConverter
-from .api import api_app
 
 app = Flask(__name__, static_url_path='/static', static_folder='../static')
 
@@ -20,6 +19,7 @@ mongodb_client = MongoClient(app.config['NWPC_MONITOR_WEB_CONFIG']['mongodb']['h
 app.json_encoder = NwpcMonitorWebApiJSONEncoder
 app.url_map.converters['no_static'] = NoStaticConverter
 
+from .api import api_app
 app.register_blueprint(api_app, url_prefix="/api/v1")
 
 import nwpc_monitor_web.app.controller

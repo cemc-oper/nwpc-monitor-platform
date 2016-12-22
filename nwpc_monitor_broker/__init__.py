@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 app.config.from_object(load_config())
 
+
 class NwpcMonitorBrokerApiJSONEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
@@ -26,18 +27,18 @@ app.json_encoder = NwpcMonitorBrokerApiJSONEncoder
 
 from werkzeug.routing import BaseConverter, ValidationError
 
+
 class NoStaticConverter(BaseConverter):
     def to_python(self, value):
         if value == 'static':
             raise ValidationError()
         return value
+
     def to_url(self, value):
         return str(value)
 
 app.url_map.converters['no_static'] = NoStaticConverter
 
-
-#from nwpc_monitor.model import *
 db = SQLAlchemy(app)
 
 from .api import api_app
@@ -47,9 +48,3 @@ from .api_v2 import api_v2_app
 app.register_blueprint(api_v2_app, url_prefix="/api/v2")
 
 from nwpc_monitor_broker import controller
-
-# if __name__ == "__main__":
-#     app.run(
-#         host=app.config.BROKER_CONFIG['host']['ip'],
-#         port=app.config.BROKER_CONFIG['host']['port']
-#     )

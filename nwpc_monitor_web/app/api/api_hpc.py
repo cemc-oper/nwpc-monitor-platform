@@ -1,8 +1,6 @@
-from flask import request, json, jsonify, url_for
-import requests
+from flask import request, json, jsonify
 
 from nwpc_monitor_web.app.api import api_app, data_store
-from nwpc_monitor_web.app import app
 
 
 @api_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])

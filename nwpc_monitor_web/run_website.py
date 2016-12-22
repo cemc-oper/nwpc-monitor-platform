@@ -16,6 +16,7 @@ import sys
 if 'NWPC_MONITOR_PLATFORM_BASE' in os.environ:
     sys.path.append(os.environ['NWPC_MONITOR_PLATFORM_BASE'])
 
+
 def runserver():
 
     mode = "production"
@@ -26,7 +27,8 @@ def runserver():
 DESCRIPTION
     Run nwpc monitor website.""")
 
-    parser.add_argument("-m", "--mode",
+    parser.add_argument(
+        "-m", "--mode",
         help="run mode, [production, develop]. "
              "If not set, use mode set in environment variable MODE. "
              "If there is no such env variable, use default value: production."

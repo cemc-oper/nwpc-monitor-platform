@@ -116,6 +116,7 @@ def receive_sms_status():
     }
     return jsonify(result)
 
+
 @api_app.route('/dingtalk/access_token/get', methods=['GET'])
 def get_dingtalk_access_token():
     key = "dingtalk_access_token"

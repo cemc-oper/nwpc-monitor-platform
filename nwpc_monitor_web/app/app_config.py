@@ -8,7 +8,7 @@ import yaml
 
 
 class Config(object):
-    def __init__(self,config_path):
+    def __init__(self, config_path):
         with open(config_path) as config_file:
             config_dict = yaml.load(config_file)
             nwpc_monitor_web_config = config_dict['nwpc_monitor_web']
@@ -36,14 +36,15 @@ class Config(object):
 
                 pool_recycle = mysql_config['pool_recycle']
 
-                self.SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}?charset={charset}".format(
-                    user=mysql_user,
-                    password=mysql_password,
-                    host=mysql_ip,
-                    port=mysql_port,
-                    database=mysql_database,
-                    charset=mysql_charset
-                )
+                self.SQLALCHEMY_DATABASE_URI = \
+                    "mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}?charset={charset}".format(
+                        user=mysql_user,
+                        password=mysql_password,
+                        host=mysql_ip,
+                        port=mysql_port,
+                        database=mysql_database,
+                        charset=mysql_charset
+                    )
 
                 self.SQLALCHEMY_POOL_RECYCLE = pool_recycle
 
