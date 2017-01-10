@@ -11,6 +11,10 @@ In NWPC, we run tasks using a work flow software, such as SMS and ecFLow.
 
 Only SMS is supported at this moment. Please see sms/README.md for more information.
 
+## Test
+
+See `test` directory.
+
 ## License
 
 Copyright (C) 2016-2017 Perilla Roc.

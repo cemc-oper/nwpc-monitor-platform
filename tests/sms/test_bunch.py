@@ -1,5 +1,6 @@
 import unittest
-from sms import Bunch, Node
+
+from nwpc_work_flow_model.sms import Bunch, Node
 
 
 class TestBunch(unittest.TestCase):
