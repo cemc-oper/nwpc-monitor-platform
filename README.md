@@ -9,11 +9,11 @@ In NWPC, we run tasks using a work flow software, such as SMS and ecFLow.
 
 ## Components
 
-Only SMS is supported at this moment. Please see sms/README.md for more information.
+Only SMS is supported at this moment. Please see `nwpc_work_flow_model/sms/README.md` for more information.
 
-## Test
+## Tests
 
-See `test` directory.
+See `tests` directory.
 
 ## License
 
