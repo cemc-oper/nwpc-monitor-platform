@@ -1,4 +1,5 @@
 from .node_type import NodeType
+from .node_status import NodeStatus
 
 
 class Node(object):
@@ -21,7 +22,7 @@ class Node(object):
         self.parent = None
         self.children = list()
         self.name = name
-        self.status = status
+        self.status = NodeStatus.get_node_status(status)
 
     def __str__(self):
         return self.get_node_path()
@@ -77,7 +78,7 @@ class Node(object):
         node = Node()
         node.parent = parent
         node.name = node_dict['name']
-        node.status = node_dict['status']
+        node.status = NodeStatus.get_node_status(node_dict['status'])
         node.children = []
         for a_child_item in node_dict['children']:
             a_child_node = Node.create_from_dict(a_child_item, parent=node)

@@ -4,7 +4,7 @@ class NodeStatus(object):
     Complete = 'com'
     Queued = 'que'
     Submitted = 'sub'
-    Active = 'act',
+    Active = 'act'
     Aborted = 'abo'
     Shutdown = 'shu'
     Halted = 'hal'

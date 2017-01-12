@@ -1,4 +1,5 @@
 from .node import Node
+from .node_status import NodeStatus
 
 
 class Bunch(Node):
@@ -10,7 +11,7 @@ class Bunch(Node):
         self.parent = None
         self.children = list()
         self.name = ''
-        self.status = 'unk'
+        self.status = NodeStatus.get_node_status('unk')
 
     @staticmethod
     def create_from_dict(node_dict, parent=None):
@@ -24,7 +25,7 @@ class Bunch(Node):
         bunch = Bunch()
         bunch.parent = parent
         bunch.name = node_dict['name']
-        bunch.status = node_dict['status']
+        bunch.status = NodeStatus.get_node_status(node_dict['status'])
         for a_child_item in node_dict['children']:
             a_child_node = Node.create_from_dict(a_child_item, parent=bunch)
             bunch.children.append(a_child_node)
