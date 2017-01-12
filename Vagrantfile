@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   config.ssh.password = "vagrant"
 
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
-  config.vm.synced_folder "D:/windroc/project/nwp/sms/smslog", "/smslog", type: "virtualbox"
+  # config.vm.synced_folder "D:\windroc\project\sms\smslog", "/smslog", type: "virtualbox"
 
   config.vm.provider :virtualbox do |vb|
       vb.gui = false
