@@ -1,3 +1,3 @@
-#NWPC 业务监控平台
+#NWPC Monitor Platform
 
-nwpc-monitor-platform
+A monitor platform for operation systems in NWPC.
