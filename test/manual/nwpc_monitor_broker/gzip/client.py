@@ -1,11 +1,9 @@
 # coding=utf-8
 import requests
-import sys
 import os
 import json
 import datetime
 import gzip
-import io
 
 # normal_url = 'http://127.0.0.1:6220/api/normal'
 # gzip_url = 'http://127.0.0.1:6220/api/gzip'
