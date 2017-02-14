@@ -6,6 +6,12 @@ import json
 import datetime
 import gzip
 
+# normal_url = 'http://127.0.0.1:6220/api/normal'
+# gzip_url = 'http://127.0.0.1:6220/api/gzip'
+
+normal_url = 'https://www.nwpcmonitor.cc/api/test/gzip/normal'
+gzip_url = 'https://www.nwpcmonitor.cc/api/test/gzip/compress'
+
 
 def send_normal(data_file_path):
     with open(data_file_path, 'r') as f:
@@ -16,7 +22,7 @@ def send_normal(data_file_path):
         message_content = json.dumps(json_content)
 
         start_time = datetime.datetime.now()
-        result = requests.post("http://127.0.0.1:6220/api/normal", data={
+        result = requests.post(normal_url, data={
             'message': message_content
         })
         end_time = datetime.datetime.now()
@@ -34,7 +40,7 @@ def send_gzip(data_file_path):
 
         start_time = datetime.datetime.now()
         message_gzip_content = gzip.compress(bytes(message_content, 'utf8'))
-        result = requests.post("http://127.0.0.1:6220/api/gzip", data={
+        result = requests.post(gzip_url, data={
             'message': message_gzip_content
         })
         end_time = datetime.datetime.now()
