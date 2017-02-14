@@ -2,6 +2,7 @@
 
 from flask import request, jsonify, json
 import datetime
+import gzip
 import requests
 
 from nwpc_monitor_broker import app
@@ -211,7 +212,13 @@ def sms_status_message_handler(message_data: dict) -> None:
                 'message': json.dumps(post_message)
             }
 
-        response = requests.post(website_url, data=website_post_data)
+        print('gzip the data...')
+        gzipped_post_data = gzip.compress(bytes(json.dumps(website_post_data), 'utf-8'))
+        print('gzip the data...done')
+
+        response = requests.post(website_url, data=gzipped_post_data, headers={
+            'content-encoding': 'gzip'
+        })
         print(response)
         return
 
