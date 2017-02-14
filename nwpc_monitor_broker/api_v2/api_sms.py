@@ -230,7 +230,16 @@ def receive_sms_status_message():
     :return:
     """
     start_time = datetime.datetime.now()
-    message = json.loads(request.form['message'])
+
+    content_encoding = request.headers.get('content-encoding', '').lower()
+    if content_encoding == 'gzip':
+        gzipped_data = request.data
+        data_string = gzip.decompress(gzipped_data)
+        body = json.loads(data_string.decode('utf-8'))
+    else:
+        body = request.form
+
+    message = json.loads(body['message'])
 
     if 'error' in message:
         result = {

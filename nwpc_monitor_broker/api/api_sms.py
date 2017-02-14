@@ -1,5 +1,6 @@
 # coding=utf-8
 import datetime
+import gzip
 
 from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api import api_app, redis_client
@@ -16,9 +17,15 @@ def receive_sms_status():
     接收外部发送来的 SMS 服务器的状态，将其保存到本地缓存，并发送到外网服务器
     :return:
     """
+    content_encoding = request.headers.get('content-encoding', '').lower()
+    if content_encoding == 'gzip':
+        gzipped_data = request.data
+        data_string = gzip.decompress(gzipped_data)
+        body = json.loads(data_string.decode('utf-8'))
+    else:
+        body = request.form
 
-    r = request
-    message = json.loads(request.form['message'])
+    message = json.loads(body['message'])
 
     if 'error' in message:
         result = {
