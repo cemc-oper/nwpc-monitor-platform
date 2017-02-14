@@ -45,6 +45,6 @@ def send_gzip(data_file_path):
 
 if __name__ == "__main__":
 
-    data_file_path = os.path.join(os.path.dirname(__file__), 'data_nwp.json')
-    print(send_normal(data_file_path))
-    print(send_gzip(data_file_path))
+    file_path = os.path.join(os.path.dirname(__file__), 'data_nwp.json')
+    print(send_normal(file_path))
+    print(send_gzip(file_path))
