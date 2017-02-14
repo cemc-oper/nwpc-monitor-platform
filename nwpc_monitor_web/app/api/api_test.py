@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, json
 import gzip
 from nwpc_monitor_web.app.api import api_app
 
@@ -16,13 +16,16 @@ def get_normal_data():
     })
 
 
-@api_app.route("/api/gzip/compress", methods=['POST'])
+@api_app.route("/test/gzip/compress", methods=['POST'])
 def get_gzip_data():
     content_encoding = request.headers.get('content-encoding', '').lower()
-    message = request.form['message']
+    gzipped_data = request.data
+
     if content_encoding == 'gzip':
         print('decompress gzip data')
-        message = gzip.decompress(message)
+        data_string = gzip.decompress(gzipped_data)
+        data = json.loads(data_string.decode('utf-8'))
+        message = data['message']
     return jsonify({
         'status': 'ok'
     })

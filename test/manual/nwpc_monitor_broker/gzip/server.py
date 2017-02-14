@@ -38,10 +38,13 @@ def get_normal_data():
 @app.route("/api/gzip", methods=['POST'])
 def get_gzip_data():
     content_encoding = request.headers.get('content-encoding', '').lower()
-    message = request.form['message']
+    gzipped_data = request.data
+
     if content_encoding == 'gzip':
         print('decompress gzip data')
-        message = gzip.decompress(message)
+        data_string = gzip.decompress(gzipped_data)
+        data = json.loads(data_string.decode('utf-8'))
+        message = data['message']
     return jsonify({
         'status': 'ok'
     })

@@ -5,12 +5,13 @@ import os
 import json
 import datetime
 import gzip
+import io
 
 # normal_url = 'http://127.0.0.1:6220/api/normal'
 # gzip_url = 'http://127.0.0.1:6220/api/gzip'
 
-normal_url = 'https://www.nwpcmonitor.cc/api/test/gzip/normal'
-gzip_url = 'https://www.nwpcmonitor.cc/api/test/gzip/compress'
+normal_url = 'https://www.nwpcmonitor.cc/api/v1/test/gzip/normal'
+gzip_url = 'https://www.nwpcmonitor.cc/api/v1/test/gzip/compress'
 
 
 def send_normal(data_file_path):
@@ -26,6 +27,7 @@ def send_normal(data_file_path):
             'message': message_content
         })
         end_time = datetime.datetime.now()
+        print(result)
         print(len(message_content))
         return end_time - start_time
 
@@ -39,11 +41,15 @@ def send_gzip(data_file_path):
         message_content = json.dumps(json_content)
 
         start_time = datetime.datetime.now()
-        message_gzip_content = gzip.compress(bytes(message_content, 'utf8'))
-        result = requests.post(gzip_url, data={
-            'message': message_gzip_content
+        message_gzip_content = gzip.compress(bytes(json.dumps({
+            'message': message_content
+        }), 'utf-8'))
+
+        result = requests.post(gzip_url, data=message_gzip_content, headers={
+            'content-encoding': 'gzip'
         })
         end_time = datetime.datetime.now()
+        print(result)
 
         print(len(message_gzip_content))
         return end_time - start_time
