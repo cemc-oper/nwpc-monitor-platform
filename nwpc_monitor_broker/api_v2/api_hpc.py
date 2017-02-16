@@ -1,6 +1,7 @@
 from flask import request, jsonify, json
 import datetime
 import requests
+import gzip
 
 from nwpc_monitor_broker import app
 
@@ -11,7 +12,16 @@ from nwpc_monitor_broker.api_v2 import cache
 @api_v2_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])
 def receive_disk_usage_message(user):
     start_time = datetime.datetime.now()
-    message = json.loads(request.form['message'])
+
+    content_encoding = request.headers.get('content-encoding', '').lower()
+    if content_encoding == 'gzip':
+        gzipped_data = request.data
+        data_string = gzip.decompress(gzipped_data)
+        body = json.loads(data_string.decode('utf-8'))
+    else:
+        body = request.form
+
+    message = json.loads(body['message'])
 
     if 'error' in message:
         result = {
@@ -57,7 +67,16 @@ def get_disk_usage_message(user: str):
 @api_v2_app.route('/hpc/users/<user>/loadleveler/status', methods=['POST'])
 def receive_loadleveler_status(user):
     start_time = datetime.datetime.now()
-    message = json.loads(request.form['message'])
+
+    content_encoding = request.headers.get('content-encoding', '').lower()
+    if content_encoding == 'gzip':
+        gzipped_data = request.data
+        data_string = gzip.decompress(gzipped_data)
+        body = json.loads(data_string.decode('utf-8'))
+    else:
+        body = request.form
+
+    message = json.loads(body['message'])
 
     if 'error' in message:
         result = {
