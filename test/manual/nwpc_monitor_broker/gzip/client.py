@@ -1,6 +1,7 @@
 # coding=utf-8
 import requests
 import os
+import sys
 import json
 import datetime
 import gzip
@@ -27,6 +28,7 @@ def send_normal(data_file_path):
         end_time = datetime.datetime.now()
         print(result)
         print(len(message_content))
+        print(sys.getsizeof(message_content))  # in bytes
         return end_time - start_time
 
 
@@ -48,13 +50,13 @@ def send_gzip(data_file_path):
         })
         end_time = datetime.datetime.now()
         print(result)
-
         print(len(message_gzip_content))
+        print(sys.getsizeof(message_gzip_content))
         return end_time - start_time
 
 
 if __name__ == "__main__":
 
-    file_path = os.path.join(os.path.dirname(__file__), 'data_nwp.json')
+    file_path = os.path.join(os.path.dirname(__file__), 'data_eps_nwpc_qu.json')
     print(send_normal(file_path))
     print(send_gzip(file_path))
