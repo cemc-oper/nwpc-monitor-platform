@@ -40,7 +40,14 @@ def receive_disk_usage_message(user):
     post_url = app.config['BROKER_CONFIG']['hpc']['disk_usage']['cloud']['put']['url'].format(
         user=user
     )
-    response = requests.post(post_url, data=post_data)
+
+    print('gzip the data...')
+    gzipped_post_data = gzip.compress(bytes(json.dumps(post_data), 'utf-8'))
+    print('gzip the data...done')
+
+    response = requests.post(post_url, data=gzipped_post_data, headers={
+        'content-encoding': 'gzip'
+    })
     print("post disk usage to cloud done: response=", response)
 
     result = {
@@ -95,7 +102,13 @@ def receive_loadleveler_status(user):
     post_url = app.config['BROKER_CONFIG']['hpc']['loadleveler_status']['cloud']['put']['url'].format(
         user=user
     )
-    response = requests.post(post_url, data=post_data)
+
+    print('gzip the data...')
+    gzipped_post_data = gzip.compress(bytes(json.dumps(post_data), 'utf-8'))
+    print('gzip the data...done')
+    response = requests.post(post_url, data=gzipped_post_data, headers={
+        'content-encoding': 'gzip'
+    })
     print("post loadleveler status to cloud done:  response=", response)
 
     result = {

@@ -1,3 +1,5 @@
+import gzip
+
 from flask import request, json, jsonify
 
 from nwpc_monitor_web.app.api import api_app, data_store
@@ -5,8 +7,15 @@ from nwpc_monitor_web.app.api import api_app, data_store
 
 @api_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])
 def receive_disk_usage(user):
+    content_encoding = request.headers.get('content-encoding', '').lower()
+    if content_encoding == 'gzip':
+        gzipped_data = request.data
+        data_string = gzip.decompress(gzipped_data)
+        body = json.loads(data_string.decode('utf-8'))
+    else:
+        body = request.form
 
-    message = json.loads(request.form['message'])
+    message = json.loads(body['message'])
 
     if 'error' in message:
         result = {
@@ -31,8 +40,15 @@ def request_disk_usage(user):
 
 @api_app.route('/hpc/users/<user>/loadleveler/status', methods=['POST'])
 def receive_loadleveler_status(user):
+    content_encoding = request.headers.get('content-encoding', '').lower()
+    if content_encoding == 'gzip':
+        gzipped_data = request.data
+        data_string = gzip.decompress(gzipped_data)
+        body = json.loads(data_string.decode('utf-8'))
+    else:
+        body = request.form
 
-    message = json.loads(request.form['message'])
+    message = json.loads(body['message'])
 
     if 'error' in message:
         result = {
