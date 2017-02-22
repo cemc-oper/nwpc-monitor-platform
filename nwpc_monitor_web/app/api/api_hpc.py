@@ -1,8 +1,10 @@
 import gzip
 
-from flask import request, json, jsonify
+from flask import request, json, jsonify, url_for
+import requests
 
-from nwpc_monitor_web.app.api import api_app, data_store
+from nwpc_monitor_web.app import app
+from nwpc_monitor_web.app.api import api_app, data_store, analytics
 
 
 @api_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])
@@ -25,6 +27,11 @@ def receive_disk_usage(user):
 
     value = message
     data_store.save_disk_usage_to_mongodb(user, value)
+
+    # send data to google analytics
+    analytics.send_google_analytics_page_view(
+        url_for('api_app.receive_disk_usage', user=user)
+    )
 
     result = {
         'status': 'ok'
@@ -58,6 +65,11 @@ def receive_loadleveler_status(user):
 
     value = message
     data_store.save_hpc_loadleveler_status_to_cache(user, value)
+
+    # send data to google analytics
+    analytics.send_google_analytics_page_view(
+        url_for('api_app.receive_loadleveler_status', user=user)
+    )
 
     result = {
         'status': 'ok'

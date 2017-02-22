@@ -4,7 +4,7 @@ from flask import request, json, jsonify, url_for
 import requests
 
 from nwpc_work_flow_model.sms.visitor import SubTreeNodeVisitor, pre_order_travel_dict
-from nwpc_monitor_web.app.api import api_app
+from nwpc_monitor_web.app.api import api_app, analytics
 from nwpc_monitor_web.app import app, redis_client, mongodb_client
 from nwpc_monitor_web.app.common.operation_system import owner_list, get_owner_repo_status
 
@@ -100,17 +100,9 @@ def post_sms_status(owner, repo):
         commits_collection.insert_one(commit_object)
 
     # send data to google analytics
-    google_analytics_config = app.config['NWPC_MONITOR_WEB_CONFIG']['analytics']['google_analytics']
-    if google_analytics_config['enable'] is True:
-        post_data = {
-            'v': google_analytics_config['version'],
-            't': 'pageview',
-            'tid': google_analytics_config['track_id'],
-            'cid': google_analytics_config['client_id'],
-            'dh': google_analytics_config['document_host'],
-            'dp': url_for('api_app.post_sms_status', owner=owner, repo=repo)
-        }
-        requests.post(google_analytics_config['url'], data=post_data)
+    analytics.send_google_analytics_page_view(
+        url_for('api_app.post_sms_status', owner=owner, repo=repo)
+    )
 
     result = {
         'status': 'ok'
