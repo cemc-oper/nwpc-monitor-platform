@@ -1,4 +1,5 @@
 # coding=utf-8
+import uuid
 import requests
 
 from nwpc_monitor_web.app import app
@@ -12,7 +13,7 @@ def send_google_analytics_page_view(page_url):
             'v': google_analytics_config['version'],
             't': 'pageview',
             'tid': google_analytics_config['track_id'],
-            'cid': google_analytics_config['client_id'],
+            'cid': str(uuid.uuid4()),
             'dh': google_analytics_config['document_host'],
             'dp': page_url
         }
