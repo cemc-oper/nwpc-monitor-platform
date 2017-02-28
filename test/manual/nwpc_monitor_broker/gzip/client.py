@@ -57,6 +57,6 @@ def send_gzip(data_file_path):
 
 if __name__ == "__main__":
 
-    file_path = os.path.join(os.path.dirname(__file__), 'data_eps_nwpc_qu.json')
+    file_path = os.path.join(os.path.dirname(__file__), '../data_eps_nwpc_qu.json')
     print(send_normal(file_path))
     print(send_gzip(file_path))
