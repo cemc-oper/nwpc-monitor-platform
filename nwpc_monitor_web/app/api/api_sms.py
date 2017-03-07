@@ -6,7 +6,7 @@ import requests
 from nwpc_work_flow_model.sms.visitor import SubTreeNodeVisitor, pre_order_travel_dict
 from nwpc_monitor_web.app.api import api_app, analytics
 from nwpc_monitor_web.app import app, redis_client, mongodb_client
-from nwpc_monitor_web.app.common.operation_system import owner_list, get_owner_repo_statusa_from_cache
+from nwpc_monitor_web.app.common.operation_system import owner_list, get_owner_repo_status_from_cache
 
 # mongodb
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
@@ -121,7 +121,7 @@ def get_sms_status(owner, repo):
         depth = int(args['depth'])
 
     # 保存到本地缓存
-    message = get_owner_repo_statusa_from_cache(owner, repo)
+    message = get_owner_repo_status_from_cache(owner, repo)
 
     """
     message:
@@ -180,7 +180,7 @@ def get_owner_repos(owner: str):
     owner_repo_status = []
     for a_repo in repo_list:
         a_repo_name = a_repo['name']
-        cache_value = get_owner_repo_statusa_from_cache(owner, a_repo_name)
+        cache_value = get_owner_repo_status_from_cache(owner, a_repo_name)
         repo_status = None
         last_updated_time = None
         if cache_value is not None:
@@ -234,7 +234,7 @@ def get_repo_status(owner: str, repo: str, sms_path: str='/'):
     if not found_repo:
         return jsonify(result)
 
-    cache_value = get_owner_repo_statusa_from_cache(owner, repo)
+    cache_value = get_owner_repo_status_from_cache(owner, repo)
     node_status = None
     if cache_value is not None:
         time_string = cache_value['time']

@@ -32,7 +32,7 @@ owner_list = {
 }
 
 
-def get_owner_repo_statusa_from_cache(owner, repo):
+def get_owner_repo_status_from_cache(owner, repo):
     key = "{owner}/{repo}/status".format(owner=owner, repo=repo)
     message_string = redis_client.get(key)
     if message_string is None:
