@@ -32,11 +32,31 @@ owner_list = {
 }
 
 
-def get_owner_repo_status(owner, repo):
+def get_owner_repo_statusa_from_cache(owner, repo):
     key = "{owner}/{repo}/status".format(owner=owner, repo=repo)
     message_string = redis_client.get(key)
     if message_string is None:
-        return None
+        mongodb_key = {
+            'owner': owner,
+            'repo': repo
+        }
+        record = nwpc_monitor_platform_mongodb.sms_server_status.find_one(
+            mongodb_key, {"_id": 0}
+        )
+        if record is None:
+            return None
+
+        redis_value = {
+            'owner': owner,
+            'repo': repo,
+            'sms_name': repo,
+            'time': record['collected_time'],
+            'status': record['status'],
+            'type': 'sms'
+        }
+
+        redis_client.set(key, json.dumps(redis_value))
+        return record
     else:
         message_string = message_string.decode()
     return json.loads(message_string)
