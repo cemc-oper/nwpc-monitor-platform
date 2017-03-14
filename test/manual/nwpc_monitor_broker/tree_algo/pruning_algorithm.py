@@ -31,6 +31,7 @@ class PruningErrorStatusTaskVisitor(NodeVisitor):
         NodeVisitor.__init__(self)
         self.level = 0
         self.error_task_list = []
+        self.count = 0
 
     def visit(self, node):
         if node.status in ['que', 'act', 'com']:
@@ -39,6 +40,7 @@ class PruningErrorStatusTaskVisitor(NodeVisitor):
 
         if node.status == 'abo' and node.is_leaf():
             self.error_task_list.append(node)
+        self.count += 1
 
     def before_visit_child(self):
         self.level += 1
@@ -48,7 +50,7 @@ class PruningErrorStatusTaskVisitor(NodeVisitor):
 
 
 def main():
-    file_path = os.path.join(os.path.dirname(__file__) + "/../data/data_long.json")
+    file_path = os.path.join(os.path.dirname(__file__) + "/../data/data_errors_78.json")
     with open(file_path, 'r') as f:
         data = json.load(f)
         status_dict = data["data"]["content"]["status"]
@@ -64,6 +66,7 @@ def main():
         print(len(error_visitor.error_task_list))
         print(end_time - start_time)
 
+        print("Pruning:")
         tree = Bunch.create_from_dict(status_dict)
         start_time = datetime.datetime.now()
         error_visitor = PruningErrorStatusTaskVisitor()
@@ -71,6 +74,7 @@ def main():
         end_time = datetime.datetime.now()
         print(len(error_visitor.error_task_list))
         print(end_time - start_time)
+        print(error_visitor.count)
 
         print("end")
 
