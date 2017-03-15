@@ -63,7 +63,7 @@ def main():
         error_visitor = ErrorStatusTaskVisitor()
         pre_order_travel(tree, error_visitor)
         end_time = datetime.datetime.now()
-        print(len(error_visitor.error_task_list))
+        print("error tasks: ", len(error_visitor.error_task_list))
         print(end_time - start_time)
 
         print("Pruning:")
@@ -72,9 +72,9 @@ def main():
         error_visitor = PruningErrorStatusTaskVisitor()
         pre_order_travel(tree, error_visitor)
         end_time = datetime.datetime.now()
-        print(len(error_visitor.error_task_list))
+        print("error tasks: ", len(error_visitor.error_task_list))
         print(end_time - start_time)
-        print(error_visitor.count)
+        print("visitor count: ", error_visitor.count)
 
         print("end")
 
