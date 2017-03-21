@@ -8,6 +8,7 @@ from nwpc_monitor_broker.api_v2 import redis_client, mongodb_client
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status
 hpc_disk_usage_status = nwpc_monitor_platform_mongodb.hpc_disk_usage_status
+hpc_disk_space_status = nwpc_monitor_platform_mongodb.hpc_disk_space_status
 hpc_loadleveler_status = nwpc_monitor_platform_mongodb.hpc_loadleveler_status
 
 
@@ -64,8 +65,31 @@ def save_hpc_disk_usage_status_to_cache(user: str, message: dict) -> tuple:
     hpc_disk_usage_status.update(key, value, upsert=True)
     return key, value
 
-# loadleveler status
 
+# disk space
+
+def get_hpc_disk_space_status_from_cache() -> dict:
+    key = {
+        'user': 'hpc'
+    }
+    result = hpc_disk_space_status.find_one(key, {"_id": 0})
+    return result
+
+
+def save_hpc_disk_space_status_to_cache(message:str) -> tuple:
+    key = {
+        'user': 'hpc'
+    }
+    value = {
+        'user': 'hpc',
+        'update_time': datetime.datetime.now(),
+        'message': message
+    }
+    hpc_disk_space_status.update(key, value, upsert=True)
+    return key, value
+
+
+# loadleveler status
 
 def save_hpc_loadleveler_status_to_cache(user: str, message: dict) -> tuple:
     key = {

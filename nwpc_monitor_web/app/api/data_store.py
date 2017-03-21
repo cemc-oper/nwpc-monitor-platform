@@ -4,6 +4,7 @@ from nwpc_monitor_web.app import mongodb_client
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status
 hpc_disk_usage_status = nwpc_monitor_platform_mongodb.hpc_disk_usage_status
+hpc_disk_space_status = nwpc_monitor_platform_mongodb.hpc_disk_space_status
 hpc_loadleveler_status = nwpc_monitor_platform_mongodb.hpc_loadleveler_status
 
 
@@ -22,6 +23,21 @@ def get_disk_usage_from_mongodb(user: str) -> dict:
         'user': user
     }
     result = hpc_disk_usage_status.find_one(key, {"_id": 0})
+    return result
+
+
+def save_disk_space_to_mongodb(value: dict) -> None:
+    key = {
+        "user": 'hpc'
+    }
+    hpc_disk_space_status.update(key, value, upsert=True)
+
+
+def get_disk_space_from_mongodb() -> dict:
+    key = {
+        'user': 'hpc'
+    }
+    result = hpc_disk_space_status.find_one(key, {"_id": 0})
     return result
 
 

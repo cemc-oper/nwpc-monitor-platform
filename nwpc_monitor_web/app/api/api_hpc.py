@@ -45,6 +45,44 @@ def request_disk_usage(user):
     return jsonify(result)
 
 
+@api_app.route('/hpc/info/disk/space', methods=['POST'])
+def receive_disk_space():
+    content_encoding = request.headers.get('content-encoding', '').lower()
+    if content_encoding == 'gzip':
+        gzipped_data = request.data
+        data_string = gzip.decompress(gzipped_data)
+        body = json.loads(data_string.decode('utf-8'))
+    else:
+        body = request.form
+
+    message = json.loads(body['message'])
+
+    if 'error' in message:
+        result = {
+            'status': 'ok'
+        }
+        return jsonify(result)
+
+    value = message
+    data_store.save_disk_space_to_mongodb(value)
+
+    # send data to google analytics
+    analytics.send_google_analytics_page_view(
+        url_for('api_app.receive_disk_space')
+    )
+
+    result = {
+        'status': 'ok'
+    }
+    return jsonify(result)
+
+
+@api_app.route('/hpc/info/disk/space', methods=['GET'])
+def request_disk_space():
+    result = data_store.get_disk_space_from_mongodb()
+    return jsonify(result)
+
+
 @api_app.route('/hpc/users/<user>/loadleveler/status', methods=['POST'])
 def receive_loadleveler_status(user):
     content_encoding = request.headers.get('content-encoding', '').lower()
