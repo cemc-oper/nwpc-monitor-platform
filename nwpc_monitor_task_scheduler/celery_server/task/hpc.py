@@ -48,6 +48,47 @@ def get_group_hpc_disk_usage_task():
 
 
 @app.task()
+def get_hpc_disk_space(param):
+    user = param['user']
+    password = param['password']
+    host = param['host']
+    port = param['port']
+
+    config_dict = task_config.config
+
+    project_dir = config_dict['hpc']['disk_space']['project']['dir']
+    project_program = config_dict['hpc']['disk_space']['project']['program']
+    project_script = config_dict['hpc']['disk_space']['project']['script']
+
+    env_hosts = ['{user}@{host}'.format(user=user, host=host)]
+    env_password = '{password}'.format(password=password)
+
+    env.hosts = env_hosts
+    env.password = env_password
+
+    def get_disk_space():
+        with cd(project_dir):
+            run("{program} {script}".format(
+                program=project_program,
+                script=project_script,
+            ))
+
+    execute(get_disk_space)
+
+
+@app.task()
+def get_group_hpc_disk_space_task():
+    config_dict = task_config.config
+
+    group_tasks = config_dict['hpc']['disk_space']['task_group']
+
+    # celery task group
+    g = group(get_hpc_disk_space.s(param) for param in group_tasks)
+    result = g.delay()
+    return
+
+
+@app.task()
 def get_hpc_loadleveler_usage(param):
     user = param['user']
     password = param['password']
@@ -99,4 +140,4 @@ if __name__ == "__main__":
     #     'port': '22'
     # })
 
-    print(task.hpc.get_group_hpc_loadleveler_status_task.delay())
+    print(task.hpc.get_group_hpc_disk_space_task.delay())
