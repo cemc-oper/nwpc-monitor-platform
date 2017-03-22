@@ -2,7 +2,7 @@
 
 from flask import Flask
 from flask.json import JSONEncoder
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, time, timedelta, date
 from .config import load_config
 
