@@ -21,7 +21,7 @@ class CeleryConfig(object):
                 task_scheduler_celery_broker = 'amqp://guest:guest@{host}:{port}//'.format(
                     host=rabbitmq_host, port=rabbitmq_port
                 )
-                self.BROKER_URL = '{task_scheduler_celery_broker}'.format(
+                self.broker_url = '{task_scheduler_celery_broker}'.format(
                     task_scheduler_celery_broker=task_scheduler_celery_broker)
 
             if 'mysql' in backend_config:
@@ -34,10 +34,10 @@ class CeleryConfig(object):
                         user=mysql_user, password=mysql_password,
                         host=mysql_host, port=mysql_port
                     )
-                self.CELERY_RESULT_BACKEND = '{task_scheduler_celery_backend}'.format(
+                self.result_backend = '{task_scheduler_celery_backend}'.format(
                     task_scheduler_celery_backend=task_scheduler_celery_backend)
 
-            self.CELERY_INCLUDE = [
+            self.include = [
                 'nwpc_monitor_task_scheduler.celery_server.task'
             ]
 
@@ -52,12 +52,14 @@ class CeleryConfig(object):
                         crontab_param_dict[a_param] = schedule_param[a_param]
                     beat_schedule[a_beat_item['name']] = {
                         'task': a_beat_item['task'],
-                        'schedule': crontab(**crontab_param_dict)
+                        'schedule': crontab(**crontab_param_dict),
+                        'args': ()
                     }
                 else:
                     print('we do not support this type: {schedule_type}'.format(schedule_type=item_schedule['type']))
 
-            self.CELERYBEAT_SCHEDULE = beat_schedule
+            print(beat_schedule)
+            self.beat_schedule = beat_schedule
 
     @staticmethod
     def load_celery_config():
