@@ -111,6 +111,12 @@ class SmsNode(object):
         node.name = node_dict['name']
         node.status = node_dict['status']
         node.node_type = node_dict['node_type']
+        for a_var_dict in node_dict['variable_list']:
+            a_var = SmsNodeVariable.create_from_dict(a_var_dict)
+            node.variable_list.append(a_var)
+        for a_var_dict in node_dict['generated_variable_list']:
+            a_var = SmsNodeVariable.create_from_dict(a_var_dict)
+            node.generated_variable_list.append(a_var)
         return node
 
     def get_variable(self, variable_name):

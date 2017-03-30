@@ -1,5 +1,8 @@
 import os
 from nwpc_work_flow_model.sms.sms_node import SmsNode
+from nwpc_work_flow_model.sms.node_status import NodeStatus
+from nwpc_work_flow_model.sms.node_type import NodeType
+from nwpc_work_flow_model.sms.node_variable import SmsNodeVariableType
 
 
 class TestSmsNode(object):
@@ -43,3 +46,32 @@ class TestSmsNode(object):
             cdp_output = f.readlines()
             node = SmsNode.create_from_cdp_output(cdp_output)
             assert node is None
+
+    def test_create_from_dict(self):
+        node_dict = {
+            'name': 'node name',
+            'status': NodeStatus.Unknown,
+            'node_type': NodeType.Suite,
+            'variable_list': [
+                {
+                    'name': 'var name',
+                    'variable_type': SmsNodeVariableType.Variable,
+                    'value': 'var value'
+                }
+            ],
+            'generated_variable_list': [
+                {
+                    'name': 'gen var name',
+                    'variable_type': SmsNodeVariableType.GeneratedVariable,
+                    'value': 'gen var value'
+                }
+            ]
+        }
+
+        node = SmsNode.create_from_dict(node_dict)
+
+        assert node.name == node_dict['name']
+        assert node.status == node_dict['status']
+        assert node.node_type == node_dict['node_type']
+        assert len(node.variable_list) == 1
+        assert len(node.generated_variable_list) == 1
