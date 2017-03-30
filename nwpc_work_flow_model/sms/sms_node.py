@@ -105,6 +105,14 @@ class SmsNode(object):
             'generated_variable_list': [var.to_dict() for var in self.generated_variable_list]
         }
 
+    @staticmethod
+    def create_from_dict(node_dict):
+        node = SmsNode()
+        node.name = node_dict['name']
+        node.status = node_dict['status']
+        node.node_type = node_dict['node_type']
+        return node
+
     def get_variable(self, variable_name):
         for var in self.variable_list:
             if var.name == variable_name:
