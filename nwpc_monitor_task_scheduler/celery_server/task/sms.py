@@ -135,7 +135,7 @@ def get_sms_node_task(args):
 
                 if var_type == "date":
                     if expected_var_value == 'current':
-                        expected_var_value = datetime.datetime.now(tz=datetime.timezone.utc)..strftime("%Y%m%d")
+                        expected_var_value = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y%m%d")
                     if var.value == expected_var_value:
                         is_condition_fit = True
                     else:
