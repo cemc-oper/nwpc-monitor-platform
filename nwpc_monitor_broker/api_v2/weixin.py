@@ -163,26 +163,42 @@ class WeixinApp(object):
             weixin_access_token=weixin_access_token
         )
 
-        warning_post_message = {
-            "touser": "wangdp",
-            "agentid": 2,
-            "msgtype": "text",
-            "text": {
-                "content":
-                    "业务系统运行异常\n" +
-                    "{owner}/{repo}，请查看\n出错路径：\n".format(
-                        owner=warning_data['data']['owner'],
-                        repo=warning_data['data']['repo']
-                    ) + "日期 : {error_date}\n".format(
+        node_list_content = ''
+        for a_unfit_node in warning_data['data']['unfit_nodes']:
+            node_list_content += a_unfit_node['node_path'] + ' : ' + str(
+                len(a_unfit_node['unfit_variables'])) + "\n"
+
+        articles = [
+            {
+                'title': "业务系统异常：SMS节点状态"
+            },
+            {
+                "title": "{owner}/{repo}".format(
+                    owner=warning_data['data']['owner'],
+                    repo=warning_data['data']['repo']
+                )
+            },
+            {
+                'title':
+                    "日期 : {error_date}\n".format(
                         error_date=datetime.now().strftime("%Y-%m-%d"))
                     + "时间 : {error_time}".format(
                         error_time=datetime.now().strftime("%H:%M:%S"))
+            },
+            {
+                'title': '异常任务列表：\n' + node_list_content,
+                'description': '点击查看详情'
+            }
+        ]
+
+        warning_post_message = {
+            "touser": "wangdp",
+            "agentid": 2,
+            "msgtype": "news",
+            "news": {
+                "articles": articles
             }
         }
-
-        for a_unfit_node in warning_data['data']['unfit_nodes']:
-            warning_post_message['text']['content'] += "\n" + a_unfit_node['node_path'] + ' : ' + str(
-                len(a_unfit_node['unfit_variables']))
 
         warning_post_headers = {
             'content-type': 'application/json'
