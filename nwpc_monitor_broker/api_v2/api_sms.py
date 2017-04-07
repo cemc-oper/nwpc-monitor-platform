@@ -265,3 +265,59 @@ def receive_sms_status_message():
     return jsonify(result)
 
 
+@api_v2_app.route('/hpc/sms/<owner>/<repo>/node-task', methods=['POST'])
+def receive_sms_node_task_message(owner, repo):
+    content_encoding = request.headers.get('content-encoding', '').lower()
+    if content_encoding == 'gzip':
+        gzipped_data = request.data
+        data_string = gzip.decompress(gzipped_data)
+        body = json.loads(data_string.decode('utf-8'))
+    else:
+        body = request.form
+
+    message = json.loads(body['message'])
+
+    message_data = message['data']
+
+    unfit_node_list = []
+
+    node_result = message_data['response']['nodes']
+    for a_node_record in node_result:
+        node_path = a_node_record['node_path']
+        node_variables = a_node_record['variables']
+        has_unfit_var_flag = False
+        unfit_variable_list = []
+        for a_variable in node_variables:
+            if a_variable['is_condition_fit'] is True:
+                continue
+            has_unfit_var_flag = True
+            unfit_variable_list.append(a_variable)
+        if has_unfit_var_flag:
+            unfit_node_list.append({
+                'node_path': node_path,
+                'unfit_variables': unfit_variable_list
+            })
+
+    print(unfit_node_list)
+    if len(unfit_node_list) > 0:
+        result = {
+            'app': 'nwpc_monitor_broker',
+            'type': 'sms_node_task',
+            'timestamp': datetime.datetime.now().isoformat(),
+            'data': {
+                'owner': owner,
+                'repo': repo,
+                'unfit_nodes': unfit_node_list
+            }
+        }
+
+        weixin_app = weixin.WeixinApp(
+            weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
+            cloud_config=app.config['BROKER_CONFIG']['cloud']
+        )
+        weixin_app.send_sms_node_task_warn(result)
+
+    response_result = {
+        'status': 'ok'
+    }
+    return jsonify(response_result)

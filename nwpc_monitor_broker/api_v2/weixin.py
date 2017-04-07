@@ -154,3 +154,46 @@ class WeixinApp(object):
             timeout=REQUEST_POST_TIME_OUT
         )
         print(result.json())
+
+    def send_sms_node_task_warn(self, warning_data):
+        auth = Auth(self.weixin_config['token'])
+        weixin_access_token = auth.get_access_token()
+
+        warning_post_url = self.weixin_config['warn']['url'].format(
+            weixin_access_token=weixin_access_token
+        )
+
+        warning_post_message = {
+            "touser": "wangdp",
+            "agentid": 2,
+            "msgtype": "text",
+            "text": {
+                "content":
+                    "业务系统运行异常\n" +
+                    "{owner}/{repo}，请查看\n出错路径：\n".format(
+                        owner=warning_data['data']['owner'],
+                        repo=warning_data['data']['repo']
+                    ) + "日期 : {error_date}\n".format(
+                        error_date=datetime.now().strftime("%Y-%m-%d"))
+                    + "时间 : {error_time}".format(
+                        error_time=datetime.now().strftime("%H:%M:%S"))
+            }
+        }
+
+        for a_unfit_node in warning_data['data']['unfit_nodes']:
+            warning_post_message['text']['content'] += "\n" + a_unfit_node['node_path'] + ' : ' + str(
+                len(a_unfit_node['unfit_variables']))
+
+        warning_post_headers = {
+            'content-type': 'application/json'
+        }
+        warning_post_data = json.dumps(warning_post_message, ensure_ascii=False).encode('utf8')
+
+        result = requests.post(
+            warning_post_url,
+            data=warning_post_data,
+            verify=False,
+            headers=warning_post_headers,
+            timeout=REQUEST_POST_TIME_OUT
+        )
+        print(result.json())

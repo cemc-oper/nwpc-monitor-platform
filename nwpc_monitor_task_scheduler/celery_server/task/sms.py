@@ -2,6 +2,8 @@
 # coding=utf-8
 import datetime
 import json
+import gzip
+import requests
 from fabric.api import run, cd, execute, env
 from celery import group
 
@@ -193,6 +195,19 @@ def get_sms_node_task(args):
             }
         }
     }
+    post_data = {
+        'message': json.dumps(result)
+    }
+
+    gzipped_data = gzip.compress(bytes(json.dumps(post_data), 'utf-8'))
+    url = 'http://10.28.32.175:6201/api/v2/hpc/sms/{owner}/{repo}/node-task'.format(
+        owner=args['owner'],
+        repo=args['repo']
+    )
+    requests.post(url, data=gzipped_data, headers={
+        'content-encoding': 'gzip'
+    })
+
     return result
 
 
