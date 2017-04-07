@@ -69,6 +69,26 @@ def get_group_sms_status_task():
 
 @app.task()
 def get_sms_node_task(args):
+    """
+    
+    :param args: 
+    :return: 
+    {
+        'app': 'nwpc_monitor_task_scheduler',
+        'type': 'sms_node_task',
+        'timestamp': iso format,
+        'data': {
+            'owner': owner,
+            'repo': repo,
+            'request': {
+                'task': task object,
+            },
+            'response': {
+                'nodes': node result
+            }
+        }
+    }
+    """
     config_dict = task_config.config
     project_dir = config_dict['sms_node_task']['project']['dir']
     project_program = config_dict['sms_node_task']['project']['program']
@@ -125,7 +145,6 @@ def get_sms_node_task(args):
 
                 is_condition_fit = None
                 response_result = {
-                    'node_path': node_path,
                     'name': var_name,
                     'type': var_type,
                     'expected_value': expected_var_value,
@@ -147,19 +166,40 @@ def get_sms_node_task(args):
                 variables_result.append(response_result)
 
         return {
+            'node_path': node_path,
             'variables': variables_result
         }
 
     current_task = args['task']
     nodes = current_task['nodes']
 
+    node_result = []
     for a_node in nodes:
         result = execute(check_sms_variable, sms_info=args['sms'], sms_node=a_node)
-        print(result)
+        node_result.extend(result.values())
+
+    result = {
+        'app': 'nwpc_monitor_task_scheduler',
+        'type': 'sms_node_task',
+        'timestamp': datetime.datetime.now().isoformat(),
+        'data': {
+            'owner': args['owner'],
+            'repo': args['repo'],
+            'request': {
+                'task': args['task'],
+            },
+            'response': {
+                'nodes': node_result
+            }
+        }
+    }
+    return result
 
 
 if __name__ == "__main__":
     args = {
+        'owner': 'wangdp',
+        'repo': 'nwpc_wangdp',
         'auth': {
             'host': 'uranus.hpc.nmic.cn',
             'port': '22',
@@ -193,4 +233,4 @@ if __name__ == "__main__":
             ]
         }
     }
-    get_sms_node_task(args)
+    print(json.dumps(get_sms_node_task(args), indent=2))
