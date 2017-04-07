@@ -13,6 +13,8 @@ from nwpc_monitor_broker.api_v2 import data_store
 from nwpc_monitor_broker.api_v2 import ding_talk, weixin
 from nwpc_work_flow_model.sms import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 
+REQUEST_POST_TIME_OUT = 60
+
 
 def is_new_abort_task_found(owner: str, repo: str, previous_server_status: str, error_task_dict_list:list):
     """
@@ -215,9 +217,14 @@ def sms_status_message_handler(message_data: dict) -> None:
         gzipped_post_data = gzip.compress(bytes(json.dumps(website_post_data), 'utf-8'))
         print('gzip the data...done')
 
-        response = requests.post(website_url, data=gzipped_post_data, headers={
-            'content-encoding': 'gzip'
-        })
+        response = requests.post(
+            website_url,
+            data=gzipped_post_data,
+            headers={
+                'content-encoding': 'gzip'
+            },
+            timeout=REQUEST_POST_TIME_OUT
+        )
         print(response)
         return
 

@@ -8,6 +8,8 @@ from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
 
+REQUEST_POST_TIME_OUT = 60
+
 
 @api_v2_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])
 def receive_disk_usage_message(user):
@@ -45,9 +47,15 @@ def receive_disk_usage_message(user):
     gzipped_post_data = gzip.compress(bytes(json.dumps(post_data), 'utf-8'))
     print('gzip the data...done')
 
-    response = requests.post(post_url, data=gzipped_post_data, headers={
-        'content-encoding': 'gzip'
-    })
+    response = requests.post(
+        post_url,
+        data=gzipped_post_data,
+        headers={
+            'content-encoding': 'gzip'
+        },
+        timeout=REQUEST_POST_TIME_OUT
+    )
+
     print("post disk usage to cloud done: response=", response)
 
     result = {
@@ -105,9 +113,14 @@ def receive_disk_space_message():
     gzipped_post_data = gzip.compress(bytes(json.dumps(post_data), 'utf-8'))
     print('gzip the data...done')
 
-    response = requests.post(post_url, data=gzipped_post_data, headers={
-        'content-encoding': 'gzip'
-    })
+    response = requests.post(
+        post_url,
+        data=gzipped_post_data,
+        headers={
+            'content-encoding': 'gzip'
+        },
+        timeout=REQUEST_POST_TIME_OUT
+    )
     print("post disk space to cloud done: response=", response)
 
     result = {
@@ -166,9 +179,14 @@ def receive_loadleveler_status(user):
     print('gzip the data...')
     gzipped_post_data = gzip.compress(bytes(json.dumps(post_data), 'utf-8'))
     print('gzip the data...done')
-    response = requests.post(post_url, data=gzipped_post_data, headers={
-        'content-encoding': 'gzip'
-    })
+    response = requests.post(
+        post_url,
+        data=gzipped_post_data,
+        headers={
+            'content-encoding': 'gzip'
+        },
+        timeout = REQUEST_POST_TIME_OUT
+    )
     print("post loadleveler status to cloud done:  response=", response)
 
     result = {

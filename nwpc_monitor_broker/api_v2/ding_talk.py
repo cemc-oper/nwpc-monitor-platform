@@ -7,6 +7,9 @@ from .cache import save_dingtalk_access_token_to_cache, get_dingtalk_access_toke
 from nwpc_monitor_broker.api_v2 import data_store
 
 
+REQUEST_POST_TIME_OUT = 60
+
+
 class Auth(object):
     def __init__(self, config: dict):
         """
@@ -32,7 +35,12 @@ class Auth(object):
             corp_id=self.corp_id, corp_secret=self.corp_secret
         )
 
-        token_response = requests.get(url,verify=False, headers=headers)
+        token_response = requests.get(
+            url,
+            verify=False,
+            headers=headers,
+            timeout=REQUEST_POST_TIME_OUT
+        )
 
         response_json = token_response.json()
         print(response_json)
@@ -153,8 +161,11 @@ class DingTalkApp(object):
         warning_post_headers = {'content-type': 'application/json'}
         warning_post_data = json.dumps(warning_post_message)
 
-        result = requests.post(warning_post_url,
-                               data=warning_post_data,
-                               verify=False,
-                               headers=warning_post_headers)
+        result = requests.post(
+            warning_post_url,
+            data=warning_post_data,
+            verify=False,
+            headers=warning_post_headers,
+            timeout=REQUEST_POST_TIME_OUT
+        )
         print(result.json())
