@@ -74,6 +74,43 @@ def get_sms_node_task(args):
     """
     
     :param args: 
+    {
+        'owner': 'wangdp',
+        'repo': 'nwpc_wangdp',
+        'auth': {
+            'host': 'uranus.hpc.nmic.cn',
+            'port': '22',
+            'user': 'wangdp',
+            'password': '***REMOVED***'
+        },
+        'sms': {
+            'sms_server': 'nwpc_wangdp',
+            'sms_user': 'wangdp',
+            'sms_password': '1'
+        },
+        'task': {
+            'name': 'grapes_meso_post',
+            'type': 'sms-task',
+            'trigger': [
+                {
+                    'type': 'time',
+                    'time': '11:35:00'
+                }
+            ],
+            "nodes": [
+                {
+                    'node_path': '/grapes_meso_post',
+                    'variables': [
+                        {
+                            'name': 'SMSDATE',
+                            'type': 'date',
+                            'value': 'current'
+                        }
+                    ]
+                }
+            ]
+        }
+    }
     :return: 
     {
         'app': 'nwpc_monitor_task_scheduler',
@@ -227,6 +264,7 @@ if __name__ == "__main__":
             'sms_password': '1'
         },
         'task': {
+            'name': 'grapes_meso_post',
             'type': 'sms-task',
             'trigger': [
                 {
