@@ -250,9 +250,6 @@ def get_sms_node_task(args):
     return result
 
 
-
-
-
 if __name__ == "__main__":
     args = {
         'owner': 'wangdp',

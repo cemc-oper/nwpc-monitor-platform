@@ -176,7 +176,8 @@ class WeixinApp(object):
                 "title": "{owner}/{repo}".format(
                     owner=warning_data['data']['owner'],
                     repo=warning_data['data']['repo']
-                )
+                ),
+                "description": warning_data['data']['task_name']
             },
             {
                 'title':
@@ -210,6 +211,60 @@ class WeixinApp(object):
             data=warning_post_data,
             verify=False,
             headers=warning_post_headers,
+            timeout=REQUEST_POST_TIME_OUT
+        )
+        print(result.json())
+
+    def send_sms_node_task_message(self, message_data):
+        auth = Auth(self.weixin_config['token'])
+        weixin_access_token = auth.get_access_token()
+
+        post_url = self.weixin_config['warn']['url'].format(
+            weixin_access_token=weixin_access_token
+        )
+
+        articles = [
+            {
+                'title': "业务系统：SMS节点状态"
+            },
+            {
+                "title": "{owner}/{repo}".format(
+                    owner=message_data['data']['owner'],
+                    repo=message_data['data']['repo']
+                ),
+                "description": message_data['data']['task_name']
+            },
+            {
+                'title':
+                    "日期 : {error_date}\n".format(
+                        error_date=datetime.now().strftime("%Y-%m-%d"))
+                    + "时间 : {error_time}".format(
+                        error_time=datetime.now().strftime("%H:%M:%S"))
+            },
+            {
+                'title': '运行正常'
+            }
+        ]
+
+        post_message = {
+            "touser": "wangdp",
+            "agentid": 2,
+            "msgtype": "news",
+            "news": {
+                "articles": articles
+            }
+        }
+
+        post_headers = {
+            'content-type': 'application/json'
+        }
+        post_data = json.dumps(post_message, ensure_ascii=False).encode('utf8')
+
+        result = requests.post(
+            post_url,
+            data=post_data,
+            verify=False,
+            headers=post_headers,
             timeout=REQUEST_POST_TIME_OUT
         )
         print(result.json())

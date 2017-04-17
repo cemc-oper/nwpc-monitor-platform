@@ -50,14 +50,9 @@ def setup_sms_node_periodic_task(sender, **kwargs):
                     'hour': trigger_time.hour
                 }
                 print('add periodic_task', a_task)
-                # sender.add_periodic_task(
-                #     crontab(**crontab_param_dict),
-                #     get_sms_node_task.s(task_args)
-                # )
                 sender.add_periodic_task(
-                    1,
-                    get_sms_node_task.s(task_args),
-                    name=a_task['name']
+                    crontab(**crontab_param_dict),
+                    get_sms_node_task.s(task_args)
                 )
             else:
                 print("trigger type is not supported:", trigger_type)

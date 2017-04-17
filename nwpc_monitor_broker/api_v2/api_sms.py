@@ -281,6 +281,8 @@ def receive_sms_node_task_message(owner, repo):
 
     unfit_node_list = []
 
+    task_name = message['request']['task']['name']
+
     node_result = message_data['response']['nodes']
     for a_node_record in node_result:
         node_path = a_node_record['node_path']
@@ -307,6 +309,7 @@ def receive_sms_node_task_message(owner, repo):
             'data': {
                 'owner': owner,
                 'repo': repo,
+                'task_name': task_name,
                 'unfit_nodes': unfit_node_list
             }
         }
@@ -316,6 +319,23 @@ def receive_sms_node_task_message(owner, repo):
             cloud_config=app.config['BROKER_CONFIG']['cloud']
         )
         weixin_app.send_sms_node_task_warn(result)
+    else:
+        result = {
+            'app': 'nwpc_monitor_broker',
+            'type': 'sms_node_task',
+            'timestamp': datetime.datetime.now().isoformat(),
+            'data': {
+                'owner': owner,
+                'repo': repo,
+                'task_name': task_name,
+            }
+        }
+
+        weixin_app = weixin.WeixinApp(
+            weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
+            cloud_config=app.config['BROKER_CONFIG']['cloud']
+        )
+        weixin_app.send_sms_node_task_message(result)
 
     response_result = {
         'status': 'ok'
