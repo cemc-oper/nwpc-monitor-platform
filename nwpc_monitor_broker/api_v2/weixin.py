@@ -187,6 +187,9 @@ class WeixinApp(object):
                         error_time=datetime.now().strftime("%H:%M:%S"))
             },
             {
+                "title": warning_data['data']['task_name'] + " 运行异常"
+            },
+            {
                 'title': '异常任务列表：\n' + node_list_content,
                 'description': '点击查看详情'
             }
@@ -222,10 +225,9 @@ class WeixinApp(object):
         post_url = self.weixin_config['warn']['url'].format(
             weixin_access_token=weixin_access_token
         )
-
         articles = [
             {
-                'title': "业务系统：SMS节点状态"
+                "title": "业务系统：SMS节点状态检查"
             },
             {
                 "title": "{owner}/{repo}".format(
@@ -235,14 +237,14 @@ class WeixinApp(object):
                 "description": message_data['data']['task_name']
             },
             {
-                'title':
+                "title":
                     "日期 : {error_date}\n".format(
                         error_date=datetime.now().strftime("%Y-%m-%d"))
                     + "时间 : {error_time}".format(
                         error_time=datetime.now().strftime("%H:%M:%S"))
             },
             {
-                'title': '运行正常'
+                "title": message_data['data']['task_name'] + " 运行正常"
             }
         ]
 
