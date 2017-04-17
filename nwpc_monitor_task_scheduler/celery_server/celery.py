@@ -17,7 +17,7 @@ app.config_from_object(celery_config)
 task_config = TaskConfig.load_celery_config()
 
 
-from nwpc_monitor_task_scheduler.celery_server.task.sms import get_sms_node_task
+from nwpc_monitor_task_scheduler.celery_server.task import sms
 
 
 @app.on_after_configure.connect
@@ -52,7 +52,7 @@ def setup_sms_node_periodic_task(sender, **kwargs):
                 print('add periodic_task', a_task)
                 sender.add_periodic_task(
                     crontab(**crontab_param_dict),
-                    get_sms_node_task.s(task_args)
+                    sms.get_sms_node_task.s(task_args)
                 )
             else:
                 print("trigger type is not supported:", trigger_type)

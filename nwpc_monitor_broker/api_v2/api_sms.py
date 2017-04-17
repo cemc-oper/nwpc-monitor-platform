@@ -281,7 +281,7 @@ def receive_sms_node_task_message(owner, repo):
 
     unfit_node_list = []
 
-    task_name = message['request']['task']['name']
+    task_name = message_data['request']['task']['name']
 
     node_result = message_data['response']['nodes']
     for a_node_record in node_result:
