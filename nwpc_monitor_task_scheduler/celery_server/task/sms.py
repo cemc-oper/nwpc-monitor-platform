@@ -259,14 +259,13 @@ def setup_sms_node_periodic_task(sender, **kwargs):
     repo_config_dir = os.path.join(task_config_dir, repo_config_dir)
 
     for root, dirs, files in os.walk(repo_config_dir):
-        print(root, dirs, files)
         for file_path in files:
-            if not file_path.endswith('.config.yaml'):
+            print(file_path)
+            if not file_path.endswith('yaml'):
                 continue
             config_file_path = file_path
-            with open(config_file_path, 'r') as config_file:
-                config_dict = yaml.load(config_file)
-                config = config_dict
+            with open(os.path.join(repo_config_dir,config_file_path), 'r') as config_file:
+                config = yaml.load(config_file)
 
             if config is None:
                 print("Error in loading config")
@@ -285,12 +284,16 @@ def setup_sms_node_periodic_task(sender, **kwargs):
                 for a_trigger in task_triggers:
                     trigger_type = a_trigger['type']
                     if trigger_type == 'time':
-                        trigger_time = datetime.datetime.strptime(a_trigger['time'],"%H:%M:%S")
+                        trigger_time = datetime.datetime.strptime(a_trigger['time'], "%H:%M:%S")
                         crontab_param_dict = {
                             'minute': trigger_time.minute,
                             'hour': trigger_time.hour
                         }
-                        print('add periodic_task', a_task)
+                        # crontab_param_dict = {
+                        #     'minute': datetime.datetime.now().minute + 1,
+                        #     'hour': datetime.datetime.now().hour
+                        # }
+                        print('add periodic_task', crontab_param_dict)
                         sender.add_periodic_task(
                             crontab(**crontab_param_dict),
                             get_sms_node_task.s(task_args)
