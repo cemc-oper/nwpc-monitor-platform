@@ -3,6 +3,7 @@
 import datetime
 import json
 import gzip
+import os
 import requests
 import yaml
 from fabric.api import run, cd, execute, env
@@ -11,6 +12,7 @@ from celery.schedules import crontab
 
 from nwpc_monitor_task_scheduler.celery_server.celery import app, task_config
 from nwpc_work_flow_model.sms.sms_node import SmsNode
+from nwpc_monitor_task_scheduler.celery_server.config import TaskConfig
 
 
 """
@@ -248,6 +250,53 @@ def get_sms_node_task(args):
     })
 
     return result
+
+
+@app.on_after_configure.connect
+def setup_sms_node_periodic_task(sender, **kwargs):
+    task_config_dir = TaskConfig.get_config_file_dir()
+    repo_config_dir = task_config.config['sms_node_task']['repo_config_dir']
+    repo_config_dir = os.path.join(task_config_dir, repo_config_dir)
+
+    for root, dirs, files in os.walk(repo_config_dir):
+        print(root, dirs, files)
+        for file_path in files:
+            if not file_path.endswith('.config.yaml'):
+                continue
+            config_file_path = file_path
+            with open(config_file_path, 'r') as config_file:
+                config_dict = yaml.load(config_file)
+                config = config_dict
+
+            if config is None:
+                print("Error in loading config")
+                return
+
+            task_list = config['task_list']
+            for a_task in task_list:
+                task_triggers = a_task['trigger']
+                task_args = {
+                    'owner': config['owner'],
+                    'repo': config['repo'],
+                    'auth': config['auth'],
+                    'sms': config['sms'],
+                    'task': a_task
+                }
+                for a_trigger in task_triggers:
+                    trigger_type = a_trigger['type']
+                    if trigger_type == 'time':
+                        trigger_time = datetime.datetime.strptime(a_trigger['time'],"%H:%M:%S")
+                        crontab_param_dict = {
+                            'minute': trigger_time.minute,
+                            'hour': trigger_time.hour
+                        }
+                        print('add periodic_task', a_task)
+                        sender.add_periodic_task(
+                            crontab(**crontab_param_dict),
+                            get_sms_node_task.s(task_args)
+                        )
+                    else:
+                        print("trigger type is not supported:", trigger_type)
 
 
 if __name__ == "__main__":

@@ -58,7 +58,7 @@ class CeleryConfig(object):
                 else:
                     print('we do not support this type: {schedule_type}'.format(schedule_type=item_schedule['type']))
 
-            print(beat_schedule)
+            # print(beat_schedule)
             self.beat_schedule = beat_schedule
 
     @staticmethod
@@ -85,6 +85,11 @@ class TaskConfig(object):
         with open(config_file_path, 'r') as config_file:
             config_dict = yaml.load(config_file)
             self.config = config_dict
+
+    @staticmethod
+    def get_config_file_dir():
+        config_file_directory = os.path.dirname(__file__) + "/../conf"
+        return config_file_directory
 
     @staticmethod
     def load_celery_config():
