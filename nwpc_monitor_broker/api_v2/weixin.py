@@ -170,7 +170,8 @@ class WeixinApp(object):
 
         articles = [
             {
-                'title': "业务系统异常：SMS节点状态"
+                'title': "业务系统异常：SMS节点状态",
+                "picurl": "http://wx2.sinaimg.cn/mw690/4afdac38ly1feqnwb44kkj2223112wfj.jpg"
             },
             {
                 "title": "{owner}/{repo}".format(
@@ -227,7 +228,8 @@ class WeixinApp(object):
         )
         articles = [
             {
-                "title": "业务系统：SMS节点状态检查"
+                "title": "业务系统：SMS节点状态检查",
+                "picurl": "http://wx2.sinaimg.cn/large/4afdac38ly1feqnewxygsj20hs08wt8u.jpg"
             },
             {
                 "title": "{owner}/{repo}".format(

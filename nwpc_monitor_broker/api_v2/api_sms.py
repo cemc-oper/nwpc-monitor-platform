@@ -267,6 +267,45 @@ def receive_sms_status_message():
 
 @api_v2_app.route('/hpc/sms/<owner>/<repo>/node-task', methods=['POST'])
 def receive_sms_node_task_message(owner, repo):
+    """
+    
+    :param owner: 
+    :param repo: 
+    :return: 
+    
+    post data:
+    message:
+    {
+        'app': 'nwpc_monitor_task_scheduler',
+        'type': 'sms_node_task',
+        'timestamp': datetime.datetime.now().isoformat(),
+        'data': {
+            'owner': args['owner'],
+            'repo': args['repo'],
+            'request': {
+                'task': args['task'],
+            },
+            'response': {
+                'nodes': [
+                    {
+                        'node_path': node path,
+                        'variables': [
+                            {
+                                'name': var_name,
+                                'type': var_type,
+                                'expected_value': expected_var_value,
+                                'value': var.value,
+                                'is_condition_fit': is_condition_fit       
+                            },
+                            ...
+                        ]
+                    },
+                    ...
+                ]
+            }
+        }
+    }
+    """
     content_encoding = request.headers.get('content-encoding', '').lower()
     if content_encoding == 'gzip':
         gzipped_data = request.data
