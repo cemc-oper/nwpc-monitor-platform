@@ -82,6 +82,7 @@ class WeixinApp(object):
     def get_user_info(self, code: str):
         auth = Auth(self.weixin_config['token'])
         weixin_access_token = auth.get_access_token()
+        # weixin_access_token = auth.get_access_token_from_server()
 
         url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={access_token}&code={code}".format(
             access_token=weixin_access_token,
@@ -96,7 +97,7 @@ class WeixinApp(object):
 
         if 'errcode' in result:
             error_code = result['errcode']
-            if error_code == '40029':
+            if error_code == 40014:
                 # need refactoring
                 weixin_access_token = auth.get_access_token_from_server()['access_token']
                 url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={access_token}&code={code}".format(
