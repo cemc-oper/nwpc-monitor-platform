@@ -1,10 +1,7 @@
 # coding=utf-8
-from datetime import datetime
 import requests
-from flask import json
 
-from .cache import save_weixin_access_token_to_cache, get_weixin_access_token_from_cache
-from nwpc_monitor_web.app.api import data_store
+from nwpc_monitor_web.app.util.cache import save_weixin_access_token_to_cache, get_weixin_access_token_from_cache
 
 REQUEST_POST_TIME_OUT = 60
 

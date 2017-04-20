@@ -1,10 +1,9 @@
 import gzip
 
 from flask import request, json, jsonify, url_for
-import requests
 
-from nwpc_monitor_web.app import app
-from nwpc_monitor_web.app.api import api_app, data_store, analytics
+from nwpc_monitor_web.app.api import api_app
+from nwpc_monitor_web.app.util import analytics, data_store
 
 
 @api_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])

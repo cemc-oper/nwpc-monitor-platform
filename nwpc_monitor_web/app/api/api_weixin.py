@@ -1,13 +1,8 @@
 # coding=utf-8
-import datetime
-import gzip
 
-import requests
-from flask import request, json, jsonify, url_for, session
+from flask import jsonify, session
 
-from nwpc_monitor_web.app import app
-
-from nwpc_monitor_web.app.api import api_app, weixin
+from nwpc_monitor_web.app.api import api_app
 
 
 @api_app.route("/user/info")
