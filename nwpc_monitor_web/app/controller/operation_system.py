@@ -3,12 +3,6 @@ from nwpc_monitor_web.app import app
 from flask import render_template
 
 
-@app.route('/')
-@app.route('/about')
-def get_index_page():
-    return render_template("app/welcome_app_index.html")
-
-
 @app.route('/robots.txt')
 def get_robots_txt_file():
     return render_template("robots.txt")

@@ -19,6 +19,8 @@ mongodb_client = MongoClient(app.config['NWPC_MONITOR_WEB_CONFIG']['mongodb']['h
 app.json_encoder = NwpcMonitorWebApiJSONEncoder
 app.url_map.converters['no_static'] = NoStaticConverter
 
+app.secret_key = '\x99g\x0b\xedY\xcf\n\xdd\xeb\xd7\\2K\xf94Cq{\xea\xe6\x8c\x17\xdf\x10'
+
 from .api import api_app
 app.register_blueprint(api_app, url_prefix="/api/v1")
 

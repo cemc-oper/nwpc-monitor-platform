@@ -1,9 +1,8 @@
 export const REQUEST_USER_INFO = "REQUEST_USER_INFO";
 
-export function requestUserInfo(code){
+export function requestUserInfo(){
     return {
-        type: REQUEST_USER_INFO,
-        code
+        type: REQUEST_USER_INFO
     }
 }
 
@@ -17,11 +16,11 @@ export function receiveUserInfo(response){
     }
 }
 
-export function fetchUserInfo(code){
+export function fetchUserInfo(){
     return function (dispatch){
-        dispatch(requestUserInfo(code));
+        dispatch(requestUserInfo());
         return $.getJSON(
-            '/api/v1/user/info?code=' + code,
+            '/api/v1/user/info',
             {},
             function(data){
                 dispatch(receiveUserInfo({

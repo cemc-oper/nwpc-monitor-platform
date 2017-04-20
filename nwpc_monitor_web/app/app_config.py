@@ -14,6 +14,11 @@ class Config(object):
             nwpc_monitor_web_config = config_dict['nwpc_monitor_web']
             self.NWPC_MONITOR_WEB_CONFIG = nwpc_monitor_web_config
 
+            if 'secret' in nwpc_monitor_web_config:
+                secret_config = nwpc_monitor_web_config['secret']
+                if 'key' in secret_config:
+                    self.SECRET_KEY = secret_config['key']
+
             if 'debug' in nwpc_monitor_web_config:
                 debug_config = nwpc_monitor_web_config['debug']
                 if 'flask_debug' in debug_config:

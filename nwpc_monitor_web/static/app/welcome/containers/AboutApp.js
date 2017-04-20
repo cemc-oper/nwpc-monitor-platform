@@ -12,16 +12,8 @@ class AboutApp extends Component{
     }
 
     componentDidMount(){
-        const { dispatch, params} = this.props;
-        let location = this.props.location;
-        let query = location.query;
-        //console.log(location);
-        //console.log(query);
-        if(query.code){
-            //console.log('has code');
-            let code = query.code;
-            dispatch(fetchUserInfo(code))
-        }
+        const { dispatch } = this.props;
+        dispatch(fetchUserInfo());
     }
 
     onChange(e) {
