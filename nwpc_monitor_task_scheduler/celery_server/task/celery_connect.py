@@ -2,17 +2,17 @@ import datetime
 import os
 import yaml
 from celery.schedules import crontab
-from nwpc_monitor_task_scheduler.celery_server.celery import app, task_config
+from nwpc_monitor_task_scheduler.celery_server.celery import app
 from nwpc_monitor_task_scheduler.celery_server.config import TaskConfig
 
 from nwpc_monitor_task_scheduler.celery_server.task.sms import get_sms_node_task
 
 
-@app.on_after_configure.connect
+@app.on_after_finalize.connect
 def setup_sms_node_periodic_task(sender, **kwargs):
-    print("setup_sms_node_periodic_task")
+    print("setup sms node periodic tasks")
     task_config_dir = TaskConfig.get_config_file_dir()
-    repo_config_dir = task_config.config['sms_node_task']['repo_config_dir']
+    repo_config_dir = app.task_config.config['sms_node_task']['repo_config_dir']
     repo_config_dir = os.path.join(task_config_dir, repo_config_dir)
 
     for root, dirs, files in os.walk(repo_config_dir):

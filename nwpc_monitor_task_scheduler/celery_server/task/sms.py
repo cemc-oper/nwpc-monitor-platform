@@ -3,16 +3,12 @@
 import datetime
 import json
 import gzip
-import os
 import requests
-import yaml
 from fabric.api import run, cd, execute, env
 from celery import group
-from celery.schedules import crontab
 
-from nwpc_monitor_task_scheduler.celery_server.celery import app, task_config
+from nwpc_monitor_task_scheduler.celery_server.celery import app
 from nwpc_work_flow_model.sms.sms_node import SmsNode
-from nwpc_monitor_task_scheduler.celery_server.config import TaskConfig
 
 
 """
@@ -28,7 +24,7 @@ def get_sms_status_task(repo):
     sms_user = repo['sms_user']
     sms_name = repo['sms_name']
 
-    config_dict = task_config.config
+    config_dict = app.task_config.config
     hpc_user = config_dict['sms_status_task']['hpc']['user']
     hpc_password = config_dict['sms_status_task']['hpc']['password']
     hpc_host = config_dict['sms_status_task']['hpc']['host']
@@ -63,7 +59,7 @@ def get_sms_status_task(repo):
 
 @app.task()
 def get_group_sms_status_task():
-    config_dict = task_config.config
+    config_dict = app.task_config.config
 
     repos = config_dict['group_sms_status_task']
 
@@ -132,7 +128,7 @@ def get_sms_node_task(args):
         }
     }
     """
-    config_dict = task_config.config
+    config_dict = app.task_config.config
     project_dir = config_dict['sms_node_task']['project']['dir']
     project_program = config_dict['sms_node_task']['project']['program']
     project_script = config_dict['sms_node_task']['project']['script']

@@ -3,7 +3,7 @@ from fabric.api import run, cd, execute, env
 from celery import group
 import requests
 
-from nwpc_monitor_task_scheduler.celery_server.celery import app, task_config
+from nwpc_monitor_task_scheduler.celery_server.celery import app
 
 
 @app.task()
@@ -13,7 +13,7 @@ def get_hpc_disk_usage(param):
     host = param['host']
     port = param['port']
 
-    config_dict = task_config.config
+    config_dict = app.task_config.config
 
     project_dir = config_dict['hpc']['disk_usage']['project']['dir']
     project_program = config_dict['hpc']['disk_usage']['project']['program']
@@ -37,7 +37,7 @@ def get_hpc_disk_usage(param):
 
 @app.task()
 def get_group_hpc_disk_usage_task():
-    config_dict = task_config.config
+    config_dict = app.task_config.config
 
     group_tasks = config_dict['hpc']['disk_usage']['task_group']
 
@@ -54,7 +54,7 @@ def get_hpc_disk_space(param):
     host = param['host']
     port = param['port']
 
-    config_dict = task_config.config
+    config_dict = app.task_config.config
 
     project_dir = config_dict['hpc']['disk_space']['project']['dir']
     project_program = config_dict['hpc']['disk_space']['project']['program']
@@ -78,7 +78,7 @@ def get_hpc_disk_space(param):
 
 @app.task()
 def get_group_hpc_disk_space_task():
-    config_dict = task_config.config
+    config_dict = app.task_config.config
 
     group_tasks = config_dict['hpc']['disk_space']['task_group']
 
@@ -95,7 +95,7 @@ def get_hpc_loadleveler_usage(param):
     host = param['host']
     port = param['port']
 
-    config_dict = task_config.config
+    config_dict = app.task_config.config
 
     project_dir = config_dict['hpc']['loadleveler_status']['project']['dir']
     project_program = config_dict['hpc']['loadleveler_status']['project']['program']
@@ -119,7 +119,7 @@ def get_hpc_loadleveler_usage(param):
 
 @app.task()
 def get_group_hpc_loadleveler_status_task():
-    config_dict = task_config.config
+    config_dict = app.task_config.config
 
     group_tasks = config_dict['hpc']['loadleveler_status']['task_group']
 
