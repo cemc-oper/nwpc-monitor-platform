@@ -1,0 +1,106 @@
+{
+  "time": "2017-04-21 07:08:45",
+  "app": "nwpc_hpc_collector.loadleveler_status",
+  "data": {
+    "request": {
+      "sub_command": "collect"
+    },
+    "response": {
+      "items": [
+        {
+          "props": [
+            {
+              "id": "llq.id",
+              "data": "cma20n04.5169682.0",
+              "text": "cma20n04.5169682.0",
+              "value": "cma20n04.5169682.0"
+            },
+            {
+              "id": "llq.owner",
+              "data": "nwp_pd",
+              "text": "nwp_pd",
+              "value": "nwp_pd"
+            },
+            {
+              "id": "llq.class",
+              "data": "serial_op",
+              "text": "serial_op",
+              "value": "serial_op"
+            },
+            {
+              "id": "llq.job_script",
+              "data": "/cma/g3/nwp_pd/NWP_PST_DATA/GMF_GRAPES_025L60_POST/gmf_grapes_025L60_post/00/tograph/base/150/AN_AEA/QFLXDIV_P700_AN_AEA_sep_150.job",
+              "text": "/cma/g3/nwp_pd/NWP_PST_DATA/GMF_GRAPES_025L60_POST/gmf_grapes_025L60_post/00/tograph/base/150/AN_AEA/QFLXDIV_P700_AN_AEA_sep_150.job",
+              "value": "/cma/g3/nwp_pd/NWP_PST_DATA/GMF_GRAPES_025L60_POST/gmf_grapes_025L60_post/00/tograph/base/150/AN_AEA/QFLXDIV_P700_AN_AEA_sep_150.job"
+            },
+            {
+              "id": "llq.status",
+              "data": "ST",
+              "text": "ST",
+              "value": "Starting"
+            },
+            {
+              "id": "llq.queue_date",
+              "data": "2017-04-21 07:08:43",
+              "text": "04/21 07:08",
+              "value": "Fri Apr 21 07:08:43 2017"
+            },
+            {
+              "id": "llq.priority",
+              "data": 100,
+              "text": "100",
+              "value": "100"
+            }
+          ]
+        },
+        {
+          "props": [
+            {
+              "id": "llq.id",
+              "data": "cma19n02.5063197.0",
+              "text": "cma19n02.5063197.0",
+              "value": "cma19n02.5063197.0"
+            },
+            {
+              "id": "llq.owner",
+              "data": "nwp_sp",
+              "text": "nwp_sp",
+              "value": "nwp_sp"
+            },
+            {
+              "id": "llq.class",
+              "data": "serial",
+              "text": "serial",
+              "value": "serial"
+            },
+            {
+              "id": "llq.job_script",
+              "data": "/cma/g1/nwp_sp/NWP_PST_DATA/TOGRIB2/togrib2/00/grads2micaps_meso/041/upload_041.job",
+              "text": "/cma/g1/nwp_sp/NWP_PST_DATA/TOGRIB2/togrib2/00/grads2micaps_meso/041/upload_041.job",
+              "value": "/cma/g1/nwp_sp/NWP_PST_DATA/TOGRIB2/togrib2/00/grads2micaps_meso/041/upload_041.job"
+            },
+            {
+              "id": "llq.status",
+              "data": "R",
+              "text": "R",
+              "value": "Running"
+            },
+            {
+              "id": "llq.queue_date",
+              "data": "2017-04-11 07:19:08",
+              "text": "04/11 07:19",
+              "value": "Tue Apr 11 07:19:08 2017"
+            },
+            {
+              "id": "llq.priority",
+              "data": 100,
+              "text": "100",
+              "value": "100"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "type": "command"
+}
