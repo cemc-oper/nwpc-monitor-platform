@@ -125,22 +125,49 @@ class WeixinApp(object):
                     'count': len(a_suite_item['error_task_list'])
                 })
 
+        task_list = '出错系统列表：'
+        for a_suite in form_suite_error_list:
+            task_list += "\n" + a_suite['name'] + ' : ' + str(a_suite['count'])
+
+        articles = [
+            {
+                "title": "业务系统：{sms_server_name}运行出错".format(sms_server_name=warning_data['sms_server_name']),
+                "picurl": "http://wx2.sinaimg.cn/large/4afdac38ly1feu4tqm9c6j21kw0sggmu.jpg",
+                "url": message_url
+            },
+            {
+                "title": "项目：{owner}/{repo}".format(
+                    owner=warning_data['owner'],
+                    repo=warning_data['repo']
+                ),
+                "url": message_url
+            },
+            {
+                "title":
+                    "日期 : {error_date}\n".format(
+                        error_date=datetime.now().strftime("%Y-%m-%d"))
+                    + "时间 : {error_time}".format(
+                        error_time=datetime.now().strftime("%H:%M:%S")),
+                "url": message_url
+            },
+            {
+                "title": task_list,
+                "url": message_url
+            },
+            {
+                "title": '点击查看详情',
+                "url": message_url
+            }
+        ]
+
         warning_post_message = {
-            "touser":"@all",
-            "agentid": self.weixin_config['warn']['agentid'],
-            "msgtype":"text",
-            "text": {
-                "content":"业务系统运行出错\n" +
-                    "{sms_server_name}，请查看\n出错 suite 列表：\n".format(sms_server_name=warning_data['sms_server_name']) +
-                    "日期 : {error_date}\n".format(error_date=warning_data['message_datetime'].strftime("%Y-%m-%d")) +
-                    "时间 : {error_time}".format(error_time=warning_data['message_datetime'].strftime("%H:%M:%S"))
+            "touser": "@all",
+            "agentid": 2,
+            "msgtype": "news",
+            "news": {
+                "articles": articles
             }
         }
-        for a_suite in form_suite_error_list:
-            warning_post_message['text']['content'] += "\n" + a_suite['name'] + ' : ' + str(a_suite['count'])
-
-        warning_post_message['text']['content'] += '\n<a href=\"' + message_url + '">查看详情</a>'
-
         warning_post_headers = {
             'content-type': 'application/json'
         }
