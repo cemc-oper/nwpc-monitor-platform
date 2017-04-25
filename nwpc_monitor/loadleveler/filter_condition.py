@@ -7,21 +7,23 @@ class FilterCondition(object):
         return True
 
 
+def get_property_data(job_item, property_id):
+    result = None
+    for a_prop in job_item['props']:
+        if a_prop['id'] == property_id:
+            result = a_prop['data']
+    return result
+
+
 class PropertyFilterCondition(FilterCondition):
-    def __init__(self, property_id, data_checker):
+    def __init__(self, property_id, data_checker, data_parser=get_property_data):
         FilterCondition.__init__(self)
         self.property_id = property_id
         self.data_checker = data_checker
-
-    def get_property_data(self, job_item):
-        result = None
-        for a_prop in job_item['props']:
-            if a_prop['id'] == self.property_id:
-                result = a_prop['data']
-        return result
+        self.data_parser = data_parser
 
     def is_fit(self, job_item):
-        value = self.get_property_data(job_item)
+        value = self.data_parser(job_item, self.property_id)
         if self.data_checker(value):
             return True
         else:

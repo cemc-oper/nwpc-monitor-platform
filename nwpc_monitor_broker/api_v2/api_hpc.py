@@ -8,6 +8,8 @@ from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
 
+from nwpc_monitor_broker.plugins.loadleveler import loadleveler_filter
+
 REQUEST_POST_TIME_OUT = 60
 
 
@@ -167,6 +169,11 @@ def receive_loadleveler_status(user):
     message_data = message['data']
 
     key, value = cache.save_hpc_loadleveler_status_to_cache(user, message)
+
+    if 'error' not in message:
+        job_items = message_data['response']['items']
+        filter_results = loadleveler_filter.apply_filters(job_items)
+        print(filter_results)
 
     print("post loadleveler status to cloud: user=", user)
     post_data = {

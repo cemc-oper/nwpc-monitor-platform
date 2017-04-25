@@ -69,7 +69,7 @@ def add_normal_job(items):
 
     add_job(items,
             id=cur_index,
-            owner="wangdp",
+            owner="nwp",
             queue_date=job_queue_date_datetime)
 
 
@@ -77,7 +77,7 @@ def add_early_job(items):
     cur_index = len(items) + 1
     job_queue_date_datetime = datetime.datetime.now() - datetime.timedelta(days=2)
     add_job(items, cur_index,
-            owner="wangdp",
+            owner="nwp",
             queue_date=job_queue_date_datetime)
 
 
