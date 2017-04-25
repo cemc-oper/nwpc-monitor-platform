@@ -7,16 +7,6 @@ class FilterCondition(object):
         return True
 
 
-def create_equal_value_checker(expect_value):
-    def value_checker(value):
-        if value == expect_value:
-            return True
-        else:
-            return False
-
-    return value_checker
-
-
 class PropertyFilterCondition(FilterCondition):
     def __init__(self, property_id, data_checker):
         FilterCondition.__init__(self)
@@ -36,3 +26,42 @@ class PropertyFilterCondition(FilterCondition):
             return True
         else:
             return False
+
+
+def create_equal_value_checker(expect_value):
+    def value_checker(value):
+        if value == expect_value:
+            return True
+        else:
+            return False
+
+    return value_checker
+
+
+def create_greater_value_checker(expect_value):
+    def value_checker(value):
+        if value > expect_value:
+            return True
+        else:
+            return False
+
+    return value_checker
+
+
+def create_less_value_checker(expect_value):
+    def value_checker(value):
+        if value < expect_value:
+            return True
+        else:
+            return False
+
+    return value_checker
+
+
+def create_in_value_checker(expect_values):
+    def value_checker(value):
+        if value in expect_values:
+            return True
+        else:
+            return False
+    return value_checker
