@@ -7,8 +7,9 @@ from nwpc_monitor_broker import app
 
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
+from nwpc_monitor_broker.api_v2 import weixin
 
-from nwpc_monitor_broker.plugins.loadleveler import loadleveler_filter
+from nwpc_monitor_broker.plugins.loadleveler import long_time_operation_job_warn
 
 REQUEST_POST_TIME_OUT = 60
 
@@ -171,9 +172,41 @@ def receive_loadleveler_status(user):
     key, value = cache.save_hpc_loadleveler_status_to_cache(user, message)
 
     if 'error' not in message:
-        job_items = message_data['response']['items']
-        filter_results = loadleveler_filter.apply_filters(job_items)
-        print(filter_results)
+        r = long_time_operation_job_warn.warn_long_time_operation_job(message)
+        if r:
+            weixin_app = weixin.WeixinApp(
+                weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
+                cloud_config=app.config['BROKER_CONFIG']['cloud']
+            )
+            text = ""
+            for a_owner in r['categorized_result']:
+                text += "\n{owner}:{number}".format(
+                    owner=a_owner,
+                    number=r['categorized_result'][a_owner])
+            articles = [
+                {
+                    "title": "业务系统：队列异常",
+                },
+                {
+                    "title":
+                        "日期 : {error_date}\n".format(
+                            error_date=datetime.datetime.now().strftime("%Y-%m-%d"))
+                        + "时间 : {error_time}".format(
+                            error_time=datetime.datetime.now().strftime("%H:%M:%S"))
+                },
+                {
+                    "title": "异常用户:" + text
+                }
+            ]
+            post_message = {
+                "touser": "wangdp",
+                "agentid": 2,
+                "msgtype": "news",
+                "news": {
+                    "articles": articles
+                }
+            }
+            weixin_app.send_message(post_message)
 
     print("post loadleveler status to cloud: user=", user)
     post_data = {

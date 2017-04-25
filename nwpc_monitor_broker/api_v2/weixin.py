@@ -299,3 +299,25 @@ class WeixinApp(object):
             timeout=REQUEST_POST_TIME_OUT
         )
         print(result.json())
+
+
+    def send_message(self, message):
+        auth = Auth(self.weixin_config['token'])
+        weixin_access_token = auth.get_access_token()
+
+        post_url = self.weixin_config['warn']['url'].format(
+            weixin_access_token=weixin_access_token
+        )
+        post_headers = {
+            'content-type': 'application/json'
+        }
+        post_data = json.dumps(message, ensure_ascii=False).encode('utf8')
+
+        result = requests.post(
+            post_url,
+            data=post_data,
+            verify=False,
+            headers=post_headers,
+            timeout=REQUEST_POST_TIME_OUT
+        )
+        print(result.json())
