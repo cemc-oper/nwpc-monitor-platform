@@ -300,7 +300,6 @@ class WeixinApp(object):
         )
         print(result.json())
 
-
     def send_message(self, message):
         auth = Auth(self.weixin_config['token'])
         weixin_access_token = auth.get_access_token()

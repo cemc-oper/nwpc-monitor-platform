@@ -158,12 +158,12 @@ def sms_status_message_handler(message_data: dict) -> None:
                         'aborted_tasks_blob_id': aborted_tasks_blob_id
                     }
 
-                    ding_talk_app = ding_talk.DingTalkApp(
-                        ding_talk_config=app.config['BROKER_CONFIG']['ding_talk_app'],
-                        cloud_config=app.config['BROKER_CONFIG']['cloud']
-                    )
-
-                    ding_talk_app.send_warning_message(warning_data)
+                    # ding_talk_app = ding_talk.DingTalkApp(
+                    #     ding_talk_config=app.config['BROKER_CONFIG']['ding_talk_app'],
+                    #     cloud_config=app.config['BROKER_CONFIG']['cloud']
+                    # )
+                    #
+                    # ding_talk_app.send_warning_message(warning_data)
 
                     weixin_app = weixin.WeixinApp(
                         weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
