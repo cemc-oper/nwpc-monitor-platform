@@ -289,6 +289,7 @@ def receive_sms_node_task_message(owner, repo):
                 'nodes': [
                     {
                         'node_path': node path,
+                        'type': check type
                         'variables': [
                             {
                                 'name': var_name,
@@ -315,28 +316,44 @@ def receive_sms_node_task_message(owner, repo):
         body = request.form
 
     message = json.loads(body['message'])
-
     message_data = message['data']
+    task_name = message_data['request']['task']['name']
 
     unfit_node_list = []
-
-    task_name = message_data['request']['task']['name']
 
     node_result = message_data['response']['nodes']
     for a_node_record in node_result:
         node_path = a_node_record['node_path']
-        node_variables = a_node_record['variables']
-        has_unfit_var_flag = False
-        unfit_variable_list = []
-        for a_variable in node_variables:
-            if a_variable['is_condition_fit'] is True:
+        check_type = a_node_record['type']
+
+        if check_type == "variable":
+            check_result = a_node_record['check_result']
+            has_unfit_var_flag = False
+            unfit_variable_list = []
+            for a_variable in check_result:
+                if a_variable['is_condition_fit'] is True:
+                    continue
+                has_unfit_var_flag = True
+                unfit_variable_list.append(a_variable)
+            if has_unfit_var_flag:
+                unfit_node_list.append({
+                    'node_path': node_path,
+                    'type': check_type,
+                    'unfit_variables': unfit_variable_list
+                })
+
+        elif check_type == "status":
+            if 'error' in a_node_record:
+                print(a_node_record['error'])
                 continue
-            has_unfit_var_flag = True
-            unfit_variable_list.append(a_variable)
-        if has_unfit_var_flag:
+
+            check_result = a_node_record['check_result']
+            if check_result['is_condition_fit'] is True:
+                continue
             unfit_node_list.append({
                 'node_path': node_path,
-                'unfit_variables': unfit_variable_list
+                'type': check_type,
+                'check_result': check_result
             })
 
     print(unfit_node_list)

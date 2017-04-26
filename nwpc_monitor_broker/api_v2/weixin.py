@@ -192,8 +192,11 @@ class WeixinApp(object):
 
         node_list_content = ''
         for a_unfit_node in warning_data['data']['unfit_nodes']:
-            node_list_content += a_unfit_node['node_path'] + ' : ' + str(
-                len(a_unfit_node['unfit_variables'])) + "\n"
+            if a_unfit_node['type'] == 'variable':
+                node_list_content += a_unfit_node['node_path'] + ' : ' + str(
+                    len(a_unfit_node['unfit_variables'])) + "个变量异常\n"
+            elif a_unfit_node['type'] == 'status':
+                node_list_content += a_unfit_node['node_path'] + " : 状态异常"
 
         articles = [
             {

@@ -140,7 +140,7 @@ def check_sms_node(project_conf, sms_info, sms_node):
         return {
             'node_path': node_path,
             "type": "variable",
-            'variables': variables_result
+            'check_result': variables_result
         }
 
     elif check_type == 'status':
