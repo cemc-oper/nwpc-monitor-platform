@@ -69,6 +69,87 @@ def get_group_sms_status_task():
     return
 
 
+def check_sms_node(project_conf, sms_info, sms_node):
+
+    project_dir = project_conf['dir']
+    project_program = project_conf['program']
+    project_script = project_conf['script']
+
+    sms_server = sms_info['sms_server']
+    sms_user = sms_info['sms_user']
+    sms_password = sms_info['sms_password']
+
+    node_path = sms_node['node_path']
+    check_type = sms_node['type']
+    if check_type == 'variable':
+        variables = sms_node['variables']
+
+        variables_result = []
+
+        for variable_task in variables:
+            var_name = variable_task['name']
+            var_type = variable_task['type']
+            expected_var_value = variable_task['value']
+
+            with cd(project_dir):
+                run_result = run(
+                    "{program} {script} --sms-server={sms_server} "
+                    "--sms-user={sms_user} --sms-password {sms_password} --node-path={node_path}"
+                        .format(
+                        program=project_program,
+                        script=project_script,
+                        sms_server=sms_server,
+                        sms_user=sms_user,
+                        sms_password=sms_password,
+                        node_path=node_path
+                    )).splitlines()
+                cur_line_no = 0
+                result_length = len(run_result)
+                while cur_line_no < result_length and (not run_result[cur_line_no].startswith("{")):
+                    cur_line_no += 1
+
+                response_json_string = '\n'.join(run_result[cur_line_no:])
+
+                sms_node_dict = json.loads(response_json_string)['data']['response']['node']
+                sms_node = SmsNode.create_from_dict(sms_node_dict)
+
+                var = sms_node.get_variable(var_name)
+
+                is_condition_fit = None
+                response_result = {
+                    'name': var_name,
+                    'type': var_type,
+                    'expected_value': expected_var_value,
+                    'value': var.value,
+                    'is_condition_fit': is_condition_fit
+                }
+
+                if var_type == "date":
+                    if expected_var_value == 'current':
+                        expected_var_value = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y%m%d")
+                    if var.value == expected_var_value:
+                        is_condition_fit = True
+                    else:
+                        is_condition_fit = False
+                    response_result['is_condition_fit'] = is_condition_fit
+                else:
+                    print("current var type is not supported", var_type)
+
+                variables_result.append(response_result)
+
+        return {
+            'node_path': node_path,
+            "type": "variable",
+            'variables': variables_result
+        }
+    else:
+        return {
+            'node_path': node_path,
+            'type': check_type,
+            'error': 'check_type_not_supported'
+        }
+
+
 @app.task()
 def get_sms_node_task(args):
     """
@@ -130,9 +211,6 @@ def get_sms_node_task(args):
     }
     """
     config_dict = app.task_config.config
-    project_dir = config_dict['sms_node_task']['project']['dir']
-    project_program = config_dict['sms_node_task']['project']['program']
-    project_script = config_dict['sms_node_task']['project']['script']
 
     host = args['auth']['host']
     port = args['auth']['port']
@@ -145,86 +223,16 @@ def get_sms_node_task(args):
     env.hosts = env_hosts
     env.password = env_password
 
-    def check_sms_node(sms_info, sms_node):
-        sms_server = sms_info['sms_server']
-        sms_user = sms_info['sms_user']
-        sms_password = sms_info['sms_password']
-
-        node_path = sms_node['node_path']
-        check_type = sms_node['type']
-        if check_type == 'variable':
-            variables = sms_node['variables']
-
-            variables_result = []
-
-            for variable_task in variables:
-                var_name = variable_task['name']
-                var_type = variable_task['type']
-                expected_var_value = variable_task['value']
-
-                with cd(project_dir):
-                    run_result = run(
-                        "{program} {script} --sms-server={sms_server} "
-                        "--sms-user={sms_user} --sms-password {sms_password} --node-path={node_path}"
-                        .format(
-                            program=project_program,
-                            script=project_script,
-                            sms_server=sms_server,
-                            sms_user=sms_user,
-                            sms_password=sms_password,
-                            node_path=node_path
-                        )).splitlines()
-                    cur_line_no = 0
-                    result_length = len(run_result)
-                    while cur_line_no < result_length and (not run_result[cur_line_no].startswith("{")):
-                        cur_line_no += 1
-
-                    response_json_string = '\n'.join(run_result[cur_line_no:])
-                    sms_node_dict = json.loads(response_json_string)['data']['response']['node']
-                    sms_node = SmsNode.create_from_dict(sms_node_dict)
-
-                    var = sms_node.get_variable(var_name)
-
-                    is_condition_fit = None
-                    response_result = {
-                        'name': var_name,
-                        'type': var_type,
-                        'expected_value': expected_var_value,
-                        'value': var.value,
-                        'is_condition_fit': is_condition_fit
-                    }
-
-                    if var_type == "date":
-                        if expected_var_value == 'current':
-                            expected_var_value = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y%m%d")
-                        if var.value == expected_var_value:
-                            is_condition_fit = True
-                        else:
-                            is_condition_fit = False
-                        response_result['is_condition_fit'] = is_condition_fit
-                    else:
-                        print("current var type is not supported", var_type)
-
-                    variables_result.append(response_result)
-
-            return {
-                'node_path': node_path,
-                "type": "variable",
-                'variables': variables_result
-            }
-        else:
-            return {
-                'node_path': node_path,
-                'type': check_type,
-                'error': 'check_type_not_supported'
-            }
-
     current_task = args['task']
     nodes = current_task['nodes']
 
     node_result = []
     for a_node in nodes:
-        result = execute(check_sms_node, sms_info=args['sms'], sms_node=a_node)
+        result = execute(
+            check_sms_node,
+            project_conf=config_dict['sms_node_task']['project'],
+            sms_info=args['sms'],
+            sms_node=a_node)
         node_result.extend(result.values())
 
     result = {
