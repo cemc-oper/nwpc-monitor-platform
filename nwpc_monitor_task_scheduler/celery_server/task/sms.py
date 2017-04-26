@@ -116,7 +116,7 @@ def check_sms_node(project_conf, sms_info, sms_node):
                 var = sms_node.get_variable(var_name)
 
                 is_condition_fit = None
-                response_result = {
+                check_result = {
                     'name': var_name,
                     'type': var_type,
                     'expected_value': expected_var_value,
@@ -131,21 +131,69 @@ def check_sms_node(project_conf, sms_info, sms_node):
                         is_condition_fit = True
                     else:
                         is_condition_fit = False
-                    response_result['is_condition_fit'] = is_condition_fit
+                    check_result['is_condition_fit'] = is_condition_fit
                 else:
                     print("current var type is not supported", var_type)
 
-                variables_result.append(response_result)
+                variables_result.append(check_result)
 
         return {
             'node_path': node_path,
             "type": "variable",
             'variables': variables_result
         }
+
+    elif check_type == 'status':
+        value_object = sms_node['value']
+
+        check_result = None
+
+        with cd(project_dir):
+            run_result = run(
+                "{program} {script} --sms-server={sms_server} "
+                "--sms-user={sms_user} --sms-password {sms_password} --node-path={node_path}"
+                    .format(
+                    program=project_program,
+                    script=project_script,
+                    sms_server=sms_server,
+                    sms_user=sms_user,
+                    sms_password=sms_password,
+                    node_path=node_path
+                )).splitlines()
+            cur_line_no = 0
+            result_length = len(run_result)
+            while cur_line_no < result_length and (not run_result[cur_line_no].startswith("{")):
+                cur_line_no += 1
+
+            response_json_string = '\n'.join(run_result[cur_line_no:])
+
+            sms_node_dict = json.loads(response_json_string)['data']['response']['node']
+            sms_node = SmsNode.create_from_dict(sms_node_dict)
+
+            status = sms_node.status[:3]
+
+            is_condition_fit = None
+            if value_object['operator'] == 'in':
+                fields = value_object['fields']
+                if status in fields:
+                    is_condition_fit = True
+                else:
+                    is_condition_fit = False
+            check_result = {
+                'expected_value': value_object,
+                'value': status,
+                'is_condition_fit': is_condition_fit
+            }
+
+        return {
+            'node_path': node_path,
+            "type": check_type,  # status
+            'check_result': check_result
+        }
     else:
         return {
             'node_path': node_path,
-            'type': check_type,
+            'type': check_type,  # status
             'error': 'check_type_not_supported'
         }
 
@@ -171,7 +219,7 @@ def get_sms_node_task(args):
         },
         'task': {
             'name': 'grapes_meso_post',
-            'type': 'sms-task',
+            'type': 'sms-node',
             'trigger': [
                 {
                     'type': 'time',
@@ -283,7 +331,7 @@ if __name__ == "__main__":
         },
         'task': {
             'name': 'grapes_meso_post',
-            'type': 'sms-task',
+            'type': 'sms-node',
             'trigger': [
                 {
                     'type': 'time',
