@@ -70,6 +70,53 @@ def get_group_sms_status_task():
 
 
 def check_sms_node(project_conf, sms_info, sms_node):
+    """
+    check a sms node. return check result.
+    
+    :param project_conf: config dict for program
+        {
+            'dir': program work dir,
+            'program': python executable,
+            'script': python script
+        }
+    :param sms_info: sms server information
+        {
+            'sms_server': sms server,
+            'sms_user': sms user,
+            'sms_password': sms password
+        }
+    :param sms_node: sms node task for one node path
+        common fields:
+        {
+            'node path': node path,
+            'type': check type, [ variable, status ]
+        }
+        
+        check type related fields:
+        * variable, check variable value, there may be more than one variable for a single node path.
+            {
+                'variables': variables belong to node path.
+                [
+                    {
+                        'name': variable name,
+                        'type': variable type,
+                        'value': variable value
+                    }
+                ]
+            }
+            
+        * status, check sms node status
+            {
+                'value': {
+                    'operator': operator, such as in
+                    'fields': array, []
+                }
+            }
+    :return: check result
+        {
+            
+        }
+    """
 
     project_dir = project_conf['dir']
     project_program = project_conf['program']
@@ -151,8 +198,7 @@ def check_sms_node(project_conf, sms_info, sms_node):
         with cd(project_dir):
             run_result = run(
                 "{program} {script} --sms-server={sms_server} "
-                "--sms-user={sms_user} --sms-password {sms_password} --node-path={node_path}"
-                    .format(
+                "--sms-user={sms_user} --sms-password {sms_password} --node-path={node_path}".format(
                     program=project_program,
                     script=project_script,
                     sms_server=sms_server,
