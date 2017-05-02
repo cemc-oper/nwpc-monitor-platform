@@ -6,7 +6,7 @@ from flask import json
 from .cache import save_weixin_access_token_to_cache, get_weixin_access_token_from_cache
 from nwpc_monitor_broker.api_v2 import data_store
 
-REQUEST_POST_TIME_OUT = 60
+REQUEST_POST_TIME_OUT = 20
 
 
 class Auth(object):

@@ -11,7 +11,7 @@ from nwpc_monitor_broker.api_v2 import weixin
 
 from nwpc_monitor_broker.plugins.loadleveler import long_time_operation_job_warn
 
-REQUEST_POST_TIME_OUT = 60
+REQUEST_POST_TIME_OUT = 20
 
 
 @api_v2_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])

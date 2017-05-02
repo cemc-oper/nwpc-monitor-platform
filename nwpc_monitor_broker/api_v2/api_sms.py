@@ -13,7 +13,7 @@ from nwpc_monitor_broker.api_v2 import data_store
 from nwpc_monitor_broker.api_v2 import ding_talk, weixin
 from nwpc_work_flow_model.sms import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 
-REQUEST_POST_TIME_OUT = 60
+REQUEST_POST_TIME_OUT = 20
 
 
 def is_new_abort_task_found(owner: str, repo: str, previous_server_status: str, error_task_dict_list:list):

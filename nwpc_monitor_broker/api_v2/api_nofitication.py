@@ -6,7 +6,7 @@ from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import data_store
 from nwpc_monitor_broker.api_v2 import ding_talk, weixin
 
-REQUEST_POST_TIME_OUT = 60
+REQUEST_POST_TIME_OUT = 20
 
 
 @api_v2_app.route('/dingtalk/access_token/get', methods=['GET'])
