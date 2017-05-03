@@ -18,7 +18,7 @@ def get_datetime_data(job_item, property_id):
 def create_filter():
     query_date_condition = PropertyFilterCondition(
         "llq.queue_date",
-        data_checker=create_less_value_checker(datetime.datetime.now()-datetime.timedelta(days=1)),
+        data_checker=create_less_value_checker(datetime.datetime.now()-datetime.timedelta(hours=12)),
         data_parser=get_datetime_data
     )
     owner_condition = PropertyFilterCondition(

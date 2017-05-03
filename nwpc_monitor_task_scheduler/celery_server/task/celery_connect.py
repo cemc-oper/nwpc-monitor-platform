@@ -52,7 +52,7 @@ def setup_sms_node_periodic_task(sender, **kwargs):
                         #     'minute': datetime.datetime.now().minute + 1,
                         #     'hour': datetime.datetime.now().hour
                         # }
-                        print('add periodic_task', crontab_param_dict)
+                        print('add periodic_task', a_task['name'], crontab_param_dict)
                         sender.add_periodic_task(
                             crontab(**crontab_param_dict),
                             get_sms_node_task.s(task_args)
