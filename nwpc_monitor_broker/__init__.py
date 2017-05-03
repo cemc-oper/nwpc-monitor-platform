@@ -41,9 +41,6 @@ app.url_map.converters['no_static'] = NoStaticConverter
 
 db = SQLAlchemy(app)
 
-from .api import api_app
-app.register_blueprint(api_app, url_prefix="/api/v1")
-
 from .api_v2 import api_v2_app
 app.register_blueprint(api_v2_app, url_prefix="/api/v2")
 
