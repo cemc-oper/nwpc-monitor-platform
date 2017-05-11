@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+
 import MonitorWebAppTab from '../../base/components/MonitorWebAppTab'
 import {fetchUserInfo} from '../actions/index'
 
@@ -26,16 +27,38 @@ class AboutApp extends Component{
         window.location.href='/'+this.state.owner;
     }
 
+    getUserType() {
+        const { user } = this.props;
+        if(user.info.hasOwnProperty('UserId')){
+            return 'member';
+        } else if(user.info.hasOwnProperty('OpenId')){
+            return 'visitor'
+        }else {
+            return 'anonymous'
+        }
+    }
+
     render() {
         const { params, user } = this.props;
-        console.log(user);
-        let user_info = (
-                <p>尚未登录</p>
-            );
-        if(user.info.hasOwnProperty('UserId')){
-            user_info = (
-                <p>{user.info.UserId}</p>
-            );
+        let user_type = this.getUserType();
+        let user_info = null;
+        switch(user_type){
+            case 'member':
+                user_info = (
+                    <p>{user.info.UserId}</p>
+                );
+                break;
+            case 'visitor':
+                user_info = (
+                    <p>{user.info.OpenId}</p>
+                );
+                break;
+            case 'anonymous':
+            default:
+                user_info = (
+                    <p>尚未登录</p>
+                );
+
         }
 
         let tab_bar_item_name = "about";
