@@ -30,7 +30,7 @@ class AboutApp extends Component{
         const { params, user } = this.props;
         console.log(user);
         let user_info = (
-                <p>未获取用户</p>
+                <p>尚未登录</p>
             );
         if(user.info.hasOwnProperty('UserId')){
             user_info = (

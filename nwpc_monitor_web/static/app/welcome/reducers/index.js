@@ -10,10 +10,10 @@ function welcome_reducer(state={
 }, action){
     switch(action.type){
         case RECEIVE_USER_INFO:
-            let user_info = action.response.data.user_info;
-            console.log('welcome_reducer', user_info);
-            if(user_info.hasOwnProperty('errcode')){
-                user_info = {};
+            let data = action.response.data;
+            let user_info = {};
+            if(data['status'] === 'ok'){
+                user_info = action.response.data.user_info;
             }
             return new Object({
                 user: {
