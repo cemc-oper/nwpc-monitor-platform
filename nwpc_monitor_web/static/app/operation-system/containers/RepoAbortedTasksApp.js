@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { NodeStatusImage } from '../../base/components/NodeStatusImage'
+import LoadingToast from '../../base/components/LoadingToast'
 
 import { fetchOperationSystemRepoAbortedTasks } from '../actions/repo';
 import { Util } from '../../base/util/util'
@@ -17,12 +18,13 @@ class RepoAbortedTasksApp extends Component{
     }
 
     render() {
-        const { params, aborted_tasks } = this.props;
+        const { params, aborted_tasks, status } = this.props;
         if(aborted_tasks===null)
         {
             return (
                 <div>
                     <p>不存在</p>
+                    <LoadingToast shown={ status.is_fetching } />
                 </div>
             )
         }
@@ -33,14 +35,14 @@ class RepoAbortedTasksApp extends Component{
 
         let repo_last_update_time = '未知';
         let cur_time = new Date();
-        if(aborted_tasks['update_time']!=null) {
+        if(aborted_tasks['update_time']!==null) {
             repo_last_update_time = Util.getDelayTime(
                 Util.parseUTCTimeString(aborted_tasks['update_time']), Util.parseDate(cur_time));
         }
 
         let task_nodes = aborted_tasks['tasks'].map(function(a_task, i){
             let a_task_status = "unk";
-            if(a_task['status']!=null)
+            if(a_task['status']!==null)
                 a_task_status = a_task['status'];
 
             let image_style = {
@@ -81,6 +83,7 @@ class RepoAbortedTasksApp extends Component{
                         </div>
                     </a>
                 </div>
+                <LoadingToast shown={ status.is_fetching } />
             </div>
         );
     }
@@ -99,12 +102,20 @@ RepoAbortedTasksApp.propTypes = {
             status: PropTypes.string
         })),
         'update_time': PropTypes.string
+    }),
+    status: PropTypes.shape({
+        is_fetching: PropTypes.bool,
+        last_updated: PropTypes.oneOfType([
+            PropTypes.null,
+            PropTypes.number
+        ])
     })
 };
 
 function mapStateToProps(state){
     return {
-        aborted_tasks: state.operation_system.repo.aborted_tasks
+        aborted_tasks: state.operation_system.repo.aborted_tasks,
+        status: state.operation_system.repo.status
     }
 }
 

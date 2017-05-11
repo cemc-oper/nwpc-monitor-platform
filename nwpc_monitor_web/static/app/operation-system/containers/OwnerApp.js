@@ -5,6 +5,7 @@ import { fetchOperationSystemOwnerRepos } from '../actions/owner';
 
 import { Util } from '../../base/util/util'
 import { NodeStatusImage } from '../../base/components/NodeStatusImage'
+import LoadingToast from '../../base/components/LoadingToast'
 
 export class OwnerApp extends Component{
 
@@ -15,17 +16,17 @@ export class OwnerApp extends Component{
     }
 
     render() {
-        const { params, repos_status } = this.props;
+        const { params, repos_status, status } = this.props;
         let owner = params.owner;
         let cur_time = new Date();
 
         let repos = repos_status.map(function(a_repo, i){
             let repo_status = "unk";
-            if(a_repo['status']!=null)
+            if(a_repo['status']!==null)
                 repo_status = a_repo['status'];
 
             let repo_last_update_time = '未知';
-            if(a_repo['last_updated_time']!=null) {
+            if(a_repo['last_updated_time']!==null) {
                 let last_updated_time = new Date(a_repo['last_updated_time']);
                 repo_last_update_time = Util.getDelayTime(
                     Util.parseDate(last_updated_time),
@@ -44,6 +45,7 @@ export class OwnerApp extends Component{
                     <div className="weui-cell__ft">
                         { repo_last_update_time}
                     </div>
+                    <LoadingToast shown={ status.is_fetching } />
                 </a>
             )
         });
@@ -54,6 +56,7 @@ export class OwnerApp extends Component{
                 <div className="weui-cells weui-cells_access">
                     { repos }
                 </div>
+                <LoadingToast shown={ status.is_fetching } />
             </div>
         );
     }
@@ -64,12 +67,20 @@ OwnerApp.propTypes = {
         last_updated_time: PropTypes.string,
         owner: PropTypes.string,
         repo: PropTypes.string,
-    }))
+    })),
+    status: PropTypes.shape({
+        is_fetching: PropTypes.bool,
+        last_updated: PropTypes.oneOfType([
+            PropTypes.null,
+            PropTypes.number
+        ])
+    })
 };
 
 function mapStateToProps(state){
     return {
-        repos_status: state.operation_system.owner.repos_status
+        repos_status: state.operation_system.owner.repos_status,
+        status: state.operation_system.owner.status
     }
 }
 

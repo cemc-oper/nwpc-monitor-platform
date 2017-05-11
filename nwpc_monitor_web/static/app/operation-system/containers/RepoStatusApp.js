@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { NodeStatusImage } from '../../base/components/NodeStatusImage'
+import LoadingToast from '../../base/components/LoadingToast'
 
 import { fetchOperationSystemRepoStatus } from '../actions/owner';
 import { Util } from '../../base/util/util'
@@ -19,12 +20,13 @@ class RepoStatusApp extends Component{
     }
 
     render() {
-        const { params, node_status } = this.props;
+        const { params, node_status, status } = this.props;
         if(node_status===null)
         {
             return (
                 <div>
                     <p>不存在</p>
+                    <LoadingToast shown={ status.is_fetching } />
                 </div>
             )
         }
@@ -37,14 +39,14 @@ class RepoStatusApp extends Component{
 
         let repo_last_update_time = '未知';
         let cur_time = new Date();
-        if(node_status['last_updated_time']!=null) {
+        if(node_status['last_updated_time']!==null) {
             let last_updated_time = new Date(node_status['last_updated_time']);
             repo_last_update_time = Util.getDelayTime(Util.parseDate(last_updated_time), Util.parseDate(cur_time));
         }
 
         let children_node = node_status['children'].map(function(a_child, i){
             let a_child_status = "unk";
-            if(a_child['status']!=null)
+            if(a_child['status']!==null)
                 a_child_status = a_child['status'];
 
             return (
@@ -59,6 +61,7 @@ class RepoStatusApp extends Component{
 
                     <div className="weui-cell__ft">
                     </div>
+                    <LoadingToast shown={ status.is_fetching } />
                 </a>
             )
         });
@@ -71,6 +74,7 @@ class RepoStatusApp extends Component{
                 <div className="weui-cells weui-cells_access">
                     { children_node }
                 </div>
+                <LoadingToast shown={ status.is_fetching } />
             </div>
         );
     }
@@ -81,12 +85,20 @@ RepoStatusApp.propTypes = {
         last_updated_time: PropTypes.string,
         owner: PropTypes.string,
         repo: PropTypes.string,
+    }),
+    status: PropTypes.shape({
+        is_fetching: PropTypes.bool,
+        last_updated: PropTypes.oneOfType([
+            PropTypes.null,
+            PropTypes.number
+        ])
     })
 };
 
 function mapStateToProps(state){
     return {
-        node_status: state.operation_system.repo.node_status
+        node_status: state.operation_system.repo.node_status,
+        status: state.operation_system.repo.status
     }
 }
 

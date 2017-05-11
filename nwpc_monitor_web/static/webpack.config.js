@@ -31,7 +31,7 @@ var externals= {
     'redux-thunk': 'ReduxThunk'
 };
 
-if( process.env.NODE_ENV == 'production' ) {
+if( process.env.NODE_ENV === 'production' ) {
     module.exports = {
         entry: entry,
         output: {
