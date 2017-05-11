@@ -56,7 +56,7 @@ class AboutApp extends Component{
             case 'anonymous':
             default:
                 user_info = (
-                    <p>尚未登录</p>
+                    <p>尚未登录，<a href="/login">点击登录</a></p>
                 );
 
         }
