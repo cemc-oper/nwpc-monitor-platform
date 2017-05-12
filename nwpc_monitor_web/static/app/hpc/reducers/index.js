@@ -11,6 +11,11 @@ import {
     RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS
 } from '../actions/loadleveler_status'
 
+import {
+    REQUEST_HPC_DISK_SPACE,
+    RECEIVE_HPC_DISK_SPACE_SUCCESS
+} from '../actions/disk_space'
+
 function disk_usage_reducer(state={
     status: {
         is_fetching: false,
@@ -57,6 +62,52 @@ function disk_usage_reducer(state={
                     last_updated: state.status.last_updated
                 },
                 users: []
+            });
+        default:
+            return state;
+    }
+}
+
+function disk_space_reducer(state={
+    status: {
+        is_fetching: false,
+        last_updated: null
+    },
+    file_systems: [],
+    time: null
+}, action) {
+    switch (action.type) {
+        case REQUEST_HPC_DISK_SPACE:
+            return  new Object({
+                status: {
+                    is_fetching: true,
+                    last_updated: state.status.last_updated
+                },
+                file_systems: state.file_systems,
+                time: state.time,
+            });
+        case RECEIVE_HPC_DISK_SPACE_SUCCESS:
+            let file_systems = action.response.data.message.data.response.file_systems;
+
+            file_systems.sort(function(a,b){
+                let a_file_system = a.file_system.toUpperCase();
+                let b_file_system = b.file_system.toUpperCase();
+                if( a_file_system < b_file_system){
+                    return -1;
+                } else if(a_file_system > b_file_system){
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+
+            return new Object({
+                status: {
+                    is_fetching: false,
+                    last_updated: Date.now()
+                },
+                file_systems: file_systems,
+                time: action.response.data.message.time,
             });
         default:
             return state;
@@ -113,6 +164,14 @@ function hpc_reducer(state={
         },
         users: []
     },
+    disk_space: {
+        status: {
+            is_fetching: false,
+            last_updated: null
+        },
+        file_systems: [],
+        time: null
+    },
     loadleveler_status: {
         status: {
             is_fetching: false,
@@ -129,13 +188,22 @@ function hpc_reducer(state={
         case CLEAR_HPC_DISK_USAGE_USERS:
             return new Object({
                 disk_usage: disk_usage_reducer(state.disk_usage, action),
+                disk_space: state.disk_space,
                 loadleveler_status: state.loadleveler_status
             });
         case REQUEST_HPC_USER_LOADLEVELER_STATUS:
         case RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS:
             return new Object({
-                disk_usage: state.disk_usage, action,
+                disk_usage: state.disk_usage,
+                disk_space: state.disk_space,
                 loadleveler_status: loadleveler_status_reducer(state.loadleveler_status, action)
+            });
+        case REQUEST_HPC_DISK_SPACE:
+        case RECEIVE_HPC_DISK_SPACE_SUCCESS:
+            return new Object({
+                disk_usage: state.disk_usage,
+                disk_space: disk_space_reducer(state.disk_space, action),
+                loadleveler_status: state.loadleveler_status
             });
         default:
             return state;
