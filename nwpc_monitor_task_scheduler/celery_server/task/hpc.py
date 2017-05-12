@@ -140,4 +140,5 @@ if __name__ == "__main__":
     #     'port': '22'
     # })
 
+    print(task.hpc.get_group_hpc_disk_usage_task.delay())
     print(task.hpc.get_group_hpc_disk_space_task.delay())
