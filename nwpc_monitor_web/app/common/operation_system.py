@@ -21,7 +21,7 @@ owner_list = {
     },
     'nwp_vfy':{
         'repos':[
-            {'id':1, 'name': 'nwpc_vfy'}
+            {'id':1, 'name': 'nwpc_nwp_vfy'}
         ]
     },
     'wangdp':{
