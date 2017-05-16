@@ -31,7 +31,7 @@ class HpcLoadlevelerStatusApp extends Component{
                 sort_label: sort_label,
                 is_asc_order: true
             })
-        } else if(this.state.sort_label == sort_label) {
+        } else if(this.state.sort_label === sort_label) {
             this.setState({
                 is_asc_order: !this.state.is_asc_order
             });
@@ -46,7 +46,7 @@ class HpcLoadlevelerStatusApp extends Component{
         const { props } = job;
         let prop = null;
         props.forEach(function(a_prop, index){
-            if(a_prop.id == id) {
+            if(a_prop.id === id) {
                 prop = a_prop
             }
         });
@@ -158,7 +158,7 @@ class HpcLoadlevelerStatusApp extends Component{
 
         return (
             <div>
-                <h1 className="page_title">HPC队列</h1>
+                <h1 className="page_title">LoadLeveler队列</h1>
                 <p>更新时间：{ Util.getDelayTime(Util.parseUTCTimeString(collect_time), Util.getNow())} </p>
                 <div className="weui-cells">
                     <div className="weui-cell">
