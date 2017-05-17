@@ -1,4 +1,5 @@
 from .node_variable import SmsNodeVariable, SmsNodeVariableType
+from .node_type import NodeType
 
 
 class SmsNode(object):
@@ -10,7 +11,7 @@ class SmsNode(object):
         self.node_type = None
 
     @staticmethod
-    def create_from_cdp_output(cdp_output):
+    def create_from_cdp_show_output(cdp_output):
         # find status
         cur_line_no = 0
         line_count = len(cdp_output)
