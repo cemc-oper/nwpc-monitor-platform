@@ -1,0 +1,33 @@
+//nwpc_op/grapes_meso_v4_1 [suite] is queued
+Default status is:  queued
+Suite time is: Tue May 16 02:13:20 2017
+repeat day 1
+Variables
+     SMSOUT       = /cma/g1/nwp/SMSOUT              []
+     SMSHOME      = /cma/g1/nwp/SMSOUT              []
+     VERSION      = _v4_1                           []
+    (SUITE        = grapes_meso_v4_1              ) []
+    (DATE         = 16.05.2017                    ) []
+    (DAY          = tuesday                       ) []
+    (DD           = 16                            ) []
+    (DOW          = 2                             ) []
+    (DOY          = 136                           ) []
+    (MM           = 05                            ) []
+    (MONTH        = may                           ) []
+    (YYYY         = 2017                          ) []
+    (SMSDATE      = 20170516                      ) []
+    (SMSTIME      = 02:13                         ) []
+    (SMSCLOCK     = tuesday:may:2:136             ) []
+     SMSTRIES     = 2                               [/]
+     SMS_PROG     = 310066                          [/]
+     SMS_VERS     = 1                               [/]
+     SMSNODE      = cma20n03                        [/]
+     SMSCMD       = %SMSJOB% 1> %SMSJOBOUT% 2>&1 &  [/]
+     SMSPASSWD    = sms.passwd                      [/]
+     SMSLISTS     = sms.lists                       [/]
+     SMSWEBACCESS = sms.webaccess                   [/]
+     SMSPASS      = super-idiot                     [/]
+     SMSLOG       = cma20n03.sms.log                [/]
+     SMSCHECK     = cma20n03.check                  [/]
+     SMSCHECKOLD  = cma20n03.check.b                [/]
+     SMSMICRO     = %                               [/]
