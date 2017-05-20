@@ -75,3 +75,22 @@ class TestSmsNode(object):
         assert node.node_type == node_dict['node_type']
         assert len(node.variable_list) == 1
         assert len(node.generated_variable_list) == 1
+
+    def test_info_normal_suite_cdp_output(self):
+        with open(os.path.dirname(__file__) + "/data/cdp/info/info_normal_suite.txt") as f:
+            cdp_output = f.readlines()
+            node = SmsNode.create_from_cdp_info_output(cdp_output)
+            assert node.path == '/grapes_meso_v4_1'
+            assert node.name == 'grapes_meso_v4_1'
+            assert node.node_type == 'suite'
+            assert node.status == 'queued'
+
+
+            assert node.get_variable_value('SUITE') == 'grapes_meso_v4_1'
+            assert node.get_variable_value('DATE') == '16.05.2017'
+            assert node.get_variable_value('DAY') == 'tuesday'
+            assert node.get_variable_value('DD') == '16'
+
+            assert node.get_variable_value('SMSOUT') == '/cma/g1/nwp/SMSOUT'
+            assert node.get_variable_value('SMSHOME') == '/cma/g1/nwp/SMSOUT'
+            assert node.get_variable_value('VERSION') == '_v4_1'

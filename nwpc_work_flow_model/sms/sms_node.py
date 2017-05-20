@@ -7,6 +7,7 @@ class SmsNode(object):
         self.variable_list = []
         self.generated_variable_list = []
         self.name = ''
+        self.path = None
         self.status = None
         self.node_type = None
 
