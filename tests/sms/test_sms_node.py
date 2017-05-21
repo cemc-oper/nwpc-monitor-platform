@@ -2,10 +2,27 @@ import os
 from nwpc_work_flow_model.sms.sms_node import SmsNode
 from nwpc_work_flow_model.sms.node_status import NodeStatus
 from nwpc_work_flow_model.sms.node_type import NodeType
-from nwpc_work_flow_model.sms.node_variable import SmsNodeVariableType
+from nwpc_work_flow_model.sms.node_variable import SmsNodeVariableType, SmsNodeVariable
 
 
 class TestSmsNode(object):
+    def test_node_variable(self):
+        node = SmsNode()
+        node.variable_list.extend([
+            SmsNodeVariable(SmsNodeVariableType.Variable, 'self_var_1', 'self_var_1_value'),
+            SmsNodeVariable(SmsNodeVariableType.Variable, 'var', 'var1')
+        ])
+
+        node.generated_variable_list.extend([
+            SmsNodeVariable(SmsNodeVariableType.GeneratedVariable, 'self_gen_var_1', 'self_gen_var_1_value'),
+            SmsNodeVariable(SmsNodeVariableType.GeneratedVariable, 'var', 'var2')
+        ])
+
+        assert node.get_variable('self_var_1') == 'self_var_1_value'
+        assert node.get_variable('self_gen_var_1') == 'self_gen_var_1_value'
+        assert node.get_variable('var') == 'var1'
+
+
     def test_show_normal_suite_cdp_output(self):
         with open(os.path.dirname(__file__) + "/data/cdp/show/normal_suite_cdp.txt") as f:
             cdp_output = f.readlines()
@@ -84,7 +101,6 @@ class TestSmsNode(object):
             assert node.name == 'grapes_meso_v4_1'
             assert node.node_type == 'suite'
             assert node.status == 'queued'
-
 
             assert node.get_variable_value('SUITE') == 'grapes_meso_v4_1'
             assert node.get_variable_value('DATE') == '16.05.2017'
