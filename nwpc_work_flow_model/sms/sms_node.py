@@ -109,6 +109,92 @@ class SmsNode(object):
 
         return node
 
+    @staticmethod
+    def create_from_cdp_info_output(cdp_output):
+        # find status
+        cur_line_no = 0
+        line_count = len(cdp_output)
+
+        while cur_line_no < line_count:
+            line = cdp_output[cur_line_no]
+            if len(line) > 0 and line.startswith('//'):
+                break
+            cur_line_no += 1
+        if cur_line_no == line_count:
+            return None
+
+        node = SmsNode()
+
+        path_line = cdp_output[cur_line_no].strip()
+        path_line_tokens = path_line.split(' ')
+        node_path = path_line_tokens[0]
+        node.path = node_path[node_path.index('/', 2):]
+        node.name = node_path[node_path.rfind('/')+1:]
+        node.node_type = path_line_tokens[1][1:-1]
+        node.status = path_line_tokens[-1]
+
+        cur_line_no += 1
+        while cur_line_no < line_count:
+            line = cdp_output[cur_line_no]
+            if line.startswith('Variables'):
+                break
+            cur_line_no += 1
+
+        if cur_line_no == line_count:
+            return None
+
+        variable_start_line_no = cur_line_no = cur_line_no + 1
+
+        while cur_line_no < line_count:
+            line = cdp_output[cur_line_no]
+            if not line.startswith('  '):
+                break
+            cur_line_no += 1
+        variable_end_line_no = cur_line_no
+
+        def get_variable_from_variable_line(variable_line, path_start):
+            name_start = 0
+            value_end = path_start-2
+            if variable_line[0] == '(':
+                variable_type = SmsNodeVariableType.GeneratedVariable
+                name_start += 1
+            else:
+                variable_type = SmsNodeVariableType.Variable
+
+            equal_index = variable_line.index('=')
+            var_name = variable_line[name_start:equal_index].strip()
+            var_value = variable_line[equal_index+2:value_end].strip()
+
+            variable = SmsNodeVariable(name=var_name, value=var_value, variable_type=variable_type)
+            return variable
+
+        for a_variable_line in cdp_output[variable_start_line_no: variable_end_line_no]:
+            a_variable_line = a_variable_line.strip()
+            path_start = a_variable_line.rindex('[')
+            node_path = a_variable_line[path_start+1:-1]
+            if len(node_path):
+                variable = get_variable_from_variable_line(a_variable_line, path_start)
+                if variable.variable_type == SmsNodeVariableType.Variable:
+                    node.variable_list.append(variable)
+                else:
+                    node.generated_variable_list.append(variable)
+            else:
+                if not (len(node.inherited_variable_list) > 0 and
+                        node.inherited_variable_list[-1]['path'] == node_path):
+                    node.inherited_variable_list.append({
+                        'path': node_path,
+                        'variable_list': [],
+                        'generated_variable_list': []
+                    })
+
+                variable = get_variable_from_variable_line(a_variable_line, path_start)
+                if variable.variable_type == SmsNodeVariableType.Variable:
+                    node.inherited_variable_list[-1]['variable_list'].append(variable)
+                else:
+                    node.inherited_variable_list[-1]['generated_variable_list'].append(variable)
+
+        return node
+
     def to_dict(self):
         inherited_variable_list = []
         for node in self.inherited_variable_list:

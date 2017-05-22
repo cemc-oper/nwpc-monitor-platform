@@ -6,7 +6,8 @@ from nwpc_work_flow_model.sms.node_variable import SmsNodeVariableType, SmsNodeV
 
 
 class TestSmsNode(object):
-    def create_node(self):
+    @staticmethod
+    def create_node():
         node = SmsNode()
         node.variable_list.extend([
             SmsNodeVariable(SmsNodeVariableType.Variable, 'self_var_1', 'self_var_1_value'),
@@ -46,7 +47,7 @@ class TestSmsNode(object):
         return node
 
     def test_node_variable(self):
-        node = self.create_node()
+        node = TestSmsNode.create_node()
 
         # node's variables
         assert node.get_variable_value('self_var_1') == 'self_var_1_value'
@@ -105,7 +106,7 @@ class TestSmsNode(object):
             assert node is None
 
     def test_to_dict(self):
-        node = self.create_node()
+        node = TestSmsNode.create_node()
         node_dict = node.to_dict()
 
         assert len(node_dict['variable_list']) == 3
@@ -185,12 +186,12 @@ class TestSmsNode(object):
             assert node.path == '/grapes_meso_v4_1'
             assert node.name == 'grapes_meso_v4_1'
             assert node.node_type == 'suite'
-            assert node.status == 'queued'
+            assert node.status == 'active'
 
             assert node.get_variable_value('SUITE') == 'grapes_meso_v4_1'
-            assert node.get_variable_value('DATE') == '16.05.2017'
-            assert node.get_variable_value('DAY') == 'tuesday'
-            assert node.get_variable_value('DD') == '16'
+            assert node.get_variable_value('DATE') == '21.05.2017'
+            assert node.get_variable_value('DAY') == 'sunday'
+            assert node.get_variable_value('DD') == '21'
 
             assert node.get_variable_value('SMSOUT') == '/cma/g1/nwp/SMSOUT'
             assert node.get_variable_value('SMSHOME') == '/cma/g1/nwp/SMSOUT'
