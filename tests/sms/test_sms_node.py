@@ -196,3 +196,23 @@ class TestSmsNode(object):
             assert node.get_variable_value('SMSOUT') == '/cma/g1/nwp/SMSOUT'
             assert node.get_variable_value('SMSHOME') == '/cma/g1/nwp/SMSOUT'
             assert node.get_variable_value('VERSION') == '_v4_1'
+
+    def test_info_normal_family_cdp_output(self):
+        with open(os.path.dirname(__file__) + "/data/cdp/info/info_normal_family.txt") as f:
+            cdp_output = f.readlines()
+            node = SmsNode.create_from_cdp_info_output(cdp_output)
+            assert node.path == '/grapes_meso_v4_1/cold/00'
+            assert node.name == '00'
+            assert node.node_type == 'family'
+            assert node.status == 'complete'
+
+            assert node.get_variable_value('HH') == '00'
+
+            assert node.get_variable_value('SUITE') == 'grapes_meso_v4_1'
+            assert node.get_variable_value('DATE') == '21.05.2017'
+            assert node.get_variable_value('DAY') == 'sunday'
+            assert node.get_variable_value('DD') == '21'
+
+            assert node.get_variable_value('SMSOUT') == '/cma/g1/nwp/SMSOUT'
+            assert node.get_variable_value('SMSHOME') == '/cma/g1/nwp/SMSOUT'
+            assert node.get_variable_value('VERSION') == '_v4_1'
