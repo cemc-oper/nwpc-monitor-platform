@@ -258,9 +258,9 @@ def get_sms_node_task(args):
                             'value': {
                                 'operator': 'in',
                                 'fields': [
-                                    "sub",
-                                    "act",
-                                    "com"
+                                    "submitted",
+                                    "active",
+                                    "complete"
                                 ]
                             }
                         }
@@ -384,9 +384,9 @@ if __name__ == "__main__":
                             'value': {
                                 'operator': 'in',
                                 'fields': [
-                                    "sub",
-                                    "act",
-                                    "com"
+                                    "submitted",
+                                    "active",
+                                    "complete"
                                 ]
                             }
                         }
