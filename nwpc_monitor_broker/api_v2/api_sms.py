@@ -289,16 +289,17 @@ def receive_sms_node_task_message(owner, repo):
                 'nodes': [
                     {
                         'node_path': node path,
-                        'type': check type
-                        'variables': [
+                        'check_list_result': [
                             {
-                                'name': var_name,
-                                'type': var_type,
-                                'expected_value': expected_var_value,
-                                'value': var.value,
-                                'is_condition_fit': is_condition_fit       
-                            },
-                            ...
+                                "is_condition_fit": false,
+                                "type": "variable",
+                                "name": "SMSDATE",
+                                "value": {
+                                    "expected_value": "20170522",
+                                    "value": "20170401"
+                                }
+                            }
+                        
                         ]
                     },
                     ...
@@ -324,36 +325,31 @@ def receive_sms_node_task_message(owner, repo):
     node_result = message_data['response']['nodes']
     for a_node_record in node_result:
         node_path = a_node_record['node_path']
-        check_type = a_node_record['type']
+        unfit_check_condition_list = []
 
-        if check_type == "variable":
-            check_result = a_node_record['check_result']
-            has_unfit_var_flag = False
-            unfit_variable_list = []
-            for a_variable in check_result:
-                if a_variable['is_condition_fit'] is True:
-                    continue
-                has_unfit_var_flag = True
-                unfit_variable_list.append(a_variable)
-            if has_unfit_var_flag:
-                unfit_node_list.append({
-                    'node_path': node_path,
-                    'type': check_type,
-                    'unfit_variables': unfit_variable_list
-                })
+        for a_check_result in a_node_record['check_list_result']:
+            check_type = a_check_result['type']
+            is_condition_fit = a_check_result['is_condition_fit']
+            if is_condition_fit is None:
+                pass
+            elif is_condition_fit:
+                pass
+            elif not is_condition_fit:
 
-        elif check_type == "status":
-            if 'error' in a_node_record:
-                print(a_node_record['error'])
-                continue
-
-            check_result = a_node_record['check_result']
-            if check_result['is_condition_fit'] is True:
-                continue
+                unfit_check_condition = {
+                    'type': check_type
+                }
+                if check_type == 'variable':
+                    unfit_check_condition['name'] = a_check_result['name']
+                elif check_type == 'status':
+                    pass
+                else:
+                    pass
+                unfit_check_condition_list.append(unfit_check_condition)
+        if len(unfit_check_condition_list):
             unfit_node_list.append({
                 'node_path': node_path,
-                'type': check_type,
-                'check_result': check_result
+                'unfit_check_condition_list': unfit_check_condition_list
             })
 
     print(unfit_node_list)

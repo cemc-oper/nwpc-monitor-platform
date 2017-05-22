@@ -184,7 +184,7 @@ def check_sms_node(project_conf, sms_info, sms_node):
                         check_result['value'] = {
                                 'expected_value': expected_var_value,
                                 'value': var.value,
-                            },
+                        }
                         check_result['is_condition_fit'] = is_condition_fit
 
             elif check_type == 'status':
@@ -206,7 +206,10 @@ def check_sms_node(project_conf, sms_info, sms_node):
 
             check_list_result.append(check_result)
 
-    return check_list_result
+    return {
+        'node_path': node_path,
+        'check_list_result': check_list_result
+    }
 
 
 @app.task()

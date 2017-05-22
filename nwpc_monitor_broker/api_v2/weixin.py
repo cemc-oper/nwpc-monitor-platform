@@ -2,6 +2,7 @@
 from datetime import datetime
 import requests
 from flask import json
+from collections import defaultdict
 
 from .cache import save_weixin_access_token_to_cache, get_weixin_access_token_from_cache
 from nwpc_monitor_broker.api_v2 import data_store
@@ -192,15 +193,20 @@ class WeixinApp(object):
 
         node_list_content = ''
         for a_unfit_node in warning_data['data']['unfit_nodes']:
-            if a_unfit_node['type'] == 'variable':
-                node_list_content += a_unfit_node['node_path'] + ' : ' + str(
-                    len(a_unfit_node['unfit_variables'])) + "个变量异常\n"
-            elif a_unfit_node['type'] == 'status':
-                node_list_content += a_unfit_node['node_path'] + " : 状态异常"
+
+            node_list_content += a_unfit_node['node_path'] + ':'
+            unfit_map = defaultdict(int)
+            for a_check_condition in a_unfit_node['unfit_check_condition_list']:
+                unfit_map[a_check_condition['type']] += 1
+
+            for (type_name, count) in unfit_map.items():
+                node_list_content += " {type_name}[{count}]".format(
+                    type_name=type_name, count=count)
+            node_list_content += '\n'
 
         articles = [
             {
-                'title': "业务系统异常：SMS节点状态",
+                'title': "业务系统异常：{repo} 节点状态".format(repo=warning_data['data']['repo']),
                 "picurl": "http://wx2.sinaimg.cn/mw690/4afdac38ly1feqnwb44kkj2223112wfj.jpg"
             },
             {
@@ -221,7 +227,7 @@ class WeixinApp(object):
                 "title": warning_data['data']['task_name'] + " 运行异常"
             },
             {
-                'title': '异常任务列表：\n' + node_list_content,
+                'title': '异常任务列表\n' + node_list_content,
                 'description': '点击查看详情'
             }
         ]
