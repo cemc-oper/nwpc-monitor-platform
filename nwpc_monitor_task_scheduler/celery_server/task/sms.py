@@ -172,8 +172,12 @@ def check_sms_node(project_conf, sms_info, sms_node):
                 if value_type == "date":
                     if value_operator == 'equal':
                         expected_var_value = a_check_item['value']['fields']
-                        if expected_var_value == 'current':
+                        if expected_var_value == 'current' or expected_var_value == 'today':
                             expected_var_value = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y%m%d")
+                        elif expected_var_value == 'yesterday':
+                            expected_var_value = (
+                                datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)
+                            ).strftime("%Y%m%d")
 
                         var = node_object.get_variable(var_name)
                         if var.value == expected_var_value:
