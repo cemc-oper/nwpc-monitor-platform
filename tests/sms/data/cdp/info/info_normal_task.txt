@@ -1,3 +1,7 @@
+Welcome to cdp version 4.4.5 compiled on Tue Oct  8 09:23:20 GMT 2013
+# MSG:IOI-ACTION-C-BREAK:Interrupt handler loaded
+# MSG:IOI-FILE-LOG:Closing logfile /cma/u/nwp/cdplog/ioi.log (append).
+/-CDP> # MSG:SMS-CLIENT-LOGIN:nwp logged into nwpc_op with password [24362926]
 //nwpc_op/grapes_meso_v4_1/cold/00/archive/archiving [task] is complete
 Default status is:  queued
 Current try number: 1
@@ -50,17 +54,17 @@ Variables
      SMSHOME       = /cma/g1/nwp/SMSOUT                                                  [/grapes_meso_v4_1]
      VERSION       = _v4_1                                                               [/grapes_meso_v4_1]
     (SUITE         = grapes_meso_v4_1                                                  ) [/grapes_meso_v4_1]
-    (DATE          = 16.05.2017                                                        ) [/grapes_meso_v4_1]
-    (DAY           = tuesday                                                           ) [/grapes_meso_v4_1]
-    (DD            = 16                                                                ) [/grapes_meso_v4_1]
-    (DOW           = 2                                                                 ) [/grapes_meso_v4_1]
-    (DOY           = 136                                                               ) [/grapes_meso_v4_1]
+    (DATE          = 21.05.2017                                                        ) [/grapes_meso_v4_1]
+    (DAY           = sunday                                                            ) [/grapes_meso_v4_1]
+    (DD            = 21                                                                ) [/grapes_meso_v4_1]
+    (DOW           = 0                                                                 ) [/grapes_meso_v4_1]
+    (DOY           = 141                                                               ) [/grapes_meso_v4_1]
     (MM            = 05                                                                ) [/grapes_meso_v4_1]
     (MONTH         = may                                                               ) [/grapes_meso_v4_1]
     (YYYY          = 2017                                                              ) [/grapes_meso_v4_1]
-    (SMSDATE       = 20170516                                                          ) [/grapes_meso_v4_1]
-    (SMSTIME       = 02:13                                                             ) [/grapes_meso_v4_1]
-    (SMSCLOCK      = tuesday:may:2:136                                                 ) [/grapes_meso_v4_1]
+    (SMSDATE       = 20170521                                                          ) [/grapes_meso_v4_1]
+    (SMSTIME       = 01:52                                                             ) [/grapes_meso_v4_1]
+    (SMSCLOCK      = sunday:may:0:141                                                  ) [/grapes_meso_v4_1]
      SMSTRIES      = 2                                                                   [/]
      SMS_PROG      = 310066                                                              [/]
      SMS_VERS      = 1                                                                   [/]
@@ -73,3 +77,6 @@ Variables
      SMSCHECK      = cma20n03.check                                                      [/]
      SMSCHECKOLD   = cma20n03.check.b                                                    [/]
      SMSMICRO      = %                                                                   [/]
+# MSG:SMS-CLIENT-LOGOUT:logout from nwpc_op
+Goodbye nwp
+# MSG:IOI-FILE-LOG:Closing logfile /cma/u/nwp/cdplog/cdp.log (append).
