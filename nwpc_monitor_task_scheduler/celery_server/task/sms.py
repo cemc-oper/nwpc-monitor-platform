@@ -86,23 +86,25 @@ def check_sms_node(project_conf, sms_info, sms_node):
             'sms_password': sms password
         }
     :param sms_node: sms node task for one node path
-        common fields:
         {
             'node path': node path,
-            'type': check type, [ variable, status ]
+            'check_list': check list, 
         }
         
+        an item in check list: 
+        common fields:
+        {
+           'type': check type, [ variable, status ] 
+        }
         check type related fields:
         * variable, check variable value, there may be more than one variable for a single node path.
             {
-                'variables': variables belong to node path.
-                [
-                    {
-                        'name': variable name,
-                        'type': variable type,
-                        'value': variable value
-                    }
-                ]
+                'name': variable name,
+                'value': {
+                    'type': variable type,
+                    'operator': 'equal',
+                    'fields': fields of operators, array or an object
+                }
             }
             
         * status, check sms node status
@@ -127,121 +129,84 @@ def check_sms_node(project_conf, sms_info, sms_node):
     sms_password = sms_info['sms_password']
 
     node_path = sms_node['node_path']
-    check_type = sms_node['type']
-    if check_type == 'variable':
-        variables = sms_node['variables']
 
-        variables_result = []
+    check_list_result = []
 
-        for variable_task in variables:
-            var_name = variable_task['name']
-            var_type = variable_task['type']
-            expected_var_value = variable_task['value']
+    with cd(project_dir):
+        run_result = run(
+            "{program} {script} --sms-server={sms_server} "
+            "--sms-user={sms_user} --sms-password {sms_password} --node-path={node_path}"
+                .format(
+                program=project_program,
+                script=project_script,
+                sms_server=sms_server,
+                sms_user=sms_user,
+                sms_password=sms_password,
+                node_path=node_path
+            )).splitlines()
+        cur_line_no = 0
+        result_length = len(run_result)
+        while cur_line_no < result_length and (not run_result[cur_line_no].startswith("{")):
+            cur_line_no += 1
 
-            with cd(project_dir):
-                run_result = run(
-                    "{program} {script} --sms-server={sms_server} "
-                    "--sms-user={sms_user} --sms-password {sms_password} --node-path={node_path}"
-                        .format(
-                        program=project_program,
-                        script=project_script,
-                        sms_server=sms_server,
-                        sms_user=sms_user,
-                        sms_password=sms_password,
-                        node_path=node_path
-                    )).splitlines()
-                cur_line_no = 0
-                result_length = len(run_result)
-                while cur_line_no < result_length and (not run_result[cur_line_no].startswith("{")):
-                    cur_line_no += 1
+        response_json_string = '\n'.join(run_result[cur_line_no:])
 
-                response_json_string = '\n'.join(run_result[cur_line_no:])
+        sms_node_dict = json.loads(response_json_string)['data']['response']['node']
+        node_object = SmsNode.create_from_dict(sms_node_dict)
 
-                sms_node_dict = json.loads(response_json_string)['data']['response']['node']
-                sms_node = SmsNode.create_from_dict(sms_node_dict)
-
-                var = sms_node.get_variable(var_name)
-
-                is_condition_fit = None
-                check_result = {
-                    'name': var_name,
-                    'type': var_type,
-                    'expected_value': expected_var_value,
-                    'value': var.value,
-                    'is_condition_fit': is_condition_fit
-                }
-
-                if var_type == "date":
-                    if expected_var_value == 'current':
-                        expected_var_value = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y%m%d")
-                    if var.value == expected_var_value:
-                        is_condition_fit = True
-                    else:
-                        is_condition_fit = False
-                    check_result['is_condition_fit'] = is_condition_fit
-                else:
-                    print("current var type is not supported", var_type)
-
-                variables_result.append(check_result)
-
-        return {
-            'node_path': node_path,
-            "type": "variable",
-            'check_result': variables_result
-        }
-
-    elif check_type == 'status':
-        value_object = sms_node['value']
-
-        check_result = None
-
-        with cd(project_dir):
-            run_result = run(
-                "{program} {script} --sms-server={sms_server} "
-                "--sms-user={sms_user} --sms-password {sms_password} --node-path={node_path}".format(
-                    program=project_program,
-                    script=project_script,
-                    sms_server=sms_server,
-                    sms_user=sms_user,
-                    sms_password=sms_password,
-                    node_path=node_path
-                )).splitlines()
-            cur_line_no = 0
-            result_length = len(run_result)
-            while cur_line_no < result_length and (not run_result[cur_line_no].startswith("{")):
-                cur_line_no += 1
-
-            response_json_string = '\n'.join(run_result[cur_line_no:])
-
-            sms_node_dict = json.loads(response_json_string)['data']['response']['node']
-            sms_node = SmsNode.create_from_dict(sms_node_dict)
-
-            status = sms_node.status[:3]
-
+        for a_check_item in sms_node['check_list']:
+            check_type = a_check_item['type']
             is_condition_fit = None
-            if value_object['operator'] == 'in':
-                fields = value_object['fields']
-                if status in fields:
-                    is_condition_fit = True
-                else:
-                    is_condition_fit = False
             check_result = {
-                'expected_value': value_object,
-                'value': status,
+                'type': check_type,
                 'is_condition_fit': is_condition_fit
             }
 
-        return {
-            'node_path': node_path,
-            "type": check_type,  # status
-            'check_result': check_result
-        }
-    else:
-        return {
-            'node_path': node_path,
-            'type': check_type,  # status
-            'error': 'check_type_not_supported'
-        }
+            if check_type == 'variable':
+                var_name = a_check_item['name']
+                check_result['name'] = var_name
+
+                value_type = a_check_item['value']['type']
+                value_operator = a_check_item['value']['operator']
+
+                if value_type == "date":
+                    if value_operator == 'equal':
+                        expected_var_value = a_check_item['value']['fields']
+                        if expected_var_value == 'current':
+                            expected_var_value = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y%m%d")
+
+                        var = node_object.get_variable(var_name)
+                        if var.value == expected_var_value:
+                            is_condition_fit = True
+                        else:
+                            is_condition_fit = False
+
+                        check_result['value'] = {
+                                'expected_value': expected_var_value,
+                                'value': var.value,
+                            },
+                        check_result['is_condition_fit'] = is_condition_fit
+
+            elif check_type == 'status':
+                status = node_object.status
+                if a_check_item['value']['operator'] == 'in':
+                    fields = a_check_item['value']['fields']
+                    if status in fields:
+                        is_condition_fit = True
+                    else:
+                        is_condition_fit = False
+                check_result['value'] = {
+                    'expected_value': a_check_item['value'],
+                    'value': status
+                }
+                check_result['is_condition_fit'] = is_condition_fit
+
+            if is_condition_fit is None:
+                print("current var check is not supported", a_check_item)
+
+            check_list_result.append(check_result)
+
+    return check_list_result
 
 
 @app.task()
@@ -275,12 +240,26 @@ def get_sms_node_task(args):
             "nodes": [
                 {
                     'node_path': '/grapes_meso_post',
-                    'type': 'variable',
-                    'variables': [
+                    'check_list': [
                         {
+                            'type': 'variable',
                             'name': 'SMSDATE',
-                            'type': 'date',
-                            'value': 'current'
+                            'value': {
+                                'type': 'date',
+                                'operator': 'equal',
+                                'fields': 'current'
+                            }
+                        },
+                        {
+                            'type': 'status',
+                            'value': {
+                                'operator': 'in',
+                                'fields': [
+                                    "sub",
+                                    "act",
+                                    "com"
+                                ]
+                            }
                         }
                     ]
                 }
@@ -387,12 +366,26 @@ if __name__ == "__main__":
             "nodes": [
                 {
                     'node_path': '/grapes_meso_post',
-                    'type': 'variable',
-                    'variables': [
+                    'check_list': [
                         {
+                            'type': 'variable',
                             'name': 'SMSDATE',
-                            'type': 'date',
-                            'value': 'current'
+                            'value': {
+                                'type': 'date',
+                                'operator': 'equal',
+                                'fields': 'current'
+                            }
+                        },
+                        {
+                            'type': 'status',
+                            'value': {
+                                'operator': 'in',
+                                'fields': [
+                                    "sub",
+                                    "act",
+                                    "com"
+                                ]
+                            }
                         }
                     ]
                 }
