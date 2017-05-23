@@ -104,7 +104,7 @@ class TaskConfig(object):
         config_file_directory = os.path.dirname(__file__) + "/../conf"
 
         config_file_path = config_file_directory + "/" + config_file_name
-        # print "task config file path:", config_file_path
+        print("task config file path:", config_file_path)
 
         config = TaskConfig(config_file_path)
         return config

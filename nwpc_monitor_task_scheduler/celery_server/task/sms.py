@@ -285,10 +285,19 @@ def get_sms_node_task(args):
                 'task': task object,
             },
             'response': {
-                'nodes': node result
+                'nodes':[
+                    {
+                        'node_path': node_path,
+                        'check_list_result': array, see check_sms_node
+                    },
+                    ...
+                ]
             }
         }
     }
+    
+    nodes: an array of node result
+        
     """
     config_dict = app.task_config.config
 
