@@ -7,7 +7,7 @@ blob object
     repo: repo,
     timestamp: timestamp,
     data: {
-        type: type, [ status, aborted_tasks, unfit_tasks ]
+        type: type, [ status, aborted_tasks, unfit_nodes ]
         name: name
         content: {
             defined by type
@@ -39,10 +39,10 @@ content:
 
 }
 
-type: unfit_tasks
+type: unfit_nodes
 content:
 {
-    unfit_tasks: array of unfit tasks
+    unfit_node_list: array of unfit tasks
     [
         {
             node_path: node path,

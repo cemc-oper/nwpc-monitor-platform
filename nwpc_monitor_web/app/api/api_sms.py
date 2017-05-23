@@ -338,3 +338,52 @@ def get_repo_aborted_tasks(owner, repo, aborted_id):
     }
 
     return jsonify(aborted_tasks_content)
+
+
+@api_app.route('/repos/<owner>/<repo>/sms/task-check', methods=['POST'])
+def post_sms_task_check(owner, repo):
+    content_encoding = request.headers.get('content-encoding', '').lower()
+    if content_encoding == 'gzip':
+        gzipped_data = request.data
+        data_string = gzip.decompress(gzipped_data)
+        body = json.loads(data_string.decode('utf-8'))
+    else:
+        body = request.form
+
+    message = json.loads(body['message'])
+    if 'error' in message:
+        result = {
+            'status': 'ok'
+        }
+        return jsonify(result)
+
+    if message['data']['type'] == 'takler_object':
+        unfit_nodes_blob = None
+        for a_blob in message['data']['blobs']:
+            if a_blob['data']['type'] == 'unfit_nodes':
+                unfit_nodes_blob = a_blob
+
+        if unfit_nodes_blob is None:
+            result = {
+                'status': 'error',
+                'message': 'can\'t find a unfit nodes blob.'
+            }
+            return jsonify(result)
+
+        tree_object = message['data']['trees'][0]
+        commit_object = message['data']['commits'][0]
+
+        # 保存到 mongodb
+        blobs_collection = nwpc_monitor_platform_mongodb.blobs
+        blobs_collection.insert_one(unfit_nodes_blob)
+
+        trees_collection = nwpc_monitor_platform_mongodb.trees
+        trees_collection.insert_one(tree_object)
+
+        commits_collection = nwpc_monitor_platform_mongodb.commits
+        commits_collection.insert_one(commit_object)
+
+    result = {
+        'status': 'ok'
+    }
+    return jsonify(result)

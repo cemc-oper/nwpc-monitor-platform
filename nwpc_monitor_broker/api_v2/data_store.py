@@ -179,13 +179,13 @@ def save_sms_task_check_to_nwpc_takler_object_system(
         message_data: dict,
         unfit_node_list: list
 ) -> dict:
-    unfit_tasks_blob = Blob()
-    unfit_tasks_blob.id = get_new_64bit_ticket()
-    unfit_tasks_blob.owner = owner
-    unfit_tasks_blob.repo = repo
+    unfit_nodes_blob = Blob()
+    unfit_nodes_blob.id = get_new_64bit_ticket()
+    unfit_nodes_blob.owner = owner
+    unfit_nodes_blob.repo = repo
     status_blob_data = {
-        'type': 'unfit_tasks',
-        'name': 'sms_check_task_unfit_tasks',
+        'type': 'unfit_nodes',
+        'name': 'sms_check_task_unfit_nodes',
         'content': {
             'name': message_data['request']['task']['name'],
             'trigger': message_data['request']['task']['trigger'],
@@ -193,9 +193,9 @@ def save_sms_task_check_to_nwpc_takler_object_system(
             'update_time': datetime.datetime.now(),
         }
     }
-    unfit_tasks_blob.set_data(status_blob_data)
+    unfit_nodes_blob.set_data(status_blob_data)
     blobs_collection = nwpc_monitor_platform_mongodb.blobs
-    blobs_collection.insert_one(unfit_tasks_blob.to_dict())
+    blobs_collection.insert_one(unfit_nodes_blob.to_dict())
 
     tree_object = Tree()
     tree_object.id = get_new_64bit_ticket()
@@ -205,8 +205,8 @@ def save_sms_task_check_to_nwpc_takler_object_system(
         'nodes': [
             {
                 'type': 'unfit_tasks',
-                'name': 'sms_check_task_unfit_tasks',
-                'blob_id': unfit_tasks_blob.id
+                'name': 'sms_check_task_unfit_nodes',
+                'blob_id': unfit_nodes_blob.id
             }
         ]
     }
@@ -230,7 +230,7 @@ def save_sms_task_check_to_nwpc_takler_object_system(
 
     return {
         'blobs': [
-            unfit_tasks_blob.to_dict()
+            unfit_nodes_blob.to_dict()
         ],
         'trees': [
             tree_object.to_dict()

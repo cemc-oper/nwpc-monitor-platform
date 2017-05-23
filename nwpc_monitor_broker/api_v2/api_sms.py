@@ -361,11 +361,11 @@ def receive_sms_node_task_message(owner, repo):
             message_data, unfit_node_list
         )
 
-        unfit_tasks_blob_id = None
+        unfit_nodes_blob_id = None
         for a_blob in takler_object_system_dict['blobs']:
-            if a_blob['data']['type'] == 'unfit_tasks':
-                unfit_tasks_blob_id = a_blob['id']
-        print(unfit_tasks_blob_id)
+            if a_blob['data']['type'] == 'unfit_nodes':
+                unfit_nodes_blob_id = a_blob['id']
+        print(unfit_nodes_blob_id)
 
         post_message = {
             'app': 'nwpc_monitor_broker',
