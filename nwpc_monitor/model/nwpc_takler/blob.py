@@ -7,7 +7,7 @@ blob object
     repo: repo,
     timestamp: timestamp,
     data: {
-        type: type, [ status, aborted_tasks ]
+        type: type, [ status, aborted_tasks, unfit_tasks ]
         name: name
         content: {
             defined by type
@@ -37,6 +37,40 @@ content:
         }
     ]
 
+}
+
+type: unfit_tasks
+content:
+{
+    unfit_tasks: array of unfit tasks
+    [
+        {
+            node_path: node path,
+            check_list_result: array of unfit check results
+                check result:
+                common fields
+                {
+                    type: [status, variable],
+                    is_condition_fit: False,
+                    value: object
+                }
+                
+                type status:
+                    value: {
+                        expected_value: {
+                            operator: in
+                            fields: [submitted, active, complete]
+                        },
+                        value: value
+                    }
+                
+                type variable:
+                    value: {
+                        expected_value: 20170523,
+                        value: 20170523
+                    }
+        }
+    ]
 }
 """
 from .base import Base

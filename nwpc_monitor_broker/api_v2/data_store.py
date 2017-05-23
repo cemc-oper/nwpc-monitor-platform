@@ -172,3 +172,70 @@ def save_sms_server_status_to_nwpc_takler_object_system(
             commit_object.to_dict()
         ]
     }
+
+
+def save_sms_task_check_to_nwpc_takler_object_system(
+        owner: str, repo: str,
+        message_data: dict,
+        unfit_node_list: list
+) -> dict:
+    unfit_tasks_blob = Blob()
+    unfit_tasks_blob.id = get_new_64bit_ticket()
+    unfit_tasks_blob.owner = owner
+    unfit_tasks_blob.repo = repo
+    status_blob_data = {
+        'type': 'unfit_tasks',
+        'name': 'sms_check_task_unfit_tasks',
+        'content': {
+            'name': message_data['request']['task']['name'],
+            'trigger': message_data['request']['task']['trigger'],
+            'unfit_node_list': unfit_node_list,
+            'update_time': datetime.datetime.now(),
+        }
+    }
+    unfit_tasks_blob.set_data(status_blob_data)
+    blobs_collection = nwpc_monitor_platform_mongodb.blobs
+    blobs_collection.insert_one(unfit_tasks_blob.to_dict())
+
+    tree_object = Tree()
+    tree_object.id = get_new_64bit_ticket()
+    tree_object.owner = owner
+    tree_object.repo = repo
+    tree_object_data = {
+        'nodes': [
+            {
+                'type': 'unfit_tasks',
+                'name': 'sms_check_task_unfit_tasks',
+                'blob_id': unfit_tasks_blob.id
+            }
+        ]
+    }
+    tree_object.set_data(tree_object_data)
+    trees_collection = nwpc_monitor_platform_mongodb.trees
+    trees_collection.insert_one(tree_object.to_dict())
+
+    commit_object = Commit()
+    commit_object.id = get_new_64bit_ticket()
+    commit_object.owner = owner
+    commit_object.repo = repo
+    commit_object_data = {
+        'committer': 'broker',
+        'type': 'task_check',
+        'tree_id': tree_object.id,
+        'committed_time': datetime.datetime.now()
+    }
+    commit_object.set_data(commit_object_data)
+    commits_collection = nwpc_monitor_platform_mongodb.commits
+    commits_collection.insert_one(commit_object.to_dict())
+
+    return {
+        'blobs': [
+            unfit_tasks_blob.to_dict()
+        ],
+        'trees': [
+            tree_object.to_dict()
+        ],
+        'commits': [
+            commit_object.to_dict()
+        ]
+    }

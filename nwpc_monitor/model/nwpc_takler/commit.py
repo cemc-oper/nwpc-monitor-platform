@@ -8,7 +8,7 @@ commit object
     timestamp: timestamp,
     data: {
         committer: committer name,
-        type: commit type, [ status, ... ],
+        type: commit type, [ status, task_check, ... ],
         tree_id: tree_id,
         committed_time: datetime
     }

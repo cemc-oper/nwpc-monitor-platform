@@ -196,7 +196,7 @@ class WeixinApp(object):
 
             node_list_content += a_unfit_node['node_path'] + ':'
             unfit_map = defaultdict(int)
-            for a_check_condition in a_unfit_node['unfit_check_condition_list']:
+            for a_check_condition in a_unfit_node['unfit_check_list']:
                 unfit_map[a_check_condition['type']] += 1
 
             for (type_name, count) in unfit_map.items():

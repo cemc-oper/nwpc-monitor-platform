@@ -265,7 +265,7 @@ def receive_sms_status_message():
     return jsonify(result)
 
 
-@api_v2_app.route('/hpc/sms/<owner>/<repo>/node-task', methods=['POST'])
+@api_v2_app.route('/hpc/sms/<owner>/<repo>/task-check', methods=['POST'])
 def receive_sms_node_task_message(owner, repo):
     """
     
@@ -325,31 +325,21 @@ def receive_sms_node_task_message(owner, repo):
     node_result = message_data['response']['nodes']
     for a_node_record in node_result:
         node_path = a_node_record['node_path']
-        unfit_check_condition_list = []
+        unfit_check_list = []
 
         for a_check_result in a_node_record['check_list_result']:
-            check_type = a_check_result['type']
             is_condition_fit = a_check_result['is_condition_fit']
             if is_condition_fit is None:
                 pass
             elif is_condition_fit:
                 pass
             elif not is_condition_fit:
+                unfit_check_list.append(a_check_result)
 
-                unfit_check_condition = {
-                    'type': check_type
-                }
-                if check_type == 'variable':
-                    unfit_check_condition['name'] = a_check_result['name']
-                elif check_type == 'status':
-                    pass
-                else:
-                    pass
-                unfit_check_condition_list.append(unfit_check_condition)
-        if len(unfit_check_condition_list):
+        if len(unfit_check_list):
             unfit_node_list.append({
                 'node_path': node_path,
-                'unfit_check_condition_list': unfit_check_condition_list
+                'unfit_check_list': unfit_check_list
             })
 
     print(unfit_node_list)
@@ -365,6 +355,51 @@ def receive_sms_node_task_message(owner, repo):
                 'unfit_nodes': unfit_node_list
             }
         }
+
+        takler_object_system_dict = data_store.save_sms_task_check_to_nwpc_takler_object_system(
+            owner, repo,
+            message_data, unfit_node_list
+        )
+
+        unfit_tasks_blob_id = None
+        for a_blob in takler_object_system_dict['blobs']:
+            if a_blob['data']['type'] == 'unfit_tasks':
+                unfit_tasks_blob_id = a_blob['id']
+        print(unfit_tasks_blob_id)
+
+        post_message = {
+            'app': 'nwpc_monitor_broker',
+            'event': 'post_sms_task_check',
+            'timestamp': datetime.datetime.now(),
+            'data': {
+                'type': 'takler_object',
+                'blobs': takler_object_system_dict['blobs'],
+                'trees': takler_object_system_dict['trees'],
+                'commits': takler_object_system_dict['commits']
+            }
+        }
+
+        website_post_data = {
+            'message': json.dumps(post_message)
+        }
+
+        print('gzip the data...')
+        gzipped_post_data = gzip.compress(bytes(json.dumps(website_post_data), 'utf-8'))
+        print('gzip the data...done')
+
+        website_url = app.config['BROKER_CONFIG']['sms']['task_check']['cloud']['put']['url'].format(
+            owner=owner,
+            repo=repo
+        )
+        response = requests.post(
+            website_url,
+            data=gzipped_post_data,
+            headers={
+                'content-encoding': 'gzip'
+            },
+            timeout=REQUEST_POST_TIME_OUT
+        )
+        print(response)
 
         weixin_app = weixin.WeixinApp(
             weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
