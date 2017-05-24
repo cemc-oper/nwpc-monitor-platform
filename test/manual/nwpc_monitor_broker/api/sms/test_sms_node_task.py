@@ -78,6 +78,32 @@ def test_sms_node_task_api():
                             },
 
                         ]
+                    },
+                    {
+                        'node_path': '/grapes_meso_post/00',
+                        'check_list_result': [
+                            {
+                                'type': 'status',
+                                'is_condition_fit': False,
+                                'value': {
+                                    'expected_value': {
+                                        'operator': 'in',
+                                        'fields': ['submitted', 'active', 'complete']
+                                    },
+                                    'value': 'queue'
+                                }
+                            },
+                            {
+                                'type': 'variable',
+                                'name': 'SMSDATE',
+                                'is_condition_fit': False,
+                                'value': {
+                                    'expected_value': '20170522',
+                                    'value': '20170523'
+                                }
+                            },
+
+                        ]
                     }
                 ]
             }
