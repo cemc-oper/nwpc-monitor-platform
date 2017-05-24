@@ -40,13 +40,76 @@ class RepoTaskCheckUnfitNodesApp extends Component{
                 Util.parseUTCTimeString(unfit_nodes['update_time']), Util.parseDate(cur_time));
         }
 
+        let image_style = {
+            width:'30px',
+            marginRight: '5px'
+        };
+
         let task_nodes = unfit_nodes['unfit_node_list'].map(function(a_node, i){
+            let unfit_check_list_node = a_node['unfit_check_list'].map(function(an_unfit_check, i) {
+                if(an_unfit_check['type'] === 'status' ){
+                    let expected_value = an_unfit_check['value']['expected_value'];
+
+                    let expected_value_node = (<div/>);
+                    if(expected_value['operator'] === "in"){
+                        expected_value_node = expected_value['fields'].map(function(a_status,i){
+                            return (<NodeStatusImage node_status={ a_status } image_style={ image_style } />)
+                        });
+                    }
+
+                    return(
+                        <div className="weui-flex">
+                            <div className="weui-flex__item">
+                                <div className="placeholder">节点状态</div>
+                            </div>
+                            <div className="weui-flex__item">
+                                <div className="placeholder">
+                                    <NodeStatusImage node_status={ an_unfit_check['value']['value'] } image_style={ image_style } />
+                                </div>
+                            </div>
+                            <div className="weui-flex__item">
+                                <div className="placeholder">
+                                    {expected_value_node}
+                                </div>
+                            </div>
+                        </div>
+                    )
+                } else if (an_unfit_check['type'] === 'variable') {
+                    return (
+                        <div className="weui-flex">
+                            <div className="weui-flex__item">
+                                <div className="placeholder">{an_unfit_check['name']}</div>
+                            </div>
+                            <div className="weui-flex__item">
+                                <div className="placeholder">{an_unfit_check['value']['value']}</div>
+                            </div>
+                            <div className="weui-flex__item">
+                                <div className="placeholder">{an_unfit_check['value']['expected_value']}</div>
+                            </div>
+                        </div>
+                    )
+                }
+            });
             return (
-                <p className="unfit-node-path-row" key={i} >
-                    <span className="node-path">
+                <div className="unfit-node-path-row" key={i} >
+                    <h2 className="node-path">
                         { a_node['node_path'] }
-                    </span>
-                </p>
+                    </h2>
+                    <div>
+                        <div className="weui-flex">
+                            <div className="weui-flex__item">
+                                <div className="placeholder">项目</div>
+                            </div>
+                            <div className="weui-flex__item">
+                                <div className="placeholder">实际</div>
+                            </div>
+                            <div className="weui-flex__item">
+                                <div className="placeholder">期望</div>
+                            </div>
+                        </div>
+                        { unfit_check_list_node }
+                    </div>
+                </div>
             )
         });
 
