@@ -387,3 +387,40 @@ def post_sms_task_check(owner, repo):
         'status': 'ok'
     }
     return jsonify(result)
+
+
+@api_app.route('/operation-systems/repos/<owner>/<repo>/task_check/unfit_nodes/<int:unfit_nodes_id>', methods=['GET'])
+def get_repo_unfit_nodes(owner, repo, unfit_nodes_id):
+    unfit_nodes_content = {
+        'update_time': None,
+        'name': None,
+        'trigger': None,
+        'unfit_node_list': []
+    }
+
+    if owner not in owner_list:
+        return jsonify(unfit_nodes_content)
+
+    found_repo = False
+    for a_repo in owner_list[owner]['repos']:
+        if repo == a_repo['name']:
+            found_repo = True
+            break
+    if not found_repo:
+        return jsonify(unfit_nodes_content)
+
+    blobs_collection = nwpc_monitor_platform_mongodb.blobs
+    query_key = {
+        'owner': owner,
+        'repo': repo,
+        'id': unfit_nodes_id
+    }
+    query_result = blobs_collection.find_one(query_key)
+    if not query_result:
+        return jsonify(unfit_nodes_content)
+
+    blob_content = query_result['data']['content']
+
+    unfit_nodes_content = blob_content
+
+    return jsonify(unfit_nodes_content)

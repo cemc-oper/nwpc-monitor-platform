@@ -70,9 +70,9 @@ def test_sms_node_task_api():
                             {
                                 'type': 'variable',
                                 'name': 'SMSDATE',
-                                'is_condition_fit': True,
+                                'is_condition_fit': False,
                                 'value': {
-                                    'expected_value': '20170523',
+                                    'expected_value': '20170522',
                                     'value': '20170523'
                                 }
                             },

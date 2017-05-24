@@ -28,3 +28,8 @@ def get_sms_status_page_by_path(owner, repo, sms_path):
 @app.route('/<no_static:owner>/<repo>/aborted_tasks/<int:aborted_task_id>', methods=['GET'])
 def get_sms_aborted_tasks_page(aborted_task_id, owner, repo):
     return render_template("app/operation_system_app_index.html")
+
+
+@app.route('/<no_static:owner>/<repo>/task_check/unfit_nodes/<int:unfit_nodes_id>', methods=['GET'])
+def get_sms_unfit_nodes_page(unfit_nodes_id, owner, repo):
+    return render_template("app/operation_system_app_index.html")
