@@ -183,7 +183,7 @@ class WeixinApp(object):
         )
         print(result.json())
 
-    def send_sms_node_task_warn(self, warning_data):
+    def send_sms_node_task_warn(self, message):
         auth = Auth(self.weixin_config['token'])
         weixin_access_token = auth.get_access_token()
 
@@ -192,7 +192,7 @@ class WeixinApp(object):
         )
 
         node_list_content = ''
-        for a_unfit_node in warning_data['data']['unfit_nodes']:
+        for a_unfit_node in message['data']['unfit_nodes']:
 
             node_list_content += a_unfit_node['node_path'] + ':'
             unfit_map = defaultdict(int)
@@ -204,17 +204,23 @@ class WeixinApp(object):
                     type_name=type_name, count=count)
             node_list_content += '\n'
 
+        message_url = (self.cloud_config['base']['url'] + '/{owner}/{repo}/task_check/unfit_nodes/{id}').format(
+            owner=message['data']['owner'],
+            repo=message['data']['repo'],
+            id=message['data']['unfit_nodes_blob_id']
+        )
+
         articles = [
             {
-                'title': "业务系统异常：{repo} 节点状态".format(repo=warning_data['data']['repo']),
+                'title': "业务系统异常：{repo} 节点状态".format(repo=message['data']['repo']),
                 "picurl": "http://wx2.sinaimg.cn/mw690/4afdac38ly1feqnwb44kkj2223112wfj.jpg"
             },
             {
                 "title": "{owner}/{repo}".format(
-                    owner=warning_data['data']['owner'],
-                    repo=warning_data['data']['repo']
+                    owner=message['data']['owner'],
+                    repo=message['data']['repo']
                 ),
-                "description": warning_data['data']['task_name']
+                "description": message['data']['task_name']
             },
             {
                 'title':
@@ -224,11 +230,12 @@ class WeixinApp(object):
                         error_time=datetime.now().strftime("%H:%M:%S"))
             },
             {
-                "title": warning_data['data']['task_name'] + " 运行异常"
+                "title": message['data']['task_name'] + " 运行异常"
             },
             {
                 'title': '异常任务列表\n' + node_list_content,
-                'description': '点击查看详情'
+                'description': '点击查看详情',
+                'url': message_url
             }
         ]
 

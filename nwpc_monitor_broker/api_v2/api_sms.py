@@ -344,7 +344,7 @@ def receive_sms_node_task_message(owner, repo):
 
     print(unfit_node_list)
     if len(unfit_node_list) > 0:
-        result = {
+        weixin_message = {
             'app': 'nwpc_monitor_broker',
             'type': 'sms_node_task',
             'timestamp': datetime.datetime.now().isoformat(),
@@ -365,6 +365,7 @@ def receive_sms_node_task_message(owner, repo):
         for a_blob in takler_object_system_dict['blobs']:
             if a_blob['data']['type'] == 'unfit_nodes':
                 unfit_nodes_blob_id = a_blob['id']
+                weixin_message['data']['unfit_nodes_blob_id'] = unfit_nodes_blob_id
         print(unfit_nodes_blob_id)
 
         post_message = {
@@ -405,10 +406,10 @@ def receive_sms_node_task_message(owner, repo):
             weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
             cloud_config=app.config['BROKER_CONFIG']['cloud']
         )
-        weixin_app.send_sms_node_task_warn(result)
+        weixin_app.send_sms_node_task_warn(weixin_message)
     # else:
     #     # debug message.
-    #     result = {
+    #     weixin_message = {
     #         'app': 'nwpc_monitor_broker',
     #         'type': 'sms_node_task',
     #         'timestamp': datetime.datetime.now().isoformat(),
@@ -423,7 +424,7 @@ def receive_sms_node_task_message(owner, repo):
     #         weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
     #         cloud_config=app.config['BROKER_CONFIG']['cloud']
     #     )
-    #     weixin_app.send_sms_node_task_message(result)
+    #     weixin_app.send_sms_node_task_message(weixin_message)
 
     response_result = {
         'status': 'ok'
