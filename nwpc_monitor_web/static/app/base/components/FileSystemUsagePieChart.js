@@ -33,8 +33,10 @@ export default class FileSystemUsagePieChart extends Component {
         const { config } = this.props;
         if(config.warning.inRange(value)){
             return config.warning.used_color;
-        } else {
+        } else if(config.normal.inRange(value)){
             return config.normal.used_color;
+        } else {
+            return 'rgb(0,0,0)';
         }
     }
 
@@ -50,6 +52,11 @@ export default class FileSystemUsagePieChart extends Component {
     renderChartDom(){
         const { data, config } = this.props;
         let { label, usage, total } = data;
+
+        // // over the quota
+        // if (usage>total){
+        //    usage = total;
+        // }
         let echarts_instance = this.getEchartsInstance();
 
         echarts_instance.setOption({
