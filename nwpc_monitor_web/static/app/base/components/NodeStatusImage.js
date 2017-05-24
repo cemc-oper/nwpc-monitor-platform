@@ -6,7 +6,9 @@ export class NodeStatusImage extends Component{
     }
 
     static getStatusBackgroundImage(status) {
-        switch (status) {
+        let short_status = status.substr(0, 3);
+        console.log(status, short_status);
+        switch (short_status) {
             case 'abo':
                 return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAYAAABXuSs3AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AYEBCcAB37JbAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAByElEQVRo3u2YTUuUURiGrxENxw9ooWMLXRgtBBfqoLioRWDQDygXrW0ZtGrrso1ftegvOJoLwYW/ICLaRe3cR4Gp5MJ0krvNPTJM71eoxMBz4OHlOec+573O4dwPvG8JQCDarHXQpi3AAzzAAzzAAzzAAzzAA/yawEuOOPEAbyfwR8A4MAB0AjeB+8B6xpyvwFOgApSBe8DHFk0dWAWqQK+jCrwCfhelFygtyIiXKdr+BG0faM+6M9CDjHUfguoZTBcf98oRNeIcdAR66xcMp4A/Bn0AnYC+gKbdv2DdsvMKaAO071gHDXps9bLgR6A3oHlQFTQCKnvxUgp46xrv3D/qfNL5VoJ2w2NTlwH/BBrKuS5FwI/df8N5Y+M/ErT7HuvJAc805zPgO3AX2AQ+A9+A03+sAL/87PrbW0l+K97SdtXj3R9kmLbIiW+7f8b5hPNagrZ2FVflthd5Dfpps70HPckB3wEd+ors2sSA1lrMOWjQhjlrV2XOpZR7PZQDnhSzoNOmcjh3neXw3Du/A+r280WTgZLAe0GLoDHPuQV67tNv1p6BVlxhyo5Jv69eoDSX4m9tgAd4gAd4gAd4gAd4gAf4f2t/AJyaWtkmCBATAAAAAElFTkSuQmCC";
             case 'act':
