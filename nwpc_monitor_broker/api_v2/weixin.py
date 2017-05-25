@@ -160,9 +160,11 @@ class WeixinApp(object):
                 "url": message_url
             }
         ]
-
+        to_user = "@all"
+        if warning_data['owner'] == "nwp_sp":
+            to_user = "lvkai"
         warning_post_message = {
-            "touser": "@all",
+            "touser": to_user,
             "agentid": 2,
             "msgtype": "news",
             "news": {
