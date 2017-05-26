@@ -161,7 +161,7 @@ class WeixinApp(object):
             }
         ]
         to_user = "@all"
-        if warning_data['owner'] == "nwp_sp":
+        if warning_data['owner'] == "nwp_pos":
             to_user = "lvkai"
         warning_post_message = {
             "touser": to_user,
