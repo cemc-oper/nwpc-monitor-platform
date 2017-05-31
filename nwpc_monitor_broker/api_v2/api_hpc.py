@@ -202,8 +202,8 @@ def receive_loadleveler_status(user):
     if 'error' not in message:
         plugin_result = long_time_operation_job_warn.warn_long_time_operation_job(user, message)
         if plugin_result:
-            # if not plugin_result['data']['warn_flag']:
-            if False:
+            # if False:
+            if not plugin_result['data']['warn_flag']:
                 print("Found long time operation jobs. But there is no new one...Skip")
             else:
                 print("Found new long time operation jobs. Send warn message.")
