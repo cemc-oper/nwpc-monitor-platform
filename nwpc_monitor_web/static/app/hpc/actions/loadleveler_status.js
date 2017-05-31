@@ -39,3 +39,49 @@ export function fetchHpcUserLoadlevelerStatus(user){
         });
     };
 }
+
+
+
+export const REQUEST_HPC_USER_LOADLEVELER_ABNORMAL_JOBS = 'REQUEST_HPC_USER_LOADLEVELER_ABNORMAL_JOBS';
+
+export function requestHpcUserLoadlevelerAbnormalJobs(user, abnormal_jobs_id){
+    return {
+        type: REQUEST_HPC_USER_LOADLEVELER_ABNORMAL_JOBS,
+        user,
+        abnormal_jobs_id
+    }
+}
+
+export const RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS_SUCCESS = 'RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS _SUCCESS';
+
+export function receiveHpcUserLoadlevelerAbnormalJobsSuccess(response){
+    return {
+        type: RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS_SUCCESS,
+        response,
+        receive_time: Date.now()
+    }
+}
+
+export const RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS_FAILURE = 'RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS _FAILURE';
+
+export function receiveHpcUserLoadlevelerAbnormalJobsFailure(error){
+    return {
+        type: RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS_FAILURE,
+        error
+    }
+}
+
+export function fetchHpcUserLoadlevelerAbnormalJobs(user, abnormal_jobs_id){
+    return function (dispatch) {
+        dispatch(requestHpcUserLoadlevelerStatus(user, abnormal_jobs_id));
+
+        return $.getJSON('/api/v1/hpc/users/' + user + '/loadleveler/abnormal_jobs/' + abnormal_jobs_id, {},
+            function(data){
+            dispatch(
+                receiveHpcUserLoadlevelerAbnormalJobsSuccess({
+                    data: data
+                })
+            );
+        });
+    };
+}

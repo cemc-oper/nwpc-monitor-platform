@@ -40,7 +40,7 @@ def create_job(
                 "value": "llq.job_script" + job_id
             },
             {
-                "id": "llq.status" + job_id,
+                "id": "llq.status",
                 "data": status,
                 "text": status,
                 "value": status

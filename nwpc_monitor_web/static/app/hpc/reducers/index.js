@@ -8,7 +8,9 @@ import {
 } from '../actions/disk_usage'
 import {
     REQUEST_HPC_USER_LOADLEVELER_STATUS,
-    RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS
+    RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS,
+    REQUEST_HPC_USER_LOADLEVELER_ABNORMAL_JOBS,
+    RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS_SUCCESS
 } from '../actions/loadleveler_status'
 
 import {
@@ -122,11 +124,18 @@ function loadleveler_status_reducer(state={
         },
         user: null,
         collect_time: null,
-        jobs: []
+        jobs: [],
+        abnormal_jobs: {
+            update_time: null,
+            abnormal_jobs_id: null,
+            plugin_name: null,
+            abnormal_job_list: []
+        }
     }
 }, action) {
     switch(action.type){
         case REQUEST_HPC_USER_LOADLEVELER_STATUS:
+        case REQUEST_HPC_USER_LOADLEVELER_ABNORMAL_JOBS:
             return new Object({
                 status: {
                     is_fetching: true,
@@ -134,7 +143,8 @@ function loadleveler_status_reducer(state={
                 },
                 user: state.user,
                 collect_time: state.collect_time,
-                jobs: state.jobs
+                jobs: state.jobs,
+                abnormal_jobs: state.abnormal_jobs
             });
         case RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS:
             let data = action.response.data;
@@ -149,7 +159,26 @@ function loadleveler_status_reducer(state={
                 },
                 user: user,
                 collect_time: collect_time,
-                jobs: jobs
+                jobs: jobs,
+                abnormal_jobs: state.abnormal_jobs
+            });
+        case RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS_SUCCESS:
+            data = action.response.data;
+            let abnormal_jobs = {
+                update_time: data['update_time'],
+                plugin_name: data['plugin_name'],
+                abnormal_jobs_id: data['abnormal_jobs_id'],
+                abnormal_job_list: data['abnormal_job_list']
+            };
+            return new Object({
+                status: {
+                    is_fetching: false,
+                    last_updated: Date.now()
+                },
+                user: state.user,
+                collect_time: state.collect_time,
+                jobs: state.jobs,
+                abnormal_jobs: abnormal_jobs
             });
         default:
             return state;
@@ -179,7 +208,13 @@ function hpc_reducer(state={
         },
         user: null,
         collect_time: null,
-        jobs: []
+        jobs: [],
+        abnormal_jobs: {
+            update_time: null,
+            abnormal_jobs_id: null,
+            plugin_name: null,
+            abnormal_job_list: []
+        }
     }
 }, action) {
     switch (action.type) {
@@ -193,6 +228,8 @@ function hpc_reducer(state={
             });
         case REQUEST_HPC_USER_LOADLEVELER_STATUS:
         case RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS:
+        case REQUEST_HPC_USER_LOADLEVELER_ABNORMAL_JOBS:
+        case RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS_SUCCESS:
             return new Object({
                 disk_usage: state.disk_usage,
                 disk_space: state.disk_space,

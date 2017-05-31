@@ -154,12 +154,13 @@ def request_loadleveler_status(user):
     return jsonify(result)
 
 
-@api_app.route('/hpc/users/<user>/loadleveler/status/check/abnormal_jobs/<int:abnormal_jobs_id>', methods=['GET'])
+@api_app.route('/hpc/users/<user>/loadleveler/abnormal_jobs/<int:abnormal_jobs_id>', methods=['GET'])
 def get_hpc_loadleveler_status_abnormal_jobs(user, abnormal_jobs_id):
     abnormal_jobs_content = {
         'update_time': None,
         'plugin_name': None,
-        'abnormal_job_list': []
+        'abnormal_job_list': [],
+        'abnormal_jobs_id': abnormal_jobs_id
     }
 
     blobs_collection = nwpc_monitor_platform_mongodb.blobs
@@ -177,5 +178,6 @@ def get_hpc_loadleveler_status_abnormal_jobs(user, abnormal_jobs_id):
     abnormal_jobs_content['update_time'] = blob_content['update_time']
     abnormal_jobs_content['plugin_name'] = blob_content['update_time']
     abnormal_jobs_content['abnormal_job_list'] = blob_content['abnormal_job_list']
+    abnormal_jobs_content['abnormal_jobs_id'] = abnormal_jobs_id
 
     return jsonify(abnormal_jobs_content)

@@ -1,28 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import {
-    fetchHpcUserLoadlevelerStatus,
-} from '../actions/loadleveler_status';
-
 import LoadingToast from '../../base/components/LoadingToast'
-
 import { Util } from '../../base/util/util'
 
-export class HpcLoadlevelerStatusApp extends Component{
+import { fetchHpcUserLoadlevelerAbnormalJobs} from '../actions/loadleveler_status';
+
+import { HpcLoadlevelerStatusApp } from './HpcLoadlevelerStatusApp'
+
+class HpcLoadlevelerAbnormalJobsApp extends Component{
     constructor(props){
         super(props);
         this.state = {
             sort_label: null,
             is_asc_order: true
         }
-    }
-
-    componentDidMount(){
-        const { dispatch, params } = this.props;
-        let user = params.user;
-
-        dispatch(fetchHpcUserLoadlevelerStatus(user));
     }
 
     handleSortClick(sort_label){
@@ -42,106 +34,40 @@ export class HpcLoadlevelerStatusApp extends Component{
         }
     }
 
-    static findPropById(job, id){
-        const { props } = job;
-        let prop = null;
-        props.forEach(function(a_prop, index){
-            if(a_prop.id === id) {
-                prop = a_prop
-            }
-        });
-        return prop;
-    }
+    componentDidMount(){
+        const { dispatch, params } = this.props;
+        let user = params.user;
+        let abnormal_jobs_id = params.abnormal_jobs_id;
 
-    static getPropTextById(job, id){
-        let text = null;
-        let prop = HpcLoadlevelerStatusApp.findPropById(job,id);
-        if(prop) text = prop.text;
-        return text;
-    }
-
-    static compareString(a,b){
-        if(a<b)
-            return -1;
-        else if(a>b)
-            return 1;
-        else
-            return 0;
-
-    }
-
-    static compareJobStatus(a, b){
-        return HpcLoadlevelerStatusApp.compareString(
-            HpcLoadlevelerStatusApp.getPropTextById(a, "llq.status"),
-            HpcLoadlevelerStatusApp.getPropTextById(b, "llq.status")
-        );
-    }
-
-    static compareOwner(a, b){
-        return HpcLoadlevelerStatusApp.compareString(
-            HpcLoadlevelerStatusApp.getPropTextById(a, "llq.owner"),
-            HpcLoadlevelerStatusApp.getPropTextById(b, "llq.owner")
-        );
-    }
-
-    static compareQueueDate(a, b){
-        return HpcLoadlevelerStatusApp.compareString(
-            HpcLoadlevelerStatusApp.getPropTextById(a, "llq.queue_date"),
-            HpcLoadlevelerStatusApp.getPropTextById(b, "llq.queue_date")
-        );
-    }
-
-    static compareJobClass(a, b){
-        return HpcLoadlevelerStatusApp.compareString(
-            HpcLoadlevelerStatusApp.getPropTextById(a, "llq.class"),
-            HpcLoadlevelerStatusApp.getPropTextById(b, "llq.class")
-        );
-    }
-
-    static sortJobs(jobs, sort_label, is_asc_order){
-        let local_jobs = jobs;
-        switch(sort_label){
-            case "llq.owner":
-                if(is_asc_order)
-                    local_jobs.sort(HpcLoadlevelerStatusApp.compareOwner);
-                else
-                    local_jobs.sort((a,b)=>(-1)*HpcLoadlevelerStatusApp.compareOwner(a,b));
-                break;
-            case "llq.queue_date":
-                if(is_asc_order)
-                    local_jobs.sort(HpcLoadlevelerStatusApp.compareQueueDate);
-                else
-                    local_jobs.sort((a,b)=>(-1)*HpcLoadlevelerStatusApp.compareQueueDate(a,b));
-                break;
-            case "llq.status":
-                if(is_asc_order)
-                    local_jobs.sort(HpcLoadlevelerStatusApp.compareJobStatus);
-                else
-                    local_jobs.sort((a,b)=>(-1)*HpcLoadlevelerStatusApp.compareJobStatus(a,b));
-                break;
-            case "llq.class":
-                if(is_asc_order)
-                    local_jobs.sort(HpcLoadlevelerStatusApp.compareJobClass);
-                else
-                    local_jobs.sort((a,b)=>(-1)*HpcLoadlevelerStatusApp.compareJobClass(a,b));
-                break;
-            default:
-                break;
-        }
-        return local_jobs;
+        dispatch(fetchHpcUserLoadlevelerAbnormalJobs(user, abnormal_jobs_id));
     }
 
     render() {
-        const { params, loadleveler_status } = this.props;
+        const { params, abnormal_jobs, status } = this.props;
+        if(abnormal_jobs===null)
+        {
+            return (
+                <div>
+                    <p>不存在</p>
+                    <LoadingToast shown={ status.is_fetching } />
+                </div>
+            )
+        }
 
         let user = params.user;
+        let abnormal_jobs_id = params.abnormal_jobs_id;
 
-        let { collect_time, jobs } = loadleveler_status;
-        let local_jobs = jobs.concat();
+        let last_update_time = '未知';
+        let cur_time = new Date();
+        if(abnormal_jobs['update_time']!==null) {
+            last_update_time = Util.getDelayTime(
+                Util.parseUTCTimeString(abnormal_jobs['update_time']), Util.parseDate(cur_time));
+        }
 
+        let local_jobs = abnormal_jobs['abnormal_job_list'].concat();
         local_jobs = HpcLoadlevelerStatusApp.sortJobs(local_jobs, this.state.sort_label, this.state.is_asc_order);
-        console.log(local_jobs);
-        let jobs_node = local_jobs.map(function(a_job, index){
+
+        let jobs_nodes = local_jobs.map(function(a_job, index){
             let id = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.id");
             let owner = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.owner");
             let queue_date = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.queue_date");
@@ -164,8 +90,8 @@ export class HpcLoadlevelerStatusApp extends Component{
 
         return (
             <div>
-                <h1 className="page_title">LoadLeveler队列</h1>
-                <p>更新时间：{ Util.getDelayTime(Util.parseUTCTimeString(collect_time), Util.getNow())} </p>
+                <h1 className="page_title">Loadleveler异常任务</h1>
+                <p>更新时间：{ last_update_time } </p>
                 <div className="weui-cells">
                     <div className="weui-cell">
                         <div className="weui-cell__bd">
@@ -189,22 +115,37 @@ export class HpcLoadlevelerStatusApp extends Component{
                             </p>
                         </div>
                     </div>
-                    { jobs_node }
+                    { jobs_nodes }
                 </div>
-                <LoadingToast shown={ loadleveler_status.status.is_fetching } />
+                <LoadingToast shown={ status.is_fetching } />
             </div>
         );
     }
 }
 
-HpcLoadlevelerStatusApp.propTypes = {
-    loadleveler_status: PropTypes.object
+HpcLoadlevelerAbnormalJobsApp.propTypes = {
+    abnormal_jobs: PropTypes.shape({
+        update_time: PropTypes.string,
+        abnormal_jobs_id: PropTypes.number,
+        abnormal_job_list: PropTypes.arrayOf(PropTypes.shape({
+            props: PropTypes.array
+        })),
+        plugin_name: PropTypes.string
+    }),
+    status: PropTypes.shape({
+        is_fetching: PropTypes.bool,
+        last_updated: PropTypes.oneOfType([
+            PropTypes.null,
+            PropTypes.number
+        ])
+    })
 };
 
 function mapStateToProps(state){
     return {
-        loadleveler_status: state.hpc.loadleveler_status
+        abnormal_jobs: state.hpc.loadleveler_status.abnormal_jobs,
+        status: state.hpc.loadleveler_status.status
     }
 }
 
-export default connect(mapStateToProps)(HpcLoadlevelerStatusApp)
+export default connect(mapStateToProps)(HpcLoadlevelerAbnormalJobsApp)

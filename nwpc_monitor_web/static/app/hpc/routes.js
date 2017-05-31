@@ -6,6 +6,7 @@ import HpcDiskUsageApp from './containers/HpcDiskUsageApp'
 import HpcDiskSpaceApp from './containers/HpcDiskSpaceApp'
 import HpcLoadlevelerApp from './containers/HpcLoadlevelerApp'
 import HpcLoadlevelerStatusApp from './containers/HpcLoadlevelerStatusApp'
+import HpcLoadlevelerAbnormalJobsApp from './containers/HpcLoadlevelerAbnormalJobsApp'
 
 export default (
     <Route path="/hpc" >
@@ -17,6 +18,7 @@ export default (
         </Route>
         <Route path=":user/loadleveler" component={ HpcLoadlevelerApp } >
             <Route path="status" component={HpcLoadlevelerStatusApp} />
+            <Route path="abnormal_jobs/:abnormal_jobs_id" component={HpcLoadlevelerAbnormalJobsApp} />
         </Route>
     </Route>
 )
