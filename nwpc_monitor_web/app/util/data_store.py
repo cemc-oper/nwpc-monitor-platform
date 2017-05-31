@@ -46,7 +46,7 @@ def get_disk_space_from_mongodb() -> dict:
 
 def save_hpc_loadleveler_status_to_cache(user: str, value: dict) -> tuple:
     key = {
-        'user': user
+        'data.user': user
     }
     hpc_loadleveler_status.update(key, value, upsert=True)
     return key, value
@@ -54,7 +54,7 @@ def save_hpc_loadleveler_status_to_cache(user: str, value: dict) -> tuple:
 
 def get_hpc_loadleveler_status_from_cache(user: str) -> dict:
     key = {
-        'user': user
+        'data.user': user
     }
     value = hpc_loadleveler_status.find_one(key, {"_id": 0})
     return value

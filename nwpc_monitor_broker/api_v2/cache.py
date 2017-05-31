@@ -96,9 +96,15 @@ def save_hpc_loadleveler_status_to_cache(user: str, message: dict) -> tuple:
         'user': user
     }
     value = {
-        'user': user,
-        'update_time': datetime.datetime.now(),
-        'message': message
+        'app': 'nwpc_monitor_broker',
+        'event': 'post_sms_task_check',
+        'data': {
+            'user': user,
+            'type': 'job_list',
+            'update_time': datetime.datetime.now(),
+            'message': message
+        }
+
     }
     hpc_loadleveler_status.update(key, value, upsert=True)
     return key, value
@@ -106,7 +112,7 @@ def save_hpc_loadleveler_status_to_cache(user: str, message: dict) -> tuple:
 
 def get_hpc_loadleveler_status_from_cache(user: str) -> dict:
     key = {
-        'user': user
+        'owner': user
     }
     value = hpc_loadleveler_status.find_one(key, {"_id": 0})
     return value

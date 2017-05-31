@@ -219,6 +219,39 @@ def receive_loadleveler_status(user):
                         abnormal_jobs_blob_id = a_blob['id']
                 print(abnormal_jobs_blob_id)
 
+                post_message = {
+                    'app': 'nwpc_monitor_broker',
+                    'event': 'post_sms_task_check',
+                    'timestamp': datetime.datetime.now(),
+                    'data': {
+                        'type': 'takler_object',
+                        'blobs': takler_object_system_dict['blobs'],
+                        'trees': takler_object_system_dict['trees'],
+                        'commits': takler_object_system_dict['commits']
+                    }
+                }
+
+                website_post_data = {
+                    'message': json.dumps(post_message)
+                }
+
+                print('gzip the data...')
+                gzipped_post_data = gzip.compress(bytes(json.dumps(website_post_data), 'utf-8'))
+                print('gzip the data...done')
+
+                website_url = app.config['BROKER_CONFIG']['hpc']['loadleveler_status']['cloud']['put']['url'].format(
+                    user=user
+                )
+                response = requests.post(
+                    website_url,
+                    data=gzipped_post_data,
+                    headers={
+                        'content-encoding': 'gzip'
+                    },
+                    timeout=REQUEST_POST_TIME_OUT
+                )
+                print(response)
+
                 weixin_app = weixin.WeixinApp(
                     weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
                     cloud_config=app.config['BROKER_CONFIG']['cloud']

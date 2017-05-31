@@ -2,8 +2,13 @@ import gzip
 
 from flask import request, json, jsonify, url_for
 
+from nwpc_monitor_web.app import mongodb_client
 from nwpc_monitor_web.app.api import api_app
 from nwpc_monitor_web.app.util import analytics, data_store
+
+# mongodb
+nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
+sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status
 
 
 @api_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])
@@ -100,8 +105,37 @@ def receive_loadleveler_status(user):
         }
         return jsonify(result)
 
-    value = message
-    data_store.save_hpc_loadleveler_status_to_cache(user, value)
+    if message['data']['type'] == 'takler_object':
+        abnormal_jobs_blob = None
+        for a_blob in message['data']['blobs']:
+            if (
+                a_blob['data']['type'] == 'hpc_loadleveler_status' and
+                a_blob['data']['name'] == 'abnormal_jobs'
+            ):
+                abnormal_jobs_blob = a_blob
+
+        if abnormal_jobs_blob is None:
+            result = {
+                'status': 'error',
+                'message': 'can\'t find a abnormal jobs blob.'
+            }
+            return jsonify(result)
+
+        tree_object = message['data']['trees'][0]
+        commit_object = message['data']['commits'][0]
+
+        # 保存到 mongodb
+        blobs_collection = nwpc_monitor_platform_mongodb.blobs
+        blobs_collection.insert_one(abnormal_jobs_blob)
+
+        trees_collection = nwpc_monitor_platform_mongodb.trees
+        trees_collection.insert_one(tree_object)
+
+        commits_collection = nwpc_monitor_platform_mongodb.commits
+        commits_collection.insert_one(commit_object)
+    elif message['data']['type'] == 'job_list':
+        value = message
+        data_store.save_hpc_loadleveler_status_to_cache(user, value)
 
     # send data to google analytics
     analytics.send_google_analytics_page_view(
