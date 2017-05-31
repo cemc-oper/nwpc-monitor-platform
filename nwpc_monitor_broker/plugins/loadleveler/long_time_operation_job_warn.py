@@ -14,7 +14,10 @@ def save_long_time_operation_job_list_to_cache(user, job_items):
 
 def get_long_time_operation_job_list_from_cache(user):
     key = "{user}/hpc/loadleveler/long_time_operation_job_warn/job_items".format(user=user)
-    result = redis_client.get(key).decode()
+    result = redis_client.get(key)
+    if result is None:
+        return None
+    result = result.decode()
     return json.loads(result)
 
 

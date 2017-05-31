@@ -149,6 +149,33 @@ def get_disk_space_message():
 
 @api_v2_app.route('/hpc/users/<user>/loadleveler/status', methods=['POST'])
 def receive_loadleveler_status(user):
+    """
+
+    :param user:
+    :return:
+
+    POST
+        message: json string of loadleveler collection result
+            {
+                app: nwpc_hpc_collector.loadleveler_status,
+                type: 'command',
+                time: "%Y-%m-%d %H:%M:%S",
+                data: {
+                    request: {
+                        sub_command: args.sub_command,
+                    },
+                    response: model_dict
+                        {
+                            items: array
+                            [
+                                {
+                                    props: array
+                                }
+                            ]
+                        }
+                }
+            }
+    """
     start_time = datetime.datetime.now()
 
     content_encoding = request.headers.get('content-encoding', '').lower()
@@ -174,7 +201,8 @@ def receive_loadleveler_status(user):
     if 'error' not in message:
         r = long_time_operation_job_warn.warn_long_time_operation_job(user, message)
         if r:
-            if not r['warn_flag']:
+            # if not r['warn_flag']:
+            if False:
                 print("Found long time operation jobs. But there is no new one...Skip")
             else:
                 print("Found new long time operation jobs. Send warn message.")
@@ -182,35 +210,7 @@ def receive_loadleveler_status(user):
                     weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
                     cloud_config=app.config['BROKER_CONFIG']['cloud']
                 )
-                text = ""
-                for a_owner in r['categorized_result']:
-                    text += "\n{owner}:{number}".format(
-                        owner=a_owner,
-                        number=r['categorized_result'][a_owner])
-                articles = [
-                    {
-                        "title": "业务系统：队列异常",
-                    },
-                    {
-                        "title":
-                            "日期 : {error_date}\n".format(
-                                error_date=datetime.datetime.now().strftime("%Y-%m-%d"))
-                            + "时间 : {error_time}".format(
-                                error_time=datetime.datetime.now().strftime("%H:%M:%S"))
-                    },
-                    {
-                        "title": "异常用户:" + text
-                    }
-                ]
-                post_message = {
-                    "touser": "wangdp",
-                    "agentid": 2,
-                    "msgtype": "news",
-                    "news": {
-                        "articles": articles
-                    }
-                }
-                weixin_app.send_message(post_message)
+                weixin_app.send_loadleveler_status_warning_message(r)
 
     print("post loadleveler status to cloud: user=", user)
     post_data = {

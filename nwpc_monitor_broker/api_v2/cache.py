@@ -129,8 +129,10 @@ def save_dingtalk_access_token_to_cache(access_token: str) -> None:
 weixin_access_token_key = "weixin_access_token"
 
 
-def get_weixin_access_token_from_cache() -> str:
+def get_weixin_access_token_from_cache() -> str or None:
     weixin_access_token = redis_client.get(weixin_access_token_key)
+    if weixin_access_token is None:
+        return None
     weixin_access_token = weixin_access_token.decode()
     return weixin_access_token
 

@@ -242,7 +242,7 @@ class WeixinApp(object):
         ]
 
         warning_post_message = {
-            "touser": "wangdp",
+            "touser": "@all",
             "agentid": 2,
             "msgtype": "news",
             "news": {
@@ -317,6 +317,38 @@ class WeixinApp(object):
             timeout=REQUEST_POST_TIME_OUT
         )
         print(result.json())
+
+    def send_loadleveler_status_warning_message(self, plugin_check_result):
+        text = ""
+        for a_owner in plugin_check_result['categorized_result']:
+            text += "\n{owner}:{number}".format(
+                owner=a_owner,
+                number=plugin_check_result['categorized_result'][a_owner])
+        articles = [
+            {
+                "title": "业务系统：队列异常",
+                "picurl": "http://wx2.sinaimg.cn/large/4afdac38ly1fg4b31u8dqj21kw0sgjto.jpg"
+            },
+            {
+                "title":
+                    "日期 : {error_date}\n".format(
+                        error_date=datetime.now().strftime("%Y-%m-%d"))
+                    + "时间 : {error_time}".format(
+                        error_time=datetime.now().strftime("%H:%M:%S"))
+            },
+            {
+                "title": "异常用户:" + text
+            }
+        ]
+        post_message = {
+            "touser": "wangdp",
+            "agentid": 2,
+            "msgtype": "news",
+            "news": {
+                "articles": articles
+            }
+        }
+        self.send_message(post_message)
 
     def send_message(self, message):
         auth = Auth(self.weixin_config['token'])

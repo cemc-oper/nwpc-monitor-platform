@@ -115,7 +115,7 @@ def test_sms_node_task_api():
     }
 
     gzipped_data = gzip.compress(bytes(json.dumps(post_data), 'utf-8'))
-    url = 'http://10.28.32.175:6201/api/v2/hpc/sms/{owner}/{repo}/task-check'.format(
+    url = 'http://10.28.32.175:6221/api/v2/hpc/sms/{owner}/{repo}/task-check'.format(
         owner='wangdp',
         repo='nwpc_wangdp'
     )

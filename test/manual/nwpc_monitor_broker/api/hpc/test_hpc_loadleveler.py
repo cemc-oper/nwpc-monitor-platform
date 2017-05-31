@@ -1,8 +1,7 @@
-# coding=utf-8
 import datetime
-from nwpc_monitor_broker.plugins.loadleveler.filters.long_time_operation_job_filter import \
-    get_datetime_data, \
-    create_filter
+import json
+import gzip
+import requests
 
 
 # TODO: repeat is evil
@@ -62,38 +61,46 @@ def create_job(
     }
 
 
-def test_get_datetime_data():
-    d = datetime.datetime.strptime("2017-03-04 05:06:08", "%Y-%m-%d %H:%M:%S")
-    job = create_job(queue_date=d)
-    queue_date = get_datetime_data(job, "llq.queue_date")
-    assert queue_date == d
+def test_loadleveler_status_api():
+    result = {
+        'app': 'nwpc_hpc_collector.loadleveler_status',
+        'type': 'command',
+        'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        'data': {
+            'request': {
+                'sub_command': 'collect',
+            },
+            'response': {
+                'items': [
+                    create_job(
+                        owner="nwp",
+                        queue_date=datetime.datetime.now() - datetime.timedelta(days=2)),
+                    create_job(
+                        owner="nwp",
+                        queue_date=datetime.datetime.now() - datetime.timedelta(hours=2)),
+                    create_job(
+                        owner="nwp_qu",
+                        queue_date=datetime.datetime.now() - datetime.timedelta(days=3)),
+                    create_job(
+                        owner="wangdp",
+                        queue_date=datetime.datetime.now() - datetime.timedelta(days=2))
+                ]
+            }
+        }
+    }
+
+    post_data = {
+        'message': json.dumps(result)
+    }
+
+    gzipped_data = gzip.compress(bytes(json.dumps(post_data), 'utf-8'))
+    url = 'http://10.28.32.175:6221/api/v2/hpc/users/{owner}/loadleveler/status'.format(
+        owner='wangdp'
+    )
+    requests.post(url, data=gzipped_data, headers={
+        'content-encoding': 'gzip'
+    })
 
 
-def test_create_filter(monkeypatch):
-
-    class PatchedDatetime(datetime.datetime):
-        pass
-
-    def mock_now(tz=None):
-        return datetime.datetime(2017, 3, 4, 5, 6, 8)
-
-    monkeypatch.setattr(PatchedDatetime, 'now', mock_now)
-    datetime.datetime = PatchedDatetime
-    a_filter = create_filter()
-
-    job_items = [
-        create_job(
-            owner="nwp",
-            queue_date=datetime.datetime(2017, 3, 4, 1, 6, 8)),
-        create_job(
-            owner="nwp",
-            queue_date=datetime.datetime(2017, 3, 4, 2, 6, 8)),
-        create_job(
-            owner="nwp",
-            queue_date=datetime.datetime(2017, 3, 2, 5, 6, 8)),
-        create_job(
-            owner="wangdp",
-            queue_date=datetime.datetime(2017, 3, 1, 5, 6, 8))
-    ]
-    target_job_items = a_filter['filter'].filter(job_items)
-    assert len(target_job_items) == 1
+if __name__ == "__main__":
+    test_loadleveler_status_api()
