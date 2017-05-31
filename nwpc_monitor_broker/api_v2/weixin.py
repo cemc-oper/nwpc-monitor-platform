@@ -318,12 +318,16 @@ class WeixinApp(object):
         )
         print(result.json())
 
-    def send_loadleveler_status_warning_message(self, plugin_check_result):
+    def send_loadleveler_status_warning_message(self, user, plugin_check_result, abnormal_jobs_blob_id):
         text = ""
         for a_owner in plugin_check_result['data']['categorized_result']:
             text += "\n{owner}:{number}".format(
                 owner=a_owner,
                 number=plugin_check_result['data']['categorized_result'][a_owner])
+        message_url = (self.cloud_config['base']['url'] + '/hpc/{user}/loadleveler/abnormal_jobs/{abnormal_jobs_blob_id}').format(
+            user=user,
+            abnormal_jobs_blob_id=abnormal_jobs_blob_id
+        )
         articles = [
             {
                 "title": "业务系统：队列异常",
@@ -337,7 +341,8 @@ class WeixinApp(object):
                     )
             },
             {
-                "title": "异常用户:" + text
+                "title": "异常用户:" + text,
+                "url": message_url
             }
         ]
         post_message = {

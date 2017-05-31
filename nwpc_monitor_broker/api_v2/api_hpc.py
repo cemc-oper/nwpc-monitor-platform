@@ -256,7 +256,8 @@ def receive_loadleveler_status(user):
                     weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
                     cloud_config=app.config['BROKER_CONFIG']['cloud']
                 )
-                weixin_app.send_loadleveler_status_warning_message(plugin_result)
+                weixin_app.send_loadleveler_status_warning_message(
+                    user, plugin_result, abnormal_jobs_blob_id)
 
     print("post loadleveler status to cloud: user=", user)
     post_data = {
