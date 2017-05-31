@@ -152,3 +152,30 @@ def receive_loadleveler_status(user):
 def request_loadleveler_status(user):
     result = data_store.get_hpc_loadleveler_status_from_cache(user)
     return jsonify(result)
+
+
+@api_app.route('/hpc/users/<user>/loadleveler/status/check/abnormal_jobs/<int:abnormal_jobs_id>', methods=['GET'])
+def get_hpc_loadleveler_status_abnormal_jobs(user, abnormal_jobs_id):
+    abnormal_jobs_content = {
+        'update_time': None,
+        'plugin_name': None,
+        'abnormal_job_list': []
+    }
+
+    blobs_collection = nwpc_monitor_platform_mongodb.blobs
+    query_key = {
+        'owner': user,
+        'repo': 'hpc',
+        'id': abnormal_jobs_id
+    }
+    query_result = blobs_collection.find_one(query_key)
+    if not query_result:
+        return jsonify(abnormal_jobs_content)
+
+    blob_content = query_result['data']['content']
+
+    abnormal_jobs_content['update_time'] = blob_content['update_time']
+    abnormal_jobs_content['plugin_name'] = blob_content['update_time']
+    abnormal_jobs_content['abnormal_job_list'] = blob_content['abnormal_job_list']
+
+    return jsonify(abnormal_jobs_content)

@@ -340,6 +340,7 @@ def get_repo_aborted_tasks(owner, repo, aborted_id):
     return jsonify(aborted_tasks_content)
 
 
+@api_app.route('/operation-systems/repos/<owner>/<repo>/task_check', methods=['POST'])
 @api_app.route('/repos/<owner>/<repo>/sms/task-check', methods=['POST'])
 def post_sms_task_check(owner, repo):
     content_encoding = request.headers.get('content-encoding', '').lower()
