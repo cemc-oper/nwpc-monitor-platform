@@ -45,9 +45,13 @@ def warn_long_time_operation_job(user, message):
             owner = get_property_data(a_job, "llq.owner")
             categorized_result[owner] += 1
         return {
+            'type': 'filter',
             'name': 'warn_long_time_operation_job',
-            'warn_flag': warn_flag,
-            'categorized_result': categorized_result
+            'data': {
+                'warn_flag': warn_flag,
+                'target_job_items': target_job_items,
+                'categorized_result': categorized_result,
+            }
         }
     else:
         return None

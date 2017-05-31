@@ -8,6 +8,7 @@ from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
 from nwpc_monitor_broker.api_v2 import weixin
+from nwpc_monitor_broker.api_v2 import data_store
 
 from nwpc_monitor_broker.plugins.loadleveler import long_time_operation_job_warn
 
@@ -199,18 +200,30 @@ def receive_loadleveler_status(user):
     key, value = cache.save_hpc_loadleveler_status_to_cache(user, message)
 
     if 'error' not in message:
-        r = long_time_operation_job_warn.warn_long_time_operation_job(user, message)
-        if r:
-            # if not r['warn_flag']:
+        plugin_result = long_time_operation_job_warn.warn_long_time_operation_job(user, message)
+        if plugin_result:
+            # if not plugin_result['data']['warn_flag']:
             if False:
                 print("Found long time operation jobs. But there is no new one...Skip")
             else:
                 print("Found new long time operation jobs. Send warn message.")
+
+                takler_object_system_dict = data_store.save_loadleveler_status_to_nwpc_takler_object_system(
+                    user, 'hpc', plugin_result)
+
+                abnormal_jobs_blob_id = None
+                for a_blob in takler_object_system_dict['blobs']:
+                    if (a_blob['data']['type'] == 'hpc_loadleveler_status' and
+                        a_blob['data']['name'] == 'abnormal_jobs'
+                    ):
+                        abnormal_jobs_blob_id = a_blob['id']
+                print(abnormal_jobs_blob_id)
+
                 weixin_app = weixin.WeixinApp(
                     weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
                     cloud_config=app.config['BROKER_CONFIG']['cloud']
                 )
-                weixin_app.send_loadleveler_status_warning_message(r)
+                weixin_app.send_loadleveler_status_warning_message(plugin_result)
 
     print("post loadleveler status to cloud: user=", user)
     post_data = {

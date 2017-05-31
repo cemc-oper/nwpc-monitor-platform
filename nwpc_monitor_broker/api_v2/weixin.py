@@ -285,10 +285,10 @@ class WeixinApp(object):
             },
             {
                 "title":
-                    "日期 : {error_date}\n".format(
-                        error_date=datetime.now().strftime("%Y-%m-%d"))
-                    + "时间 : {error_time}".format(
-                        error_time=datetime.now().strftime("%H:%M:%S"))
+                    "{error_date} {error_time}".format(
+                        error_date=datetime.now().strftime("%Y-%m-%d"),
+                        error_time=datetime.now().strftime("%H:%M:%S")
+                    )
             },
             {
                 "title": message_data['data']['task_name'] + " 运行正常"
@@ -320,10 +320,10 @@ class WeixinApp(object):
 
     def send_loadleveler_status_warning_message(self, plugin_check_result):
         text = ""
-        for a_owner in plugin_check_result['categorized_result']:
+        for a_owner in plugin_check_result['data']['categorized_result']:
             text += "\n{owner}:{number}".format(
                 owner=a_owner,
-                number=plugin_check_result['categorized_result'][a_owner])
+                number=plugin_check_result['data']['categorized_result'][a_owner])
         articles = [
             {
                 "title": "业务系统：队列异常",
@@ -331,10 +331,10 @@ class WeixinApp(object):
             },
             {
                 "title":
-                    "日期 : {error_date}\n".format(
-                        error_date=datetime.now().strftime("%Y-%m-%d"))
-                    + "时间 : {error_time}".format(
-                        error_time=datetime.now().strftime("%H:%M:%S"))
+                    "{error_date} {error_time}".format(
+                        error_date=datetime.now().strftime("%Y-%m-%d"),
+                        error_time=datetime.now().strftime("%H:%M:%S")
+                    )
             },
             {
                 "title": "异常用户:" + text
