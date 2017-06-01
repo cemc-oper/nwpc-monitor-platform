@@ -2,6 +2,7 @@ import datetime
 import json
 import gzip
 import requests
+import random
 
 
 # TODO: repeat is evil
@@ -17,9 +18,9 @@ def create_job(
         "props": [
             {
                 "id": "llq.id",
-                "data": job_id,
-                "text": job_id,
-                "value": job_id
+                "data": job_id + str(random.random()),
+                "text": job_id + str(random.random()),
+                "value": job_id + str(random.random())
             },
             {
                 "id": "llq.owner",

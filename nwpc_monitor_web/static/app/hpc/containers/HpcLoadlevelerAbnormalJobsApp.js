@@ -6,7 +6,8 @@ import { Util } from '../../base/util/util'
 
 import { fetchHpcUserLoadlevelerAbnormalJobs} from '../actions/loadleveler_status';
 
-import { HpcLoadlevelerStatusApp } from './HpcLoadlevelerStatusApp'
+import LoadlevelerJobList from '../components/LoadlevelerJobList'
+import LoadlevelerJobDetail from '../components/LoadlevelerJobDetail'
 
 class HpcLoadlevelerAbnormalJobsApp extends Component{
     constructor(props){
@@ -64,59 +65,11 @@ class HpcLoadlevelerAbnormalJobsApp extends Component{
                 Util.parseUTCTimeString(abnormal_jobs['update_time']), Util.parseDate(cur_time));
         }
 
-        let local_jobs = abnormal_jobs['abnormal_job_list'].concat();
-        local_jobs = HpcLoadlevelerStatusApp.sortJobs(local_jobs, this.state.sort_label, this.state.is_asc_order);
-
-        let jobs_nodes = local_jobs.map(function(a_job, index){
-            let id = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.id");
-            let owner = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.owner");
-            let queue_date = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.queue_date");
-            let status = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.status");
-            let ll_class = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.class");
-            let job_script = HpcLoadlevelerStatusApp.getPropTextById(a_job, "llq.job_script");
-            return (
-                <div className="weui-cell" key={index}>
-                    <div className="weui-cell__bd">
-                        <p className="loadleveler-status-row">
-                            <span className="loadleveler-status-cell-status">{status}</span>
-                            <span className="loadleveler-status-cell-owner">{owner}</span>
-                            <span className="loadleveler-status-cell-class">{ll_class}</span>
-                            <span className="loadleveler-status-cell-queue-date">{queue_date}</span>
-                        </p>
-                    </div>
-                </div>
-            );
-        });
-
         return (
             <div>
                 <h1 className="page_title">Loadleveler异常任务</h1>
                 <p>更新时间：{ last_update_time } </p>
-                <div className="weui-cells">
-                    <div className="weui-cell">
-                        <div className="weui-cell__bd">
-                            <p className="loadleveler-status-row">
-                                <span className="loadleveler-status-cell-status">
-                                    <a href="javascript:;" onClick={this.handleSortClick.bind(this, "llq.status")}
-                                       className="loadleveler-status-header-button">ST</a>
-                                </span>
-                                <span className="loadleveler-status-cell-owner">
-                                    <a href="javascript:;" onClick={this.handleSortClick.bind(this, "llq.owner")}
-                                       className="loadleveler-status-header-button">Owner</a>
-                                </span>
-                                <span className="loadleveler-status-cell-class">
-                                    <a href="javascript:;" onClick={this.handleSortClick.bind(this, "llq.class")}
-                                       className="loadleveler-status-header-button">Class</a>
-                                </span>
-                                <span className="loadleveler-status-cell-queue-date">
-                                    <a href="javascript:;" onClick={this.handleSortClick.bind(this, "llq.queue_date")}
-                                       className="loadleveler-status-header-button">Queue Date</a>
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                    { jobs_nodes }
-                </div>
+                <LoadlevelerJobList job_list={abnormal_jobs['abnormal_job_list']}/>
                 <LoadingToast shown={ status.is_fetching } />
             </div>
         );
