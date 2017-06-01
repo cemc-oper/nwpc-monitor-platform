@@ -26,25 +26,8 @@ export class HpcLoadlevelerStatusApp extends Component{
         dispatch(fetchHpcUserLoadlevelerStatus(user));
     }
 
-    handleSortClick(sort_label){
-        if(this.state.sort_label===null){
-            this.setState({
-                sort_label: sort_label,
-                is_asc_order: true
-            })
-        } else if(this.state.sort_label === sort_label) {
-            this.setState({
-                is_asc_order: !this.state.is_asc_order
-            });
-        } else {
-            this.setState({
-                sort_label: sort_label
-            })
-        }
-    }
-
     render() {
-        const { params, loadleveler_status } = this.props;
+        const { params, job_queue, status } = this.props;
 
         let user = params.user;
 
@@ -52,8 +35,8 @@ export class HpcLoadlevelerStatusApp extends Component{
             <div>
                 <h1 className="page_title">LoadLeveler队列</h1>
                 <p>更新时间：{ Util.getDelayTime(Util.parseUTCTimeString(collect_time), Util.getNow())} </p>
-                <LoadlevelerJobList job_list={jobs}/>
-                <LoadingToast shown={ loadleveler_status.status.is_fetching } />
+                <LoadlevelerJobList job_list={job_queue.jobs}/>
+                <LoadingToast shown={ status.is_fetching } />
             </div>
         );
     }
@@ -65,8 +48,11 @@ HpcLoadlevelerStatusApp.propTypes = {
 
 function mapStateToProps(state){
     return {
-        loadleveler_status: state.hpc.loadleveler_status
+        job_queue: state.hpc.loadleveler_status.job_queue,
+        status: state.hpc.loadleveler_status.status
     }
 }
 
-export default connect(mapStateToProps)(HpcLoadlevelerStatusApp)
+export default connect(
+    mapStateToProps
+)(HpcLoadlevelerStatusApp)

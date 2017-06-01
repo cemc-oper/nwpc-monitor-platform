@@ -122,9 +122,11 @@ function loadleveler_status_reducer(state={
             is_fetching: false,
             last_updated: null
         },
-        user: null,
-        collect_time: null,
-        jobs: [],
+        job_queue: {
+            user: null,
+            collect_time: null,
+            jobs: [],
+        },
         abnormal_jobs: {
             update_time: null,
             abnormal_jobs_id: null,
@@ -141,9 +143,7 @@ function loadleveler_status_reducer(state={
                     is_fetching: true,
                     last_updated: state.status.last_updated
                 },
-                user: state.user,
-                collect_time: state.collect_time,
-                jobs: state.jobs,
+                job_queue: state.job_queue,
                 abnormal_jobs: state.abnormal_jobs
             });
         case RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS:
@@ -152,14 +152,17 @@ function loadleveler_status_reducer(state={
             let collect_time = message['time'];
             let user = data['user'];
             let jobs = message['data']['response']['items'];
+            let job_queue = {
+                user: user,
+                collect_time: collect_time,
+                jobs: jobs,
+            };
             return new Object({
                 status: {
                     is_fetching: false,
                     last_updated: Date.now()
                 },
-                user: user,
-                collect_time: collect_time,
-                jobs: jobs,
+                job_queue: job_queue,
                 abnormal_jobs: state.abnormal_jobs
             });
         case RECEIVE_HPC_USER_LOADLEVELER_ABNORMAL_JOBS_SUCCESS:
@@ -175,9 +178,7 @@ function loadleveler_status_reducer(state={
                     is_fetching: false,
                     last_updated: Date.now()
                 },
-                user: state.user,
-                collect_time: state.collect_time,
-                jobs: state.jobs,
+                job_queue: state.job_queue,
                 abnormal_jobs: abnormal_jobs
             });
         default:
@@ -206,9 +207,11 @@ function hpc_reducer(state={
             is_fetching: false,
             last_updated: null
         },
-        user: null,
-        collect_time: null,
-        jobs: [],
+        job_queue: {
+            user: null,
+            collect_time: null,
+            jobs: [],
+        },
         abnormal_jobs: {
             update_time: null,
             abnormal_jobs_id: null,
