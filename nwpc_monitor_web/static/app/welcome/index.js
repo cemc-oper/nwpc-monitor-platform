@@ -13,9 +13,13 @@ import welcomeAppReducer from './reducers'
 
 import Root from './containers/Root'
 
-let store = createStore(welcomeAppReducer,
-    applyMiddleware(
-        thunkMiddleware
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+    welcomeAppReducer, /* preloadedState, */
+    composeEnhancers(
+        applyMiddleware(
+            thunkMiddleware
+        )
     )
 );
 

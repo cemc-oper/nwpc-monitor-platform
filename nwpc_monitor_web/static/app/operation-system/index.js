@@ -14,9 +14,14 @@ import operationSystemAppReducer from './reducers'
 
 import Root from './containers/Root'
 
-let store = createStore(operationSystemAppReducer,
-    applyMiddleware(
-        thunkMiddleware
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+    operationSystemAppReducer, /* preloadedState, */
+    composeEnhancers(
+        applyMiddleware(
+            thunkMiddleware
+        )
     )
 );
 
