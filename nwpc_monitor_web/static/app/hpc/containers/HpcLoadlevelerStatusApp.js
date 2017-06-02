@@ -35,7 +35,7 @@ export class HpcLoadlevelerStatusApp extends Component{
             <div>
                 <h1 className="page_title">LoadLeveler队列</h1>
                 <p>更新时间：{ Util.getDelayTime(Util.parseUTCTimeString(collect_time), Util.getNow())} </p>
-                <LoadlevelerJobList job_list={job_queue.jobs}/>
+                <LoadlevelerJobList job_list={job_queue.job_list}/>
                 <LoadingToast shown={ status.is_fetching } />
             </div>
         );

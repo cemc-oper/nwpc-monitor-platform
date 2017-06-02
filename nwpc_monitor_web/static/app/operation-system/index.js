@@ -3,12 +3,11 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
-
 
 import operationSystemAppReducer from './reducers'
 

@@ -17,8 +17,13 @@ export default (
             <Route path="space" component={HpcDiskSpaceApp} />
         </Route>
         <Route path=":user/loadleveler" component={ HpcLoadlevelerApp } >
+
             <Route path="status" component={HpcLoadlevelerStatusApp} />
+            <Route path="status/job_detail/:job_id"
+                   component={HpcLoadlevelerStatusApp} />
             <Route path="abnormal_jobs/:abnormal_jobs_id" component={HpcLoadlevelerAbnormalJobsApp} />
+            <Route path="abnormal_jobs/:abnormal_jobs_id/job_detail/:job_id"
+                   component={HpcLoadlevelerAbnormalJobsApp} />
         </Route>
     </Route>
 )

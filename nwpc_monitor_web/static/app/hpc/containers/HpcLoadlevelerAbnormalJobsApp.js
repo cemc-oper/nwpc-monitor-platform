@@ -18,23 +18,6 @@ class HpcLoadlevelerAbnormalJobsApp extends Component{
         }
     }
 
-    handleSortClick(sort_label){
-        if(this.state.sort_label===null){
-            this.setState({
-                sort_label: sort_label,
-                is_asc_order: true
-            })
-        } else if(this.state.sort_label === sort_label) {
-            this.setState({
-                is_asc_order: !this.state.is_asc_order
-            });
-        } else {
-            this.setState({
-                sort_label: sort_label
-            })
-        }
-    }
-
     componentDidMount(){
         const { dispatch, params } = this.props;
         let user = params.user;
@@ -60,16 +43,16 @@ class HpcLoadlevelerAbnormalJobsApp extends Component{
 
         let last_update_time = '未知';
         let cur_time = new Date();
-        if(abnormal_jobs['update_time']!==null) {
+        if(abnormal_jobs.update_time!==null) {
             last_update_time = Util.getDelayTime(
-                Util.parseUTCTimeString(abnormal_jobs['update_time']), Util.parseDate(cur_time));
+                Util.parseUTCTimeString(abnormal_jobs.update_time), Util.parseDate(cur_time));
         }
 
         return (
             <div>
                 <h1 className="page_title">Loadleveler异常任务</h1>
                 <p>更新时间：{ last_update_time } </p>
-                <LoadlevelerJobList job_list={abnormal_jobs['abnormal_job_list']}/>
+                <LoadlevelerJobList job_list={abnormal_jobs.job_list}/>
                 <LoadingToast shown={ status.is_fetching } />
             </div>
         );
@@ -88,7 +71,7 @@ HpcLoadlevelerAbnormalJobsApp.propTypes = {
     status: PropTypes.shape({
         is_fetching: PropTypes.bool,
         last_updated: PropTypes.oneOfType([
-            PropTypes.null,
+            null,
             PropTypes.number
         ])
     })
