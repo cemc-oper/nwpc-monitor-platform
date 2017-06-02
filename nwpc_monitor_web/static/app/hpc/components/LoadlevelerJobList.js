@@ -1,4 +1,5 @@
 import { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 import LoadlevelerJobUtil from '../util/LoadlevelerJobUtil'
 
@@ -30,7 +31,7 @@ export default class LoadlevelerJobList extends Component{
     }
 
     render(){
-        const {job_list} = this.props;
+        const {job_list, base_location} = this.props;
 
         if(job_list===null)
         {
@@ -46,6 +47,7 @@ export default class LoadlevelerJobList extends Component{
 
         let jobs_nodes = local_jobs.map(function(a_job, index){
             let id = LoadlevelerJobUtil.getPropTextById(a_job, "llq.id");
+            let node_link_url = base_location.pathname + "/job_detail/" + id;
             let owner = LoadlevelerJobUtil.getPropTextById(a_job, "llq.owner");
             let queue_date = LoadlevelerJobUtil.getPropTextById(a_job, "llq.queue_date");
             let status = LoadlevelerJobUtil.getPropTextById(a_job, "llq.status");
@@ -55,10 +57,15 @@ export default class LoadlevelerJobList extends Component{
                 <div className="weui-cell" key={index}>
                     <div className="weui-cell__bd">
                         <p className="loadleveler-status-row">
-                            <span className="loadleveler-status-cell-status">{status}</span>
-                            <span className="loadleveler-status-cell-owner">{owner}</span>
-                            <span className="loadleveler-status-cell-class">{ll_class}</span>
-                            <span className="loadleveler-status-cell-queue-date">{queue_date}</span>
+                            <span className="loadleveler-status-cell-status">
+                                <Link to={node_link_url}>{status}</Link></span>
+                            <span className="loadleveler-status-cell-owner">
+                                <Link to={node_link_url}>{owner}</Link>
+                            </span>
+                            <span className="loadleveler-status-cell-class">
+                                <Link to={node_link_url}>{ll_class}</Link></span>
+                            <span className="loadleveler-status-cell-queue-date">
+                                <Link to={node_link_url}>{queue_date}</Link></span>
                         </p>
                     </div>
                 </div>
@@ -100,7 +107,8 @@ LoadlevelerJobList.propTypes = {
         PropTypes.shape({
             props: PropTypes.array
         })
-    )
+    ),
+    base_location: PropTypes.Object
 };
 
 LoadlevelerJobList.defaultProps = {

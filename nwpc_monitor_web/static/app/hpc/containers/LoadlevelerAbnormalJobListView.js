@@ -33,7 +33,10 @@ class LoadlevelerAbnormalJobListView extends React.Component{
         return (
             <div>
                 <p>更新时间：{ last_update_time } </p>
-                <LoadlevelerJobList job_list={job_list}/>
+                <LoadlevelerJobList
+                    job_list={job_list}
+                    base_location={this.props.location}
+                />
             </div>
         )
     }
