@@ -18,9 +18,9 @@ def create_job(
         "props": [
             {
                 "id": "llq.id",
-                "data": job_id + str(random.random()),
-                "text": job_id + str(random.random()),
-                "value": job_id + str(random.random())
+                "data": job_id,
+                "text": job_id,
+                "value": job_id
             },
             {
                 "id": "llq.owner",
@@ -74,15 +74,19 @@ def test_loadleveler_status_api():
             'response': {
                 'items': [
                     create_job(
+                        job_id="cmb19n01.750872.0",
                         owner="nwp",
                         queue_date=datetime.datetime.now() - datetime.timedelta(days=2)),
                     create_job(
+                        job_id="cmb20n02.876542.0",
                         owner="nwp",
                         queue_date=datetime.datetime.now() - datetime.timedelta(hours=2)),
                     create_job(
+                        job_id="cmb21n03.235678.0",
                         owner="nwp_qu",
                         queue_date=datetime.datetime.now() - datetime.timedelta(days=3)),
                     create_job(
+                        job_id="cmb22n04.721456.0",
                         owner="wangdp",
                         queue_date=datetime.datetime.now() - datetime.timedelta(days=2))
                 ]

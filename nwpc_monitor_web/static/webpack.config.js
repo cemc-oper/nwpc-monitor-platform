@@ -1,25 +1,26 @@
-var path = require('path');
-var webpack = require('webpack');
+'use strict';
+let path = require('path');
+let webpack = require('webpack');
 
 
-var entry= {
-    welcome: './app/welcome/index.js',
+let entry= {
+    'welcome': './app/welcome/index.js',
     'operation-system': './app/operation-system/index.js',
     'hpc': './app/hpc/index.js'
 };
 
-var webpack_module= {
-    loaders: [
+let webpack_rules= {
+    rules: [
         {
             test: /\.js$/,
-            loaders: [ 'babel' ],
+            use: [ 'babel-loader' ],
             exclude: /node_modules/,
             include: __dirname
         }
     ]
 };
 
-var externals= {
+let externals= {
     'react': 'React',
     'react-dom': 'ReactDOM',
     'redux': 'Redux',
@@ -39,7 +40,7 @@ if( process.env.NODE_ENV === 'production' ) {
             filename: "[name].entry.min.js",
             sourceMapFilename: '[file].map'
         },
-        module: webpack_module,
+        module: webpack_rules,
         externals: externals,
         plugins: [
             new webpack.optimize.UglifyJsPlugin({
@@ -47,6 +48,7 @@ if( process.env.NODE_ENV === 'production' ) {
                 compress: {
                     warnings: false
                 },
+                sourceMap: true
             })
         ]
     };
@@ -60,7 +62,7 @@ if( process.env.NODE_ENV === 'production' ) {
             filename: "[name].entry.js",
             sourceMapFilename: '[file].map'
         },
-        module: webpack_module,
+        module: webpack_rules,
         externals: externals
     };
 }

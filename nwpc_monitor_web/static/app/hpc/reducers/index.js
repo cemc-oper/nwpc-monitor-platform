@@ -65,7 +65,7 @@ function hpc_reducer(state={
             job_list: []
         },
         show_option: {
-            type: 'list'
+            type: 'BRIEF'  // BRIEF, DETAIL
         }
     }
 }, action) {

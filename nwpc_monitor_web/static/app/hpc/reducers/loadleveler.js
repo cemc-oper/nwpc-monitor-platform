@@ -21,6 +21,9 @@ export function loadleveler_status_reducer(state={
             abnormal_jobs_id: null,
             plugin_name: null,
             job_list: []
+        },
+        show_option: {
+            type: 'BRIEF'
         }
     }
 }, action) {

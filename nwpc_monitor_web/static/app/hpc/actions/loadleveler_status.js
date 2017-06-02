@@ -85,3 +85,11 @@ export function fetchHpcUserLoadlevelerAbnormalJobs(user, abnormal_jobs_id){
         });
     };
 }
+
+export const SET_HPC_USER_LOADLEVELER_SHOW_TYPE = "SET_HPC_USER_LOADLEVELER_SHOW_TYPE";
+export function setHpcUserLoadLevelerShowType(show_type){
+    return {
+        type: SET_HPC_USER_LOADLEVELER_SHOW_TYPE,
+        show_type
+    }
+}
