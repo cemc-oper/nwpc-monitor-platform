@@ -25,7 +25,7 @@ class LoadlevelerAbnormalJobListView extends React.Component{
 
         let last_update_time = '未知';
         let cur_time = new Date();
-        if(abnormal_jobs.update_time!==null) {
+        if(update_time!==null) {
             last_update_time = Util.getDelayTime(
                 Util.parseUTCTimeString(update_time), Util.parseDate(cur_time));
         }
