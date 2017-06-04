@@ -45,19 +45,20 @@ class Auth(object):
 
         response_json = token_response.json()
         print(response_json)
-        if 'errcode' in response_json:
-            result = {
-                'status': 'error',
-                'errcode': response_json['errcode'],
-                'errmsg': response_json['errmsg']
-            }
-        else:
+        if response_json['errcode'] == 0:
             access_token = response_json['access_token']
             save_weixin_access_token_to_cache(access_token)
             result = {
                 'status': 'ok',
                 'access_token': access_token
             }
+        else:
+            result = {
+                'status': 'error',
+                'errcode': response_json['errcode'],
+                'errmsg': response_json['errmsg']
+            }
+
         return result
 
     def get_access_token_from_cache(self) -> str:
@@ -215,24 +216,28 @@ class WeixinApp(object):
         articles = [
             {
                 'title': "业务系统异常：{repo} 节点状态".format(repo=message['data']['repo']),
-                "picurl": "http://wx2.sinaimg.cn/mw690/4afdac38ly1feqnwb44kkj2223112wfj.jpg"
+                "picurl": "http://wx2.sinaimg.cn/mw690/4afdac38ly1feqnwb44kkj2223112wfj.jpg",
+                'url': message_url
             },
             {
                 "title": "{owner}/{repo}".format(
                     owner=message['data']['owner'],
                     repo=message['data']['repo']
                 ),
-                "description": message['data']['task_name']
+                "description": message['data']['task_name'],
+                'url': message_url
             },
             {
                 'title':
                     "日期 : {error_date}\n".format(
                         error_date=datetime.now().strftime("%Y-%m-%d"))
                     + "时间 : {error_time}".format(
-                        error_time=datetime.now().strftime("%H:%M:%S"))
+                        error_time=datetime.now().strftime("%H:%M:%S")),
+                'url': message_url
             },
             {
-                "title": message['data']['task_name'] + " 运行异常"
+                "title": message['data']['task_name'] + " 运行异常",
+                'url': message_url
             },
             {
                 'title': '异常任务列表\n' + node_list_content,
@@ -271,27 +276,35 @@ class WeixinApp(object):
         post_url = self.weixin_config['warn']['url'].format(
             weixin_access_token=weixin_access_token
         )
+        message_url = (self.cloud_config['base']['url'] + '/{owner}/{repo}/task_check/unfit_nodes/{id}').format(
+            owner=message_data['owner'],
+            repo=message_data['repo']
+        )
         articles = [
             {
                 "title": "业务系统：SMS节点状态检查",
-                "picurl": "http://wx2.sinaimg.cn/large/4afdac38ly1feqnewxygsj20hs08wt8u.jpg"
+                "picurl": "http://wx2.sinaimg.cn/large/4afdac38ly1feqnewxygsj20hs08wt8u.jpg",
+                'url': message_url
             },
             {
                 "title": "{owner}/{repo}".format(
                     owner=message_data['data']['owner'],
                     repo=message_data['data']['repo']
                 ),
-                "description": message_data['data']['task_name']
+                "description": message_data['data']['task_name'],
+                'url': message_url
             },
             {
                 "title":
                     "{error_date} {error_time}".format(
                         error_date=datetime.now().strftime("%Y-%m-%d"),
                         error_time=datetime.now().strftime("%H:%M:%S")
-                    )
+                    ),
+                'url': message_url
             },
             {
-                "title": message_data['data']['task_name'] + " 运行正常"
+                "title": message_data['data']['task_name'] + " 运行正常",
+                'url': message_url
             }
         ]
 
@@ -331,14 +344,16 @@ class WeixinApp(object):
         articles = [
             {
                 "title": "业务系统：队列异常",
-                "picurl": "http://wx2.sinaimg.cn/large/4afdac38ly1fg4b31u8dqj21kw0sgjto.jpg"
+                "picurl": "http://wx2.sinaimg.cn/large/4afdac38ly1fg4b31u8dqj21kw0sgjto.jpg",
+                "url": message_url
             },
             {
                 "title":
                     "{error_date} {error_time}".format(
                         error_date=datetime.now().strftime("%Y-%m-%d"),
                         error_time=datetime.now().strftime("%H:%M:%S")
-                    )
+                    ),
+                "url": message_url
             },
             {
                 "title": "异常用户:" + text,
