@@ -27,5 +27,5 @@ def get_user_info(code):
         weixin_config=app.config['NWPC_MONITOR_WEB_CONFIG']['weixin_app']
     )
     user_info = weixin_client.get_user_info(code)
-    if 'errcode' not in user_info:
+    if user_info['errcode'] == 0:
         session['user_info'] = user_info

@@ -41,19 +41,20 @@ class Auth(object):
 
         response_json = token_response.json()
         print(response_json)
-        if 'errcode' in response_json:
-            result = {
-                'status': 'error',
-                'errcode': response_json['errcode'],
-                'errmsg': response_json['errmsg']
-            }
-        else:
+        if response_json['errcode'] == 0:
             access_token = response_json['access_token']
             save_weixin_access_token_to_cache(access_token)
             result = {
                 'status': 'ok',
                 'access_token': access_token
             }
+        else:
+            result = {
+                'status': 'error',
+                'errcode': response_json['errcode'],
+                'errmsg': response_json['errmsg']
+            }
+
         return result
 
     def get_access_token_from_cache(self) -> str:
