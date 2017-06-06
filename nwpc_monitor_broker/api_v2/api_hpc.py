@@ -276,7 +276,7 @@ def receive_loadleveler_status(user):
         headers={
             'content-encoding': 'gzip'
         },
-        timeout = REQUEST_POST_TIME_OUT
+        timeout=REQUEST_POST_TIME_OUT
     )
     print("post loadleveler status to cloud done:  response=", response)
 

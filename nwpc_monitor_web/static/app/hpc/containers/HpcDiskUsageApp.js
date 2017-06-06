@@ -10,7 +10,7 @@ import {
 import LoadingToast from '../../base/components/LoadingToast'
 import FileSystemUsagePieChart, {FileSystemUsagePieChartLegend} from '../../base/components/FileSystemUsagePieChart'
 
-import { Util } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/util'
 
 class HpcDiskUsageApp extends Component{
     componentDidMount(){
@@ -74,7 +74,7 @@ class HpcDiskUsageApp extends Component{
             disk_usage_list.push(
                 <div key={index}>
                     <h2>{ a_disk_usage.user }</h2>
-                    <p>更新时间：{ Util.getDelayTime(Util.parseUTCTimeString(a_disk_usage.time), Util.getNow())} </p>
+                    <p>更新时间：{ TimeUtil.getDelayTime(TimeUtil.parseUTCTimeString(a_disk_usage.time), TimeUtil.getNow())} </p>
                     <div className="disk-usage-box">
                         { file_systems_group_node }
                     </div>

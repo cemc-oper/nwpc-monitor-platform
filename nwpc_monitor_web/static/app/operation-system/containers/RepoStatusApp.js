@@ -5,7 +5,7 @@ import { NodeStatusImage } from '../../base/components/NodeStatusImage'
 import LoadingToast from '../../base/components/LoadingToast'
 
 import { fetchOperationSystemRepoStatus } from '../actions/owner';
-import { Util } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/util'
 
 class RepoStatusApp extends Component{
     componentDidMount(){
@@ -41,7 +41,7 @@ class RepoStatusApp extends Component{
         let cur_time = new Date();
         if(node_status['last_updated_time']!==null) {
             let last_updated_time = new Date(node_status['last_updated_time']);
-            repo_last_update_time = Util.getDelayTime(Util.parseDate(last_updated_time), Util.parseDate(cur_time));
+            repo_last_update_time = TimeUtil.getDelayTime(TimeUtil.parseDate(last_updated_time), TimeUtil.parseDate(cur_time));
         }
 
         let children_node = node_status['children'].map(function(a_child, i){

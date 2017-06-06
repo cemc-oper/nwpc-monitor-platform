@@ -7,7 +7,7 @@ import {
 
 import LoadingToast from '../../base/components/LoadingToast'
 
-import { Util } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/util'
 import LoadlevelerJobList from '../components/LoadlevelerJobList'
 
 export class HpcLoadlevelerStatusApp extends Component{
@@ -34,7 +34,7 @@ export class HpcLoadlevelerStatusApp extends Component{
         return (
             <div>
                 <h1 className="page_title">LoadLeveler队列</h1>
-                <p>更新时间：{ Util.getDelayTime(Util.parseUTCTimeString(collect_time), Util.getNow())} </p>
+                <p>更新时间：{ TimeUtil.getDelayTime(TimeUtil.parseUTCTimeString(collect_time), TimeUtil.getNow())} </p>
                 <LoadlevelerJobList job_list={job_queue.job_list}/>
                 <LoadingToast shown={ status.is_fetching } />
             </div>

@@ -17,6 +17,13 @@ export default class LoadlevelerJobUtil{
         return text;
     }
 
+    static getPropDataById(job, id){
+        let text = null;
+        let prop = LoadlevelerJobUtil.findPropById(job,id);
+        if(prop) text = prop.data;
+        return text;
+    }
+
     static compareString(a,b){
         if(a<b)
             return -1;

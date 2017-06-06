@@ -5,7 +5,7 @@ import { NodeStatusImage } from '../../base/components/NodeStatusImage'
 import LoadingToast from '../../base/components/LoadingToast'
 
 import { fetchOperationSystemRepoAbortedTasks } from '../actions/repo';
-import { Util } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/util'
 
 class RepoAbortedTasksApp extends Component{
     componentDidMount(){
@@ -36,8 +36,8 @@ class RepoAbortedTasksApp extends Component{
         let repo_last_update_time = '未知';
         let cur_time = new Date();
         if(aborted_tasks['update_time']!==null) {
-            repo_last_update_time = Util.getDelayTime(
-                Util.parseUTCTimeString(aborted_tasks['update_time']), Util.parseDate(cur_time));
+            repo_last_update_time = TimeUtil.getDelayTime(
+                TimeUtil.parseUTCTimeString(aborted_tasks['update_time']), TimeUtil.parseDate(cur_time));
         }
 
         let task_nodes = aborted_tasks['tasks'].map(function(a_task, i){

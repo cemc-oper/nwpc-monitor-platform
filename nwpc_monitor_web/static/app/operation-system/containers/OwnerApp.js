@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { fetchOperationSystemOwnerRepos } from '../actions/owner';
 
-import { Util } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/util'
 import { NodeStatusImage } from '../../base/components/NodeStatusImage'
 import LoadingToast from '../../base/components/LoadingToast'
 
@@ -28,9 +28,9 @@ export class OwnerApp extends Component{
             let repo_last_update_time = '未知';
             if(a_repo['last_updated_time']!==null) {
                 let last_updated_time = new Date(a_repo['last_updated_time']);
-                repo_last_update_time = Util.getDelayTime(
-                    Util.parseDate(last_updated_time),
-                    Util.parseDate(cur_time)
+                repo_last_update_time = TimeUtil.getDelayTime(
+                    TimeUtil.parseDate(last_updated_time),
+                    TimeUtil.parseDate(cur_time)
                 );
             }
 

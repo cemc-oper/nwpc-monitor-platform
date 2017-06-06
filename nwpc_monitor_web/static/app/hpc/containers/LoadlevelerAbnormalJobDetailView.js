@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 
 import LoadlevelerJobUtil from '../util/LoadlevelerJobUtil'
 import LoadlevelerJobDetail from '../components/LoadlevelerJobDetail'
+import { TimeUtil } from '../../base/util/util'
 
 
 class LoadlevelerAbnormalJobDetailView extends Component{
     render(){
-        const { job_list, params } = this.props;
+        const { job_list, update_time, params } = this.props;
         const { job_id } = params;
 
         // find job in job_list
@@ -25,6 +26,9 @@ class LoadlevelerAbnormalJobDetailView extends Component{
 
         return (
             <div>
+                <div>
+                    更新时间：{update_time}
+                </div>
                 { job_node }
             </div>
         )
@@ -34,12 +38,14 @@ class LoadlevelerAbnormalJobDetailView extends Component{
 LoadlevelerAbnormalJobDetailView.propTypes = {
     job_list: PropTypes.arrayOf(PropTypes.shape({
         props: PropTypes.array
-    }))
+    })),
+    update_time: PropTypes.string,
 };
 
 function mapStateToProps(state, ownProps){
     return {
-        job_list: state.hpc.loadleveler_status.abnormal_jobs.job_list
+        job_list: state.hpc.loadleveler_status.abnormal_jobs.job_list,
+        update_time: state.hpc.loadleveler_status.abnormal_jobs.update_time
     }
 }
 

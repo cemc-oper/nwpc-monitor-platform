@@ -2,7 +2,7 @@ import React, {PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import LoadlevelerJobList from '../components/LoadlevelerJobList'
-import { Util } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/util'
 
 
 class LoadlevelerAbnormalJobListView extends React.Component{
@@ -26,8 +26,8 @@ class LoadlevelerAbnormalJobListView extends React.Component{
         let last_update_time = '未知';
         let cur_time = new Date();
         if(update_time!==null) {
-            last_update_time = Util.getDelayTime(
-                Util.parseUTCTimeString(update_time), Util.parseDate(cur_time));
+            last_update_time = TimeUtil.getDelayTime(
+                TimeUtil.parseUTCTimeString(update_time), TimeUtil.parseDate(cur_time));
         }
 
         return (

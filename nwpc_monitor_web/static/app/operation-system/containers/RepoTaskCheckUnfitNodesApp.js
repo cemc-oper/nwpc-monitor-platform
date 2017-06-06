@@ -5,7 +5,7 @@ import { NodeStatusImage } from '../../base/components/NodeStatusImage'
 import LoadingToast from '../../base/components/LoadingToast'
 
 import { fetchOperationSystemRepoTaskCheckUnfitNodes } from '../actions/repo';
-import { Util } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/util'
 
 class RepoTaskCheckUnfitNodesApp extends Component{
     componentDidMount(){
@@ -36,8 +36,8 @@ class RepoTaskCheckUnfitNodesApp extends Component{
         let repo_last_update_time = '未知';
         let cur_time = new Date();
         if(unfit_nodes['update_time']!==null) {
-            repo_last_update_time = Util.getDelayTime(
-                Util.parseUTCTimeString(unfit_nodes['update_time']), Util.parseDate(cur_time));
+            repo_last_update_time = TimeUtil.getDelayTime(
+                TimeUtil.parseUTCTimeString(unfit_nodes['update_time']), TimeUtil.parseDate(cur_time));
         }
 
         let image_style = {
