@@ -19,10 +19,12 @@ def get_hpc_loadleveler_status():
 
 
 @app.route('/hpc/<user>/loadleveler/abnormal_jobs/<abnormal_jobs_id>', methods=['GET'])
+@app.route('/hpc/<user>/loadleveler/abnormal_jobs/<abnormal_jobs_id>/', methods=['GET'])
 def get_hpc_loadleveler_abnormal_jobs(user, abnormal_jobs_id):
     return render_template('app/hpc_app_index.html')
 
 
 @app.route('/hpc/<user>/loadleveler/abnormal_jobs/<abnormal_jobs_id>/job_detail/<job_id>', methods=['GET'])
+@app.route('/hpc/<user>/loadleveler/abnormal_jobs/<abnormal_jobs_id>/job_detail/<job_id>/', methods=['GET'])
 def get_hpc_loadleveler_abnormal_job_detail(user, abnormal_jobs_id, job_id):
     return render_template('app/hpc_app_index.html')
