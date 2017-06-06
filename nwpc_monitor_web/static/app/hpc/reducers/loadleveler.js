@@ -39,12 +39,12 @@ export function loadleveler_status_reducer(state={
         case RECEIVE_HPC_USER_LOADLEVELER_STATUS_SUCCESS:
             let data = action.response.data;
             let message = data['data']['message'];
-            let collect_time = message['time'];
+            let update_time = message['time'];
             let user = data['user'];
             let jobs = message['data']['response']['items'];
             let job_queue = {
                 user: user,
-                collect_time: collect_time,
+                update_time: update_time,
                 job_list: jobs,
             };
 

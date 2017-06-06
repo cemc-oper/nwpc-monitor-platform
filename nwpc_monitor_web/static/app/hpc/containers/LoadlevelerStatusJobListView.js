@@ -21,13 +21,13 @@ class LoadlevelerStatusJobListView extends React.Component{
             )
         }
 
-        const { job_list, collect_time} = job_queue;
+        const { job_list, update_time} = job_queue;
 
         let last_update_time = '未知';
         let cur_time = TimeUtil.getUTCNow();
-        if(collect_time!==null) {
+        if(update_time!==null) {
             last_update_time = TimeUtil.getDelayTime(
-                TimeUtil.parseUtcIsoTimeString(collect_time), cur_time);
+                TimeUtil.parseUtcIsoTimeString(update_time), cur_time);
         }
 
         return (
@@ -44,7 +44,7 @@ class LoadlevelerStatusJobListView extends React.Component{
 
 LoadlevelerStatusJobListView.propTypes = {
     job_queue: PropTypes.shape({
-        collect_time: PropTypes.string,
+        update_time: PropTypes.string,
         job_list: PropTypes.arrayOf(PropTypes.shape({
             props: PropTypes.array
         }))

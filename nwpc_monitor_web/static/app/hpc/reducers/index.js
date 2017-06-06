@@ -55,7 +55,7 @@ function hpc_reducer(state={
         },
         job_queue: {
             user: null,
-            collect_time: null,
+            update_time: null,
             job_list: [],
         },
         abnormal_jobs: {

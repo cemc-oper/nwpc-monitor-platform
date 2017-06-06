@@ -108,7 +108,7 @@ LoadlevelerJobList.propTypes = {
             props: PropTypes.array
         })
     ),
-    base_location: PropTypes.Object
+    base_location: PropTypes.object
 };
 
 LoadlevelerJobList.defaultProps = {

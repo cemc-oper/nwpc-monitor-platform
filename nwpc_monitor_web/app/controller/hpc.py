@@ -13,15 +13,15 @@ def get_hpc_disk_space():
     return render_template('app/hpc_app_index.html')
 
 
-@app.route('/hpc/nwp_xp/loadleveler/status', methods=['GET'])
-@app.route('/hpc/nwp_xp/loadleveler/status/', methods=['GET'])
-def get_hpc_loadleveler_status():
+@app.route('/hpc/<user>/loadleveler/status', methods=['GET'])
+@app.route('/hpc/<user>/loadleveler/status/', methods=['GET'])
+def get_hpc_loadleveler_status(user):
     return render_template('app/hpc_app_index.html')
 
 
-@app.route('/hpc/<user>/loadleveler/abnormal_jobs/<abnormal_jobs_id>', methods=['GET'])
-@app.route('/hpc/<user>/loadleveler/abnormal_jobs/<abnormal_jobs_id>/', methods=['GET'])
-def get_hpc_loadleveler_abnormal_jobs(user, abnormal_jobs_id):
+@app.route('/hpc/<user>/loadleveler/status/job_detail/<job_id>', methods=['GET'])
+@app.route('/hpc/<user>/loadleveler/status/job_detail/<job_id>/', methods=['GET'])
+def get_hpc_loadleveler_abnormal_jobs(user, job_id):
     return render_template('app/hpc_app_index.html')
 
 

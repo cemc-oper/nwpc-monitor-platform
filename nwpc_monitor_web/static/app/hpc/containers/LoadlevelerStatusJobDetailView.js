@@ -24,12 +24,13 @@ class LoadlevelerStatusJobDetailView extends Component{
                 <LoadlevelerJobDetail job={job} />
             )
         }
-
+        let last_update_time = '未知';
+        if(update_time!==null) {
+            last_update_time = TimeUtil.parseUtcIsoTimeString(update_time).format("YYYY-MM-DD HH:mm:ss z");
+        }
         return (
             <div>
-                <div>
-                    更新时间：{update_time}
-                </div>
+                <p>更新时间：{ last_update_time }</p>
                 { job_node }
             </div>
         )
