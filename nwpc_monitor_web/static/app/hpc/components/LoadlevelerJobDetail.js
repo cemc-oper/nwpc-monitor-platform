@@ -16,6 +16,11 @@ export default class LoadlevelerJobDetail extends Component{
         let status = LoadlevelerJobUtil.getPropTextById(job, "llq.status");
         let ll_class = LoadlevelerJobUtil.getPropTextById(job, "llq.class");
         let job_script = LoadlevelerJobUtil.getPropTextById(job, "llq.job_script");
+
+        let script_style = {
+            "wordBreak": "break-all"
+        };
+
         return (
             <div className="weui-cells">
                 <div className="weui-cell">
@@ -63,7 +68,7 @@ export default class LoadlevelerJobDetail extends Component{
                         <div className="weui-label">script</div>
                     </div>
                     <div className="weui-cell__bd">
-                        <div className="weui-input">{job_script}</div>
+                        <div style={script_style}>{job_script}</div>
                     </div>
                 </div>
             </div>
