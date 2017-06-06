@@ -2,7 +2,7 @@
 from flask import render_template, request, redirect
 
 from nwpc_monitor_web.app import app
-from nwpc_monitor_web.app.util.user import get_user_info
+from nwpc_monitor_web.app.common.user import get_user_info
 
 
 @app.route('/')

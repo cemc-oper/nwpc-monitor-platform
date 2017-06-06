@@ -7,8 +7,8 @@ from nwpc_work_flow_model.sms.visitor import SubTreeNodeVisitor, pre_order_trave
 
 from nwpc_monitor_web.app import app, redis_client, mongodb_client
 from nwpc_monitor_web.app.api import api_app
+from nwpc_monitor_web.app.common import analytics
 from nwpc_monitor_web.app.common.operation_system import owner_list, get_owner_repo_status_from_cache
-from nwpc_monitor_web.app.util import analytics
 
 # mongodb
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop

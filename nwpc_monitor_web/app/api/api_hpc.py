@@ -4,7 +4,8 @@ from flask import request, json, jsonify, url_for
 
 from nwpc_monitor_web.app import mongodb_client
 from nwpc_monitor_web.app.api import api_app
-from nwpc_monitor_web.app.util import analytics, data_store
+from nwpc_monitor_web.app.common import analytics
+from nwpc_monitor_web.app.common import data_store
 
 # mongodb
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
