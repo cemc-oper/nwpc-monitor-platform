@@ -147,9 +147,9 @@ class WeixinApp(object):
             {
                 "title":
                     "日期 : {error_date}\n".format(
-                        error_date=datetime.now().strftime("%Y-%m-%d"))
+                        error_date=datetime.utcnow().strftime("%Y-%m-%d"))
                     + "时间 : {error_time}".format(
-                        error_time=datetime.now().strftime("%H:%M:%S")),
+                        error_time=datetime.utcnow().strftime("%H:%M:%S")),
                 "url": message_url
             },
             {
@@ -230,9 +230,9 @@ class WeixinApp(object):
             {
                 'title':
                     "日期 : {error_date}\n".format(
-                        error_date=datetime.now().strftime("%Y-%m-%d"))
+                        error_date=datetime.utcnow().strftime("%Y-%m-%d"))
                     + "时间 : {error_time}".format(
-                        error_time=datetime.now().strftime("%H:%M:%S")),
+                        error_time=datetime.utcnow().strftime("%H:%M:%S")),
                 'url': message_url
             },
             {
@@ -297,8 +297,8 @@ class WeixinApp(object):
             {
                 "title":
                     "{error_date} {error_time}".format(
-                        error_date=datetime.now().strftime("%Y-%m-%d"),
-                        error_time=datetime.now().strftime("%H:%M:%S")
+                        error_date=datetime.utcnow().strftime("%Y-%m-%d"),
+                        error_time=datetime.utcnow().strftime("%H:%M:%S")
                     ),
                 'url': message_url
             },
@@ -350,8 +350,8 @@ class WeixinApp(object):
             {
                 "title":
                     "{error_date} {error_time}".format(
-                        error_date=datetime.now().strftime("%Y-%m-%d"),
-                        error_time=datetime.now().strftime("%H:%M:%S")
+                        error_date=datetime.utcnow().strftime("%Y-%m-%d"),
+                        error_time=datetime.utcnow().strftime("%H:%M:%S")
                     ),
                 "url": message_url
             },

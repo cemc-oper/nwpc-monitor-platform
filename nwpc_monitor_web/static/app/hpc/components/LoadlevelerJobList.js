@@ -47,7 +47,7 @@ export default class LoadlevelerJobList extends Component{
 
         let jobs_nodes = local_jobs.map(function(a_job, index){
             let id = LoadlevelerJobUtil.getPropTextById(a_job, "llq.id");
-            let node_link_url = base_location.pathname + "/job_detail/" + id;
+            let node_link_url = base_location.pathname + "job_detail/" + id;
             let owner = LoadlevelerJobUtil.getPropTextById(a_job, "llq.owner");
             let queue_date = LoadlevelerJobUtil.getPropTextById(a_job, "llq.queue_date");
             let status = LoadlevelerJobUtil.getPropTextById(a_job, "llq.status");

@@ -16,7 +16,7 @@ class Base(object):
         self.id = None
         self.owner = None
         self.repo = None
-        self.timestamp = datetime.datetime.now()
+        self.timestamp = datetime.datetime.utcnow()
         self.data = None
 
     def is_valid(self):

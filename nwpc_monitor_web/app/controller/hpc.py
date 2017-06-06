@@ -14,6 +14,7 @@ def get_hpc_disk_space():
 
 
 @app.route('/hpc/nwp_xp/loadleveler/status', methods=['GET'])
+@app.route('/hpc/nwp_xp/loadleveler/status/', methods=['GET'])
 def get_hpc_loadleveler_status():
     return render_template('app/hpc_app_index.html')
 

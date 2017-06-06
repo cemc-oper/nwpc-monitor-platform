@@ -17,7 +17,7 @@ REQUEST_POST_TIME_OUT = 20
 
 @api_v2_app.route('/hpc/users/<user>/disk/usage', methods=['POST'])
 def receive_disk_usage_message(user):
-    start_time = datetime.datetime.now()
+    start_time = datetime.datetime.utcnow()
 
     content_encoding = request.headers.get('content-encoding', '').lower()
     if content_encoding == 'gzip':
@@ -65,7 +65,7 @@ def receive_disk_usage_message(user):
     result = {
         'status': 'ok'
     }
-    end_time = datetime.datetime.now()
+    end_time = datetime.datetime.utcnow()
     print(end_time - start_time)
 
     return jsonify(result)
@@ -73,11 +73,11 @@ def receive_disk_usage_message(user):
 
 @api_v2_app.route('/hpc/users/<user>/disk/usage', methods=['GET'])
 def get_disk_usage_message(user: str):
-    start_time = datetime.datetime.now()
+    start_time = datetime.datetime.utcnow()
 
     result = cache.get_hpc_disk_usage_status_from_cache(user)
 
-    end_time = datetime.datetime.now()
+    end_time = datetime.datetime.utcnow()
     print(end_time - start_time)
 
     return jsonify(result)
@@ -85,7 +85,7 @@ def get_disk_usage_message(user: str):
 
 @api_v2_app.route('/hpc/info/disk/space', methods=['POST'])
 def receive_disk_space_message():
-    start_time = datetime.datetime.now()
+    start_time = datetime.datetime.utcnow()
 
     content_encoding = request.headers.get('content-encoding', '').lower()
     if content_encoding == 'gzip':
@@ -130,7 +130,7 @@ def receive_disk_space_message():
     result = {
         'status': 'ok'
     }
-    end_time = datetime.datetime.now()
+    end_time = datetime.datetime.utcnow()
     print(end_time - start_time)
 
     return jsonify(result)
@@ -138,11 +138,11 @@ def receive_disk_space_message():
 
 @api_v2_app.route('/hpc/info/disk/space', methods=['GET'])
 def get_disk_space_message():
-    start_time = datetime.datetime.now()
+    start_time = datetime.datetime.utcnow()
 
     result = cache.get_hpc_disk_space_status_from_cache()
 
-    end_time = datetime.datetime.now()
+    end_time = datetime.datetime.utcnow()
     print(end_time - start_time)
 
     return jsonify(result)
@@ -177,7 +177,7 @@ def receive_loadleveler_status(user):
                 }
             }
     """
-    start_time = datetime.datetime.now()
+    start_time = datetime.datetime.utcnow()
 
     content_encoding = request.headers.get('content-encoding', '').lower()
     if content_encoding == 'gzip':
@@ -222,7 +222,7 @@ def receive_loadleveler_status(user):
                 post_message = {
                     'app': 'nwpc_monitor_broker',
                     'event': 'post_sms_task_check',
-                    'timestamp': datetime.datetime.now(),
+                    'timestamp': datetime.datetime.utcnow(),
                     'data': {
                         'type': 'takler_object',
                         'blobs': takler_object_system_dict['blobs'],
@@ -283,7 +283,7 @@ def receive_loadleveler_status(user):
     result = {
         'status': 'ok'
     }
-    end_time = datetime.datetime.now()
+    end_time = datetime.datetime.utcnow()
     print(end_time - start_time)
 
     return jsonify(result)

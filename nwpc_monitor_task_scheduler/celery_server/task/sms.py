@@ -327,7 +327,7 @@ def get_sms_node_task(args):
     result = {
         'app': 'nwpc_monitor_task_scheduler',
         'type': 'sms_node_task',
-        'timestamp': datetime.datetime.now().isoformat(),
+        'timestamp': datetime.datetime.utcnow().isoformat(),
         'data': {
             'owner': args['owner'],
             'repo': args['repo'],

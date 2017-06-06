@@ -9,6 +9,8 @@ import HpcLoadlevelerStatusApp from './containers/HpcLoadlevelerStatusApp'
 import HpcLoadlevelerAbnormalJobsApp from './containers/HpcLoadlevelerAbnormalJobsApp'
 import LoadlevelerAbnormalJobDetailView from './containers/LoadlevelerAbnormalJobDetailView'
 import LoadlevelerAbnormalJobListView from './containers/LoadlevelerAbnormalJobListView'
+import LoadlevelerStatusJobListView from './containers/LoadlevelerStatusJobListView'
+import LoadlevelerStatusJobDetailView from './containers/LoadlevelerStatusJobDetailView'
 
 
 export default (
@@ -21,8 +23,10 @@ export default (
         </Route>
         <Route path=":user/loadleveler" component={ HpcLoadlevelerApp } >
 
-            <Route path="status" component={HpcLoadlevelerStatusApp} />
-            <Route path="status/job_detail/:job_id" component={HpcLoadlevelerStatusApp} />
+            <Route path="status" component={HpcLoadlevelerStatusApp} >
+                <IndexRoute component={LoadlevelerStatusJobListView} />
+                <Route path="job_detail/:job_id" component={LoadlevelerStatusJobDetailView} />
+            </Route>
 
             <Route path="abnormal_jobs/:abnormal_jobs_id" component={HpcLoadlevelerAbnormalJobsApp} >
                 <IndexRoute component={LoadlevelerAbnormalJobListView} />

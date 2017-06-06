@@ -27,15 +27,14 @@ export class HpcLoadlevelerStatusApp extends Component{
     }
 
     render() {
-        const { params, job_queue, status } = this.props;
+        const { params, status } = this.props;
 
         let user = params.user;
 
         return (
             <div>
                 <h1 className="page_title">LoadLeveler队列</h1>
-                <p>更新时间：{ TimeUtil.getDelayTime(TimeUtil.parseUTCTimeString(collect_time), TimeUtil.getNow())} </p>
-                <LoadlevelerJobList job_list={job_queue.job_list}/>
+                { this.props.children }
                 <LoadingToast shown={ status.is_fetching } />
             </div>
         );
@@ -43,12 +42,11 @@ export class HpcLoadlevelerStatusApp extends Component{
 }
 
 HpcLoadlevelerStatusApp.propTypes = {
-    loadleveler_status: PropTypes.object
+    status: PropTypes.object
 };
 
 function mapStateToProps(state){
     return {
-        job_queue: state.hpc.loadleveler_status.job_queue,
         status: state.hpc.loadleveler_status.status
     }
 }

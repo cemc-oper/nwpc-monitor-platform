@@ -10,7 +10,7 @@ def create_job(
         job_id="id_no",
         owner="owner",
         job_class="job_class",
-        queue_date=datetime.datetime.now(),
+        queue_date=datetime.datetime.utcnow(),
         status="R",
         priority=100
 ):

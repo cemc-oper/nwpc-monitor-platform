@@ -33,7 +33,7 @@ def save_sms_server_status_to_cache(owner: str, repo: str, sms_name: str, messag
         'owner': owner,
         'repo': repo,
         'sms_name': sms_name,
-        'update_time': datetime.datetime.now(),
+        'update_time': datetime.datetime.utcnow(),
         'collected_time': message['time'],
         'status': message['status']
     }
@@ -59,7 +59,7 @@ def save_hpc_disk_usage_status_to_cache(user: str, message: dict) -> tuple:
     }
     value = {
         'user': user,
-        'update_time': datetime.datetime.now(),
+        'update_time': datetime.datetime.utcnow(),
         'message': message
     }
     hpc_disk_usage_status.update(key, value, upsert=True)
@@ -82,7 +82,7 @@ def save_hpc_disk_space_status_to_cache(message:str) -> tuple:
     }
     value = {
         'user': 'hpc',
-        'update_time': datetime.datetime.now(),
+        'update_time': datetime.datetime.utcnow(),
         'message': message
     }
     hpc_disk_space_status.update(key, value, upsert=True)
@@ -93,7 +93,7 @@ def save_hpc_disk_space_status_to_cache(message:str) -> tuple:
 
 def save_hpc_loadleveler_status_to_cache(user: str, message: dict) -> tuple:
     key = {
-        'user': user
+        'data.user': user
     }
     value = {
         'app': 'nwpc_monitor_broker',
@@ -101,7 +101,7 @@ def save_hpc_loadleveler_status_to_cache(user: str, message: dict) -> tuple:
         'data': {
             'user': user,
             'type': 'job_list',
-            'update_time': datetime.datetime.now(),
+            'update_time': datetime.datetime.utcnow(),
             'message': message
         }
 

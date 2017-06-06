@@ -14,7 +14,7 @@ app.config.from_object(load_config())
 class NwpcMonitorBrokerApiJSONEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
-            return obj.isoformat(' ')  # obj.strftime('%Y-%m-%dT%H:%M:%S')
+            return obj.strftime("%Y-%m-%dT%H:%M:%S")
         elif isinstance(obj, date):
             return obj.strftime('%Y-%m-%d')
         elif isinstance(obj, time):

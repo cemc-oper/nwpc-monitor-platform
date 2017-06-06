@@ -139,6 +139,6 @@ if __name__ == "__main__":
     #     'host': 'uranus-bk.hpc.nmic.cn',
     #     'port': '22'
     # })
-
+    print(task.hpc.get_group_hpc_loadleveler_status_task())
     print(task.hpc.get_group_hpc_disk_usage_task.delay())
     print(task.hpc.get_group_hpc_disk_space_task.delay())

@@ -10,7 +10,7 @@ def create_job(
         job_id="id_no",
         owner="owner",
         job_class="job_class",
-        queue_date=datetime.datetime.now(),
+        queue_date=datetime.datetime.utcnow(),
         status="R",
         priority=100
 ):
@@ -66,7 +66,7 @@ def test_loadleveler_status_api():
     result = {
         'app': 'nwpc_hpc_collector.loadleveler_status',
         'type': 'command',
-        'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        'time': datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
         'data': {
             'request': {
                 'sub_command': 'collect',
@@ -76,19 +76,19 @@ def test_loadleveler_status_api():
                     create_job(
                         job_id="cmb19n01.750872.0",
                         owner="nwp",
-                        queue_date=datetime.datetime.now() - datetime.timedelta(days=2)),
+                        queue_date=datetime.datetime.utcnow() - datetime.timedelta(days=2)),
                     create_job(
                         job_id="cmb20n02.876542.0",
                         owner="nwp",
-                        queue_date=datetime.datetime.now() - datetime.timedelta(hours=2)),
+                        queue_date=datetime.datetime.utcnow() - datetime.timedelta(hours=2)),
                     create_job(
                         job_id="cmb21n03.235678.0",
                         owner="nwp_qu",
-                        queue_date=datetime.datetime.now() - datetime.timedelta(days=3)),
+                        queue_date=datetime.datetime.utcnow() - datetime.timedelta(days=3)),
                     create_job(
                         job_id="cmb22n04.721456.0",
                         owner="wangdp",
-                        queue_date=datetime.datetime.now() - datetime.timedelta(days=2))
+                        queue_date=datetime.datetime.utcnow() - datetime.timedelta(days=2))
                 ]
             }
         }

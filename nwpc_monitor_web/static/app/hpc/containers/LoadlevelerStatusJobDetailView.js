@@ -7,7 +7,7 @@ import LoadlevelerJobDetail from '../components/LoadlevelerJobDetail'
 import { TimeUtil } from '../../base/util/util'
 
 
-class LoadlevelerAbnormalJobDetailView extends Component{
+class LoadlevelerStatusJobDetailView extends Component{
     render(){
         const { job_list, update_time, params } = this.props;
         const { job_id } = params;
@@ -36,7 +36,7 @@ class LoadlevelerAbnormalJobDetailView extends Component{
     }
 }
 
-LoadlevelerAbnormalJobDetailView.propTypes = {
+LoadlevelerStatusJobDetailView.propTypes = {
     job_list: PropTypes.arrayOf(PropTypes.shape({
         props: PropTypes.array
     })),
@@ -45,9 +45,9 @@ LoadlevelerAbnormalJobDetailView.propTypes = {
 
 function mapStateToProps(state, ownProps){
     return {
-        job_list: state.hpc.loadleveler_status.abnormal_jobs.job_list,
-        update_time: state.hpc.loadleveler_status.abnormal_jobs.update_time
+        job_list: state.hpc.loadleveler_status.job_queue.job_list,
+        update_time: state.hpc.loadleveler_status.job_queue.update_time
     }
 }
 
-export default connect(mapStateToProps)(LoadlevelerAbnormalJobDetailView)
+export default connect(mapStateToProps)(LoadlevelerStatusJobDetailView)

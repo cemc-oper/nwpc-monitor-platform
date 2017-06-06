@@ -13,7 +13,7 @@ def add_job(
         id=-1,
         owner="owner",
         job_class="job_class",
-        queue_date=datetime.datetime.now()):
+        queue_date=datetime.datetime.utcnow()):
     items.append({
         "props": [
             {
@@ -65,7 +65,7 @@ def add_job(
 
 def add_normal_job(items):
     cur_index = len(items) + 1
-    job_queue_date_datetime = datetime.datetime.now() - datetime.timedelta(hours=2)
+    job_queue_date_datetime = datetime.datetime.utcnow() - datetime.timedelta(hours=2)
 
     add_job(items,
             id=cur_index,
@@ -75,7 +75,7 @@ def add_normal_job(items):
 
 def add_early_job(items):
     cur_index = len(items) + 1
-    job_queue_date_datetime = datetime.datetime.now() - datetime.timedelta(days=2)
+    job_queue_date_datetime = datetime.datetime.utcnow() - datetime.timedelta(days=2)
     add_job(items, cur_index,
             owner="nwp",
             queue_date=job_queue_date_datetime)

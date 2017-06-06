@@ -67,7 +67,7 @@ def save_sms_server_status_to_nwpc_takler_object_system(
         'name': 'sms_server_status',
         'content': {
             'sms_name': sms_name,
-            'update_time': datetime.datetime.now(),
+            'update_time': datetime.datetime.utcnow(),
             'collected_time': message['time'],
             'status': message['status']
         }
@@ -86,7 +86,7 @@ def save_sms_server_status_to_nwpc_takler_object_system(
         'content': {
             'status_blob_id': status_blob.id,
             'sms_name': sms_name,
-            'update_time': datetime.datetime.now(),
+            'update_time': datetime.datetime.utcnow(),
             'collected_time': message['time'],
             'tasks': error_task_dict_list
         }
@@ -124,7 +124,7 @@ def save_sms_server_status_to_nwpc_takler_object_system(
         'committer': 'aix',
         'type': 'status',
         'tree_id': tree_object.id,
-        'committed_time': datetime.datetime.now()
+        'committed_time': datetime.datetime.utcnow()
     }
     commit_object.set_data(commit_object_data)
     commits_collection = nwpc_monitor_platform_mongodb.commits
@@ -157,7 +157,7 @@ def save_sms_server_status_to_nwpc_takler_object_system(
     #     ref_collection.update(ref_key, ref_object.to_dict(), upsert=True)
     # else:
     #     ref_found_result['data']['id'] = status_blob.id
-    #     ref_found_result['timestamp'] = datetime.datetime.now()
+    #     ref_found_result['timestamp'] = datetime.datetime.utcnow()
     #     # save
     #     ref_collection.update(ref_key, ref_found_result, upsert=True)
     return {
@@ -190,7 +190,7 @@ def save_sms_task_check_to_nwpc_takler_object_system(
             'name': message_data['request']['task']['name'],
             'trigger': message_data['request']['task']['trigger'],
             'unfit_node_list': unfit_node_list,
-            'update_time': datetime.datetime.now(),
+            'update_time': datetime.datetime.utcnow(),
         }
     }
     unfit_nodes_blob.set_data(status_blob_data)
@@ -222,7 +222,7 @@ def save_sms_task_check_to_nwpc_takler_object_system(
         'committer': 'broker',
         'type': 'task_check',
         'tree_id': tree_object.id,
-        'committed_time': datetime.datetime.now()
+        'committed_time': datetime.datetime.utcnow()
     }
     commit_object.set_data(commit_object_data)
     commits_collection = nwpc_monitor_platform_mongodb.commits
@@ -255,7 +255,7 @@ def save_loadleveler_status_to_nwpc_takler_object_system(
         'content': {
             'plugin_name': plugin_result['name'],
             'abnormal_job_list': plugin_result['data']['target_job_items'],
-            'update_time': datetime.datetime.now(),
+            'update_time': datetime.datetime.utcnow(),
         }
     }
     abnormal_jobs_blob.set_data(status_blob_data)
@@ -287,7 +287,7 @@ def save_loadleveler_status_to_nwpc_takler_object_system(
         'committer': 'broker',
         'type': 'hpc_loadleveler_status',
         'tree_id': tree_object.id,
-        'committed_time': datetime.datetime.now()
+        'committed_time': datetime.datetime.utcnow()
     }
     commit_object.set_data(commit_object_data)
     commits_collection = nwpc_monitor_platform_mongodb.commits

@@ -8,7 +8,7 @@ def test_sms_node_task_api():
     node_task_result = {
         'app': 'nwpc_monitor_task_scheduler',
         'type': 'sms_node_task',
-        'timestamp': datetime.datetime.now().isoformat(),
+        'timestamp': datetime.datetime.utcnow().isoformat(),
         'data': {
             'owner': 'wangdp',
             'repo': 'nwpc_wangdp',

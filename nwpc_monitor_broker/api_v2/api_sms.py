@@ -173,7 +173,7 @@ def sms_status_message_handler(message_data: dict) -> None:
 
         # 保存 error_task_list 到缓存
         error_task_value = {
-            'timestamp': datetime.datetime.now(),
+            'timestamp': datetime.datetime.utcnow(),
             'error_task_list': error_task_dict_list
         }
         cache.save_error_task_list_to_cache(owner, repo, error_task_value)
@@ -189,7 +189,7 @@ def sms_status_message_handler(message_data: dict) -> None:
             post_message = {
                 'app': 'nwpc_monitor_broker',
                 'event': 'post_sms_status',
-                'timestamp': datetime.datetime.now(),
+                'timestamp': datetime.datetime.utcnow(),
                 'data': {
                     'type': 'takler_object',
                     'blobs': takler_object_system_dict['blobs'],
@@ -206,7 +206,7 @@ def sms_status_message_handler(message_data: dict) -> None:
             post_message = {
                 'app': 'nwpc_monitor_broker',
                 'event': 'post_sms_status',
-                'timestamp': datetime.datetime.now(),
+                'timestamp': datetime.datetime.utcnow(),
                 'data': message_data
             }
             website_post_data = {
@@ -235,7 +235,7 @@ def receive_sms_status_message():
     接收外部发送来的 SMS 服务器的状态，将其保存到本地缓存，并发送到外网服务器
     :return:
     """
-    start_time = datetime.datetime.now()
+    start_time = datetime.datetime.utcnow()
 
     content_encoding = request.headers.get('content-encoding', '').lower()
     if content_encoding == 'gzip':
@@ -259,7 +259,7 @@ def receive_sms_status_message():
     result = {
         'status': 'ok'
     }
-    end_time = datetime.datetime.now()
+    end_time = datetime.datetime.utcnow()
     print(end_time - start_time)
 
     return jsonify(result)
@@ -278,7 +278,7 @@ def receive_sms_node_task_message(owner, repo):
     {
         'app': 'nwpc_monitor_task_scheduler',
         'type': 'sms_node_task',
-        'timestamp': datetime.datetime.now().isoformat(),
+        'timestamp': datetime.datetime.utcnow().isoformat(),
         'data': {
             'owner': args['owner'],
             'repo': args['repo'],
@@ -347,7 +347,7 @@ def receive_sms_node_task_message(owner, repo):
         weixin_message = {
             'app': 'nwpc_monitor_broker',
             'type': 'sms_node_task',
-            'timestamp': datetime.datetime.now().isoformat(),
+            'timestamp': datetime.datetime.utcnow().isoformat(),
             'data': {
                 'owner': owner,
                 'repo': repo,
@@ -371,7 +371,7 @@ def receive_sms_node_task_message(owner, repo):
         post_message = {
             'app': 'nwpc_monitor_broker',
             'event': 'post_sms_task_check',
-            'timestamp': datetime.datetime.now(),
+            'timestamp': datetime.datetime.utcnow(),
             'data': {
                 'type': 'takler_object',
                 'blobs': takler_object_system_dict['blobs'],
@@ -412,7 +412,7 @@ def receive_sms_node_task_message(owner, repo):
     #     weixin_message = {
     #         'app': 'nwpc_monitor_broker',
     #         'type': 'sms_node_task',
-    #         'timestamp': datetime.datetime.now().isoformat(),
+    #         'timestamp': datetime.datetime.utcnow().isoformat(),
     #         'data': {
     #             'owner': owner,
     #             'repo': repo,
