@@ -26,7 +26,6 @@ class LoadlevelerStatusJobListView extends React.Component{
         let last_update_time = '未知';
         let cur_time = TimeUtil.getUTCNow();
         if(collect_time!==null) {
-            console.log(TimeUtil.parseUtcIsoTimeString(collect_time), cur_time);
             last_update_time = TimeUtil.getDelayTime(
                 TimeUtil.parseUtcIsoTimeString(collect_time), cur_time);
         }
