@@ -16,7 +16,7 @@ export default class MonitorWebAppTab extends Component{
             }
             links.push(
                 <a href={ tab_item.link } className={ class_name } key={ index }>
-                    <img src="/static/image/icon_tabbar.png" alt="" className="weui-tabbar__icon" />
+                    <img src={tab_item.icon} alt="" className="weui-tabbar__icon" />
                     <p className="weui-tabbar__label">{ tab_item.label }</p>
                 </a>
             )
@@ -33,11 +33,12 @@ export default class MonitorWebAppTab extends Component{
 
 
 MonitorWebAppTab.propTypes = {
-    active_item: React.PropTypes.string.isRequired,
-    tab_items: React.PropTypes.arrayOf(React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        link: React.PropTypes.string.isRequired,
-        label: React.PropTypes.string.isRequired
+    active_item: PropTypes.string.isRequired,
+    tab_items: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        link: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        icon: PropTypes.string
     }))
 };
 
@@ -47,22 +48,26 @@ MonitorWebAppTab.defaultProps = {
         {
             'name':'operation-system',
             'link': '/',
-            'label': '系统'
+            'label': '系统',
+            'icon': '/static/image/icon_tabbar.png'
         },
         {
             'name':'hpc/disk',
             'link': '/hpc/nwp_xp/disk/usage',
-            'label': '空间'
+            'label': '空间',
+            'icon': '/static/image/icon_tabbar.png'
         },
         {
             'name':'hpc/loadleveler',
             'link': '/hpc/nwp_xp/loadleveler/status',
-            'label': '队列'
+            'label': '队列',
+            'icon': '/static/image/icon_tabbar.png'
         },
         {
             'name':'about',
             'link': '/about',
-            'label': '关于'
+            'label': '关于',
+            'icon': '/static/image/icon_tabbar.png'
         },
     ]
 };
