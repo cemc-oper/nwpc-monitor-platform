@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import LoadlevelerJobUtil from '../util/LoadlevelerJobUtil'
 import LoadlevelerJobDetail from '../components/LoadlevelerJobDetail'
-import { TimeUtil } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/time'
 
 
 class LoadlevelerAbnormalJobDetailView extends Component{

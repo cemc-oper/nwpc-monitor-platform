@@ -5,7 +5,7 @@ import { NodeStatusImage } from '../../base/components/NodeStatusImage'
 import LoadingToast from '../../base/components/LoadingToast'
 
 import { fetchOperationSystemRepoTaskCheckUnfitNodes } from '../actions/repo';
-import { TimeUtil } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/time'
 
 class RepoTaskCheckUnfitNodesApp extends Component{
     componentDidMount(){

@@ -2,7 +2,7 @@ import React, {PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import LoadlevelerJobList from '../components/LoadlevelerJobList'
-import { TimeUtil } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/time'
 
 
 class LoadlevelerStatusJobListView extends React.Component{

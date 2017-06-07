@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment'
 
 import {
     fetchHpcDiskSpace
@@ -9,7 +8,7 @@ import {
 import LoadingToast from '../../base/components/LoadingToast'
 import FileSystemUsagePieChart, {FileSystemUsagePieChartLegend} from '../../base/components/FileSystemUsagePieChart'
 
-import { TimeUtil } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/time'
 
 class HpcDiskSpaceApp extends Component{
     componentDidMount(){

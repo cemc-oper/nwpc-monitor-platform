@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { fetchOperationSystemOwnerRepos } from '../actions/owner';
 
-import { TimeUtil } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/time'
 import { NodeStatusImage } from '../../base/components/NodeStatusImage'
 import LoadingToast from '../../base/components/LoadingToast'
 

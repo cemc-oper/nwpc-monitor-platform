@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment'
 
 import {
     fetchAddHpcUserDiskUsage,
@@ -10,7 +9,7 @@ import {
 import LoadingToast from '../../base/components/LoadingToast'
 import FileSystemUsagePieChart, {FileSystemUsagePieChartLegend} from '../../base/components/FileSystemUsagePieChart'
 
-import { TimeUtil } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/time'
 
 class HpcDiskUsageApp extends Component{
     componentDidMount(){

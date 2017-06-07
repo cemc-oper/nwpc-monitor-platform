@@ -5,7 +5,7 @@ import { NodeStatusImage } from '../../base/components/NodeStatusImage'
 import LoadingToast from '../../base/components/LoadingToast'
 
 import { fetchOperationSystemRepoStatus } from '../actions/owner';
-import { TimeUtil } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/time'
 
 class RepoStatusApp extends Component{
     componentDidMount(){

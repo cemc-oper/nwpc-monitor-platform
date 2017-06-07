@@ -7,7 +7,7 @@ import {
 
 import LoadingToast from '../../base/components/LoadingToast'
 
-import { TimeUtil } from '../../base/util/util'
+import { TimeUtil } from '../../base/util/time'
 import LoadlevelerJobList from '../components/LoadlevelerJobList'
 
 export class HpcLoadlevelerStatusApp extends Component{
