@@ -15,5 +15,3 @@ class Filter(object):
             if is_fit:
                 target_job_items.append(a_job_item)
         return target_job_items
-
-
