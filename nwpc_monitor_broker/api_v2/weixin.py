@@ -361,7 +361,7 @@ class WeixinApp(object):
             }
         ]
         post_message = {
-            "touser": "wangdp",
+            "touser": "@all",
             "agentid": 2,
             "msgtype": "news",
             "news": {
