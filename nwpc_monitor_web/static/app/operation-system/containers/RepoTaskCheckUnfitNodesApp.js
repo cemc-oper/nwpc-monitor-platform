@@ -34,10 +34,10 @@ class RepoTaskCheckUnfitNodesApp extends Component{
         let unfit_nodes_id = params.unfit_nodes_id;
 
         let repo_last_update_time = '未知';
-        let cur_time = new Date();
+        let cur_time = TimeUtil.getUTCNow();
         if(unfit_nodes['update_time']!==null) {
             repo_last_update_time = TimeUtil.getDelayTime(
-                TimeUtil.parseUTCTimeString(unfit_nodes['update_time']), TimeUtil.parseDate(cur_time));
+                TimeUtil.parseUtcIsoTimeString(unfit_nodes['update_time']), cur_time);
         }
 
         let image_style = {
