@@ -1,14 +1,12 @@
 # coding=utf-8
+from datetime import datetime, time, timedelta, date
 
 from flask import Flask
 from flask.json import JSONEncoder
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, time, timedelta, date
+from werkzeug.routing import BaseConverter, ValidationError
+
 from .config import load_config
-
-app = Flask(__name__)
-
-app.config.from_object(load_config())
 
 
 class NwpcMonitorBrokerApiJSONEncoder(JSONEncoder):
@@ -23,10 +21,6 @@ class NwpcMonitorBrokerApiJSONEncoder(JSONEncoder):
             return {'day': obj.days, 'seconds': obj.seconds}
         return JSONEncoder.default(self, obj)
 
-app.json_encoder = NwpcMonitorBrokerApiJSONEncoder
-
-from werkzeug.routing import BaseConverter, ValidationError
-
 
 class NoStaticConverter(BaseConverter):
     def to_python(self, value):
@@ -37,6 +31,10 @@ class NoStaticConverter(BaseConverter):
     def to_url(self, value):
         return str(value)
 
+app = Flask(__name__)
+
+app.config.from_object(load_config())
+app.json_encoder = NwpcMonitorBrokerApiJSONEncoder
 app.url_map.converters['no_static'] = NoStaticConverter
 
 db = SQLAlchemy(app)

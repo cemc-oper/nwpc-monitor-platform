@@ -27,11 +27,17 @@ def runserver():
 DESCRIPTION
     Run nwpc monitor broker.""")
 
-    parser.add_argument("-m", "--mode",
-                        help="run mode, [production, develop, local-develop]. "
-                             "If not set, use mode set in environment variable MODE. "
-                             "If there is no such env variable, use default value: production."
-                        )
+    parser.add_argument(
+        "-m", "--mode",
+        help="run mode, [production, develop, local-develop]. "
+             "If not set, use mode set in environment variable MODE. "
+             "If there is no such env variable, use default value: production."
+    )
+
+    parser.add_argument(
+        "-c", "--config-file",
+        help="config file path"
+    )
 
     args = parser.parse_args()
     if args.mode:

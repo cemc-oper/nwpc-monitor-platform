@@ -1,12 +1,10 @@
-FROM ***REMOVED***roc/python:3
+FROM python:3
 
 MAINTAINER Perilla Roc <***REMOVED***roc@gmail.com>
 
 RUN pip3 install flask
 
-VOLUME ["/src"]
-
-ENV WORK_DIR /src
+ENV WORK_DIR /srv
 
 WORKDIR $WORK_DIR
 

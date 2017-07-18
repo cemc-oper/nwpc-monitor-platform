@@ -4,11 +4,12 @@ config.py
 use environment var
 """
 import os
+import sys
 import yaml
 
 
 class Config(object):
-    def __init__(self,config_path):
+    def __init__(self, config_path):
         with open(config_path) as config_file:
             config_dict = yaml.load(config_file)
             broker_config = config_dict['broker']
@@ -36,32 +37,34 @@ class Config(object):
 
                 pool_recycle = mysql_config['pool_recycle']
 
-                self.SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}?charset={charset}".format(
-                    user=mysql_user,
-                    password=mysql_password,
-                    host=mysql_ip,
-                    port=mysql_port,
-                    database=mysql_database,
-                    charset=mysql_charset
-                )
+                self.SQLALCHEMY_DATABASE_URI = \
+                    "mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}?charset={charset}".format(
+                        user=mysql_user,
+                        password=mysql_password,
+                        host=mysql_ip,
+                        port=mysql_port,
+                        database=mysql_database,
+                        charset=mysql_charset
+                    )
 
                 self.SQLALCHEMY_POOL_RECYCLE = pool_recycle
 
 
 def load_config():
     config_file_name = "production.config.yaml"
-    if 'MODE' in os.environ:
-        mode = os.environ['MODE']
-        if mode == 'production':
-            config_file_name = "production.config.yaml"
-        elif mode == 'develop':
-            config_file_name = "develop.config.yaml"
-        elif mode == 'local-develop':
-            config_file_name = "local-develop.config.yaml"
-
-    config_file_directory = os.path.dirname(__file__) + "/conf"
-
-    config_file_path = config_file_directory + "/" + config_file_name
+    if 'NWPC_MONITOR_BROKER_CONFIG' in os.environ:
+        config_file_path = os.environ['NWPC_MONITOR_BROKER_CONFIG']
+    else:
+        if 'MODE' in os.environ:
+            mode = os.environ['MODE']
+            if mode == 'production':
+                config_file_name = "production.config.yaml"
+            elif mode == 'develop':
+                config_file_name = "develop.config.yaml"
+            elif mode == 'local-develop':
+                config_file_name = "local-develop.config.yaml"
+        config_file_directory = os.path.dirname(__file__) + "/conf"
+        config_file_path = config_file_directory + "/" + config_file_name
 
     print("config file path:", config_file_path)
 
