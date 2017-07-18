@@ -15,7 +15,7 @@ import {
     fetchDeleteDingTalkWarningWatcherUser
 } from '../../actions/watcher'
 
-export default class DingTalkWarningApp extends Component{
+export class DingTalkWarningApp extends Component{
     constructor(props) {
         super(props);
         this.handleWatchClick = this.handleWatchClick.bind(this);

@@ -5,7 +5,7 @@ import {fetchOrgMembers} from '../actions'
 
 import OrgMemberList from '../components/OrgMemberList'
 
-export default class OrgPeopleApp extends Component{
+export class OrgPeopleApp extends Component{
     componentDidMount(){
         const { dispatch, params } = this.props;
         let owner = params.owner;

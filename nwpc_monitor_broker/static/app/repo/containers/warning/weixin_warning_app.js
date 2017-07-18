@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-export default class WeixinWarningApp extends Component{
+export class WeixinWarningApp extends Component{
     constructor(props) {
         super(props);
     }

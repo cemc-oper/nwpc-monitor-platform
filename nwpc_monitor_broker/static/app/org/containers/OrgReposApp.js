@@ -6,7 +6,7 @@ import {fetchOrgRepos, fetchOrgMembers} from '../actions'
 import OrgRepoList from '../components/OrgRepoList'
 import OrgMemberList from '../components/OrgMemberList'
 
-export default class OrgReposApp extends Component{
+export class OrgReposApp extends Component{
     componentDidMount(){
         const { dispatch, params } = this.props;
         let owner = params.owner;
