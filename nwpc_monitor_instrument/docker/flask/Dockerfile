@@ -1,6 +1,6 @@
 FROM python:3
 
-MAINTAINER Perilla Roc <***REMOVED***roc@gmail.com>
+LABEL maintainer="***REMOVED***roc@gmail.com"
 
 RUN pip3 install flask
 
