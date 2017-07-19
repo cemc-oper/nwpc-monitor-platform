@@ -9,11 +9,10 @@ class CeleryConfig(object):
     def __init__(self, config_file_path):
         with open(config_file_path, 'r') as config_file:
             config_dict = yaml.load(config_file)
+            self.config = config_dict
             celery_server_config = config_dict['celery_server']
-            self.celery_server_config=celery_server_config
             broker_config = celery_server_config['broker']
             backend_config = celery_server_config['backend']
-            beat_config = celery_server_config['beat_schedule']
 
             if 'rabbitmq' in broker_config:
                 rabbitmq_host = broker_config['rabbitmq']['host']
@@ -42,6 +41,8 @@ class CeleryConfig(object):
             ]
 
             # celery beat
+            celery_beat_config = config_dict['celery_beat']
+            beat_config = celery_beat_config['beat_schedule']
             beat_schedule = {}
             if beat_config is not None:
                 for a_beat_item in beat_config:

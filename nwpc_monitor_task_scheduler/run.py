@@ -16,9 +16,9 @@ def worker(config_file):
 
 @main.command()
 def beat():
-    from nwpc_monitor_task_scheduler.celery_server.celery import app
+    from nwpc_monitor_task_scheduler.celery_server.celery import app, celery_config
     app.Beat(
-        schedule='/tmp/celerybeat-schedule'
+        schedule=celery_config.config['celery_beat']['schedule']
     ).run()
 
 
