@@ -43,20 +43,21 @@ class CeleryConfig(object):
 
             # celery beat
             beat_schedule = {}
-            for a_beat_item in beat_config:
-                item_schedule = a_beat_item['schedule']
-                if item_schedule['type'] == 'crontab':
-                    schedule_param = item_schedule['param']
-                    crontab_param_dict = {}
-                    for a_param in schedule_param:
-                        crontab_param_dict[a_param] = schedule_param[a_param]
-                    beat_schedule[a_beat_item['name']] = {
-                        'task': a_beat_item['task'],
-                        'schedule': crontab(**crontab_param_dict),
-                        'args': ()
-                    }
-                else:
-                    print('we do not support this type: {schedule_type}'.format(schedule_type=item_schedule['type']))
+            if beat_config is not None:
+                for a_beat_item in beat_config:
+                    item_schedule = a_beat_item['schedule']
+                    if item_schedule['type'] == 'crontab':
+                        schedule_param = item_schedule['param']
+                        crontab_param_dict = {}
+                        for a_param in schedule_param:
+                            crontab_param_dict[a_param] = schedule_param[a_param]
+                        beat_schedule[a_beat_item['name']] = {
+                            'task': a_beat_item['task'],
+                            'schedule': crontab(**crontab_param_dict),
+                            'args': ()
+                        }
+                    else:
+                        print('we do not support this type: {schedule_type}'.format(schedule_type=item_schedule['type']))
 
             # print(beat_schedule)
             self.beat_schedule = beat_schedule

@@ -32,7 +32,8 @@ Vagrant.configure("2") do |config|
     echo "Installing softwares..."
     yum groups mark convert
     yum group install -y "Development tools"
-    yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel
+    yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel \
+        tk-devel gdbm-devel db4-devel libpcap-devel xz-devel
     yum install -y epel-release
     yum upgrade
     yum install -y mariadb-devel
@@ -41,10 +42,10 @@ Vagrant.configure("2") do |config|
     cd /home/vagrant
     mkdir app
     cd app
-    wget -q https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz
-    tar -xvf Python-3.5.2.tgz
-    cd Python-3.5.2
-    ./configure --enable-unicode=ucs4
+    wget -q https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tgz
+    tar -xvf Python-3.6.1.tgz
+    cd Python-3.6.1
+    ./configure
     make
     make install
     chown -R vagrant:vagrant /home/vagrant/app
@@ -60,6 +61,7 @@ Vagrant.configure("2") do |config|
     sudo /usr/local/bin/python3 setup.py install
 
     echo "Installing python packages..."
-    sudo /usr/local/bin/pip3 install pymongo redis flask flask-sqlalchemy pyyaml kafka-python celery alembic requests fabric3
+    sudo /usr/local/bin/pip3 install pymongo redis flask flask-sqlalchemy pyyaml \
+        kafka-python celery alembic requests fabric3 click
   SHELL
 end
