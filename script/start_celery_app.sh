@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-base_dir=$(cd "`dirname "$0"`"/..; pwd)
-export NWPC_MONITOR_PLATFORM_BASE=${base_dir}
-export PYTHONPATH=${base_dir}:$PYTHONPATH
+export NWPC_MONITOR_PLATFORM_BASE=$(cd "`dirname "$0"`"/..; pwd)
+export PYTHONPATH=${NWPC_MONITOR_PLATFORM_BASE}:$PYTHONPATH
 
-export MODE=develop
-
-python3 ${NWPC_MONITOR_PLATFORM_BASE}/nwpc_monitor_task_scheduler/run.py worker
+python3 ${NWPC_MONITOR_PLATFORM_BASE}/nwpc_monitor_task_scheduler/run.py \
+    --config-file="../nwpc_monitor_task_scheduler/conf/celery_server.develop.config.yaml" \
+    worker

@@ -1,12 +1,13 @@
-#!/usr/bin/env python
 # coding=utf-8
 import os
+from pathlib import Path
 import yaml
 from celery.schedules import crontab
 
 
 class CeleryConfig(object):
     def __init__(self, config_file_path):
+        self.config_file_path = config_file_path
         with open(config_file_path, 'r') as config_file:
             config_dict = yaml.load(config_file)
             self.config = config_dict
@@ -65,25 +66,24 @@ class CeleryConfig(object):
 
     @staticmethod
     def load_celery_config():
-        config_file_name = "celery_server.production.config.yaml"
-        if 'MODE' in os.environ:
-            mode = os.environ['MODE']
-            if mode == 'production':
-                config_file_name = "celery_server.production.config.yaml"
-            elif mode == 'develop':
-                config_file_name = "celery_server.develop.config.yaml"
+        if 'NWPC_MONITOR_TASK_SCHEDULER_CONFIG' not in os.environ:
+            raise Exception('NWPC_MONITOR_TASK_SCHEDULER_CONFIG must be set.')
 
-        config_file_directory = os.path.dirname(__file__) + "/../conf"
-
-        config_file_path = config_file_directory + "/" + config_file_name
+        config_file_path = os.environ['NWPC_MONITOR_TASK_SCHEDULER_CONFIG']
         print("config file path:", config_file_path)
 
         config = CeleryConfig(config_file_path)
         return config
 
+    def load_task_config(self):
+        config_file_dir_path = Path(self.config_file_path).parent
+        task_config_file_path = Path(config_file_dir_path, self.config['celery_task']['task_config_file'])
+        return TaskConfig(str(task_config_file_path))
+
 
 class TaskConfig(object):
     def __init__(self, config_file_path):
+        self.config_file_path = config_file_path
         with open(config_file_path, 'r') as config_file:
             config_dict = yaml.load(config_file)
             self.config = config_dict
@@ -92,21 +92,3 @@ class TaskConfig(object):
     def get_config_file_dir():
         config_file_directory = os.path.dirname(__file__) + "/../conf"
         return config_file_directory
-
-    @staticmethod
-    def load_celery_config():
-        config_file_name = "task.production.config.yaml"
-        if 'MODE' in os.environ:
-            mode = os.environ['MODE']
-            if mode == 'production':
-                config_file_name = "task.production.config.yaml"
-            elif mode == 'develop':
-                config_file_name = "task.develop.config.yaml"
-
-        config_file_directory = os.path.dirname(__file__) + "/../conf"
-
-        config_file_path = config_file_directory + "/" + config_file_name
-        print("task config file path:", config_file_path)
-
-        config = TaskConfig(config_file_path)
-        return config

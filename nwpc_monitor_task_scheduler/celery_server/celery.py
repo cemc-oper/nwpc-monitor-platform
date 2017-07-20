@@ -12,7 +12,8 @@ app = Celery(
 
 app.config_from_object(celery_config)
 
-app.task_config = TaskConfig.load_celery_config()
+app.celery_config = celery_config
+app.task_config = app.celery_config.load_task_config()
 
 
 if __name__ == '__main__':
