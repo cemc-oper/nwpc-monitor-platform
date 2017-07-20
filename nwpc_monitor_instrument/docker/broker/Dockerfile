@@ -15,13 +15,9 @@ LABEL maintainer="***REMOVED***roc@gmail.com"
 
 RUN pip3 install pyyaml redis pymongo requests flask-sqlalchemy
 
-RUN apt-get update \
-    && apt-get install unzip \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN wget http://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.0.5.zip \
-    && unzip mysql-connector-python-2.0.5.zip \
-    && cd mysql-connector-python-2.0.5 \
+RUN wget https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-python-2.1.6.tar.gz \
+    && tar zxvf mysql-connector-python-2.1.6.tar.gz \
+    && cd mysql-connector-python-2.1.6 \
     && python3 setup.py build \
     && python3 setup.py install
 
