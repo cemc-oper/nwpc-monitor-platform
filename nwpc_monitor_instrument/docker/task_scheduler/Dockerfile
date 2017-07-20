@@ -19,6 +19,7 @@ RUN cd /srv \
 
 ENV NWPC_MONITOR_PLATFORM_BASE /srv/nwpc-monitor-platform
 ENV PYTHONPATH $NWPC_MONITOR_PLATFORM_BASE
+ENV NWPC_MONITOR_TASK_SCHEDULER_CONFIG /etc/nwpc-monitor-platform/nwpc-monitor-task-scheduler/celery.config.yaml
 WORKDIR $NWPC_MONITOR_PLATFORM_BASE
 
 ENTRYPOINT ["python3", "nwpc_monitor_task_scheduler/run.py"]
