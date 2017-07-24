@@ -9,9 +9,9 @@ from nwpc_monitor_task_scheduler.celery_server.task import hpc
 
 def test_loadleveler_task():
     param = {
-        'user': 'nwp_xp',
-        'password': '***REMOVED***',
-        'host': 'uranus-bk.hpc.nmic.cn',
+        'user': 'user',
+        'password': 'password',
+        'host': 'host',
         'port': 22
     }
     hpc.get_hpc_loadleveler_usage(param)
