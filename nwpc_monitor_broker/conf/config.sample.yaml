@@ -1,0 +1,75 @@
+broker:
+  debug:
+    flask_debug: on of false
+
+  host:
+    ip: ip address
+    port: port number
+
+  secret_key: secret key for flask
+
+  mysql:
+    host:
+      ip: ip address
+      port: port number
+    user: user
+    password: password
+    database: database name
+    charset: charset
+    pool_recycle: number
+
+  mongodb:
+    host:
+    ip: ip address
+    port: port number
+
+  redis:
+    host:
+    ip: ip address
+    port: port number
+
+  ding_talk_app:
+    token:
+      corp_id: corp_id
+      corp_secret: corp_secret-o38xj2LTt
+      url: https://oapi.dingtalk.com/gettoken?corpid={corp_id}&corpsecret={corp_secret}
+    warn:
+      url: https://oapi.dingtalk.com/message/send?access_token={dingtalk_access_token}
+      agentid: agentid
+
+  weixin_app:
+    token:
+      corp_id: corp_id
+      corp_secret: corp_secret
+      url: https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={corp_id}&corpsecret={corp_secret}
+    warn:
+      url: https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={weixin_access_token}
+      agentid: agentid
+
+  cloud:
+    base:
+      url: https://www.nwpcmonitor.cc
+    put:
+      url: https://www.nwpcmonitor.cc/api/v1/repos/{owner}/{repo}/sms/status
+
+  sms:
+    task_check:
+      cloud:
+        base:
+          url: https://www.nwpcmonitor.cc
+        put:
+          url: https://www.nwpcmonitor.cc/api/v1/repos/{owner}/{repo}/sms/task-check
+
+  hpc:
+    disk_usage:
+      cloud:
+        put:
+          url: https://www.nwpcmonitor.cc/api/v1/hpc/users/{user}/disk/usage
+    disk_space:
+      cloud:
+        put:
+          url: https://www.nwpcmonitor.cc/api/v1/hpc/info/disk/space
+    loadleveler_status:
+      cloud:
+        put:
+          url: https://www.nwpcmonitor.cc/api/v1/hpc/users/{user}/loadleveler/status
