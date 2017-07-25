@@ -15,10 +15,10 @@ setup(
     description='A collection of models for HPC used in NWPC.',
     long_description=long_description,
 
-    url='https://github.com/***REMOVED***roc/nwpc-hpc-model',
+    url='https://github.com/perillaroc/nwpc-hpc-model',
 
-    author='***REMOVED***roc',
-    author_email='***REMOVED***roc@gmail.com',
+    author='perillaroc',
+    author_email='perillaroc@gmail.com',
 
     license='GPL-3.0',
 

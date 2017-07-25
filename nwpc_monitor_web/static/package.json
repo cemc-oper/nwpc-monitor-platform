@@ -7,7 +7,7 @@
     "build": "webpack --colors --progress",
     "dist": "set NODE_ENV=production&&webpack --colors --progress"
   },
-  "author": "***REMOVED***roc",
+  "author": "perillaroc",
   "license": "GPL-3.0",
   "dependencies": {
     "css-loader": "^0.28.4",

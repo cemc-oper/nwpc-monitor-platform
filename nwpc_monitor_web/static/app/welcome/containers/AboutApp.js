@@ -79,7 +79,7 @@ class AboutApp extends Component{
                             </section>
                             <section>
                                 <h2 className="title">维护</h2>
-                                <p>***REMOVED***roc</p>
+                                <p>perillaroc</p>
                             </section>
                         </article>
                     </div>

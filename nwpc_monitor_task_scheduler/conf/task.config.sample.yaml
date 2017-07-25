@@ -31,6 +31,8 @@ sms_node_task:
     program: python binary
     script: sms_node_collector.py variable
   repo_config_dir: ./sms_node_task
+  post:
+    url: http://broker_host:broker_port/api/v2/hpc/sms/{owner}/{repo}/task-check
 
 
 hpc:

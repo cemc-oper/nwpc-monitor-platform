@@ -2,14 +2,14 @@ FROM node:latest as broker_web_builder
 
 WORKDIR /srv
 
-RUN git clone https://github.com/***REMOVED***roc/nwpc-monitor-platform.git \
+RUN git clone https://github.com/perillaroc/nwpc-monitor-platform.git \
     && cd ./nwpc-monitor-platform/nwpc_monitor_broker/static \
     && npm install \
     && npm run build
 
-FROM ***REMOVED***roc/flask
+FROM perillaroc/flask
 
-LABEL maintainer="***REMOVED***roc@gmail.com"
+LABEL maintainer="perillaroc@gmail.com"
 
 # RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
 

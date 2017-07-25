@@ -15,10 +15,10 @@ setup(
     description='A work flow model using in operation systems at NWPC.',
     long_description=long_description,
 
-    url='https://github.com/***REMOVED***roc/nwpc-work-flow-model',
+    url='https://github.com/perillaroc/nwpc-work-flow-model',
 
-    author='***REMOVED***roc',
-    author_email='***REMOVED***roc@gmail.com',
+    author='perillaroc',
+    author_email='perillaroc@gmail.com',
 
     license='MIT',
 

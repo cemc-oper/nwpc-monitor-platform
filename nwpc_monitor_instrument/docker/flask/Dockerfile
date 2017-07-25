@@ -1,6 +1,6 @@
 FROM python:3
 
-LABEL maintainer="***REMOVED***roc@gmail.com"
+LABEL maintainer="perillaroc@gmail.com"
 
 RUN pip3 install flask
 

@@ -1,6 +1,6 @@
 FROM python:3
 
-LABEL maintainer="***REMOVED***roc@gmail.com"
+LABEL maintainer="perillaroc@gmail.com"
 
 RUN wget https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-python-2.1.6.tar.gz \
     && tar zxvf mysql-connector-python-2.1.6.tar.gz \
@@ -11,7 +11,7 @@ RUN wget https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-pytho
 RUN pip3 install celery pyyaml fabric3 requests sqlalchemy click
 
 RUN cd /srv \
-    && git clone https://github.com/***REMOVED***roc/nwpc-monitor-platform.git \
+    && git clone https://github.com/perillaroc/nwpc-monitor-platform.git \
     && cd nwpc-monitor-platform/vendor/nwpc-hpc-model \
     && python3 setup.py install \
     && cd ../nwpc-work-flow-model \
