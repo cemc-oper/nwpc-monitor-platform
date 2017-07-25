@@ -222,18 +222,18 @@ def get_sms_node_task(args):
     
     :param args: 
     {
-        'owner': 'wangdp',
-        'repo': 'nwpc_wangdp',
+        'owner': 'owner',
+        'repo': 'repo',
         'auth': {
-            'host': 'uranus.hpc.nmic.cn',
-            'port': '22',
-            'user': 'wangdp',
-            'password': '***REMOVED***'
+            'host': 'host',
+            'port': 'port',
+            'user': 'user',
+            'password': 'password'
         },
         'sms': {
-            'sms_server': 'nwpc_wangdp',
-            'sms_user': 'wangdp',
-            'sms_password': '1'
+            'sms_server': 'sms_server',
+            'sms_user': 'sms_user',
+            'sms_password': 'sms_password'
         },
         'task': {
             'name': 'grapes_meso_post',
@@ -357,18 +357,18 @@ def get_sms_node_task(args):
 
 if __name__ == "__main__":
     args = {
-        'owner': 'wangdp',
-        'repo': 'nwpc_wangdp',
+        'owner': 'owner',
+        'repo': 'repo',
         'auth': {
-            'host': 'uranus.hpc.nmic.cn',
-            'port': '22',
-            'user': 'wangdp',
-            'password': '***REMOVED***'
+            'host': 'host',
+            'port': 'port',
+            'user': 'user',
+            'password': 'password'
         },
         'sms': {
-            'sms_server': 'nwpc_wangdp',
-            'sms_user': 'wangdp',
-            'sms_password': '1'
+            'sms_server': 'sms_server',
+            'sms_user': 'sms_user',
+            'sms_password': 'sms_password'
         },
         'task': {
             'name': 'grapes_meso_post',
