@@ -21,12 +21,12 @@ DESCRIPTION
 
     parser.add_argument(
         "-c", "--config-file",
-        help="config file path",
-        required=True
+        help="config file path"
     )
 
     args = parser.parse_args()
-    os.environ['NWPC_MONITOR_BROKER_CONFIG'] = args.config_file
+    if args.config_file:
+        os.environ['NWPC_MONITOR_BROKER_CONFIG'] = args.config_file
 
     from nwpc_monitor_broker import app
 
