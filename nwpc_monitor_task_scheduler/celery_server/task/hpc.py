@@ -133,6 +133,6 @@ if __name__ == "__main__":
     import os
     os.environ['MODE'] = 'develop'
     from nwpc_monitor_task_scheduler.celery_server import task
-    print(task.hpc.get_group_hpc_loadleveler_status_task())
-    print(task.hpc.get_group_hpc_disk_usage_task.delay())
+    # print(task.hpc.get_group_hpc_loadleveler_status_task())
+    # print(task.hpc.get_group_hpc_disk_usage_task.delay())
     print(task.hpc.get_group_hpc_disk_space_task.delay())

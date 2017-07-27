@@ -2,12 +2,7 @@
 """
 run a simple nwpc_monitor_broker server.
 
-Set environment variable MODE to use different config files or use -m/--mode argument to set on command line.
-
-MODE:
-    production: use conf ./conf/production.config.yaml
-    develop: use conf ./conf/develop.config.yaml
-
+Set environment variable NWPC_MONITOR_BROKER_CONFIG.
 """
 import argparse
 import os
@@ -18,9 +13,6 @@ if 'NWPC_MONITOR_PLATFORM_BASE' in os.environ:
 
 
 def runserver():
-
-    mode = "production"
-
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description="""\
@@ -28,22 +20,13 @@ DESCRIPTION
     Run nwpc monitor broker.""")
 
     parser.add_argument(
-        "-m", "--mode",
-        help="run mode, [production, develop, local-develop]. "
-             "If not set, use mode set in environment variable MODE. "
-             "If there is no such env variable, use default value: production."
-    )
-
-    parser.add_argument(
         "-c", "--config-file",
-        help="config file path"
+        help="config file path",
+        required=True
     )
 
     args = parser.parse_args()
-    if args.mode:
-        os.environ['MODE'] = args.mode
-    elif 'MODE' not in os.environ:
-        os.environ['MODE'] = mode
+    os.environ['NWPC_MONITOR_BROKER_CONFIG'] = args.config_file
 
     from nwpc_monitor_broker import app
 

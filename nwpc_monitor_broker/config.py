@@ -51,21 +51,10 @@ class Config(object):
 
 
 def load_config():
-    config_file_name = "production.config.yaml"
-    if 'NWPC_MONITOR_BROKER_CONFIG' in os.environ:
-        config_file_path = os.environ['NWPC_MONITOR_BROKER_CONFIG']
-    else:
-        if 'MODE' in os.environ:
-            mode = os.environ['MODE']
-            if mode == 'production':
-                config_file_name = "production.config.yaml"
-            elif mode == 'develop':
-                config_file_name = "develop.config.yaml"
-            elif mode == 'local-develop':
-                config_file_name = "local-develop.config.yaml"
-        config_file_directory = os.path.dirname(__file__) + "/conf"
-        config_file_path = config_file_directory + "/" + config_file_name
+    if 'NWPC_MONITOR_BROKER_CONFIG' not in os.environ:
+        return None
 
+    config_file_path = os.environ['NWPC_MONITOR_BROKER_CONFIG']
     print("config file path:", config_file_path)
 
     config_object = Config(config_file_path)
