@@ -1,7 +1,10 @@
 # coding=utf-8
-from .filters import long_time_operation_job_filter
+from .filters import long_time_operation_job_filter, nwp_pd_long_time_upload_job_filter
 
-filter_module_list = [long_time_operation_job_filter]
+filter_module_list = [
+    long_time_operation_job_filter,
+    nwp_pd_long_time_upload_job_filter
+]
 
 
 def apply_filters(job_items):
