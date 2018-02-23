@@ -4,9 +4,8 @@ import datetime
 import gzip
 
 import requests
-from flask import request, jsonify, json
+from flask import request, jsonify, json, current_app
 
-from nwpc_monitor_broker import app
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
 from nwpc_monitor_broker.api_v2 import data_store
@@ -166,8 +165,8 @@ def sms_status_message_handler(message_data: dict) -> None:
                     # ding_talk_app.send_warning_message(warning_data)
 
                     weixin_app = weixin.WeixinApp(
-                        weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
-                        cloud_config=app.config['BROKER_CONFIG']['cloud']
+                        weixin_config=current_app.config['BROKER_CONFIG']['weixin_app'],
+                        cloud_config=current_app.config['BROKER_CONFIG']['cloud']
                     )
                     weixin_app.send_warning_message(warning_data)
 
@@ -181,7 +180,7 @@ def sms_status_message_handler(message_data: dict) -> None:
         cache.save_sms_server_status_to_cache(owner, repo, sms_name, message_data)
 
         # 发送给外网服务器
-        website_url = app.config['BROKER_CONFIG']['cloud']['put']['url'].format(
+        website_url = current_app.config['BROKER_CONFIG']['cloud']['put']['url'].format(
             owner=owner,
             repo=repo
         )
@@ -388,7 +387,7 @@ def receive_sms_node_task_message(owner, repo):
         gzipped_post_data = gzip.compress(bytes(json.dumps(website_post_data), 'utf-8'))
         print('gzip the data...done')
 
-        website_url = app.config['BROKER_CONFIG']['sms']['task_check']['cloud']['put']['url'].format(
+        website_url = current_app.config['BROKER_CONFIG']['sms']['task_check']['cloud']['put']['url'].format(
             owner=owner,
             repo=repo
         )
@@ -403,8 +402,8 @@ def receive_sms_node_task_message(owner, repo):
         print(response)
 
         weixin_app = weixin.WeixinApp(
-            weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
-            cloud_config=app.config['BROKER_CONFIG']['cloud']
+            weixin_config=current_app.config['BROKER_CONFIG']['weixin_app'],
+            cloud_config=current_app.config['BROKER_CONFIG']['cloud']
         )
         weixin_app.send_sms_node_task_warn(weixin_message)
     # else:

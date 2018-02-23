@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-    devtool: "cheap-module-eval-source-map",
+    devtool: "source-map",
     entry: {
         welcome: './app/welcome/welcome.js',
         org: [
@@ -26,11 +26,5 @@ module.exports = {
                 include: __dirname
             }
         ]
-    },
-    externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-        'redux': 'Redux',
-        'react-redux': 'ReactRedux'
     }
 };

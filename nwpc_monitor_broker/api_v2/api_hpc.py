@@ -1,9 +1,7 @@
-from flask import request, jsonify, json
+from flask import request, jsonify, json, current_app
 import datetime
 import requests
 import gzip
-
-from nwpc_monitor_broker import app
 
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
@@ -43,7 +41,7 @@ def receive_disk_usage_message(user):
     post_data = {
         'message': json.dumps(value)
     }
-    post_url = app.config['BROKER_CONFIG']['hpc']['disk_usage']['cloud']['put']['url'].format(
+    post_url = current_app.config['BROKER_CONFIG']['hpc']['disk_usage']['cloud']['put']['url'].format(
         user=user
     )
 
@@ -111,7 +109,7 @@ def receive_disk_space_message():
     post_data = {
         'message': json.dumps(value)
     }
-    post_url = app.config['BROKER_CONFIG']['hpc']['disk_space']['cloud']['put']['url']
+    post_url = current_app.config['BROKER_CONFIG']['hpc']['disk_space']['cloud']['put']['url']
 
     print('gzip the data...')
     gzipped_post_data = gzip.compress(bytes(json.dumps(post_data), 'utf-8'))
@@ -239,7 +237,7 @@ def receive_loadleveler_status(user):
                 gzipped_post_data = gzip.compress(bytes(json.dumps(website_post_data), 'utf-8'))
                 print('gzip the data...done')
 
-                website_url = app.config['BROKER_CONFIG']['hpc']['loadleveler_status']['cloud']['put']['url'].format(
+                website_url = current_app.config['BROKER_CONFIG']['hpc']['loadleveler_status']['cloud']['put']['url'].format(
                     user=user
                 )
                 response = requests.post(
@@ -253,8 +251,8 @@ def receive_loadleveler_status(user):
                 print(response)
 
                 weixin_app = weixin.WeixinApp(
-                    weixin_config=app.config['BROKER_CONFIG']['weixin_app'],
-                    cloud_config=app.config['BROKER_CONFIG']['cloud']
+                    weixin_config=current_app.config['BROKER_CONFIG']['weixin_app'],
+                    cloud_config=current_app.config['BROKER_CONFIG']['cloud']
                 )
                 weixin_app.send_loadleveler_status_warning_message(
                     user, plugin_result, abnormal_jobs_blob_id)
@@ -263,7 +261,7 @@ def receive_loadleveler_status(user):
     post_data = {
         'message': json.dumps(value)
     }
-    post_url = app.config['BROKER_CONFIG']['hpc']['loadleveler_status']['cloud']['put']['url'].format(
+    post_url = current_app.config['BROKER_CONFIG']['hpc']['loadleveler_status']['cloud']['put']['url'].format(
         user=user
     )
 

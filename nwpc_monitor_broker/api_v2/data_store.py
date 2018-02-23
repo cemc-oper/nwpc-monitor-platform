@@ -1,11 +1,9 @@
 import datetime
 
-from nwpc_monitor_broker import app, db
+from nwpc_monitor_broker.database import db, mongodb_client
 from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch
 
 from nwpc_monitor.model.nwpc_takler import Commit, Tree, Blob, Ref
-
-from nwpc_monitor_broker.api_v2 import mongodb_client
 
 # mongodb
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop

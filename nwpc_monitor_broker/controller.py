@@ -1,17 +1,18 @@
 # coding=utf-8
-from nwpc_monitor_broker import app, db
+from flask import current_app
+from nwpc_monitor_broker.database import db
 from nwpc_monitor.model import Owner
 
 from flask import json, request, jsonify,render_template, abort
 
 
-@app.route('/')
+@current_app.route('/')
 def get_index_page():
     return render_template("index.html")
 
 
-@app.route('/<owner>')
-@app.route('/orgs/<owner>/<path:path>')
+@current_app.route('/<owner>')
+@current_app.route('/orgs/<owner>/<path:path>')
 def get_owner_page(owner, path=None):
 
     query = db.session.query(Owner).filter(Owner.owner_name == owner)
@@ -37,12 +38,12 @@ def get_org_page(org):
     return render_template("organization.html", org=org)
 
 
-@app.route('/<owner>/<repo>')
-@app.route('/<owner>/<repo>/')
+@current_app.route('/<owner>/<repo>')
+@current_app.route('/<owner>/<repo>/')
 def get_repo_page(owner, repo):
     return render_template('repo.html', owner=owner, repo=repo)
 
 
-@app.route('/<no_static:owner>/<repo>/<path:path>')
+@current_app.route('/<no_static:owner>/<repo>/<path:path>')
 def get_repo_path_page(owner, repo, path):
     return render_template('repo.html', owner=owner, repo=repo, path=path)

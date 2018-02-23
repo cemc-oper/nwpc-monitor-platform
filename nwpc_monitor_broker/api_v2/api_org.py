@@ -1,14 +1,11 @@
 # coding=utf-8
 
-from flask import request, jsonify, json
-import datetime
-import requests
+from flask import jsonify
 
-from nwpc_monitor_broker import app, db
+from nwpc_monitor_broker.database import db
 
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.api_v2 import cache
-from nwpc_monitor_broker.api_v2 import data_store
 
 from nwpc_monitor.model import Repo, Owner, User, OrgUser, DingtalkUser, DingtalkWarnWatch, Util
 
