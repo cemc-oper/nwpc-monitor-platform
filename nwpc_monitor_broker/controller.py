@@ -1,9 +1,9 @@
 # coding=utf-8
 from flask import current_app
-from nwpc_monitor_broker.database import db
+from nwpc_monitor_broker.common.database import db
 from nwpc_monitor.model import Owner
 
-from flask import json, request, jsonify,render_template, abort
+from flask import jsonify,render_template, abort
 
 
 @current_app.route('/')

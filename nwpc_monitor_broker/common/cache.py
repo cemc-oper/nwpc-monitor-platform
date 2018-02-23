@@ -1,6 +1,6 @@
 import datetime
-from flask import json, g
-from nwpc_monitor_broker.database import mongodb_client, redis_client
+from flask import json
+from nwpc_monitor_broker.common.database import mongodb_client, redis_client
 
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
 sms_server_status = nwpc_monitor_platform_mongodb.sms_server_status

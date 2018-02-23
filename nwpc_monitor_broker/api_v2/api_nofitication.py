@@ -2,8 +2,7 @@
 from flask import jsonify, current_app
 
 from nwpc_monitor_broker.api_v2 import api_v2_app
-from nwpc_monitor_broker.api_v2 import data_store
-from nwpc_monitor_broker.api_v2 import ding_talk, weixin
+from nwpc_monitor_broker.common import weixin, ding_talk, data_store
 
 REQUEST_POST_TIME_OUT = 20
 

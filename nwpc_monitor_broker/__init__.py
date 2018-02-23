@@ -5,7 +5,7 @@ from flask import Flask
 from flask.json import JSONEncoder
 from werkzeug.routing import BaseConverter, ValidationError
 
-from .config import load_config
+from nwpc_monitor_broker.common.config import load_config
 
 
 class NwpcMonitorBrokerApiJSONEncoder(JSONEncoder):
@@ -40,7 +40,7 @@ def create_app():
     app.url_map.converters['no_static'] = NoStaticConverter
 
     with app.app_context():
-        import nwpc_monitor_broker.database
+        import nwpc_monitor_broker.common.database
 
         from nwpc_monitor_broker.api_v2 import api_v2_app
         app.register_blueprint(api_v2_app, url_prefix="/api/v2")

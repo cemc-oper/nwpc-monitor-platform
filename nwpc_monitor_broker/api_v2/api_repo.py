@@ -2,7 +2,7 @@
 
 from flask import request, jsonify, json
 
-from nwpc_monitor_broker.database import db
+from nwpc_monitor_broker.common.database import db
 
 from nwpc_monitor_broker.api_v2 import api_v2_app
 

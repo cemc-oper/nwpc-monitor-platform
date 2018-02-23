@@ -4,7 +4,6 @@ config.py
 use environment var
 """
 import os
-import sys
 import yaml
 
 

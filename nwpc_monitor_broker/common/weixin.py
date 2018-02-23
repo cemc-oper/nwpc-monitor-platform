@@ -4,7 +4,7 @@ import requests
 from flask import json
 from collections import defaultdict
 
-from .cache import save_weixin_access_token_to_cache, get_weixin_access_token_from_cache
+from nwpc_monitor_broker.common.cache import save_weixin_access_token_to_cache, get_weixin_access_token_from_cache
 
 REQUEST_POST_TIME_OUT = 20
 

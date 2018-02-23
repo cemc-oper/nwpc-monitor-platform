@@ -4,7 +4,7 @@ from collections import defaultdict
 from nwpc_monitor_broker.plugins.loadleveler import loadleveler_filter
 from nwpc_hpc_model.loadleveler.filter_condition import get_property_data
 
-from nwpc_monitor_broker.api_v2.cache import redis_client
+from nwpc_monitor_broker.common.database import redis_client
 
 
 def save_long_time_operation_job_list_to_cache(user, job_items):
