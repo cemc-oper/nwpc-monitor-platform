@@ -2,7 +2,6 @@
 import requests
 from flask import json
 
-from nwpc_monitor_broker.common.cache import save_dingtalk_access_token_to_cache, get_dingtalk_access_token_from_cache
 from nwpc_monitor_broker.common import data_store
 
 REQUEST_POST_TIME_OUT = 20
@@ -44,7 +43,7 @@ class Auth(object):
         print(response_json)
         if response_json['errcode'] == 0:
             access_token = response_json['access_token']
-            save_dingtalk_access_token_to_cache(access_token)
+            data_store.save_dingtalk_access_token_to_cache(access_token)
             result = {
                 'status': 'ok',
                 'access_token': access_token
@@ -57,16 +56,16 @@ class Auth(object):
         return result
 
     def get_access_token_from_cache(self) -> str:
-        return get_dingtalk_access_token_from_cache()
+        return data_store.get_dingtalk_access_token_from_cache()
 
     def save_access_token_to_cache(self, access_token: str) -> None:
-        return save_dingtalk_access_token_to_cache(access_token)
+        return data_store.save_dingtalk_access_token_to_cache(access_token)
 
     def get_access_token(self) -> str:
-        dingtalk_access_token = get_dingtalk_access_token_from_cache()
+        dingtalk_access_token = data_store.get_dingtalk_access_token_from_cache()
         if dingtalk_access_token is None:
             self.get_access_token_from_server()
-            dingtalk_access_token = get_dingtalk_access_token_from_cache()
+            dingtalk_access_token = data_store.get_dingtalk_access_token_from_cache()
         return dingtalk_access_token
 
 

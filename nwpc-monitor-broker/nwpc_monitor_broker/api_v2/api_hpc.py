@@ -4,7 +4,7 @@ import requests
 import gzip
 
 from nwpc_monitor_broker.api_v2 import api_v2_app
-from nwpc_monitor_broker.common import cache, weixin, data_store
+from nwpc_monitor_broker.common import weixin, data_store
 
 from nwpc_monitor_broker.plugins.loadleveler import long_time_operation_job_warn
 
@@ -33,7 +33,7 @@ def receive_disk_usage_message(user):
 
     message_data = message['data']
 
-    key, value = cache.save_hpc_disk_usage_status_to_cache(user, message)
+    key, value = data_store.save_hpc_disk_usage_status_to_cache(user, message)
 
     print("post disk usage to cloud: user=", user)
     post_data = {
@@ -71,7 +71,7 @@ def receive_disk_usage_message(user):
 def get_disk_usage_message(user: str):
     start_time = datetime.datetime.utcnow()
 
-    result = cache.get_hpc_disk_usage_status_from_cache(user)
+    result = data_store.get_hpc_disk_usage_status_from_cache(user)
 
     end_time = datetime.datetime.utcnow()
     print(end_time - start_time)
@@ -101,7 +101,7 @@ def receive_disk_space_message():
 
     message_data = message['data']
 
-    key, value = cache.save_hpc_disk_space_status_to_cache(message)
+    key, value = data_store.save_hpc_disk_space_status_to_cache(message)
 
     print("post disk usage to cloud")
     post_data = {
@@ -136,7 +136,7 @@ def receive_disk_space_message():
 def get_disk_space_message():
     start_time = datetime.datetime.utcnow()
 
-    result = cache.get_hpc_disk_space_status_from_cache()
+    result = data_store.get_hpc_disk_space_status_from_cache()
 
     end_time = datetime.datetime.utcnow()
     print(end_time - start_time)
@@ -193,7 +193,7 @@ def receive_loadleveler_status(user):
 
     message_data = message['data']
 
-    key, value = cache.save_hpc_loadleveler_status_to_cache(user, message)
+    key, value = data_store.save_hpc_loadleveler_status_to_cache(user, message)
 
     if 'error' not in message:
         plugin_result = long_time_operation_job_warn.warn_long_time_operation_job(user, message)

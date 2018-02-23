@@ -7,7 +7,7 @@ import requests
 from flask import request, jsonify, json, current_app
 
 from nwpc_monitor_broker.api_v2 import api_v2_app
-from nwpc_monitor_broker.common import cache, weixin, data_store
+from nwpc_monitor_broker.common import weixin, data_store
 from nwpc_work_flow_model.sms import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 
 REQUEST_POST_TIME_OUT = 20
@@ -30,7 +30,7 @@ def is_new_abort_task_found(owner: str, repo: str, previous_server_status: str, 
 
     if previous_server_status == 'abo':
         new_error_task_found = False
-        cached_error_task_value = cache.get_error_task_list_from_cache(owner, repo)
+        cached_error_task_value = data_store.get_error_task_list_from_cache(owner, repo)
         cached_error_task_name_list = [a_task_item['path'] for a_task_item in
                                        cached_error_task_value['error_task_list'] ]
         for a_task in error_task_dict_list:
@@ -123,7 +123,7 @@ def sms_status_message_handler(message_data: dict) -> None:
         server_status = bunch.status
 
         if server_status == 'abo':
-            cached_sms_server_status = cache.get_sms_server_status_from_cache(owner, repo, sms_name)
+            cached_sms_server_status = data_store.get_sms_server_status_from_cache(owner, repo, sms_name)
             if cached_sms_server_status is not None:
 
                 print('building bunch from cache message...')
@@ -173,9 +173,9 @@ def sms_status_message_handler(message_data: dict) -> None:
             'timestamp': datetime.datetime.utcnow(),
             'error_task_list': error_task_dict_list
         }
-        cache.save_error_task_list_to_cache(owner, repo, error_task_value)
+        data_store.save_error_task_list_to_cache(owner, repo, error_task_value)
 
-        cache.save_sms_server_status_to_cache(owner, repo, sms_name, message_data)
+        data_store.save_sms_server_status_to_cache(owner, repo, sms_name, message_data)
 
         # 发送给外网服务器
         website_url = current_app.config['BROKER_CONFIG']['cloud']['put']['url'].format(

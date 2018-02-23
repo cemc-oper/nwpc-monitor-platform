@@ -5,7 +5,7 @@ from flask import jsonify
 from nwpc_monitor_broker.common.database import db
 
 from nwpc_monitor_broker.api_v2 import api_v2_app
-from nwpc_monitor_broker.common import cache
+from nwpc_monitor_broker.common import data_store
 
 from nwpc_monitor.model import Repo, Owner, User, OrgUser, DingtalkUser, DingtalkWarnWatch, Util
 
@@ -30,7 +30,7 @@ def get_org_repos(org):
             'name': an_repo.repo_name,
             'description': an_repo.repo_description
         }
-        sms_server_status = cache.get_sms_server_status_from_cache(org, an_repo.repo_name, an_repo.repo_name)
+        sms_server_status = data_store.get_sms_server_status_from_cache(org, an_repo.repo_name, an_repo.repo_name)
         if sms_server_status is not None:
             repo['update_time'] = sms_server_status['update_time']
         else:
