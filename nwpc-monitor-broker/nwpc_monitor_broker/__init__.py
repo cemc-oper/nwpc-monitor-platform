@@ -1,5 +1,6 @@
 # coding=utf-8
 from datetime import datetime, time, timedelta, date
+from pathlib import Path
 
 from flask import Flask
 from flask.json import JSONEncoder
@@ -33,7 +34,11 @@ class NoStaticConverter(BaseConverter):
 
 def create_app():
 
-    app = Flask(__name__)
+    static_folder = str(Path(Path(__file__).parent.parent, "static"))
+    template_folder = str(Path(Path(__file__).parent.parent, "templates"))
+    app = Flask(__name__,
+                static_folder=static_folder,
+                template_folder=template_folder)
 
     app.config.from_object(load_config())
     app.json_encoder = NwpcMonitorBrokerApiJSONEncoder
