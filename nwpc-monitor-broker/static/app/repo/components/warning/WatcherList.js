@@ -80,11 +80,11 @@ export default class WatcherList extends Component{
                             </label>
                             {
                                 an_user.is_watching?
-                                    (<button className="btn btn-danger btn-xs active pull-right"
+                                    (<button className="btn btn-danger btn-sm active float-right"
                                              onClick={this.handleUnWatchClick.bind(this, owner, repo, an_user.owner_name)}>
                                         取消
                                     </button>) :
-                                    (<button className="btn btn-primary btn-xs pull-right"
+                                    (<button className="btn btn-primary btn-sm float-right"
                                              onClick={this.handleWatchClick.bind(this, owner, repo, an_user.owner_name)}>
                                         关注
                                     </button>)
@@ -92,16 +92,16 @@ export default class WatcherList extends Component{
                         </li>
                     )}
                     <li className="list-group-item">
-                        <button type="button" className="btn btn-default btn-xs" onClick={this.handleAllCheckClick.bind(this)}>
+                        <button type="button" className="btn btn-light btn-sm" onClick={this.handleAllCheckClick.bind(this)}>
                             全选
                         </button>
-                        <button type="button" className="btn btn-default btn-xs" onClick={this.handleAllUnCheckClick.bind(this)}>
+                        <button type="button" className="btn btn-light btn-sm" onClick={this.handleAllUnCheckClick.bind(this)}>
                             取消全选
                         </button>
-                        <button className="btn btn-default btn-xs pull-right" onClick={this.handleCheckedUnWatchClick.bind(this)}>
+                        <button className="btn btn-light btn-sm float-right" onClick={this.handleCheckedUnWatchClick.bind(this)}>
                                 取消
                         </button>
-                        <button className="btn btn-default btn-xs pull-right" onClick={this.handleCheckedWatchClick.bind(this)}>
+                        <button className="btn btn-light btn-sm float-right" onClick={this.handleCheckedWatchClick.bind(this)}>
                                 关注
                         </button>
                     </li>

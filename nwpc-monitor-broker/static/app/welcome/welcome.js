@@ -29,7 +29,7 @@ class ExploreOwnerApp extends React.Component {
           <div className="form-group">
             <input type="text" className="form-control" placeholder="用户名"
                    onChange={this.onChange.bind(this)} value={this.state.owner} />
-            <button type="submit" className="btn btn-default">确定</button>
+            <button type="submit" className="btn btn-light">确定</button>
           </div>
         </form>
       </div>

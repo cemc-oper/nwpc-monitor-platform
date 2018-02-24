@@ -23,7 +23,7 @@ export default class PageHeader extends Component{
           <input className="form-control" type="text" placeholder="Search" />
         </form>
 
-        <ul className="navbar-nav pull-right">
+        <ul className="navbar-nav float-right">
           <li className="nav-item">
             <a className="nav-link" href="#">帮助</a>
           </li>
