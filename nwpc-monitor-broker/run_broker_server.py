@@ -19,11 +19,9 @@ def runserver(config_file):
     DESCRIPTION
         Run nwpc monitor broker.
     """
-    if config_file:
-        os.environ['NWPC_MONITOR_BROKER_CONFIG'] = config_file
 
     from nwpc_monitor_broker import create_app
-    app = create_app()
+    app = create_app(config_file)
 
     app.run(
         host=app.config['BROKER_CONFIG']['host']['ip'],

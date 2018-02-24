@@ -32,7 +32,7 @@ class NoStaticConverter(BaseConverter):
         return str(value)
 
 
-def create_app():
+def create_app(config_file_path=None):
 
     static_folder = str(Path(Path(__file__).parent.parent, "static"))
     template_folder = str(Path(Path(__file__).parent.parent, "templates"))
@@ -40,7 +40,7 @@ def create_app():
                 static_folder=static_folder,
                 template_folder=template_folder)
 
-    app.config.from_object(load_config())
+    app.config.from_object(load_config(config_file_path))
     app.json_encoder = NwpcMonitorBrokerApiJSONEncoder
     app.url_map.converters['no_static'] = NoStaticConverter
 

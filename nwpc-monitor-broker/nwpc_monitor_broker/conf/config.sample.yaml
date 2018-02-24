@@ -1,12 +1,13 @@
 broker:
   debug:
-    flask_debug: on of false
+    flask_debug: on # on or false
 
   host:
     ip: ip address
     port: port number
 
-  secret_key: secret key for flask
+  # a secret key for Flask application.
+  secret_key: some secret key
 
   mysql:
     host:
@@ -19,19 +20,19 @@ broker:
     pool_recycle: number
 
   mongodb:
-    host:
+    host: mongodb server host
     ip: ip address
     port: port number
 
   redis:
-    host:
+    host: redis server host
     ip: ip address
     port: port number
 
   ding_talk_app:
     token:
       corp_id: corp_id
-      corp_secret: corp_secret-o38xj2LTt
+      corp_secret: corp_secret
       url: https://oapi.dingtalk.com/gettoken?corpid={corp_id}&corpsecret={corp_secret}
     warn:
       url: https://oapi.dingtalk.com/message/send?access_token={dingtalk_access_token}
@@ -46,30 +47,38 @@ broker:
       url: https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={weixin_access_token}
       agentid: agentid
 
+  # cloud url for sms status.
+  # WARN: this config will deprecated in future release.
   cloud:
     base:
-      url: https://www.nwpcmonitor.cc
+      url: https://www.example.com
     put:
-      url: https://www.nwpcmonitor.cc/api/v1/repos/{owner}/{repo}/sms/status
+      url: https://www.example.com/api/v1/repos/{owner}/{repo}/sms/status
 
   sms:
+    status:
+      cloud:
+        base:
+          url: https://www.example.com
+        put:
+          url: https://www.example.com/api/v1/repos/{owner}/{repo}/sms/status
     task_check:
       cloud:
         base:
-          url: https://www.nwpcmonitor.cc
+          url: https://www.example.com
         put:
-          url: https://www.nwpcmonitor.cc/api/v1/repos/{owner}/{repo}/sms/task-check
+          url: https://www.example.com/api/v1/repos/{owner}/{repo}/sms/task-check
 
   hpc:
     disk_usage:
       cloud:
         put:
-          url: https://www.nwpcmonitor.cc/api/v1/hpc/users/{user}/disk/usage
+          url: https://www.example.com/api/v1/hpc/users/{user}/disk/usage
     disk_space:
       cloud:
         put:
-          url: https://www.nwpcmonitor.cc/api/v1/hpc/info/disk/space
+          url: https://www.example.com/api/v1/hpc/info/disk/space
     loadleveler_status:
       cloud:
         put:
-          url: https://www.nwpcmonitor.cc/api/v1/hpc/users/{user}/loadleveler/status
+          url: https://www.example.com/api/v1/hpc/users/{user}/loadleveler/status

@@ -1,7 +1,6 @@
 # coding=utf-8
 from flask import current_app
-from nwpc_monitor_broker.common.database import db
-from nwpc_monitor.model import Owner
+from nwpc_monitor_broker.common.data_store import get_owner_by_name
 
 from flask import jsonify,render_template, abort
 
@@ -14,9 +13,7 @@ def get_index_page():
 @current_app.route('/<owner>')
 @current_app.route('/orgs/<owner>/<path:path>')
 def get_owner_page(owner, path=None):
-
-    query = db.session.query(Owner).filter(Owner.owner_name == owner)
-    owner_object = query.first()
+    owner_object = get_owner_by_name(owner)
 
     if owner_object is None:
         return abort(404)

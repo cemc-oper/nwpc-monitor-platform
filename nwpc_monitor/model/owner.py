@@ -28,7 +28,7 @@ class Owner(Model):
             }
             return result
 
-        if query_result is None:
+        if len(query_result) == 0 or query_result is None:
             result = {
                 'data': {
                     'owner': None

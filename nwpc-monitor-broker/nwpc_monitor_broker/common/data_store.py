@@ -15,6 +15,13 @@ hpc_loadleveler_status = nwpc_monitor_platform_mongodb.hpc_loadleveler_status
 
 # mysql
 
+def get_owner_by_name(owner_name: str):
+    result = Owner.query_owner_by_owner_name(db.session, owner_name)
+    if 'error' in result:
+        return None
+
+    return result['data']['owner']
+
 def get_ding_talk_warn_user_list(owner: str, repo: str) -> list:
     query = db.session.query(Owner, Repo, DingtalkUser, DingtalkWarnWatch).filter(Repo.owner_id == Owner.owner_id)\
         .filter(Repo.repo_name == repo)  \

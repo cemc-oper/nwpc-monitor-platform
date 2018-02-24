@@ -48,12 +48,24 @@ class Config(object):
 
                 self.SQLALCHEMY_POOL_RECYCLE = pool_recycle
 
+    def load_config(self, config_path):
+        pass
 
-def load_config():
-    if 'NWPC_MONITOR_BROKER_CONFIG' not in os.environ:
-        return None
 
-    config_file_path = os.environ['NWPC_MONITOR_BROKER_CONFIG']
+def load_config(config_file_path: None or str = None) -> None or Config:
+    """
+    load config from config_file_path. If config file_path is None,
+    use environment variable NWPC_MONITOR_BROKER_CONFIG as config_file_path.
+
+    :param config_file_path: None or config file path string.
+    :return: None or a Config object.
+    """
+    if config_file_path is None:
+        if 'NWPC_MONITOR_BROKER_CONFIG' in os.environ:
+            config_file_path = os.environ['NWPC_MONITOR_BROKER_CONFIG']
+        else:
+            return None
+        
     print("config file path:", config_file_path)
 
     config_object = Config(config_file_path)
