@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
-const octicons = require("octicons");
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import faChessKing from '@fortawesome/fontawesome-free-solid/faChessKing'
 
 export default class OrgAppTitle extends Component{
   constructor(props) {
@@ -8,11 +9,10 @@ export default class OrgAppTitle extends Component{
   }
   render() {
     let owner = this.props.owner;
-    const org_icon_node = octicons.organization.toSVG({ "width": 30 });
     return (
       <section className="row">
         <h1>
-          <span dangerouslySetInnerHTML={{__html: org_icon_node}} />
+          <FontAwesomeIcon icon={faChessKing} />
           <a href={ '/' + owner }>{ owner }</a>
         </h1>
       </section>
