@@ -1,4 +1,4 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
     devtool: "source-map",
@@ -18,10 +18,12 @@ module.exports = {
         sourceMapFilename: '[file].map'
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.js$/,
-                loaders: [ 'babel' ],
+                use: {
+                    loader: 'babel-loader?cacheDirectory=true'
+                },
                 exclude: /node_modules/,
                 include: __dirname
             }
