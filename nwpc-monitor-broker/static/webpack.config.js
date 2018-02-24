@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   devtool: "source-map",
@@ -10,7 +11,23 @@ module.exports = {
     repo: [
       './app/repo/index.js'
     ],
-    user: './app/user/index.js'
+    user: './app/user/index.js',
+    vendor: [
+      'react',
+      'react-dom',
+      'prop-types',
+      'react-redux',
+      'react-router',
+      'react-router-redux',
+      'redux',
+      'redux-thunk',
+      'bootstrap',
+      'classnames',
+      'popper.js',
+      'jquery',
+      '@fortawesome/react-fontawesome',
+      '@fortawesome/fontawesome-free-solid'
+    ]
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -32,5 +49,11 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'vendor.bundle.js'
+    })
+  ]
 };
