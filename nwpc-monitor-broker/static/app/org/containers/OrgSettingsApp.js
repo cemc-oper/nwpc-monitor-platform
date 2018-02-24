@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-export class OrgSettingsApp extends Component{
+export class OrgSettingsApp extends React.Component{
     componentDidMount(){
     }
 

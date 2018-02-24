@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faChessKing from '@fortawesome/fontawesome-free-solid/faChessKing'
 
-export default class OrgAppTitle extends Component{
+export default class OrgAppTitle extends React.Component{
   constructor(props) {
     super(props);
   }

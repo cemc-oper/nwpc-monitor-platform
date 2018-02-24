@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 
-export default class RepoAppStatusTab extends Component{
+export default class RepoAppStatusTab extends React.Component{
     constructor(props) {
         super(props);
     }

@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 
 /* component */
-export default class OrgRepoList extends Component {
+export default class OrgRepoList extends React.Component {
   constructor(props) {
     super(props);
   }

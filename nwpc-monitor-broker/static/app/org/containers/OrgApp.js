@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import PageHeader from '../../base/components/page_header'
 import OrgAppTitle from '../components/OrgAppTitle'
 import OrgAppNaviBar from '../components/OrgAppNaviBar'
 
-class OrgApp extends Component{
+class OrgApp extends React.Component{
     componentDidMount(){
 
     }

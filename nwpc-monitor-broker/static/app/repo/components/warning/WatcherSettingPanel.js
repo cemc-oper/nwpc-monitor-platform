@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 
 import WatcherList from './WatcherList'
 
-export default class WatcherSettingPanel extends Component{
+export default class WatcherSettingPanel extends React.Component{
     constructor(props) {
         super(props);
     }

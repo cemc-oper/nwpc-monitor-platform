@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 
 import WatchingPanel from '../../components/warning/WatchingPanel'
@@ -13,7 +14,7 @@ import {
 } from '../../actions/warn'
 
 
-export class DingTalkWarningApp extends Component{
+export class DingTalkWarningApp extends React.Component{
   constructor(props) {
     super(props);
     this.handleWatchClick = this.handleWatchClick.bind(this);

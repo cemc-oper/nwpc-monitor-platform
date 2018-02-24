@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 
-export default class RepoAppTitle extends Component{
+export default class RepoAppTitle extends React.Component{
     constructor(props) {
         super(props);
     }

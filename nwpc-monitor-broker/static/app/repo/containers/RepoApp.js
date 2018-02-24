@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import PageHeader from '../../base/components/page_header'
 import RepoAppTitle from '../components/repo_app_title'
 import RepoAppNaviBar from '../components/repo_app_navi_bar'
 
-class RepoApp extends Component{
+class RepoApp extends React.Component{
     componentDidMount(){
 
     }

@@ -1,31 +1,31 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-class UserApp extends Component{
-    componentDidMount(){
+class UserApp extends React.Component{
+  componentDidMount(){
 
-    }
+  }
 
-    render() {
-        const { params } = this.props;
-        let user = params.user;
+  render() {
+    const { params } = this.props;
+    let user = params.user;
 
-        return (
-            <div>
-                <h1>User</h1>
-                <h2>{user}</h2>
+    return (
+      <div>
+        <h1>User</h1>
+        <h2>{user}</h2>
 
-                {this.props.children}
+        {this.props.children}
 
-            </div>
-        );
-    }
+      </div>
+    );
+  }
 }
 
 
 function mapStateToProps(state){
-    return {
-    }
+  return {
+  }
 }
 
 export default connect(mapStateToProps)(UserApp)

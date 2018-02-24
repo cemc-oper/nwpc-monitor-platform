@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 
-export default class WatcherList extends Component{
+export default class WatcherList extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -67,7 +68,7 @@ export default class WatcherList extends Component{
 
     return (
       <div>
-        <ui className="list-group">
+        <ul className="list-group">
           {watcher_list.map((an_user, index) =>
             <li className="list-group-item" key={an_user.owner_name}>
               <label>
@@ -111,7 +112,7 @@ export default class WatcherList extends Component{
               关注
             </button>
           </li>
-        </ui>
+        </ul>
       </div>
     );
   }

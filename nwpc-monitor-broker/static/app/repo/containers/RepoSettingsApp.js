@@ -1,27 +1,27 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import RepoAppSettingsTab from '../components/repo_app_settings_tab'
 
-class RepoSettingsApp extends Component{
-    componentDidMount(){
+class RepoSettingsApp extends React.Component{
+  componentDidMount(){
 
-    }
+  }
 
-    render() {
-        const { params } = this.props;
-        let owner = params.owner;
-        let repo = params.repo;
+  render() {
+    const { params } = this.props;
+    let owner = params.owner;
+    let repo = params.repo;
 
-        return (
-            <RepoAppSettingsTab owner={owner} repo={repo} />
-        );
-    }
+    return (
+      <RepoAppSettingsTab owner={owner} repo={repo} />
+    );
+  }
 }
 
 function mapStateToProps(state){
-    return {
-    }
+  return {
+  }
 }
 
 export default connect(mapStateToProps)(RepoSettingsApp)

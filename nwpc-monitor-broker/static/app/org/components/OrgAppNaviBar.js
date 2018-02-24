@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
-export default class OrgAppNaviBar extends Component{
+export default class OrgAppNaviBar extends React.Component{
   constructor(props) {
     super(props);
   }

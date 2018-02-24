@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 
-export default class WarnPolicyPanel extends Component{
+export default class WarnPolicyPanel extends React.Component{
     constructor(props) {
         super(props);
     }

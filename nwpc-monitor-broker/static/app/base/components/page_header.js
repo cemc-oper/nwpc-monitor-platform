@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 
-export default class PageHeader extends Component{
+export default class PageHeader extends React.Component{
   constructor(props) {
     super(props);
   }
@@ -43,7 +44,6 @@ export default class PageHeader extends Component{
     );
   }
 }
-
 
 PageHeader.propTypes = {
   url: PropTypes.objectOf(PropTypes.string).isRequired

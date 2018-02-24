@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 
 import {fetchOrgRepos, fetchOrgMembers} from '../actions'
@@ -6,7 +7,7 @@ import {fetchOrgRepos, fetchOrgMembers} from '../actions'
 import OrgRepoList from '../components/OrgRepoList'
 import OrgMemberList from '../components/OrgMemberList'
 
-export class OrgReposApp extends Component{
+export class OrgReposApp extends React.Component{
   componentDidMount(){
     const { dispatch, params } = this.props;
     let owner = params.owner;
