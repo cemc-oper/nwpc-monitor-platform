@@ -2,10 +2,9 @@
 
 from flask import jsonify
 
-from nwpc_monitor_broker.common.database import db
-
 from nwpc_monitor_broker.api_v2 import api_v2_app
 from nwpc_monitor_broker.common import data_store
+from nwpc_monitor_broker.common.database import db
 
 from nwpc_monitor.model import Repo, Owner, User, OrgUser, DingtalkUser, DingtalkWarnWatch, Util
 
@@ -14,7 +13,7 @@ from sqlalchemy import func
 
 @api_v2_app.route('/orgs/<org>/repos')
 def get_org_repos(org):
-    query_repo_result = Repo.query_repos_by_owner_name(db.session, org)
+    query_repo_result = data_store.get_repos_by_owner_name(org)
     if 'error' in query_repo_result:
         result = {
             'app': 'nwpc_monitor_broker',
@@ -48,7 +47,7 @@ def get_org_repos(org):
 
 @api_v2_app.route('/orgs/<org>/members')
 def get_org_members(org):
-    query_member_result = Util.query_repo_members_by_org_name(db.session, org)
+    query_member_result = data_store.get_repo_members_by_org_name(org)
     if 'error' in query_member_result:
         result = {
             'app': 'nwpc_monitor_broker',

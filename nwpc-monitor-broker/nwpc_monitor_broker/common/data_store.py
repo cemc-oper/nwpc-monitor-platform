@@ -1,8 +1,9 @@
+# coding=utf-8
 import datetime
 import json
 
 from nwpc_monitor_broker.common.database import db, mongodb_client, redis_client
-from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch
+from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch, Util
 
 from nwpc_monitor.model.nwpc_takler import Commit, Tree, Blob
 
@@ -21,6 +22,12 @@ def get_owner_by_name(owner_name: str):
         return None
 
     return result['data']['owner']
+
+def get_repos_by_owner_name(owner_name: str):
+    return Repo.query_repos_by_owner_name(db.session, owner_name)
+
+def get_repo_members_by_org_name(org_name):
+    return Util.query_repo_members_by_org_name(db.session, org_name)
 
 def get_ding_talk_warn_user_list(owner: str, repo: str) -> list:
     query = db.session.query(Owner, Repo, DingtalkUser, DingtalkWarnWatch).filter(Repo.owner_id == Owner.owner_id)\
