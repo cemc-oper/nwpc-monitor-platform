@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
+import classNames from 'classnames';
+
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {faFire, faUser, faPlane} from '@fortawesome/fontawesome-free-solid';
 
 class RepoWarningApp extends React.Component{
   componentDidMount(){
@@ -35,32 +39,33 @@ class RepoWarningApp extends React.Component{
           </h3>
           <div className="row list-group">
             <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk', hash:'#warn_ding_talk_overview' }}
-                  className={ ding_talk_is_active?'list-group-item active':'list-group-item'}  >
-              <span className="glyphicon glyphicon-fire" /> 概览
+                  className={classNames({'active': ding_talk_is_active, 'list-group-item': true})}  >
+              <FontAwesomeIcon icon={faFire} size="1x" /> 概览
             </Link>
             <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk', hash:'#warn_ding_talk_warn_watching_panel' }}
                   className="list-group-item">
-              <span className="glyphicon glyphicon-user" /> 人员设置
+              <FontAwesomeIcon icon={faUser} size="1x" /> 人员设置
             </Link>
             <Link to={{ pathname: '/'+owner+'/'+repo+'/warning/ding_talk', hash:'#warn_ding_talk_warn_policy_panel' }}
                   className="list-group-item">
-              <span className="glyphicon glyphicon-plane" /> 推送策略
+              <FontAwesomeIcon icon={faPlane} size="1x" /> 推送策略
             </Link>
           </div>
           <h3 className="row">
             微信
           </h3>
           <div className="row list-group">
-            <Link to={{ pathname:'/'+owner+'/'+repo+'/warning/weixin' }} className={ weixin_is_active?'list-group-item active':'list-group-item' }>
-              <span className="glyphicon glyphicon-fire" /> 概览
+            <Link to={{ pathname:'/'+owner+'/'+repo+'/warning/weixin' }}
+              className={classNames({'active': weixin_is_active, 'list-group-item': true})}>
+              <FontAwesomeIcon icon={faFire} size="1x" /> 概览
             </Link>
             <Link to={{ pathname:'/'+owner+'/'+repo+'/warning/weixin' }}
                   className="list-group-item">
-              <span className="glyphicon glyphicon-user" /> 人员设置
+              <FontAwesomeIcon icon={faUser} size="1x" /> 人员设置
             </Link>
             <Link to={{ pathname:'/'+owner+'/'+repo+'/warning/weixin' }}
                   className="list-group-item">
-              <span className="glyphicon glyphicon-plane" /> 推送策略
+              <FontAwesomeIcon icon={faPlane} size="1x" /> 推送策略
             </Link>
           </div>
         </div>

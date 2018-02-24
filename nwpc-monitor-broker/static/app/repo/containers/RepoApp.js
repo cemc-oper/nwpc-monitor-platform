@@ -6,36 +6,36 @@ import RepoAppTitle from '../components/repo_app_title'
 import RepoAppNaviBar from '../components/repo_app_navi_bar'
 
 class RepoApp extends React.Component{
-    componentDidMount(){
+  componentDidMount(){
 
-    }
+  }
 
-    render() {
-        const { params } = this.props;
-        let owner = params.owner;
-        let repo = params.repo;
+  render() {
+    const { params } = this.props;
+    let owner = params.owner;
+    let repo = params.repo;
 
-        let url = {
-            index_page: '/'
-        };
+    let url = {
+      index_page: '/'
+    };
 
-        return (
-            <div>
-                <PageHeader url={ url }/>
+    return (
+      <div>
+        <PageHeader url={ url }/>
 
-                <RepoAppTitle owner={owner} repo={repo} />
+        <RepoAppTitle owner={owner} repo={repo} />
 
-                <RepoAppNaviBar owner={owner} repo={repo} />
+        <RepoAppNaviBar owner={owner} repo={repo} />
 
-                {this.props.children}
-            </div>
-        );
-    }
+        {this.props.children}
+      </div>
+    );
+  }
 }
 
 function mapStateToProps(state){
-    return {
-    }
+  return {
+  }
 }
 
 export default connect(mapStateToProps)(RepoApp)

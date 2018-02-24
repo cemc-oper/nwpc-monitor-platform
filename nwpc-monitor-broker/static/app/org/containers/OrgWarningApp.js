@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { Link } from 'react-router'
-import classNames from 'classnames'
+import { Link } from 'react-router';
+import classNames from 'classnames';
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import {faFire, faUser, faPlane} from '@fortawesome/fontawesome-free-solid'
-import faChessKing from "@fortawesome/fontawesome-free-solid/faChessKing";
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {faFire, faUser, faPlane} from '@fortawesome/fontawesome-free-solid';
 
 export class OrgWarningApp extends React.Component{
   componentDidMount(){
