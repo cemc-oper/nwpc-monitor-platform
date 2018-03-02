@@ -12,9 +12,43 @@ from nwpc_monitor_broker.common.workflow.sms import sms_status_message_handler
 
 
 @api_v3_app.route('/workflow/repos/<owner>/<repo>/status', methods=['POST'])
-def receive_sms_status_message(owner, repo):
+def receive_workflow_status_message(owner, repo):
     """
-    接收外部发送来的 SMS 服务器的状态，将其保存到本地缓存，并发送到外网服务器
+    receive status of workflow server, store into local cache and then post it to remote web server.
+
+    POST data
+
+    message: a JSON string. There are some different types of message:
+    sms
+    {
+        'app': 'sms_status_collector',
+        'type': 'sms_status',
+        'timestamp': current_time,
+        'data': {
+            'owner': owner,
+            'repo': repo,
+            'sms_name': sms_name,
+            'sms_user': sms_user,
+            'time': current_time,
+            'status': bunch_dict
+        }
+    }
+
+    ecflow
+    {
+        'app': 'ecflow_status_collector',
+        'type': 'ecflow_status',
+        'timestamp': current_time,
+        'data': {
+            'owner': owner,
+            'repo': repo,
+            'server_name': server_name  # should removed
+            'time': current_time,
+            'status': bunch_dict
+        }
+    }
+
+
     :return:
     """
     start_time = datetime.datetime.utcnow()
@@ -35,8 +69,18 @@ def receive_sms_status_message(owner, repo):
         }
         return jsonify(result)
 
-    message_data = message['data']
-    sms_status_message_handler(message_data)
+    message_app = message['app']
+    message_type = message['type']
+    if message_app == 'sms_status_collector':
+        message_data = message['data']
+        sms_status_message_handler(message_data)
+    else:
+        print("message app is unknown", message_app)
+        result = {
+            'status': 'error',
+            'message': 'message app is unknown ' + message_app
+        }
+        return jsonify(result)
 
     result = {
         'status': 'ok'
