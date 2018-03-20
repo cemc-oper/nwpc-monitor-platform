@@ -1,17 +1,17 @@
 # coding=utf-8
-from flask import current_app
+from nwpc_monitor_broker.main import main_app
 from nwpc_monitor_broker.common.data_store import get_owner_by_name
 
 from flask import jsonify,render_template, abort
 
 
-@current_app.route('/')
+@main_app.route('/')
 def get_index_page():
     return render_template("index.html")
 
 
-@current_app.route('/<owner>')
-@current_app.route('/orgs/<owner>/<path:path>')
+@main_app.route('/<owner>')
+@main_app.route('/orgs/<owner>/<path:path>')
 def get_owner_page(owner, path=None):
     owner_object = get_owner_by_name(owner)
 
@@ -35,12 +35,12 @@ def get_org_page(org):
     return render_template("organization.html", org=org)
 
 
-@current_app.route('/<owner>/<repo>')
-@current_app.route('/<owner>/<repo>/')
+@main_app.route('/<owner>/<repo>')
+@main_app.route('/<owner>/<repo>/')
 def get_repo_page(owner, repo):
     return render_template('repo.html', owner=owner, repo=repo)
 
 
-@current_app.route('/<no_static:owner>/<repo>/<path:path>')
+@main_app.route('/<no_static:owner>/<repo>/<path:path>')
 def get_repo_path_page(owner, repo, path):
     return render_template('repo.html', owner=owner, repo=repo, path=path)

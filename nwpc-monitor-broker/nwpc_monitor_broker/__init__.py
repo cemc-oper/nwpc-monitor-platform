@@ -47,12 +47,13 @@ def create_app(config_file_path=None):
     with app.app_context():
         import nwpc_monitor_broker.common.database
 
+        from nwpc_monitor_broker.main import main_app
+        app.register_blueprint(main_app, url_prefix="")
+
         from nwpc_monitor_broker.api_v2 import api_v2_app
         app.register_blueprint(api_v2_app, url_prefix="/api/v2")
 
         from nwpc_monitor_broker.api_v3 import api_v3_app
         app.register_blueprint(api_v3_app, url_prefix="/api/v3")
-
-        from nwpc_monitor_broker import controller
 
     return app
