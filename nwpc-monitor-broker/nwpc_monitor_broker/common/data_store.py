@@ -1,6 +1,7 @@
 # coding=utf-8
 import datetime
-import json
+#import json
+from flask import json
 
 from nwpc_monitor_broker.common.database import db, mongodb_client, redis_client
 from nwpc_monitor.model import Owner, Repo, DingtalkUser, DingtalkWarnWatch, Util

@@ -99,6 +99,7 @@ class WeixinApp(object):
             }
         :return:
         """
+        # TODO: change sms_server_name
         print('Get new error task. Pushing warning message to weixin...')
 
         auth = Auth(self.weixin_config['token'])
@@ -161,8 +162,7 @@ class WeixinApp(object):
             }
         ]
         to_user = "@all"
-        if warning_data['owner'] == "nwp_pos":
-            to_user = "lvkai"
+        #to_user = "wangdp"
         warning_post_message = {
             "touser": to_user,
             "agentid": 2,

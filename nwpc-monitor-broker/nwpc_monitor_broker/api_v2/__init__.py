@@ -8,3 +8,4 @@ import nwpc_monitor_broker.api_v2.api_org
 import nwpc_monitor_broker.api_v2.api_repo
 import nwpc_monitor_broker.api_v2.api_hpc
 import nwpc_monitor_broker.api_v2.api_nofitication
+import nwpc_monitor_broker.api_v2.api_ecflow
