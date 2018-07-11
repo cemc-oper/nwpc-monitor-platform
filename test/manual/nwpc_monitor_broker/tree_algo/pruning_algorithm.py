@@ -2,10 +2,10 @@ import datetime
 import json
 import os
 
-from nwpc_work_flow_model.sms.visitor import \
+from nwpc_workflow_model.visitor import \
     pre_order_travel_dict, pre_order_travel, NodeVisitor, ErrorStatusTaskVisitor
 
-from nwpc_work_flow_model.sms.bunch import Bunch
+from nwpc_workflow_model.sms.bunch import Bunch
 
 
 class NodeCountVisitor(NodeVisitor):

@@ -8,7 +8,7 @@ from fabric.api import run, cd, execute, env
 from celery import group
 
 from nwpc_monitor_task_scheduler.celery_server.celery import app
-from nwpc_work_flow_model.sms.sms_node import SmsNode
+from nwpc_workflow_model.sms.sms_node import SmsNode
 
 
 """

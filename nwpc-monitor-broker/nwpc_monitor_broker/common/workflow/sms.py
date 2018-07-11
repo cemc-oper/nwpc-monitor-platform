@@ -7,7 +7,7 @@ import requests
 from flask import json, current_app
 
 from nwpc_monitor_broker.common import weixin, data_store
-from nwpc_work_flow_model.sms import Bunch, ErrorStatusTaskVisitor, pre_order_travel
+from nwpc_workflow_model.sms import Bunch, ErrorStatusTaskVisitor, pre_order_travel
 
 from nwpc_monitor_broker.common.workflow.status_strategy import is_new_abort_task_found, is_new_abort_root_found
 
