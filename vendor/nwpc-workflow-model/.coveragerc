@@ -1,0 +1,7 @@
+[run]
+source = nwpc_workflow_model
+
+[report]
+omit =
+    tests/*
+    setup.py
