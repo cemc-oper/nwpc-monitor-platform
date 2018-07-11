@@ -17,8 +17,17 @@ REQUEST_POST_TIME_OUT = 20
 @api_v2_app.route('/hpc/ecflow/status', methods=['POST'])
 def receive_ecflow_status_message():
     """
-    接收外部发送来的 ECFLOW 服务器的状态，将其保存到本地缓存，并发送到外网服务器
-    :return:
+    received ecflow status message, using status message handler which saves
+    message to local cache and send message to remote server.
+
+    POST data: May be gzipped (according to content-encoding). Contents:
+        message (string): JSON string.
+            structure:
+                {
+                    data: status collector's data
+                    [error]: exists when there is an error
+                }
+    :return: jsonify result
     """
     start_time = datetime.datetime.utcnow()
 

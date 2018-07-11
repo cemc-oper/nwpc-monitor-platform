@@ -114,6 +114,26 @@ repo_list = [
         "repo_name": "nwpc_sp",
         "repo_type": "sms"
     },
+    {
+        "owner_name": "pi_nwpc_op",
+        "repo_name": "nwp_xp",
+        "repo_type": "ecflow"
+    },
+    {
+        "owner_name": "pi_nwpc_qu",
+        "repo_name": "nwp_xp",
+        "repo_type": "ecflow"
+    },
+    {
+        "owner_name": "pi_eps_nwpc_qu",
+        "repo_name": "nwp_xp",
+        "repo_type": "ecflow"
+    },
+    {
+        "owner_name": "pi_nwpc_pd",
+        "repo_name": "nwp_xp",
+        "repo_type": "ecflow"
+    },
 
 ]
 

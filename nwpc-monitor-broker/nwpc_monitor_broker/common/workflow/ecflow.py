@@ -134,50 +134,49 @@ def ecflow_status_message_handler(message_data: dict) -> None:
         data_store.save_sms_server_status_to_cache(owner, repo, ecflow_name, message_data)
 
         # 发送给外网服务器
-        # NOTE: 暂时关闭远程服务器传输
-        # website_url = current_app.config['BROKER_CONFIG']['cloud']['put']['url'].format(
-        #     owner=owner,
-        #     repo=repo
-        # )
-        # if takler_object_system_store_flag:
-        #     post_message = {
-        #         'app': 'nwpc_monitor_broker',
-        #         'event': 'post_sms_status',
-        #         'timestamp': datetime.datetime.utcnow(),
-        #         'data': {
-        #             'type': 'takler_object',
-        #             'blobs': takler_object_system_dict['blobs'],
-        #             'trees': takler_object_system_dict['trees'],
-        #             'commits': takler_object_system_dict['commits']
-        #         }
-        #     }
-        #
-        #     website_post_data = {
-        #         'message': json.dumps(post_message)
-        #     }
-        # else:
-        #     message_data['type'] = 'status'
-        #     post_message = {
-        #         'app': 'nwpc_monitor_broker',
-        #         'event': 'post_sms_status',
-        #         'timestamp': datetime.datetime.utcnow(),
-        #         'data': message_data
-        #     }
-        #     website_post_data = {
-        #         'message': json.dumps(post_message)
-        #     }
-        #
-        # print('gzip the data...')
-        # gzipped_post_data = gzip.compress(bytes(json.dumps(website_post_data), 'utf-8'))
-        # print('gzip the data...done')
-        #
-        # response = requests.post(
-        #     website_url,
-        #     data=gzipped_post_data,
-        #     headers={
-        #         'content-encoding': 'gzip'
-        #     },
-        #     timeout=REQUEST_POST_TIME_OUT
-        # )
-        # print(response)
+        website_url = current_app.config['BROKER_CONFIG']['cloud']['put']['url'].format(
+            owner=owner,
+            repo=repo
+        )
+        if takler_object_system_store_flag:
+            post_message = {
+                'app': 'nwpc_monitor_broker',
+                'event': 'post_ecflow_status',
+                'timestamp': datetime.datetime.utcnow(),
+                'data': {
+                    'type': 'takler_object',
+                    'blobs': takler_object_system_dict['blobs'],
+                    'trees': takler_object_system_dict['trees'],
+                    'commits': takler_object_system_dict['commits']
+                }
+            }
+
+            website_post_data = {
+                'message': json.dumps(post_message)
+            }
+        else:
+            message_data['type'] = 'status'
+            post_message = {
+                'app': 'nwpc_monitor_broker',
+                'event': 'post_ecflow_status',
+                'timestamp': datetime.datetime.utcnow(),
+                'data': message_data
+            }
+            website_post_data = {
+                'message': json.dumps(post_message)
+            }
+
+        print('gzip the data...')
+        gzipped_post_data = gzip.compress(bytes(json.dumps(website_post_data), 'utf-8'))
+        print('gzip the data...done')
+
+        response = requests.post(
+            website_url,
+            data=gzipped_post_data,
+            headers={
+                'content-encoding': 'gzip'
+            },
+            timeout=REQUEST_POST_TIME_OUT
+        )
+        print(response)
         return
