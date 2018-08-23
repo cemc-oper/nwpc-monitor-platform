@@ -65,7 +65,7 @@ content:
                     }
                 
                 type variable:
-                    value: {
+                    value: { 
                         expected_value: 20170523,
                         value: 20170523
                     }

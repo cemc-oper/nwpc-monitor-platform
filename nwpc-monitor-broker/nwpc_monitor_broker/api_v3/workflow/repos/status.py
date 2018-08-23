@@ -1,14 +1,13 @@
 # coding=utf-8
-
 import datetime
 import gzip
 
-import requests
 from flask import request, jsonify, json
 
 from nwpc_monitor_broker.api_v3 import api_v3_app
 
 from nwpc_monitor_broker.common.workflow.sms import sms_status_message_handler
+from nwpc_monitor_broker.common.workflow.ecflow import ecflow_status_message_handler
 
 
 @api_v3_app.route('/workflow/repos/<owner>/<repo>/status', methods=['POST'])
@@ -74,6 +73,9 @@ def receive_workflow_status_message(owner, repo):
     if message_app == 'sms_status_collector':
         message_data = message['data']
         sms_status_message_handler(message_data)
+    elif message_app == 'ecflow_status_collector':
+        message_data = message['data']
+        ecflow_status_message_handler(message_data)
     else:
         print("message app is unknown", message_app)
         result = {
