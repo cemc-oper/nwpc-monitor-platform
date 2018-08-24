@@ -4,7 +4,7 @@ import sys
 
 sys.path.append(os.path.dirname(__file__)+"/../../../")
 os.environ['MODE'] = 'develop'
-from nwpc_monitor_task_scheduler.celery_server.task import hpc
+from nwpc_monitor_task_scheduler.celery_server.task.aix import hpc
 
 
 def test_loadleveler_task():

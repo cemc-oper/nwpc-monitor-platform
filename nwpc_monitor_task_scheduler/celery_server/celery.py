@@ -15,6 +15,8 @@ app.config_from_object(celery_config)
 app.celery_config = celery_config
 app.task_config = app.celery_config.load_task_config()
 
+# from nwpc_monitor_task_scheduler.celery_server import task
+
 
 if __name__ == '__main__':
     app.start()
