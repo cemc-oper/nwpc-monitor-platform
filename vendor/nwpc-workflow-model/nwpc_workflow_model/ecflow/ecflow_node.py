@@ -1,4 +1,7 @@
+# coding: utf-8
 from .node_variable import NodeVariable, NodeVariableType
+from .node_status import NodeStatus
+from .node_type import NodeType
 
 
 class EcflowNode(object):
@@ -18,8 +21,8 @@ class EcflowNode(object):
 
         self.name = ''
         self.path = None
-        self.status = None
-        self.node_type = None
+        self.status = NodeStatus.unknown
+        self.node_type = NodeType.unknown
 
     def to_dict(self):
         inherited_variable_list = []
@@ -31,8 +34,8 @@ class EcflowNode(object):
             })
         return {
             'name': self.name,
-            'status': self.status,
-            'node_type': self.node_type,
+            'status': self.status.name,
+            'node_type': self.node_type.name,
             'variable_list': [var.to_dict() for var in self.variable_list],
             'generated_variable_list': [var.to_dict() for var in self.generated_variable_list],
             'inherited_variable_list': inherited_variable_list

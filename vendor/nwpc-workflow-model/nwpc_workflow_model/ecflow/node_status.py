@@ -10,6 +10,7 @@ class NodeStatus(Enum):
     submitted = 'submitted'
     active = 'active'
     aborted = 'aborted'
+    # the following three items are server status.
     SHUTDOWN = 'SHUTDOWN'
     HALTED = 'HALTED'
     RUNNING = 'RUNNING'
