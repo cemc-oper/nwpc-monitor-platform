@@ -17,8 +17,6 @@ LABEL maintainer="perillaroc@gmail.com"
 
 # RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
 
-RUN pip3 install pyyaml redis pymongo requests flask-sqlalchemy
-
 ENV NWPC_MONITOR_PLATFORM_BASE /srv/nwpc-monitor-platform
 ENV NWPC_MONITOR_BROKER_CONFIG /etc/nwpc-monitor-platform/nwpc-monitor-broker/config.yaml
 

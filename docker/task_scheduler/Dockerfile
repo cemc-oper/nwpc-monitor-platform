@@ -2,7 +2,7 @@ FROM nwpc/nmp-base
 
 LABEL maintainer="perillaroc@gmail.com"
 
-RUN pip3 install celery pyyaml fabric3 requests sqlalchemy click
+RUN pip3 install celery fabric3
 
 ENV NWPC_MONITOR_PLATFORM_BASE /srv/nwpc-monitor-platform
 

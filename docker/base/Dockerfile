@@ -2,7 +2,7 @@ FROM python:3
 
 LABEL maintainer="perillaroc@gmail.com"
 
-RUN pip3 install flask
+RUN pip3 install pyyaml redis pymongo requests sqlalchemy click flask flask-sqlalchemy
 
 ENV WORK_DIR /srv
 
@@ -14,7 +14,5 @@ RUN wget https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-pytho
     && python3 setup.py build \
     && python3 setup.py install \
     && rm -rf mysql-connector-python-2.1.6
-
-EXPOSE 80
 
 CMD ["bash"]
