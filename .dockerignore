@@ -1,0 +1,8 @@
+# ide and test
+.vagrant
+.cache
+.idea
+.vscode
+
+#
+dist
