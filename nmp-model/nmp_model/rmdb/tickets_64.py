@@ -2,6 +2,7 @@
 from sqlalchemy import Column, BigInteger, CHAR
 from .model import Model
 
+
 class Tickets64(Model):
     __tablename__ = "tickets_64"
 

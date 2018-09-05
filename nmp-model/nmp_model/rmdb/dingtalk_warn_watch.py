@@ -4,6 +4,7 @@ from .model import Model
 from .repo import Repo
 from .dingtalk_user import DingtalkUser
 
+
 class DingtalkWarnWatch(Model):
     __tablename__ = "dingtalk_warn_watch"
 

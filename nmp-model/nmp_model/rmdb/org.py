@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, String, Text, Index, ForeignKey
 from .model import Model
 from .owner import Owner
 
+
 class Org(Model):
     __tablename__ = "org"
 

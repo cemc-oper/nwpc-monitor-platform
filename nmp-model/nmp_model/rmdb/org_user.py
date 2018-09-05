@@ -4,6 +4,7 @@ from .model import Model
 from .org import Org
 from .user import User
 
+
 class OrgUser(Model):
     __tablename__ = "org_user"
 

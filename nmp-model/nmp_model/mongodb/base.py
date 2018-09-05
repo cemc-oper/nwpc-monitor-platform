@@ -10,14 +10,16 @@ Base class of all objects using in nwpc_takler
 """
 import datetime
 
+from mongoengine import Document, \
+    StringField, DateTimeField, GenericEmbeddedDocumentField
 
-class Base(object):
-    def __init__(self):
-        self.id = None
-        self.owner = None
-        self.repo = None
-        self.timestamp = datetime.datetime.utcnow()
-        self.data = None
+
+class Base(Document):
+    id = StringField(default=None)
+    owner = StringField(default=None)
+    repo = StringField(default=None)
+    timestamp = DateTimeField(required=True, default=datetime.datetime.utcnow)
+    data = GenericEmbeddedDocumentField(default=None)
 
     def is_valid(self):
         if self.id is None:

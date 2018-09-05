@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, String, Text, Index
 from .model import Model
 from .owner import Owner
 
+
 class Repo(Model):
     __tablename__ = "repo"
 

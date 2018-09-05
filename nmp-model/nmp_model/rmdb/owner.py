@@ -2,6 +2,7 @@
 from sqlalchemy import Column, Integer, String, Index
 from .model import Model
 
+
 class Owner(Model):
     __tablename__ = "owner"
 
