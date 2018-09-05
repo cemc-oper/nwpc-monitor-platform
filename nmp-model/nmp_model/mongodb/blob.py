@@ -73,12 +73,36 @@ content:
     ]
 }
 """
+from mongoengine import \
+    EmbeddedDocument, StringField, GenericEmbeddedDocumentField
+
 from .base import Base
 
 
+class BlobData(EmbeddedDocument):
+    type = StringField()
+    name = StringField()
+    content = GenericEmbeddedDocumentField()
+
+    meta = {
+        'allow_inheritance': True,
+    }
+
+    def to_dict(self):
+        return {
+            'type': self.type,
+            'name': self.name,
+            'content': self.content.to_dict()
+        }
+
+
 class Blob(Base):
-    def __init__(self):
-        Base.__init__(self)
+    data = BlobData()
+
+    meta = {
+        'allow_inheritance': True,
+        'collection': 'blobs'
+    }
 
     def is_valid(self):
         if not Base.is_valid(self):

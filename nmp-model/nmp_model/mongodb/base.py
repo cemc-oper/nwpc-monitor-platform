@@ -11,15 +11,19 @@ Base class of all objects using in nwpc_takler
 import datetime
 
 from mongoengine import Document, \
-    StringField, DateTimeField, GenericEmbeddedDocumentField
+    StringField, DateTimeField, GenericEmbeddedDocumentField, IntField, EmbeddedDocument
 
 
 class Base(Document):
-    id = StringField(default=None)
+    id = IntField(default=None)
     owner = StringField(default=None)
     repo = StringField(default=None)
     timestamp = DateTimeField(required=True, default=datetime.datetime.utcnow)
     data = GenericEmbeddedDocumentField(default=None)
+
+    meta = {
+        'allow_inheritance': True
+    }
 
     def is_valid(self):
         if self.id is None:
@@ -38,11 +42,15 @@ class Base(Document):
         if not self.is_valid():
             return None
 
+        data_dict = self.data
+        if isinstance(data_dict, EmbeddedDocument):
+            data_dict = data_dict.to_dict()
+
         result = {
             'id': self.id,
             'owner': self.owner,
             'repo': self.repo,
             'timestamp': self.timestamp,
-            'data': self.data
+            'data': data_dict
         }
         return result
