@@ -1,7 +1,8 @@
 # coding: utf-8
 from datetime import datetime
+from mongoengine import connect
 
-from nmp_model.mongodb.blob import BlobData
+from nmp_model.mongodb.blob import Blob
 from nmp_model.mongodb.blobs.status import StatusBlob, StatusContent, StatusBlobData
 
 
@@ -10,7 +11,7 @@ class TestStatusBlob(object):
         status_blob = StatusBlob()
 
         status_blob = StatusBlob(
-            id=1,
+            ticket_id=1,
             owner='owner',
             repo='repo',
             timestamp=datetime(2018, 9, 5, 11, 29, 0),
@@ -27,5 +28,8 @@ class TestStatusBlob(object):
             )
         )
 
-        assert status_blob.id == 1
-        # print(status_blob.to_dict())
+        connect('mongoenginetest', host='mongomock://localhost')
+        status_blob.save()
+
+        query_objects = Blob.objects(__raw__={'data._cls': 'StatusBlobData'}).all()
+        assert len(query_objects) == 1

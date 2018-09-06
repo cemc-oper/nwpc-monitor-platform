@@ -1,9 +1,6 @@
 # coding: utf-8
 from mongoengine import \
-    EmbeddedDocument, StringField, GenericEmbeddedDocumentField, \
-    DateTimeField, DictField, IntField, BooleanField, \
-    ListField, EmbeddedDocumentListField
-
+    EmbeddedDocument, DateTimeField, DictField, EmbeddedDocumentField
 
 from nmp_model.mongodb.blob import Blob, BlobData
 
@@ -22,8 +19,8 @@ class StatusContent(EmbeddedDocument):
 
 
 class StatusBlobData(BlobData):
-    content = StatusContent()
+    content = EmbeddedDocumentField(StatusContent)
 
 
 class StatusBlob(Blob):
-    data = StatusBlobData()
+    data = EmbeddedDocumentField(StatusBlobData)

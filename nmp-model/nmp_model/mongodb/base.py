@@ -15,18 +15,19 @@ from mongoengine import Document, \
 
 
 class Base(Document):
-    id = IntField(default=None)
+    ticket_id = IntField(default=None)
     owner = StringField(default=None)
     repo = StringField(default=None)
     timestamp = DateTimeField(required=True, default=datetime.datetime.utcnow)
     data = GenericEmbeddedDocumentField(default=None)
 
     meta = {
-        'allow_inheritance': True
+        'allow_inheritance': True,
+        'abstract': True
     }
 
     def is_valid(self):
-        if self.id is None:
+        if self.ticket_id is None:
             return False
         if self.owner is None:
             return False
@@ -47,7 +48,7 @@ class Base(Document):
             data_dict = data_dict.to_dict()
 
         result = {
-            'id': self.id,
+            'ticket_id': self.ticket_id,
             'owner': self.owner,
             'repo': self.repo,
             'timestamp': self.timestamp,

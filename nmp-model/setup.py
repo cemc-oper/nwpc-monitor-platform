@@ -23,5 +23,11 @@ setup(
         'mongoengine',
         'PyYAML',
         'redis',
-    ]
+    ],
+    extras_require={
+        'testing': [
+            'pytest',
+            'mongomock'
+        ]
+    }
 )

@@ -8,7 +8,7 @@ class TestBase(object):
         base_object = Base()
 
         base_object = Base(
-            id=1,
+            ticket_id=1,
             owner='owner',
             repo='repo',
             timestamp=datetime(2018, 9, 5, 11, 29, 0)
@@ -19,7 +19,7 @@ class TestBase(object):
         assert base_object.is_valid() is False
 
         base_object = Base(
-            id=1,
+            ticket_id=1,
             owner='owner',
             repo='repo',
             timestamp=datetime(2018, 9, 5, 11, 29, 0)
@@ -28,14 +28,14 @@ class TestBase(object):
 
     def test_to_dict(self):
         base_object = Base(
-            id=1,
+            ticket_id=1,
             owner='owner',
             repo='repo',
             timestamp=datetime(2018, 9, 5, 11, 29, 0)
         )
 
         base_dict = {
-            'id': 1,
+            'ticket_id': 1,
             'owner': 'owner',
             'repo': 'repo',
             'timestamp': datetime(2018, 9, 5, 11, 29, 0),
