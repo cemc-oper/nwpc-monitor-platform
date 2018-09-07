@@ -1,6 +1,17 @@
 # coding: utf-8
+"""
+type: status
+content:
+{
+    collected_time: time,
+    update_time: time,
+    status: status dict
+
+}
+"""
+
 from mongoengine import \
-    EmbeddedDocument, DateTimeField, DictField, EmbeddedDocumentField
+    EmbeddedDocument, DateTimeField, DictField, EmbeddedDocumentField, StringField
 
 from nmp_model.mongodb.blob import Blob, BlobData
 
@@ -19,6 +30,7 @@ class StatusContent(EmbeddedDocument):
 
 
 class StatusBlobData(BlobData):
+    type = StringField(default='StatusBlobData')
     content = EmbeddedDocumentField(StatusContent)
 
 

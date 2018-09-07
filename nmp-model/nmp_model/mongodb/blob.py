@@ -14,64 +14,6 @@ blob object
         }
     }
 }
-
-type: status
-content:
-{
-    collected_time: time,
-    update_time: time,
-    status: status dict
-
-}
-
-type: aborted_tasks
-content:
-{
-    status_blob_id: blob id of status object,
-    tasks: array of task status
-    [
-        {
-            path: node path,
-            name: node name,
-            status: node status
-        }
-    ]
-
-}
-
-type: unfit_nodes
-content:
-{
-    unfit_node_list: array of unfit tasks
-    [
-        {
-            node_path: node path,
-            check_list_result: array of unfit check results
-                check result:
-                common fields
-                {
-                    type: [status, variable],
-                    is_condition_fit: False,
-                    value: object
-                }
-                
-                type status:
-                    value: {
-                        expected_value: {
-                            operator: in
-                            fields: [submitted, active, complete]
-                        },
-                        value: value
-                    }
-                
-                type variable:
-                    value: { 
-                        expected_value: 20170523,
-                        value: 20170523
-                    }
-        }
-    ]
-}
 """
 from mongoengine import \
     EmbeddedDocument, StringField, GenericEmbeddedDocumentField
