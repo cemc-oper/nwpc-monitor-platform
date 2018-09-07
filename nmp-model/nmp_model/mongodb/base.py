@@ -26,6 +26,11 @@ class Base(Document):
         'abstract': True
     }
 
+    def set_data(self, data):
+        if not isinstance(data, EmbeddedDocument):
+            raise TypeError("data must be EmbeddedDocument.")
+        self.data = data
+
     def is_valid(self):
         if self.ticket_id is None:
             return False
@@ -35,17 +40,19 @@ class Base(Document):
             return False
         return True
 
-    def set_data(self, data):
-        self.data = data
-        return True
-
     def to_dict(self):
         if not self.is_valid():
             return None
 
-        data_dict = self.data
-        if isinstance(data_dict, EmbeddedDocument):
-            data_dict = data_dict.to_dict()
+        if self.data is None:
+            data_dict = None
+        elif hasattr(self.data, 'to_dict'):
+            data_dict = self.data.to_dict()
+        else:
+            try:
+                data_dict = dict(self.data)
+            except ValueError as e:
+                data_dict = self.data
 
         result = {
             'ticket_id': self.ticket_id,

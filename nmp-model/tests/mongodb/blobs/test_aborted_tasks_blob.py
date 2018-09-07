@@ -6,6 +6,7 @@ from nmp_model.mongodb.blobs.aborted_tasks import \
 
 
 class TestStatusBlob(object):
+
     def test_construct(self):
         blob = AbortedTasksBlob()
 
