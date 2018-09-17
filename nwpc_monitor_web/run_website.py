@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-run a simple nwpc_monitor_broker server.
+run a simple nmp_broker server.
 
 Set environment variable MODE to use different config files or use -m/--mode argument to set on command line.
 
