@@ -1,3 +1,4 @@
+# coding: utf-8
 """
 tree object
 
@@ -18,8 +19,7 @@ tree object
     }
 }
 """
-from datetime import datetime
-from mongoengine import EmbeddedDocument, EmbeddedDocumentField, EmbeddedDocumentListField, StringField, IntField, DateTimeField
+from mongoengine import EmbeddedDocument, EmbeddedDocumentListField, StringField, IntField
 
 from .base import Base
 

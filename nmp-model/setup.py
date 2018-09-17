@@ -6,7 +6,7 @@ setup(
 
     version='4.0',
 
-    description='A data model for NMP.',
+    description='A data model for NMP by NWPC.',
     long_description=__doc__,
 
     packages=['nmp_model'],

@@ -1,11 +1,13 @@
+# coding: utf-8
 """
-Base class of all objects using in nwpc_takler
+Base class of all objects using in nmp_model.mongodb
 
 {
     id: id,
     owner: owner,
     repo: repo,
     timestamp: datetime
+    data: some kind of data
 }
 """
 import datetime
