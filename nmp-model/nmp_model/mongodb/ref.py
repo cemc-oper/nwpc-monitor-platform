@@ -13,30 +13,31 @@ ref object
     }
 }
 """
+from mongoengine import EmbeddedDocument, EmbeddedDocumentField, StringField, IntField
+
 from .base import Base
 
 
-class Ref(Base):
-    def __init__(self):
-        Base.__init__(self)
+class RefData(EmbeddedDocument):
+    key = StringField()
+    type = StringField(choices=['commit', 'tree', 'blob'])
+    id = IntField()
 
-    def is_valid(self):
-        if not Base.is_valid(self):
-            return False
-        return True
+    def to_dict(self):
+        return {
+            'key': self.key,
+            'type': self.type,
+            'id': self.id
+        }
+
+
+class Ref(Base):
+    data = EmbeddedDocumentField(RefData)
 
     def set_data(self, data):
-        # check data
-        if type(data) != dict:
-            return False
-        if 'key' not in data:
-            return False
-        if 'type' not in data:
-            return False
-        if 'id' not in data:
-            return False
+        if not isinstance(data, RefData):
+            raise TypeError("data must be RefData")
 
-        # add data
         return Base.set_data(self, data)
 
     def to_dict(self):

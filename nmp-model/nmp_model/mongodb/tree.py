@@ -18,14 +18,16 @@ tree object
     }
 }
 """
+from datetime import datetime
+from mongoengine import EmbeddedDocument, EmbeddedDocumentField, EmbeddedDocumentListField, StringField, IntField, DateTimeField
+
 from .base import Base
 
 
-class TreeNode(object):
-    def __init__(self):
-        self.type = None
-        self.name = None
-        self.blob_id = None
+class TreeNode(EmbeddedDocument):
+    type = StringField(choices=["status", "aborted_tasks"])
+    name = StringField()
+    blob_id = IntField()
 
     def to_dict(self):
         result = {
@@ -36,23 +38,22 @@ class TreeNode(object):
         return result
 
 
-class Tree(Base):
-    def __init__(self):
-        Base.__init__(self)
+class TreeData(EmbeddedDocument):
+    nodes = EmbeddedDocumentListField(TreeNode)
 
-    def is_valid(self):
-        if not Base.is_valid(self):
-            return False
-        return True
+    def to_dict(self):
+        return {
+            'nodes': [node.to_dict() for node in self.nodes]
+        }
+
+
+class Tree(Base):
+    data = TreeData()
 
     def set_data(self, data):
-        # check data
-        if type(data) != dict:
-            return False
-        if 'nodes' not in data:
-            return False
+        if not isinstance(data, TreeData):
+            raise TypeError("data must be TreeData")
 
-        # add data
         return Base.set_data(self, data)
 
     def to_dict(self):
