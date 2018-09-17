@@ -14,12 +14,29 @@ commit object
     }
 }
 """
+from datetime import datetime
+from mongoengine import EmbeddedDocument, EmbeddedDocumentField, StringField, IntField, DateTimeField
+
 from .base import Base
 
 
+class CommitData(EmbeddedDocument):
+    committer = StringField()
+    type = StringField(choices=['status', 'task_check'])
+    tree_id = IntField()
+    committed_time = DateTimeField(default=datetime.utcnow())
+
+    def to_dict(self):
+        return {
+            'committer': self.committer,
+            'type': self.type,
+            'tree_id': self.tree_id,
+            'committed_time': self.committed_time
+        }
+
+
 class Commit(Base):
-    def __init__(self):
-        Base.__init__(self)
+    data = EmbeddedDocumentField(CommitData)
 
     def is_valid(self):
         if not Base.is_valid(self):
@@ -27,16 +44,9 @@ class Commit(Base):
         return True
 
     def set_data(self, data):
-        # check data
-        if type(data) != dict:
-            return False
-        if 'committer' not in data:
-            return False
-        if 'type' not in data:
-            return False
-
-        # add data
-        return Base.set_data(self, data)
+        if not isinstance(data, CommitData):
+            raise TypeError("data must be CommitData")
+        Base.set_data(self, data)
 
     def to_dict(self):
         return Base.to_dict(self)
