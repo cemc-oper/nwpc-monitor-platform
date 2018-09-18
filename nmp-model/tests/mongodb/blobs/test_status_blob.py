@@ -11,6 +11,7 @@ class TestStatusContent(object):
         status_content = StatusContent()
 
         status_content = StatusContent(
+            server_name='nwpc_op',
             collected_time=datetime(2018, 9, 7, 10, 10, 12),
             update_time=datetime(2018, 9, 7, 10, 18, 12),
             status={
@@ -20,6 +21,7 @@ class TestStatusContent(object):
 
     def test_to_dict(self):
         status_content = StatusContent(
+            server_name='nwpc_op',
             collected_time=datetime(2018, 9, 7, 10, 10, 12),
             update_time=datetime(2018, 9, 7, 10, 18, 12),
             status={
@@ -28,6 +30,7 @@ class TestStatusContent(object):
         )
 
         status_content_dict = {
+            'server_name': 'nwpc_op',
             'collected_time': datetime(2018, 9, 7, 10, 10, 12),
             'update_time': datetime(2018, 9, 7, 10, 18, 12),
             'status': {
@@ -50,6 +53,7 @@ class TestStatusBlob(object):
             data=StatusBlobData(
                 name='sms_server_status',
                 content=StatusContent(
+                    server_name='nwpc_op',
                     collected_time=datetime.utcnow(),
                     update_time=datetime.utcnow(),
                     status={
@@ -69,6 +73,7 @@ class TestStatusBlob(object):
             data=StatusBlobData(
                 name='sms_server_status',
                 content=StatusContent(
+                    server_name='nwpc_op',
                     collected_time=datetime(2018, 9, 7, 10, 10, 12),
                     update_time=datetime(2018, 9, 7, 10, 18, 12),
                     status={
@@ -87,6 +92,7 @@ class TestStatusBlob(object):
                 'name': 'sms_server_status',
                 'type': 'StatusBlobData',
                 'content': {
+                    'server_name': 'nwpc_op',
                     'collected_time': datetime(2018, 9, 7, 10, 10, 12),
                     'update_time': datetime(2018, 9, 7, 10, 18, 12),
                     'status': {
@@ -106,6 +112,7 @@ class TestStatusBlob(object):
             data=StatusBlobData(
                 name='sms_server_status',
                 content=StatusContent(
+                    server_name='nwpc_op',
                     collected_time=datetime.utcnow(),
                     update_time=datetime.utcnow(),
                     status={
