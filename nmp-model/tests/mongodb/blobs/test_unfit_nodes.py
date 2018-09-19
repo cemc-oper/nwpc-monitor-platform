@@ -11,6 +11,14 @@ class TestUnfitNodesContent(object):
         content = UnfitNodesContent()
 
         content = UnfitNodesContent(
+            name="meso post 00H",
+            trigger=[
+                {
+                    'type': 'time',
+                    'time': '03:31:00',
+                }
+            ],
+            check_time=datetime(2018, 9, 19, 15, 7, 0),
             unfit_nodes=[
                 UnfitNode(
                     node_path='/f1/t1',
@@ -41,6 +49,14 @@ class TestUnfitNodesContent(object):
 
     def test_to_dict(self):
         content = UnfitNodesContent(
+            name="meso post 00H",
+            trigger=[
+                {
+                    'type': 'time',
+                    'time': '03:31:00',
+                }
+            ],
+            check_time=datetime(2018, 9, 19, 15, 7, 0),
             unfit_nodes=[
                 UnfitNode(
                     node_path='/f1/t1',
@@ -69,6 +85,14 @@ class TestUnfitNodesContent(object):
         )
 
         content_dict = {
+            'name': "meso post 00H",
+            'trigger': [
+                {
+                    'type': 'time',
+                    'time': '03:31:00',
+                }
+            ],
+            'check_time': datetime(2018, 9, 19, 15, 7, 0),
             'unfit_nodes': [
                 {
                     'node_path': '/f1/t1',
@@ -103,8 +127,16 @@ class TestUnfitNodeBlob(object):
         blob = UnfitNodesBlob()
 
         blob_data = UnfitNodesBlobData(
-            name='sms_server_aborted_tasks',
+            name='sms_check_task_unfit_nodes',
             content=UnfitNodesContent(
+                name="meso post 00H",
+                trigger=[
+                    {
+                        'type': 'time',
+                        'time': '03:31:00',
+                    }
+                ],
+                check_time=datetime(2018, 9, 19, 15, 7, 0),
                 unfit_nodes=[
                     UnfitNode(
                         node_path='/f1/t1',
@@ -146,8 +178,16 @@ class TestUnfitNodeBlob(object):
 
     def test_save(self):
         blob_data = UnfitNodesBlobData(
-            name='sms_server_aborted_tasks',
+            name='sms_check_task_unfit_nodes',
             content=UnfitNodesContent(
+                name="meso post 00H",
+                trigger=[
+                    {
+                        'type': 'time',
+                        'time': '03:31:00',
+                    }
+                ],
+                check_time=datetime(2018, 9, 19, 15, 7, 0),
                 unfit_nodes=[
                     UnfitNode(
                         node_path='/f1/t1',

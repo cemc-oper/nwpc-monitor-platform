@@ -36,7 +36,7 @@ content:
 """
 from mongoengine import \
     EmbeddedDocument, StringField, DictField, BooleanField, EmbeddedDocumentListField, \
-    EmbeddedDocumentField, GenericEmbeddedDocumentField
+    EmbeddedDocumentField, DateTimeField, ListField
 
 from nmp_model.mongodb.blob import Blob, BlobData
 
@@ -94,16 +94,29 @@ class UnfitNode(EmbeddedDocument):
 
 
 class UnfitNodesContent(EmbeddedDocument):
+    name = StringField()
+    trigger = ListField(DictField())
+    check_time = DateTimeField()
     unfit_nodes = EmbeddedDocumentListField(UnfitNode)
 
     def to_dict(self):
         return {
+            'name': self.name,
+            'trigger': self.trigger,
+            'check_time': self.check_time,
             'unfit_nodes': [unfit_node.to_dict() for unfit_node in self.unfit_nodes]
         }
 
 
 class UnfitNodesBlobData(BlobData):
+    name = StringField()
     content = EmbeddedDocumentField(UnfitNodesContent)
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'content': self.content.to_dict()
+        }
 
 
 class UnfitNodesBlob(Blob):

@@ -34,6 +34,9 @@ class RefData(EmbeddedDocument):
 
 class Ref(Base):
     data = EmbeddedDocumentField(RefData)
+    meta = {
+        'collection': 'refs'
+    }
 
     def set_data(self, data):
         if not isinstance(data, RefData):

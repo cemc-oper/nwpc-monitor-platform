@@ -39,6 +39,10 @@ class CommitData(EmbeddedDocument):
 class Commit(Base):
     data = EmbeddedDocumentField(CommitData)
 
+    meta = {
+        'collection': 'commits'
+    }
+
     def is_valid(self):
         if not Base.is_valid(self):
             return False

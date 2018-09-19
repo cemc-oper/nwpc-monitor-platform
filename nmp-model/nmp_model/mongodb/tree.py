@@ -25,7 +25,7 @@ from .base import Base
 
 
 class TreeNode(EmbeddedDocument):
-    type = StringField(choices=["status", "aborted_tasks"])
+    type = StringField(choices=["status", "aborted_tasks", "unfit_tasks"])
     name = StringField()
     blob_ticket_id = IntField()
 
@@ -40,6 +40,10 @@ class TreeNode(EmbeddedDocument):
 
 class TreeData(EmbeddedDocument):
     nodes = EmbeddedDocumentListField(TreeNode)
+
+    meta = {
+        'collection': 'trees'
+    }
 
     def to_dict(self):
         return {
