@@ -15,8 +15,9 @@ content:
 
 }
 """
+import datetime
 from mongoengine import \
-    EmbeddedDocument, StringField, IntField, EmbeddedDocumentListField, EmbeddedDocumentField
+    EmbeddedDocument, StringField, IntField, EmbeddedDocumentListField, EmbeddedDocumentField, DateTimeField
 
 from nmp_model.mongodb.blob import Blob, BlobData
 
@@ -36,11 +37,15 @@ class TaskStatusField(EmbeddedDocument):
 
 class AbortedTasksContent(EmbeddedDocument):
     status_blob_id = IntField()
+    server_name = StringField()
+    collected_time = DateTimeField()
     tasks = EmbeddedDocumentListField(TaskStatusField)
 
     def to_dict(self):
         return {
             'status_blob_id': self.status_blob_id,
+            'server_name': self.server_name,
+            'collected_time': self.collected_time,
             'tasks': [task.to_dict() for task in self.tasks]
         }
 

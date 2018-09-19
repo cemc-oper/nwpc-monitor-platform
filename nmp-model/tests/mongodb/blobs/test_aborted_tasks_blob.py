@@ -12,6 +12,8 @@ class TestAbortedTasksContent(object):
 
         content = AbortedTasksContent(
             status_blob_id=2,
+            server_name='nwpc_op',
+            collected_time=datetime(2018, 9, 19, 11, 4, 0),
             tasks=[
                 TaskStatusField(
                     path='/f1/t1',
@@ -30,6 +32,8 @@ class TestAbortedTasksContent(object):
     def test_to_dict(self):
         content = AbortedTasksContent(
             status_blob_id=2,
+            server_name='nwpc_op',
+            collected_time=datetime(2018, 9, 19, 11, 4, 0),
             tasks=[
                 TaskStatusField(
                     path='/f1/t1',
@@ -46,6 +50,8 @@ class TestAbortedTasksContent(object):
 
         content_dict = {
             'status_blob_id': 2,
+            'server_name': 'nwpc_op',
+            'collected_time': datetime(2018, 9, 19, 11, 4, 0),
             'tasks': [
                 {
                     'path': '/f1/t1',
@@ -72,6 +78,8 @@ class TestAbortedTasksBlob(object):
             name='sms_server_aborted_tasks',
             content=AbortedTasksContent(
                 status_blob_id=2,
+                server_name='nwpc_op',
+                collected_time=datetime(2018, 9, 19, 11, 4, 0),
                 tasks=[
                     TaskStatusField(
                         path='/f1/t1',
@@ -102,6 +110,8 @@ class TestAbortedTasksBlob(object):
             name='sms_server_aborted_tasks',
             content=AbortedTasksContent(
                 status_blob_id=2,
+                server_name='nwpc_op',
+                collected_time=datetime(2018, 9, 19, 11, 4, 0),
                 tasks=[
                     TaskStatusField(
                         path='/f1/t1',
