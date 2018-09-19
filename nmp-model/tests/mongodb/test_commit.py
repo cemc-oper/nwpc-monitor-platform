@@ -13,7 +13,7 @@ class TestCommitData(object):
         commit_data = CommitData(
             committer='committer',
             type='status',
-            tree_id=2,
+            tree_ticket_id=2,
             committed_time=datetime(2018, 9, 7, 16, 36, 0)
         )
 
@@ -23,14 +23,14 @@ class TestCommitData(object):
         commit_data = CommitData(
             committer='committer',
             type='status',
-            tree_id=2,
+            tree_ticket_id=2,
             committed_time=datetime(2018, 9, 7, 16, 36, 0)
         )
 
         commit_data_dict = {
             'committer': 'committer',
             'type': 'status',
-            'tree_id': 2,
+            'tree_ticket_id': 2,
             'committed_time': datetime(2018, 9, 7, 16, 36, 0)
         }
 
@@ -49,7 +49,7 @@ class TestCommit(object):
             data=CommitData(
                 committer='committer',
                 type='status',
-                tree_id=2,
+                tree_ticket_id=2,
                 committed_time=datetime(2018, 9, 7, 16, 36, 0)
             )
         )
@@ -65,7 +65,7 @@ class TestCommit(object):
         commit_data = CommitData(
             committer='committer',
             type='status',
-            tree_id=2,
+            tree_ticket_id=2,
             committed_time=datetime(2018, 9, 7, 16, 36, 0)
         )
 
@@ -84,7 +84,7 @@ class TestCommit(object):
             data=CommitData(
                 committer='committer',
                 type='status',
-                tree_id=2,
+                tree_ticket_id=2,
                 committed_time=datetime(2018, 9, 7, 16, 36, 0)
             )
         )
@@ -97,7 +97,7 @@ class TestCommit(object):
             'data': {
                 'committer': 'committer',
                 'type': 'status',
-                'tree_id': 2,
+                'tree_ticket_id': 2,
                 'committed_time': datetime(2018, 9, 7, 16, 36, 0)
             }
         }

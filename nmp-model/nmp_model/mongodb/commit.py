@@ -10,7 +10,7 @@ commit object
     data: {
         committer: committer name,
         type: commit type, [ status, task_check, ... ],
-        tree_id: tree_id,
+        tree_ticket_id: tree_ticket_id,
         committed_time: datetime
     }
 }
@@ -24,14 +24,14 @@ from .base import Base
 class CommitData(EmbeddedDocument):
     committer = StringField()
     type = StringField(choices=['status', 'task_check'])
-    tree_id = IntField()
+    tree_ticket_id = IntField()
     committed_time = DateTimeField(default=datetime.utcnow())
 
     def to_dict(self):
         return {
             'committer': self.committer,
             'type': self.type,
-            'tree_id': self.tree_id,
+            'tree_ticket_id': self.tree_ticket_id,
             'committed_time': self.committed_time
         }
 

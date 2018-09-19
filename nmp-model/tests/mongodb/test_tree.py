@@ -13,32 +13,32 @@ class TestTreeNode(object):
         tree_node = TreeNode(
             type="status",
             name="sms_status_tree",
-            blob_id=1
+            blob_ticket_id=1
         )
 
         tree_node = TreeNode(
             type="aborted_tasks",
             name="sms_aborted_tasks_tree",
-            blob_id=2
+            blob_ticket_id=2
         )
         #
         # tree_node = TreeNode(
         #     type="not_existed_type",
         #     name="sms_aborted_tasks_tree",
-        #     blob_id=3
+        #     blob_ticket_id=3
         # )
 
     def test_to_dict(self):
         tree_node = TreeNode(
             type="status",
             name="sms_status_tree",
-            blob_id=1
+            blob_ticket_id=1
         )
 
         tree_node_dict = {
             'type': 'status',
             'name': 'sms_status_tree',
-            'blob_id': 1
+            'blob_ticket_id': 1
         }
 
         assert tree_node.to_dict() == tree_node_dict
@@ -53,12 +53,12 @@ class TestTreeData(object):
                 TreeNode(
                     type="status",
                     name="sms_status_tree",
-                    blob_id=1
+                    blob_ticket_id=1
                 ),
                 TreeNode(
                     type="aborted_tasks",
                     name="sms_aborted_tasks_tree",
-                    blob_id=2
+                    blob_ticket_id=2
                 )
             ]
         )
@@ -69,12 +69,12 @@ class TestTreeData(object):
                 TreeNode(
                     type="status",
                     name="sms_status_tree",
-                    blob_id=1
+                    blob_ticket_id=1
                 ),
                 TreeNode(
                     type="aborted_tasks",
                     name="sms_aborted_tasks_tree",
-                    blob_id=2
+                    blob_ticket_id=2
                 )
             ]
         )
@@ -84,12 +84,12 @@ class TestTreeData(object):
                 {
                     'type': 'status',
                     'name': 'sms_status_tree',
-                    'blob_id': 1
+                    'blob_ticket_id': 1
                 },
                 {
                     'type': 'aborted_tasks',
                     'name': 'sms_aborted_tasks_tree',
-                    'blob_id': 2
+                    'blob_ticket_id': 2
                 }
             ]
         }
@@ -111,12 +111,12 @@ class TestTree(object):
                     TreeNode(
                         type="status",
                         name="sms_status_tree",
-                        blob_id=1
+                        blob_ticket_id=1
                     ),
                     TreeNode(
                         type="aborted_tasks",
                         name="sms_aborted_tasks_tree",
-                        blob_id=2
+                        blob_ticket_id=2
                     )
                 ]
             )
@@ -135,12 +135,12 @@ class TestTree(object):
                 TreeNode(
                     type="status",
                     name="sms_status_tree",
-                    blob_id=1
+                    blob_ticket_id=1
                 ),
                 TreeNode(
                     type="aborted_tasks",
                     name="sms_aborted_tasks_tree",
-                    blob_id=2
+                    blob_ticket_id=2
                 )
             ]
         )
@@ -162,12 +162,12 @@ class TestTree(object):
                     TreeNode(
                         type="status",
                         name="sms_status_tree",
-                        blob_id=1
+                        blob_ticket_id=1
                     ),
                     TreeNode(
                         type="aborted_tasks",
                         name="sms_aborted_tasks_tree",
-                        blob_id=2
+                        blob_ticket_id=2
                     )
                 ]
             )
@@ -183,12 +183,12 @@ class TestTree(object):
                     {
                         'type': 'status',
                         'name': 'sms_status_tree',
-                        'blob_id': 1
+                        'blob_ticket_id': 1
                     },
                     {
                         'type': 'aborted_tasks',
                         'name': 'sms_aborted_tasks_tree',
-                        'blob_id': 2
+                        'blob_ticket_id': 2
                     }
                 ]
             }

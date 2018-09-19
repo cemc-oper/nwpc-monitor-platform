@@ -13,7 +13,7 @@ tree object
                 {
                     type: type, [ status, aborted_tasks ],
                     name: name,
-                    blob_id: id
+                    blob_ticket_id: id
                 }
             ]
     }
@@ -27,13 +27,13 @@ from .base import Base
 class TreeNode(EmbeddedDocument):
     type = StringField(choices=["status", "aborted_tasks"])
     name = StringField()
-    blob_id = IntField()
+    blob_ticket_id = IntField()
 
     def to_dict(self):
         result = {
             'type': self.type,
             'name': self.name,
-            'blob_id': self.blob_id
+            'blob_ticket_id': self.blob_ticket_id
         }
         return result
 

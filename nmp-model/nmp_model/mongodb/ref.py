@@ -22,13 +22,13 @@ from .base import Base
 class RefData(EmbeddedDocument):
     key = StringField()
     type = StringField(choices=['commit', 'tree', 'blob'])
-    id = IntField()
+    ticket_id = IntField()
 
     def to_dict(self):
         return {
             'key': self.key,
             'type': self.type,
-            'id': self.id
+            'ticket_id': self.ticket_id
         }
 
 

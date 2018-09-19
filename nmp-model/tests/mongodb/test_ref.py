@@ -12,32 +12,32 @@ class TestRefData(object):
         ref_data = RefData(
             key='v0.1',
             type='tree',
-            id='2'
+            ticket_id='2'
         )
 
         ref_data = RefData(
             key='v0.1',
             type='blob',
-            id='2'
+            ticket_id='2'
         )
 
         ref_data = RefData(
             key='v0.1',
             type='commit',
-            id='2'
+            ticket_id='2'
         )
 
     def test_to_dict(self):
         ref_data = RefData(
             key='v0.1',
             type='tree',
-            id='2'
+            ticket_id='2'
         )
 
         ref_data_dict = {
             'key': 'v0.1',
             'type': 'tree',
-            'id': 2
+            'ticket_id': 2
         }
 
         assert ref_data.to_dict() == ref_data_dict
@@ -55,7 +55,7 @@ class TestRef(object):
             data=RefData(
                 key='v0.1',
                 type='tree',
-                id='2'
+                ticket_id='2'
             )
         )
 
@@ -70,7 +70,7 @@ class TestRef(object):
         ref_data = RefData(
             key='v0.1',
             type='tree',
-            id='2'
+            ticket_id='2'
         )
 
         ref.set_data(ref_data)
@@ -89,7 +89,7 @@ class TestRef(object):
             data=RefData(
                 key='v0.1',
                 type='tree',
-                id='2'
+                ticket_id='2'
             )
         )
 
@@ -101,7 +101,7 @@ class TestRef(object):
             'data': {
                 'key': 'v0.1',
                 'type': 'tree',
-                'id': 2
+                'ticket_id': 2
             }
         }
 

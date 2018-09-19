@@ -3,7 +3,7 @@
 type: aborted_tasks
 content:
 {
-    status_blob_id: blob id of status object,
+    status_blob_ticket_id: blob id of status object,
     tasks: array of task status
     [
         {
@@ -36,14 +36,14 @@ class TaskStatusField(EmbeddedDocument):
 
 
 class AbortedTasksContent(EmbeddedDocument):
-    status_blob_id = IntField()
+    status_blob_ticket_id = IntField()
     server_name = StringField()
     collected_time = DateTimeField()
     tasks = EmbeddedDocumentListField(TaskStatusField)
 
     def to_dict(self):
         return {
-            'status_blob_id': self.status_blob_id,
+            'status_blob_ticket_id': self.status_blob_ticket_id,
             'server_name': self.server_name,
             'collected_time': self.collected_time,
             'tasks': [task.to_dict() for task in self.tasks]
