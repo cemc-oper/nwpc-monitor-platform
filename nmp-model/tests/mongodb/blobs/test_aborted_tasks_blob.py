@@ -3,7 +3,7 @@ from datetime import datetime
 from mongoengine import connect
 
 from nmp_model.mongodb.blobs.aborted_tasks import \
-    AbortedTasksBlob, AbortedTasksBlobData, AbortedTasksContent, TaskStatusField
+    AbortedTasksBlob, AbortedTasksBlobData, AbortedTasksContent
 
 
 class TestAbortedTasksContent(object):
@@ -15,16 +15,16 @@ class TestAbortedTasksContent(object):
             server_name='nwpc_op',
             collected_time=datetime(2018, 9, 19, 11, 4, 0),
             tasks=[
-                TaskStatusField(
-                    path='/f1/t1',
-                    name='t1',
-                    status='aborted'
-                ),
-                TaskStatusField(
-                    path='/f2/t2',
-                    name='t2',
-                    status='aborted'
-                ),
+                {
+                    'path': '/f1/t1',
+                    'name': 't1',
+                    'status': 'aborted'
+                },
+                {
+                    'path': '/f2/t2',
+                    'name': 't2',
+                    'status': 'aborted'
+                },
             ]
         )
         assert len(content.tasks) == 2
@@ -35,16 +35,16 @@ class TestAbortedTasksContent(object):
             server_name='nwpc_op',
             collected_time=datetime(2018, 9, 19, 11, 4, 0),
             tasks=[
-                TaskStatusField(
-                    path='/f1/t1',
-                    name='t1',
-                    status='aborted'
-                ),
-                TaskStatusField(
-                    path='/f2/t2',
-                    name='t2',
-                    status='aborted'
-                ),
+                {
+                    'path': '/f1/t1',
+                    'name': 't1',
+                    'status': 'aborted'
+                },
+                {
+                    'path': '/f2/t2',
+                    'name': 't2',
+                    'status': 'aborted'
+                },
             ]
         )
 
@@ -81,16 +81,16 @@ class TestAbortedTasksBlob(object):
                 server_name='nwpc_op',
                 collected_time=datetime(2018, 9, 19, 11, 4, 0),
                 tasks=[
-                    TaskStatusField(
-                        path='/f1/t1',
-                        name='t1',
-                        status='aborted'
-                    ),
-                    TaskStatusField(
-                        path='/f2/t2',
-                        name='t2',
-                        status='aborted'
-                    ),
+                    {
+                        'path': '/f1/t1',
+                        'name': 't1',
+                        'status': 'aborted'
+                    },
+                    {
+                        'path': '/f2/t2',
+                        'name': 't2',
+                        'status': 'aborted'
+                    },
                 ]
             )
         )
@@ -113,16 +113,16 @@ class TestAbortedTasksBlob(object):
                 server_name='nwpc_op',
                 collected_time=datetime(2018, 9, 19, 11, 4, 0),
                 tasks=[
-                    TaskStatusField(
-                        path='/f1/t1',
-                        name='t1',
-                        status='aborted'
-                    ),
-                    TaskStatusField(
-                        path='/f2/t2',
-                        name='t2',
-                        status='aborted'
-                    ),
+                    {
+                        'path': '/f1/t1',
+                        'name': 't1',
+                        'status': 'aborted'
+                    },
+                    {
+                        'path': '/f2/t2',
+                        'name': 't2',
+                        'status': 'aborted'
+                    },
                 ]
             )
         )
