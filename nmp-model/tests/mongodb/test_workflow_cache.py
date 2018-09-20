@@ -1,14 +1,14 @@
 # coding: utf-8
 from datetime import datetime
 
-from nmp_model.mongodb.workload_cache import WorkloadCacheData, WorkloadCache
+from nmp_model.mongodb.workflow_cache import WorkflowCacheData, WorkflowCache
 
 
-class TestWorkloadCacheData(object):
+class TestWorkflowCacheData(object):
     def test_construction(self):
-        data = WorkloadCacheData()
+        data = WorkflowCacheData()
 
-        data = WorkloadCacheData(
+        data = WorkflowCacheData(
             server_name='nwpc_op',
             collected_time=datetime(2018, 9, 20, 9, 14, 0),
             update_time=datetime(2018, 9, 20, 9, 15, 0),
@@ -20,7 +20,7 @@ class TestWorkloadCacheData(object):
         )
 
     def test_to_dict(self):
-        data = WorkloadCacheData(
+        data = WorkflowCacheData(
             server_name='nwpc_op',
             collected_time=datetime(2018, 9, 20, 9, 14, 0),
             update_time=datetime(2018, 9, 20, 9, 15, 0),
@@ -45,16 +45,16 @@ class TestWorkloadCacheData(object):
         assert data.to_dict() == data_dict
 
 
-class TestWorkloadCache(object):
+class TestWorkflowCache(object):
     def test_construction(self):
-        cache = WorkloadCache()
+        cache = WorkflowCache()
 
-        cache = WorkloadCache(
+        cache = WorkflowCache(
             ticket_id=1,
             owner='my',
             repo='my_repo',
             timestamp=datetime(2018, 9, 20, 9, 17, 0),
-            data=WorkloadCacheData(
+            data=WorkflowCacheData(
                 server_name='nwpc_op',
                 collected_time=datetime(2018, 9, 20, 9, 14, 0),
                 update_time=datetime(2018, 9, 20, 9, 15, 0),
@@ -67,12 +67,12 @@ class TestWorkloadCache(object):
         )
 
     def test_to_json(self):
-        cache = WorkloadCache(
+        cache = WorkflowCache(
             ticket_id=1,
             owner='my',
             repo='my_repo',
             timestamp=datetime(2018, 9, 20, 9, 17, 0),
-            data=WorkloadCacheData(
+            data=WorkflowCacheData(
                 server_name='nwpc_op',
                 collected_time=datetime(2018, 9, 20, 9, 14, 0),
                 update_time=datetime(2018, 9, 20, 9, 15, 0),

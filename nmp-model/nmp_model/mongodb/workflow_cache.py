@@ -5,7 +5,7 @@ from mongoengine import StringField, DictField, DateTimeField, EmbeddedDocumentF
 from .base import Base
 
 
-class WorkloadCacheData(EmbeddedDocument):
+class WorkflowCacheData(EmbeddedDocument):
     server_name = StringField()
     collected_time = DateTimeField()
     update_time = DateTimeField()
@@ -20,8 +20,8 @@ class WorkloadCacheData(EmbeddedDocument):
         }
 
 
-class WorkloadCache(Base):
-    data = EmbeddedDocumentField(WorkloadCacheData)
+class WorkflowCache(Base):
+    data = EmbeddedDocumentField(WorkflowCacheData)
 
     meta = {
         'allow_inheritance': True,

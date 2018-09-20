@@ -333,7 +333,7 @@ def get_repo_aborted_tasks(owner, repo, aborted_id):
     aborted_tasks_content = {
         'update_time': blob_content['update_time'],
         'collected_time': blob_content['collected_time'],
-        'status_blob_id': blob_content['status_blob_id'],
+        'status_blob_id': blob_content['status_blob_ticket_id'],
         'tasks': blob_content['tasks']
     }
 
