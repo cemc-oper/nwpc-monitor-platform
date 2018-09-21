@@ -1,4 +1,4 @@
-from nwpc_monitor_web.app import app as application
+from nmp_web import app as application
 
 
 def create_app():

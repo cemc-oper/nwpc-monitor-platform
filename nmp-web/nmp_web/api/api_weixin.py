@@ -2,7 +2,7 @@
 
 from flask import jsonify, session
 
-from nwpc_monitor_web.app.api import api_app
+from nmp_web.api import api_app
 
 
 @api_app.route("/user/info")

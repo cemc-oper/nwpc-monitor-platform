@@ -118,6 +118,3 @@ node_modules/
 celerybeat.pid
 
 .cache/
-
-
-/nwpc_monitor_web/app/conf/t7810.config.yaml

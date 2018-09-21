@@ -1,8 +1,8 @@
-nwpc-monitor-broker/static/css/* linguist-vendored
-nwpc-monitor-broker/static/js/* linguist-vendored
-nwpc-monitor-broker/static/fonts/* linguist-vendored
-nwpc-monitor-broker/static/js/* linguist-vendored
-nwpc_monitor_web/static/css/* linguist-vendored
-nwpc_monitor_web/static/js/* linguist-vendored
-nwpc_monitor_web/static/fonts/* linguist-vendored
-nwpc_monitor_web/static/js/* linguist-vendored
+nmp-broker/static/css/* linguist-vendored
+nmp-broker/static/js/* linguist-vendored
+nmp-broker/static/fonts/* linguist-vendored
+nmp-broker/static/js/* linguist-vendored
+nmp-web/static/css/* linguist-vendored
+nmp-web/static/js/* linguist-vendored
+nmp-web/static/fonts/* linguist-vendored
+nmp-web/static/js/* linguist-vendored

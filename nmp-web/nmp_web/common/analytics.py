@@ -2,7 +2,7 @@
 import uuid
 import requests
 
-from nwpc_monitor_web.app import app
+from nmp_web import app
 
 
 REQUEST_POST_TIME_OUT = 20

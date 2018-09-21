@@ -1,8 +1,8 @@
 # coding=utf-8
 from flask import render_template, request, redirect
 
-from nwpc_monitor_web.app import app
-from nwpc_monitor_web.app.common.user import get_user_info
+from nmp_web import app
+from nmp_web.common.user import get_user_info
 
 
 @app.route('/')

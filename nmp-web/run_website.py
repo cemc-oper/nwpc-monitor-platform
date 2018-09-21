@@ -40,12 +40,13 @@ DESCRIPTION
     elif 'MODE' not in os.environ:
         os.environ['MODE'] = mode
 
-    from nwpc_monitor_web.app import app
+    from nmp_web import app
 
     app.run(
         host=app.config['NWPC_MONITOR_WEB_CONFIG']['host']['ip'],
         port=app.config['NWPC_MONITOR_WEB_CONFIG']['host']['port']
     )
+
 
 if __name__ == '__main__':
     runserver()

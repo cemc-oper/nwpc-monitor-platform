@@ -1,8 +1,8 @@
 # coding=utf-8
 from flask import session
 
-from nwpc_monitor_web.app import app
-from nwpc_monitor_web.app.common import weixin
+from nmp_web import app
+from nmp_web.common import weixin
 
 
 class UserType:

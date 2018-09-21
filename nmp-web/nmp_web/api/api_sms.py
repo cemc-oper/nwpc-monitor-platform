@@ -5,10 +5,10 @@ import requests
 from flask import request, json, jsonify, url_for
 from nwpc_workflow_model.visitor import SubTreeNodeVisitor, pre_order_travel_dict
 
-from nwpc_monitor_web.app import app, redis_client, mongodb_client
-from nwpc_monitor_web.app.api import api_app
-from nwpc_monitor_web.app.common import analytics
-from nwpc_monitor_web.app.common.operation_system import owner_list, get_owner_repo_status_from_cache
+from nmp_web import app, redis_client, mongodb_client
+from nmp_web.api import api_app
+from nmp_web.common import analytics
+from nmp_web.common import owner_list, get_owner_repo_status_from_cache
 
 # mongodb
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
@@ -218,7 +218,7 @@ def get_repo_status(owner: str, repo: str, sms_path: str='/'):
     }
 
     result = {
-        'app': 'nwpc_monitor_web',
+        'app': 'nmp_web',
         'type': 'repo',
         'data': {
             'node_status': node_status

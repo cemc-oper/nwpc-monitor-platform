@@ -1,6 +1,6 @@
 from flask import json
 
-from nwpc_monitor_web.app import redis_client
+from nmp_web import redis_client
 
 weixin_access_token_key = "weixin_access_token"
 

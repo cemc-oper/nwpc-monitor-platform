@@ -3,9 +3,9 @@ import redis
 from flask import Flask
 from pymongo import MongoClient
 
-from nwpc_monitor_web.app.util.converter import NoStaticConverter
-from nwpc_monitor_web.app.util.json_encoder import NwpcMonitorWebApiJSONEncoder
-from .app_config import load_config
+from nmp_web.util.converter import NoStaticConverter
+from nmp_web.util.json_encoder import NwpcMonitorWebApiJSONEncoder
+from nmp_web.app_config import load_config
 
 app = Flask(__name__, static_url_path='/static', static_folder='../static')
 
@@ -22,7 +22,6 @@ app.url_map.converters['no_static'] = NoStaticConverter
 
 app.secret_key = '\x99g\x0b\xedY\xcf\n\xdd\xeb\xd7\\2K\xf94Cq{\xea\xe6\x8c\x17\xdf\x10'
 
-from .api import api_app
+from nmp_web.api import api_app
 app.register_blueprint(api_app, url_prefix="/api/v1")
 
-import nwpc_monitor_web.app.controller

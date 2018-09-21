@@ -1,5 +1,5 @@
 # coding=utf-8
-from nwpc_monitor_web.app import app
+from nmp_web import app
 from flask import render_template
 
 

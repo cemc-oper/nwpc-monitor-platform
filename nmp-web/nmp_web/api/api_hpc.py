@@ -2,10 +2,10 @@ import gzip
 
 from flask import request, json, jsonify, url_for
 
-from nwpc_monitor_web.app import mongodb_client
-from nwpc_monitor_web.app.api import api_app
-from nwpc_monitor_web.app.common import analytics
-from nwpc_monitor_web.app.common import data_store
+from nmp_web import mongodb_client
+from nmp_web.api import api_app
+from nmp_web.common import analytics
+from nmp_web.common import data_store
 
 # mongodb
 nwpc_monitor_platform_mongodb = mongodb_client.nwpc_monitor_platform_develop
