@@ -203,11 +203,7 @@ class TestUnfitNodeBlob(object):
                             VariableCheckResult(
                                 is_condition_fit=False,
                                 variable_name='SMSDATE',
-                                expected_value={
-                                    'type': 'date',
-                                    'operator': 'equal',
-                                    'fields': 'current'
-                                },
+                                expected_value='20180906',
                                 value='20180907'
                             )
                         ]

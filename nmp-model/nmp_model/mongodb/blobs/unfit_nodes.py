@@ -69,7 +69,7 @@ class StatusCheckResult(CheckResult):
 
 class VariableCheckResult(CheckResult):
     variable_name = StringField()
-    expected_value = DictField()
+    expected_value = StringField()
     value = StringField()
 
     def to_dict(self):
