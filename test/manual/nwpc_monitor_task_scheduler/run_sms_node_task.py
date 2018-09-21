@@ -5,7 +5,7 @@ import json
 import yaml
 
 sys.path.append(os.path.dirname(__file__)+"/../../../")
-from nwpc_monitor_task_scheduler.celery_server.task import sms
+from nmp_scheduler.celery_server.task import sms
 
 
 def run_single_task():

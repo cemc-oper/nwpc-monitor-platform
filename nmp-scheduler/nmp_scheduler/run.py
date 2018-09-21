@@ -21,14 +21,14 @@ def cli(config_file):
 
 @cli.command()
 def worker():
-    from nwpc_monitor_task_scheduler.celery_server.celery import app
+    from nmp_scheduler.celery_server.celery import app
     print(sys.argv)
     app.Worker().start()
 
 
 @cli.command()
 def beat():
-    from nwpc_monitor_task_scheduler.celery_server.celery import app, celery_config
+    from nmp_scheduler.celery_server.celery import app, celery_config
     app.Beat(
         schedule=celery_config.config['celery_beat']['schedule']
     ).run()

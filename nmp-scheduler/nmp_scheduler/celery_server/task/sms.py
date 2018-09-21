@@ -7,7 +7,7 @@ import requests
 from fabric.api import run, cd, execute, env
 from celery import group
 
-from nwpc_monitor_task_scheduler.celery_server.celery import app
+from nmp_scheduler.celery_server.celery import app
 from nwpc_workflow_model.sms.sms_node import SmsNode
 
 
@@ -275,7 +275,7 @@ def get_sms_node_task(args):
     }
     :return: 
     {
-        'app': 'nwpc_monitor_task_scheduler',
+        'app': 'nmp_scheduler',
         'type': 'sms_node_task',
         'timestamp': iso format,
         'data': {
@@ -325,7 +325,7 @@ def get_sms_node_task(args):
         node_result.extend(result.values())
 
     result = {
-        'app': 'nwpc_monitor_task_scheduler',
+        'app': 'nmp_scheduler',
         'type': 'sms_node_task',
         'timestamp': datetime.datetime.utcnow().isoformat(),
         'data': {

@@ -38,7 +38,7 @@ class CeleryConfig(object):
                     task_scheduler_celery_backend=task_scheduler_celery_backend)
 
             self.include = [
-                'nwpc_monitor_task_scheduler.celery_server.task'
+                'nmp_scheduler.celery_server.task'
             ]
 
             # celery beat

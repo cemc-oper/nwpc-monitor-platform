@@ -2,7 +2,7 @@
 from fabric.api import run, cd, execute, env
 from celery import group
 
-from nwpc_monitor_task_scheduler.celery_server.celery import app
+from nmp_scheduler.celery_server.celery import app
 
 
 @app.task()

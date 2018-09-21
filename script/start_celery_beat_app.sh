@@ -7,5 +7,5 @@ export PYTHONPATH=${base_dir}:$PYTHONPATH
 export MODE=develop
 
 python3 ${NWPC_MONITOR_PLATFORM_BASE}/nwpc_monitor_task_scheduler/run.py \
-    --config-file="../nwpc_monitor_task_scheduler/conf/celery_server.develop.config.yaml" \
+    --config-file="../nmp_scheduler/conf/celery_server.develop.config.yaml" \
     beat

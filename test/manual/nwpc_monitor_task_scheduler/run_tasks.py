@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(__file__)+"/../../../")
 
 def main():
     os.environ['MODE']='develop'
-    from nwpc_monitor_task_scheduler.celery_server.task import sms
+    from nmp_scheduler.celery_server.task import sms
 
     result = sms.get_group_sms_status_task.delay()
     # result = tasks.update_dingtalk_token_task.delay()
