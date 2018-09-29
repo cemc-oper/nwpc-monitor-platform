@@ -2,7 +2,7 @@
 import datetime
 
 from mongoengine import StringField, DictField, DateTimeField, EmbeddedDocumentField, EmbeddedDocument
-from .base import Base
+from nmp_model.mongodb.base import Base
 
 
 class WorkflowCacheData(EmbeddedDocument):

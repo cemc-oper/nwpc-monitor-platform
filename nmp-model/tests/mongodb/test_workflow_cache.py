@@ -1,7 +1,7 @@
 # coding: utf-8
 from datetime import datetime
 
-from nmp_model.mongodb.workflow_cache import WorkflowCacheData, WorkflowCache
+from nmp_model.mongodb.cache.workflow_cache import WorkflowCacheData, WorkflowCache
 
 
 class TestWorkflowCacheData(object):
