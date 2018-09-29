@@ -25,5 +25,5 @@ class WorkflowCache(Base):
 
     meta = {
         'allow_inheritance': True,
-        'collection': 'workload_caches'
+        'collection': 'workflow_caches'
     }
