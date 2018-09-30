@@ -2,7 +2,7 @@
 from datetime import datetime
 from mongoengine import connect
 
-from nmp_model.mongodb.blobs.unfit_nodes import \
+from nmp_model.mongodb.blobs.workflow.unfit_nodes import \
     StatusCheckResult, VariableCheckResult, UnfitNode, UnfitNodesContent, UnfitNodesBlobData, UnfitNodesBlob
 
 

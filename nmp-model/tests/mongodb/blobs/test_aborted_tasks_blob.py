@@ -2,7 +2,7 @@
 from datetime import datetime
 from mongoengine import connect
 
-from nmp_model.mongodb.blobs.aborted_tasks import \
+from nmp_model.mongodb.blobs.workflow.aborted_tasks import \
     AbortedTasksBlob, AbortedTasksBlobData, AbortedTasksContent
 
 

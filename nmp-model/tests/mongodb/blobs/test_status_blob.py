@@ -3,7 +3,7 @@ from datetime import datetime
 from mongoengine import connect
 
 from nmp_model.mongodb.blob import Blob
-from nmp_model.mongodb.blobs.status import StatusBlob, StatusContent, StatusBlobData
+from nmp_model.mongodb.blobs.workflow.status import StatusBlob, StatusContent, StatusBlobData
 
 
 class TestStatusContent(object):
