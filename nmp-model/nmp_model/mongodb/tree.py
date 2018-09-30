@@ -11,7 +11,7 @@ tree object
         nodes: array of blob
             [
                 {
-                    type: type, [ status, aborted_tasks ],
+                    type: type,
                     name: name,
                     blob_ticket_id: id
                 }
@@ -25,17 +25,16 @@ from .base import Base
 
 
 class TreeNode(EmbeddedDocument):
-    type = StringField(choices=["status", "aborted_tasks", "unfit_tasks"])
+    type = StringField()
     name = StringField()
     blob_ticket_id = IntField()
 
+    meta = {
+        'allow_inheritance': True,
+    }
+
     def to_dict(self):
-        result = {
-            'type': self.type,
-            'name': self.name,
-            'blob_ticket_id': self.blob_ticket_id
-        }
-        return result
+        return self.to_mongo().to_dict()
 
 
 class TreeData(EmbeddedDocument):
@@ -46,9 +45,7 @@ class TreeData(EmbeddedDocument):
     }
 
     def to_dict(self):
-        return {
-            'nodes': [node.to_dict() for node in self.nodes]
-        }
+        return self.to_mongo().to_dict()
 
 
 class Tree(Base):

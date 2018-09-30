@@ -3,25 +3,26 @@ from datetime import datetime
 
 import pytest
 
-from nmp_model.mongodb.tree import TreeNode, TreeData, Tree
+from nmp_model.mongodb.trees.workload_tree_node import WorkloadTreeNode
+from nmp_model.mongodb.tree import TreeData, Tree
 
 
-class TestTreeNode(object):
+class TestWorkloadTreeNode(object):
     def test_construction(self):
-        tree_node = TreeNode()
+        tree_node = WorkloadTreeNode()
 
-        tree_node = TreeNode(
-            type="status",
-            name="sms_status_tree",
+        tree_node = WorkloadTreeNode(
+            type="jobs",
+            name="loadleveler_jobs",
             blob_ticket_id=1
         )
 
-        tree_node = TreeNode(
-            type="aborted_tasks",
-            name="sms_aborted_tasks_tree",
+        tree_node = WorkloadTreeNode(
+            type="abnormal_jobs",
+            name="loadleveler_abnormal_jobs",
             blob_ticket_id=2
         )
-        #
+
         # tree_node = TreeNode(
         #     type="not_existed_type",
         #     name="sms_aborted_tasks_tree",
@@ -29,15 +30,16 @@ class TestTreeNode(object):
         # )
 
     def test_to_dict(self):
-        tree_node = TreeNode(
-            type="status",
-            name="sms_status_tree",
+        tree_node = WorkloadTreeNode(
+            type="jobs",
+            name="loadleveler_jobs",
             blob_ticket_id=1
         )
 
         tree_node_dict = {
-            'type': 'status',
-            'name': 'sms_status_tree',
+            '_cls': 'WorkloadTreeNode',
+            'type': 'jobs',
+            'name': 'loadleveler_jobs',
             'blob_ticket_id': 1
         }
 
@@ -50,14 +52,14 @@ class TestTreeData(object):
 
         tree_data = TreeData(
             nodes=[
-                TreeNode(
-                    type="status",
-                    name="sms_status_tree",
+                WorkloadTreeNode(
+                    type="jobs",
+                    name="loadleveler_jobs",
                     blob_ticket_id=1
                 ),
-                TreeNode(
-                    type="aborted_tasks",
-                    name="sms_aborted_tasks_tree",
+                WorkloadTreeNode(
+                    type="abnormal_jobs",
+                    name="loadleveler_abnormal_jobs",
                     blob_ticket_id=2
                 )
             ]
@@ -66,14 +68,14 @@ class TestTreeData(object):
     def test_to_dict(self):
         tree_data = TreeData(
             nodes=[
-                TreeNode(
-                    type="status",
-                    name="sms_status_tree",
+                WorkloadTreeNode(
+                    type="jobs",
+                    name="loadleveler_jobs",
                     blob_ticket_id=1
                 ),
-                TreeNode(
-                    type="aborted_tasks",
-                    name="sms_aborted_tasks_tree",
+                WorkloadTreeNode(
+                    type="abnormal_jobs",
+                    name="loadleveler_abnormal_jobs",
                     blob_ticket_id=2
                 )
             ]
@@ -82,13 +84,15 @@ class TestTreeData(object):
         tree_data_dict = {
             'nodes': [
                 {
-                    'type': 'status',
-                    'name': 'sms_status_tree',
+                    '_cls': 'WorkloadTreeNode',
+                    'type': 'jobs',
+                    'name': 'loadleveler_jobs',
                     'blob_ticket_id': 1
                 },
                 {
-                    'type': 'aborted_tasks',
-                    'name': 'sms_aborted_tasks_tree',
+                    '_cls': 'WorkloadTreeNode',
+                    'type': 'abnormal_jobs',
+                    'name': 'loadleveler_abnormal_jobs',
                     'blob_ticket_id': 2
                 }
             ]
@@ -108,14 +112,14 @@ class TestTree(object):
             timestamp=datetime(2018, 9, 17, 9, 55, 0),
             data=TreeData(
                 nodes=[
-                    TreeNode(
-                        type="status",
-                        name="sms_status_tree",
+                    WorkloadTreeNode(
+                        type="jobs",
+                        name="loadleveler_jobs",
                         blob_ticket_id=1
                     ),
-                    TreeNode(
-                        type="aborted_tasks",
-                        name="sms_aborted_tasks_tree",
+                    WorkloadTreeNode(
+                        type="abnormal_jobs",
+                        name="loadleveler_abnormal_jobs",
                         blob_ticket_id=2
                     )
                 ]
@@ -132,14 +136,14 @@ class TestTree(object):
 
         tree_data = TreeData(
             nodes=[
-                TreeNode(
-                    type="status",
-                    name="sms_status_tree",
+                WorkloadTreeNode(
+                    type="jobs",
+                    name="loadleveler_jobs",
                     blob_ticket_id=1
                 ),
-                TreeNode(
-                    type="aborted_tasks",
-                    name="sms_aborted_tasks_tree",
+                WorkloadTreeNode(
+                    type="abnormal_jobs",
+                    name="loadleveler_abnormal_jobs",
                     blob_ticket_id=2
                 )
             ]
@@ -159,14 +163,14 @@ class TestTree(object):
             timestamp=datetime(2018, 9, 17, 9, 55, 0),
             data=TreeData(
                 nodes=[
-                    TreeNode(
-                        type="status",
-                        name="sms_status_tree",
+                    WorkloadTreeNode(
+                        type="jobs",
+                        name="loadleveler_jobs",
                         blob_ticket_id=1
                     ),
-                    TreeNode(
-                        type="aborted_tasks",
-                        name="sms_aborted_tasks_tree",
+                    WorkloadTreeNode(
+                        type="abnormal_jobs",
+                        name="loadleveler_abnormal_jobs",
                         blob_ticket_id=2
                     )
                 ]
@@ -181,13 +185,15 @@ class TestTree(object):
             'data': {
                 'nodes': [
                     {
-                        'type': 'status',
-                        'name': 'sms_status_tree',
+                        '_cls': 'WorkloadTreeNode',
+                        'type': 'jobs',
+                        'name': 'loadleveler_jobs',
                         'blob_ticket_id': 1
                     },
                     {
-                        'type': 'aborted_tasks',
-                        'name': 'sms_aborted_tasks_tree',
+                        '_cls': 'WorkloadTreeNode',
+                        'type': 'abnormal_jobs',
+                        'name': 'loadleveler_abnormal_jobs',
                         'blob_ticket_id': 2
                     }
                 ]
