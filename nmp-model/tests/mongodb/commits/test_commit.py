@@ -27,14 +27,17 @@ class TestCommitData(object):
             committed_time=datetime(2018, 9, 7, 16, 36, 0)
         )
 
-        commit_data_dict = {
+        commit_data_dict = commit_data.to_dict()
+
+        expected_commit_data_dict = {
+            '_cls': 'CommitData',
             'committer': 'committer',
             'type': 'status',
             'tree_ticket_id': 2,
             'committed_time': datetime(2018, 9, 7, 16, 36, 0)
         }
 
-        assert commit_data.to_dict() == commit_data_dict
+        assert commit_data_dict == expected_commit_data_dict
 
 
 class TestCommit(object):
@@ -95,6 +98,7 @@ class TestCommit(object):
             'repo': 'repo',
             'timestamp': datetime(2018, 9, 7, 16, 36, 0),
             'data': {
+                '_cls': 'CommitData',
                 'committer': 'committer',
                 'type': 'status',
                 'tree_ticket_id': 2,

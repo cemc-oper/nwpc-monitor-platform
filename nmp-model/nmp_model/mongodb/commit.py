@@ -23,24 +23,25 @@ from .base import Base
 
 class CommitData(EmbeddedDocument):
     committer = StringField()
-    type = StringField(choices=['status', 'task_check'])
     tree_ticket_id = IntField()
+    type = StringField()
     committed_time = DateTimeField(default=datetime.utcnow())
 
+    meta = {
+        'allow_inheritance': True,
+    }
+
     def to_dict(self):
-        return {
-            'committer': self.committer,
-            'type': self.type,
-            'tree_ticket_id': self.tree_ticket_id,
-            'committed_time': self.committed_time
-        }
+        return self.to_mongo().to_dict()
 
 
 class Commit(Base):
     data = EmbeddedDocumentField(CommitData)
 
     meta = {
-        'collection': 'commits'
+        'collection': 'commits',
+        'allow_inheritance': True,
+        'abstract': True
     }
 
     def is_valid(self):
