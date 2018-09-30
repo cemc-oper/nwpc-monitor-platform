@@ -35,3 +35,9 @@ docker run -d \
     -v /some/config/task_scheduler:/etc/nwpc-monitor-platform/nwpc-monitor-task-scheduler
     nwpc/nmp-scheduler beat
 ```
+
+## LICENSE
+
+Copyright &copy; 2015-2018, Perilla Roc.
+
+`nwpc-monitor-platfrom` is licensed under [GPL v3.0](LICENSE.md)
