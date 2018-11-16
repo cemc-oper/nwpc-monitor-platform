@@ -10,7 +10,7 @@ class Repo(Model):
     repo_id = Column(Integer, primary_key=True)
     owner_id = Column(Integer)
     repo_name = Column(String(45))
-    repo_type = Column(String(10)) # [sms]
+    repo_type = Column(String(10))  # [sms, ecflow]
     repo_description = Column(Text())
 
     index_owner_repo = Index("index_owner_repo", owner_id, repo_name, unique=True)

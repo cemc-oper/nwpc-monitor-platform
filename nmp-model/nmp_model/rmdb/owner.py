@@ -8,7 +8,7 @@ class Owner(Model):
 
     owner_id = Column(Integer, primary_key=True, autoincrement=True)
     owner_name = Column(String(45), nullable=False)
-    owner_type = Column(String(10), nullable=False) # [user, org]
+    owner_type = Column(String(10), nullable=False)  # [user, org]
 
     index_owner_name = Index('index_owner_name', owner_name, unique=True)
 
@@ -16,10 +16,10 @@ class Owner(Model):
         Model.__init__(self)
 
     @staticmethod
-    def query_owner_by_owner_name(session, owner_name:str):
+    def query_owner_by_owner_name(session, owner_name: str):
         query = session.query(Owner).filter(Owner.owner_name == owner_name)
         query_result = query.all()
-        if len(query_result) >1:
+        if len(query_result) > 1:
             result = {
                 'error': 'we have more than one owner with a single name, please contact admin.',
                 'message': '',
