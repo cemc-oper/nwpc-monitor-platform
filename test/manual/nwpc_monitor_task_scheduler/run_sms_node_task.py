@@ -4,6 +4,8 @@ import sys
 import json
 import yaml
 
+import nmp_scheduler.celery_server.task.sms.node
+
 sys.path.append(os.path.dirname(__file__)+"/../../../")
 from nmp_scheduler.celery_server.task import sms
 
@@ -48,7 +50,7 @@ def run_single_task():
             ]
         }
     }
-    print(json.dumps(sms.get_sms_node_task(args), indent=2))
+    print(json.dumps(nmp_scheduler.celery_server.task.sms.node.get_sms_node_task(args), indent=2))
 
 
 def run_variable_task():
@@ -88,7 +90,7 @@ def run_variable_task():
             ]
         }
     }
-    print(json.dumps(sms.get_sms_node_task(args), indent=2))
+    print(json.dumps(nmp_scheduler.celery_server.task.sms.node.get_sms_node_task(args), indent=2))
 
 
 def run_task_in_config_file():
@@ -110,7 +112,7 @@ def run_task_in_config_file():
             'sms': config['sms'],
             'task': a_task
         }
-        print(json.dumps(sms.get_sms_node_task(args), indent=2))
+        print(json.dumps(nmp_scheduler.celery_server.task.sms.node.get_sms_node_task(args), indent=2))
 
 if __name__ == "__main__":
     run_task_in_config_file()
