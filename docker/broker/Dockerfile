@@ -1,30 +1,27 @@
 FROM node:latest as broker_web_builder
 
-RUN mkdir -p /srv/nwpc-monitor-platform
-
 COPY nmp-broker/static/ /srv/static/
 
 RUN cd /srv/static \
     && yarn install \
     && npm run build
 
-FROM nwpc/nmp-base
+FROM nwpcc/nmp-base
 
 LABEL maintainer="perillaroc@gmail.com"
 
-# RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
-
-ENV NWPC_MONITOR_PLATFORM_BASE /srv/nwpc-monitor-platform
 ENV NWPC_MONITOR_BROKER_CONFIG /etc/nmp-broker/config.yaml
 
-COPY nmp-broker ${NWPC_MONITOR_PLATFORM_BASE}/nmp-broker/
-COPY --from=broker_web_builder /srv/static ${NWPC_MONITOR_PLATFORM_BASE}/nmp-broker/static/
+COPY nmp-broker/ /srv/nmp-broker/
+COPY --from=broker_web_builder /srv/static/dist/ /srv/nmp-broker/static/dist/
 
-RUN cd ${NWPC_MONITOR_PLATFORM_BASE}/nmp-broker \
+RUN cd /srv/nmp-broker \
     && pip install .
 
-WORKDIR $NWPC_MONITOR_PLATFORM_BASE
+WORKDIR /srv/nmp-broker
 
 EXPOSE 80
 
-ENTRYPOINT ["python3", "./nmp-broker/run_broker_server.py", "-c /etc/nmp-broker/config.yaml"]
+ENTRYPOINT ["python3", "./nmp-broker/run_broker_server.py"]
+
+CMD ["-c /etc/nmp-broker/config.yaml"]

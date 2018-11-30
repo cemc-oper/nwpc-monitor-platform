@@ -1,4 +1,4 @@
-FROM nwpc/nmp-base
+FROM nwpcc/nmp-base
 
 LABEL maintainer="perillaroc@gmail.com"
 

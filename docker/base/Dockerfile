@@ -7,19 +7,15 @@ RUN pip3 install pyyaml requests \
     click flask flask-sqlalchemy \
     grpcio googleapis-common-protos
 
-ENV NWPC_MONITOR_PLATFORM_BASE /srv/nwpc-monitor-platform
+COPY vendor/ /srv/nmp/vendor/
+COPY nmp-model/ /srv/nmp/nmp-model/
 
-COPY vendor/ ${NWPC_MONITOR_PLATFORM_BASE}/vendor/
-COPY nmp-model/ ${NWPC_MONITOR_PLATFORM_BASE}/nmp-model/
-
-RUN cd ${NWPC_MONITOR_PLATFORM_BASE}/vendor/nwpc-hpc-model; pip install . \
-    && cd ${NWPC_MONITOR_PLATFORM_BASE}/vendor/nwpc-workflow-model; pip install . \
-    && cd ${NWPC_MONITOR_PLATFORM_BASE}/nmp-model; pip install . \
-    && cd ${NWPC_MONITOR_PLATFORM_BASE} \
+RUN cd /srv/nmp/vendor/nwpc-hpc-model; pip install . \
+    && cd /srv/nmp/vendor/nwpc-workflow-model; pip install . \
+    && cd /srv/nmp/nmp-model; pip install . \
+    && cd /srv/nmp \
     && rm -rf vendor nmp-model
 
-ENV WORK_DIR ${NWPC_MONITOR_PLATFORM_BASE}
-
-WORKDIR $WORK_DIR
+WORKDIR /srv/nmp
 
 CMD ["bash"]
