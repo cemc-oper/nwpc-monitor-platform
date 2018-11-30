@@ -1,5 +1,5 @@
 # coding=utf-8
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='nmp-model',
@@ -9,7 +9,7 @@ setup(
     description='A data model for NMP by NWPC.',
     long_description=__doc__,
 
-    packages=['nmp_model'],
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
     include_package_data=True,
 
