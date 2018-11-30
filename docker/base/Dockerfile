@@ -2,17 +2,24 @@ FROM python:3
 
 LABEL maintainer="perillaroc@gmail.com"
 
-RUN pip3 install pyyaml redis pymongo requests sqlalchemy click flask flask-sqlalchemy
+RUN pip3 install pyyaml requests \
+    redis pymongo  sqlalchemy mongoengine mysql-connector-python \
+    click flask flask-sqlalchemy \
+    grpcio googleapis-common-protos
 
-ENV WORK_DIR /srv
+ENV NWPC_MONITOR_PLATFORM_BASE /srv/nwpc-monitor-platform
+
+COPY vendor/ ${NWPC_MONITOR_PLATFORM_BASE}/vendor/
+COPY nmp-model/ ${NWPC_MONITOR_PLATFORM_BASE}/nmp-model/
+
+RUN cd ${NWPC_MONITOR_PLATFORM_BASE}/vendor/nwpc-hpc-model; pip install . \
+    && cd ${NWPC_MONITOR_PLATFORM_BASE}/vendor/nwpc-workflow-model; pip install . \
+    && cd ${NWPC_MONITOR_PLATFORM_BASE}/nmp-model; pip install . \
+    && cd ${NWPC_MONITOR_PLATFORM_BASE} \
+    && rm -rf vendor nmp-model
+
+ENV WORK_DIR ${NWPC_MONITOR_PLATFORM_BASE}
 
 WORKDIR $WORK_DIR
-
-RUN wget https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-python-2.1.6.tar.gz \
-    && tar zxvf mysql-connector-python-2.1.6.tar.gz \
-    && cd mysql-connector-python-2.1.6 \
-    && python3 setup.py build \
-    && python3 setup.py install \
-    && rm -rf mysql-connector-python-2.1.6
 
 CMD ["bash"]
