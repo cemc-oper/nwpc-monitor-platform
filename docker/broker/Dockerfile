@@ -10,8 +10,6 @@ FROM nwpcc/nmp-base
 
 LABEL maintainer="perillaroc@gmail.com"
 
-ENV NWPC_MONITOR_BROKER_CONFIG /etc/nmp-broker/config.yaml
-
 COPY nmp-broker/ /srv/nmp-broker/
 COPY --from=broker_web_builder /srv/static/dist/ /srv/nmp-broker/static/dist/
 
@@ -22,6 +20,6 @@ WORKDIR /srv/nmp-broker
 
 EXPOSE 80
 
-ENTRYPOINT ["python3", "./nmp-broker/run_broker_server.py"]
+ENTRYPOINT ["python3", "./run_broker_server.py"]
 
-CMD ["-c /etc/nmp-broker/config.yaml"]
+CMD ["--config-file=/etc/nmp-broker/config.yaml"]

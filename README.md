@@ -7,9 +7,9 @@ A monitor platform for operation systems in NWPC.
 ### Build images
 
 ```bash
-docker build --rm -t nwpc/nmp-base -f ./docker/base/Dockerfile .
-docker build --rm -t nwpc/nmp-broker -f ./docker/broker/Dockerfile .
-docker build --rm -t nwpc/nmp-scheduler -f ./docker/task_scheduler/Dockerfile .
+docker build --rm -t nwpcc/nmp-base -f ./docker/base/Dockerfile .
+docker build --rm -t nwpcc/nmp-broker -f ./docker/broker/Dockerfile .
+docker build --rm -t nwpcc/nmp-scheduler -f ./docker/task_scheduler/Dockerfile .
 ```
 
 
@@ -20,20 +20,18 @@ broker
 
 ```bash
 docker run -d -p 6201:80 \
-    -v /some/config/file/path:/etc/nwpc-monitor-platform/nwpc-monitor-broker/config.yaml \
-    nwpc/nmp-broker
+    -v /some/config/file/path:/etc/nmp-broker/config.yaml \
+    nwpcc/nmp-broker
 ```
 
 task scheduler
 
 ```bash
 docker run -d \
-    -v /some/config/task_scheduler:/etc/nwpc-monitor-platform/nwpc-monitor-task-scheduler
-    nwpc/nmp-scheduler worker
+    -v /some/config/scheduler:/etc/nmp-scheduler nwpcc/nmp-scheduler worker
 
 docker run -d \
-    -v /some/config/task_scheduler:/etc/nwpc-monitor-platform/nwpc-monitor-task-scheduler
-    nwpc/nmp-scheduler beat
+    -v /some/config/scheduler:/etc/nwp-scheduler nwpcc/nmp-scheduler beat
 ```
 
 ## LICENSE
