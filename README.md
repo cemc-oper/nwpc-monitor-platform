@@ -28,10 +28,14 @@ task scheduler
 
 ```bash
 docker run -d \
-    -v /some/config/scheduler:/etc/nmp-scheduler nwpcc/nmp-scheduler worker
+    -v /some/config/scheduler:/etc/nmp-scheduler nwpcc/nmp-scheduler \
+    --config-file=/etc/nmp-scheduler/celery.config.yaml worker \
+    --queues=nmp_sms --name=sms
 
 docker run -d \
-    -v /some/config/scheduler:/etc/nwp-scheduler nwpcc/nmp-scheduler beat
+    -v /some/config/scheduler:/etc/nwp-scheduler nwpcc/nmp-scheduler \
+    --config-file=/etc/nmp-scheduler/celery.config.yaml beat
+
 ```
 
 ## LICENSE
