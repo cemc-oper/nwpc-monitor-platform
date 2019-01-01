@@ -40,6 +40,6 @@ docker run -d \
 
 ## LICENSE
 
-Copyright &copy; 2015-2018, Perilla Roc.
+Copyright &copy; 2015-2019, Perilla Roc.
 
 `nwpc-monitor-platform` is licensed under [GPL v3.0](LICENSE.md)
