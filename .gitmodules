@@ -1,0 +1,12 @@
+[submodule "nmp-broker"]
+	path = nmp-broker
+	url = https://github.com/nwpc-oper/nmp-broker.git
+[submodule "nmp-model"]
+	path = nmp-model
+	url = https://github.com/nwpc-oper/nmp-model.git
+[submodule "nmp-scheduler"]
+	path = nmp-scheduler
+	url = https://github.com/nwpc-oper/nmp-scheduler.git
+[submodule "nmp-web"]
+	path = nmp-web
+	url = https://github.com/nwpc-oper/nmp-web.git
